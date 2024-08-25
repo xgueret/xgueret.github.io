@@ -1,0 +1,15 @@
+title: "Mon CV"
+email: "971xavier.gueret@gmail"
+description: "Un site pour présenter mon CV et portfolio."
+baseurl: "" # La base URL pour votre site, vide si vous êtes sur la racine
+url: "https://xgueret.github.io" 
+
+theme: cvless
+
+# Paramètres supplémentaires pour le thème cvless
+author:
+  name: "Xavier GUERET"
+  email: "971xavier.gueret@gmail.com"
+
+# Configurations du site
+permalink: /:categories/:title/
