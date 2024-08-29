@@ -14,7 +14,7 @@ My journey into DevOps has been both challenging and rewarding, and I'm eager to
 
 - **Automation**: Terraform, Ansible
 - **CI/CD**: Jenkins, GitLab CI, GitHub Actions
-- **Cloud**: AWS, Azure, Google Cloud
+<!-- - **Cloud**: AWS, Azure, Google Cloud -->
 - **Containerization**: Docker, Kubernetes
 - **Scripting**: Bash, Python
 <!-- - **Monitoring & Logs**: Prometheus, ELK Stack -->
