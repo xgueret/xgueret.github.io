@@ -1,27 +1,25 @@
----
-title: "About"
-date: 2023-08-29
----
++++
+title = "About"
+description = "Hugo, the world's fastest framework for building websites"
+date = "2019-02-28"
+aliases = ["about-us", "about-hugo", "contact"]
+author = "Hugo Authors"
++++
 
-# Hello, I'm Xavier GUERET!
+Written in Go, Hugo is an open source static site generator available under the [Apache Licence 2.0.](https://github.com/gohugoio/hugo/blob/master/LICENSE) Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
 
-I am a developer by background with 11 years of experience in software development. Over the past year, I've transitioned into the role of a DevOps engineer, driven by my passion for infrastructure automation, deployment management, and application security. During this time, I've applied my development expertise to managing Kubernetes clusters and implementing robust CI/CD pipelines.
+Hugo makes use of a variety of open source projects including:
 
-My journey into DevOps has been both challenging and rewarding, and I'm eager to continue learning and growing in this field. I'm always open to new opportunities that allow me to further enhance my skills and contribute to innovative projects.
+* https://github.com/yuin/goldmark
+* https://github.com/alecthomas/chroma
+* https://github.com/muesli/smartcrop
+* https://github.com/spf13/cobra
+* https://github.com/spf13/viper
 
+Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.
 
-## Skills
+Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.
 
-- **Automation**: Terraform, Ansible
-- **CI/CD**: Jenkins, GitLab CI, GitHub Actions
-- **Cloud**: AWS, Azure, Google Cloud
-- **Containerization**: Docker, Kubernetes
-- **Scripting**: Bash, Python
-<!-- - **Monitoring & Logs**: Prometheus, ELK Stack -->
-<!-- - **Security**: Vault, SecOps -->
+Websites built with Hugo are extremely fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.
 
-## Certifications
-
-<!-- - AWS Certified Solutions Architect -->
-- Certified Kubernetes Administrator (CKA)
-- HashiCorp Certified: Terraform Associate (002)
+Learn more and contribute on [GitHub](https://github.com/gohugoio).
