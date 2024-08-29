@@ -3,4 +3,4 @@ title = "Contact"
 slug = "contact"
 +++
 
-Follow me, @johndoe.
+Follow me, [@hixmaster](https://x.com/hixmaster).
