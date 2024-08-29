@@ -17,9 +17,9 @@ noClasses = false
 [params]
 author = "Xavier GUERET"
 # license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
-description = "DevOps Engineer passionate about automation, cloud"
-keywords = "blog,developer,personal"
-info = ["Full Stack DevOps", "Magician"]
+description = "DevOps Engineer passionate about automation"
+keywords = "blog,developer,personal,xgueret, xavier gueret, devops, k8s, ansible, terraform, python, bash, proxmox, docker, podman"
+info = ["DevOps and developper addict"]
 avatarURL = "images/moi.jpg"
 #gravatar = "971xavier.gueret@gmail.com"
 dateFormat = "January 2, 2006"
