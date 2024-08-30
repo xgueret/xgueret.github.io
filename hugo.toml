@@ -2,7 +2,7 @@ baseURL = "https://xgueret.github.io/"
 title = "xgueret"
 theme = "hugo-coder"
 languageCode = "en"
-defaultContentLanguage = "en"
+defaultContentLanguage = "fr"
 paginate = 6
 enableEmoji = true
 
@@ -16,10 +16,10 @@ noClasses = false
 
 [params]
 author = "Xavier GUERET"
-# license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
-description = "DevOps Engineer passionate about automation"
+license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
+description = ""
 keywords = "blog,developer,personal,xgueret, xavier gueret, devops, k8s, ansible, terraform, python, bash, proxmox, docker, podman"
-info = ["DevOps and developper addict", "On the road of learning k8s, python, ansible, terraform and ...."]
+info = ["Addict au DevOps et au développement", "Sur le chemin de l'apprentissage de Kubernetes, Python, Ansible, Terraform et ...."]
 avatarURL = "images/moi.jpg"
 #gravatar = "971xavier.gueret@gmail.com"
 dateFormat = "January 2, 2006"
@@ -160,13 +160,37 @@ url = "https://www.linkedin.com/in/xavier-gueret-47bb3019b/"
 # weight = 5
 # url = "https://medium.com/@johndoe"
 
-[[params.social]]
-name = "RSS"
-icon = "fa-solid fa-rss fa-2x"
-weight = 6
-url = "https://myhugosite.com/index.xml"
-rel = "alternate"
-type = "application/rss+xml"
+# [[params.social]]
+# name = "RSS"
+# icon = "fa-solid fa-rss fa-2x"
+# weight = 6
+# url = "https://myhugosite.com/index.xml"
+# rel = "alternate"
+# type = "application/rss+xml"
+
+[languages.fr]
+languageName = ":fr:"
+
+[[languages.fr.menu.main]]
+name = "A Propos"
+weight = 1
+url = "about/"
+
+[[languages.fr.menu.main]]
+name = "Blog"
+weight = 2
+url = "posts/"
+
+[[languages.fr.menu.main]]
+name = "Projets"
+weight = 3
+url = "projects/"
+
+[[languages.fr.menu.main]]
+name = "Contactez moi"
+weight = 5
+url = "contact/"
+
 
 [languages.en]
 languageName = ":uk:"
@@ -190,6 +214,11 @@ url = "projects/"
 name = "Contact me"
 weight = 5
 url = "contact/"
+
+[languages.en.params]
+info = ["DevOps and developper addict", "On the road of learning k8s, python, ansible, terraform and ...."]
+description = "DevOps Engineer passionate about automation"
+
 
 # [languages.pt-br]
 # languageName = ":brazil:"

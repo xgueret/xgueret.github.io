@@ -1,9 +1,18 @@
----
-title: "Introducing Manage Repo: Automate GitHub Repository Management with Terraform"
-date: 2024-08-30
-author: "Xavier GUERET"
-tags: ["Manage Repository", "GitHub", "Terraform", "integrations/github", "Python", "Infrastructure as Code", "Automation"]
----
++++
+title= "Introducing Manage Repo: Automate GitHub Repository Management with Terraform"
+date= "2024-08-30"
+author= "Xavier GUERET"
+tags= [
+    "GitHub", 
+    "Terraform", 
+    "integrations/github", 
+    "Python", 
+    "IAC", 
+    "Automation"]
+categories= [
+    "github",
+    ]
++++
 
 ## Introduction
 

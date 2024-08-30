@@ -1,9 +1,20 @@
----
-title: "Introducing My HomeLab Project on GitHub"
-date: 2024-08-30
-author: "Xavier GUERET"
-tags: ["HomeLab", "GitHub", "Proxmox", "Ansible", "Terraform", "Kubernetes", "Kubeadm", "k9s"]
----
++++
+title= "Introducing My HomeLab Project on GitHub"
+date= "2024-08-30"
+author= "Xavier GUERET"
+tags= [
+    "HomeLab", 
+    "GitHub", 
+    "Proxmox", 
+    "Ansible", 
+    "Terraform", 
+    "Kubernetes", 
+    "Kubeadm", 
+    "k9s"]
+categories= [
+    "github",
+    ]
++++
 
 ## Introduction
 
