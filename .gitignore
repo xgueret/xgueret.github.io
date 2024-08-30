@@ -64,3 +64,5 @@ hugo_stats.json
 
 # Dépendances spécifiques aux modules Hugo
 node_modules/
+
+push.sh
