@@ -130,6 +130,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+      - /path/to/certs/cert.pem:/certs/portainer.crt   # Mount the certificat
+      - /path/to/certs//key.pem:/certs/portainer.key    # # Mount the private key
     networks:
       - portainer_network
     environment:

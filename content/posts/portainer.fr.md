@@ -38,8 +38,6 @@ vim docker-compose.yml
 Copiez et collez le contenu suivant dans le fichier :
 
 ```yaml
-version: '3'
-
 services:
   portainer:
     image: portainer/portainer-ce:latest
@@ -52,6 +50,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - portainer_network
+
   agent:
     image: portainer/agent:latest
     container_name: portainer_agent
@@ -62,10 +63,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - portainer_agent_network
+      - portainer_network
+
+networks:
+  portainer_network:
+
 volumes:
   portainer_data:
-
 ```
 
 
@@ -115,8 +119,6 @@ Placez ces fichiers dans un répertoire dédié, tel que `/path/to/certs/`.
 Ouvrez le fichier `docker-compose.yml` et modifiez-le pour utiliser vos certificats auto-signés :
 
 ```yaml
-version: '3'
-
 services:
   portainer:
     image: portainer/portainer-ce:latest
@@ -129,11 +131,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-      - /path/to/certs/cert.pem:/certs/portainer.crt   # Mount the certificate
-      - /path/to/certs/key.pem:/certs/portainer.key    # Mount the private key
+      - /path/to/certs/cert.pem:/certs/portainer.crt   # Monter le certificat
+      - /path/to/certs//key.pem:/certs/portainer.key    # Monter la clé privée
+    networks:
+      - portainer_network
     environment:
       - SSL_CERTIFICATE=/certs/portainer.crt   # Path to the certificate in the container
       - SSL_CERTIFICATE_KEY=/certs/portainer.key   # Path to the private key in the container
+      
   agent:
     image: portainer/agent:latest
     container_name: portainer_agent
@@ -144,10 +149,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - portainer_agent_network
+      - portainer_network
+
+networks:
+  portainer_network:
+
 volumes:
   portainer_data:
-
 ```
 
 :wink: Remplacez `/path/to/certs/` par le chemin réel où vos certificats sont stockés.
