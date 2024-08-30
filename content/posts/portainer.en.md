@@ -38,8 +38,6 @@ vim docker-compose.yml
 Copy and paste the following content into the file:
 
 ```yaml
-version: '3'
-
 services:
   portainer:
     image: portainer/portainer-ce:latest
@@ -52,6 +50,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - portainer_network
+
   agent:
     image: portainer/agent:latest
     container_name: portainer_agent
@@ -62,7 +63,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - portainer_agent_network
+      - portainer_network
+
+networks:
+  portainer_network:
+
 volumes:
   portainer_data:
 
@@ -113,8 +118,6 @@ Place these files in a dedicated directory, such as `/path/to/certs/`
 Open the `docker-compose.yml` file and modify it to use your self-signed certificates:
 
 ```yaml
-version: '3'
-
 services:
   portainer:
     image: portainer/portainer-ce:latest
@@ -127,11 +130,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-      - /path/to/certs/cert.pem:/certs/portainer.crt   # Mount the certificate
-      - /path/to/certs/key.pem:/certs/portainer.key    # Mount the private key
+    networks:
+      - portainer_network
     environment:
       - SSL_CERTIFICATE=/certs/portainer.crt   # Path to the certificate in the container
       - SSL_CERTIFICATE_KEY=/certs/portainer.key   # Path to the private key in the container
+      
   agent:
     image: portainer/agent:latest
     container_name: portainer_agent
@@ -142,7 +146,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     networks:
-      - portainer_agent_network
+      - portainer_network
+
+networks:
+  portainer_network:
+
 volumes:
   portainer_data:
 
