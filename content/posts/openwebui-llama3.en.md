@@ -2,9 +2,7 @@
 title = "Setting Up Open-WebUI with Ollama and LLaMA 3"
 date = "2024-08-31"
 author= "Xavier GUERET"
-categories = [
-    "tutorial",
-]
+categories = [ "tutorial"]
 tags = [
   "Docker",
   "Open-WebUI",

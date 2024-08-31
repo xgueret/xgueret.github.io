@@ -2,17 +2,13 @@
 title= "Mise en place d'Open-WebUI avec Ollama et LLaMA 3"
 date= "2024-08-31"
 author= "Xavier GUERET"
-categories= [
-    "tutorial"
-]
+categories= [ "tutorial"]
 tags= [
   "Docker",
   "Open-WebUI",
   "Ollama",
   "LLaMA 3"
 ]
-summary= "Un guide complet pour configurer une stack Docker avec Open-WebUI, en utilisant Ollama pour exécuter LLaMA3."
-
 +++
 
 ## Pré-requis
