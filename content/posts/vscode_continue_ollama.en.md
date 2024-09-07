@@ -149,4 +149,4 @@ Start by testing if the models are working correctly.
 
 {{< rawhtml >}} <video width="400" height="250" controls> <source src="/videos/autocomple_sample.webm" type="video/webm"> Your browser does not support the video tag. </video> {{< /rawhtml >}}
 
-{{< rawhtml >}} <video width="400" height="250" controls> <source src="/videos/chat_sample.webm" type="video/webm"> Your browser does not support the video tag. </video>}} {{< /rawhtml >}}
+{{< rawhtml >}} <video width="400" height="250" controls> <source src="/videos/chat_sample.webm" type="video/webm"> Your browser does not support the video tag. </video> {{< /rawhtml >}}
