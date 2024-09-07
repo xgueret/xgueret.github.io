@@ -138,15 +138,20 @@ Une fois que vous avez installé et configuré tous les modèles, vous êtes pr�
 2. Utilisez la commande **Continue: Start** dans la palette de commandes (`Ctrl + Shift + P`).
 3. Vous pouvez maintenant utiliser Continue avec les modèles que vous avez configurés pour des discussions interactives, de l'autocomplétion, et des embeddings.
 
-<video width="600" controls>
+{{< rawhtml >}} 
+<video width="400" height="250" controls>
   <source src="/videos/autocomple_sample.webm" type="video/webm">
   Your browser does not support the video tag.
 </video>
+{{< /rawhtml >}} 
 
-<video width="600" controls>
+{{< rawhtml >}} 
+<video width="400" height="250" controls>
   <source src="/videos/chat_sample.webm" type="video/webm">
   Your browser does not support the video tag.
-</video>
+</video>}}
+{{< /rawhtml >}} 
+
 
 ### Étape 7: Tester les Modèles
 
