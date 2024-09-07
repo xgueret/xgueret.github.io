@@ -129,7 +129,7 @@ Téléchargez le modèle **StarCoder 2** ou **DeepSeek Coder v2**, en fonction d
   ```shell
   ollama pull nomic-embed-text
   ```
- 
+
 ### Étape 6: Lancer Continue dans VSCode
 
 Une fois que vous avez installé et configuré tous les modèles, vous êtes prêt à utiliser Continue dans VSCode.
@@ -138,6 +138,15 @@ Une fois que vous avez installé et configuré tous les modèles, vous êtes pr�
 2. Utilisez la commande **Continue: Start** dans la palette de commandes (`Ctrl + Shift + P`).
 3. Vous pouvez maintenant utiliser Continue avec les modèles que vous avez configurés pour des discussions interactives, de l'autocomplétion, et des embeddings.
 
+### Étape 7: Tester les Modèles
+
+Commencez par tester si les modèles fonctionnent correctement.
+
+- Pour le chat, essayez de lancer une session et vérifiez que **LLaMA 3** est utilisé.
+- Pour l'autocomplétion, tapez du code et voyez si **StarCoder 2** ou **DeepSeek Coder v2** propose des complétions pertinentes.
+- Pour les embeddings, utilisez des fonctionnalités qui nécessitent des vecteurs d'embeddings et vérifiez que **nomic-embed-text** est bien utilisé.
+
+:eyes: **En action**
 {{< rawhtml >}} 
 <video width="400" height="250" controls>
   <source src="/videos/autocomple_sample.webm" type="video/webm">
@@ -151,13 +160,3 @@ Une fois que vous avez installé et configuré tous les modèles, vous êtes pr�
   Your browser does not support the video tag.
 </video>}}
 {{< /rawhtml >}} 
-
-
-### Étape 7: Tester les Modèles
-
-Commencez par tester si les modèles fonctionnent correctement.
-
-- Pour le chat, essayez de lancer une session et vérifiez que **LLaMA 3** est utilisé.
-- Pour l'autocomplétion, tapez du code et voyez si **StarCoder 2** ou **DeepSeek Coder v2** propose des complétions pertinentes.
-- Pour les embeddings, utilisez des fonctionnalités qui nécessitent des vecteurs d'embeddings et vérifiez que **nomic-embed-text** est bien utilisé.
-
