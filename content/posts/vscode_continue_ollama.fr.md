@@ -158,5 +158,5 @@ Commencez par tester si les modèles fonctionnent correctement.
 <video width="400" height="250" controls>
   <source src="/videos/chat_sample.webm" type="video/webm">
   Your browser does not support the video tag.
-</video>}}
+</video>
 {{< /rawhtml >}} 
