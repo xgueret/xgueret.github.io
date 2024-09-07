@@ -38,29 +38,29 @@ Before you begin, make sure you have:
 - Click **Install** for the **Continue** extension.
 
 
-### Étape 3: Configuration d'Ollama
+### Step 3: Configure Ollama
 
-Ollama est nécessaire pour gérer les modèles d'IA comme LLaMA 3 et StarCoder. Assurez-vous que Ollama est bien installé et configuré.
+Ollama is needed to manage AI models like LLaMA 3 and StarCoder. Ensure that Ollama is properly installed and configured.
 
-1. Installez Ollama en suivant les instructions fournies sur leur site : [Ollama Installation](https://ollama.com/).
+1. Install Ollama by following the instructions provided on their site: [Ollama Installation](https://ollama.com/).
 
-2. Une fois installé, vérifiez que Ollama fonctionne correctement en ouvrant un terminal et en exécutant la commande:
+2. Once installed, verify that Ollama is working correctly by opening a terminal and running the command:
 
    ```shell
    ollama list
    ```
 
-### Étape 4: Modifier le fichier `config.json`
+### Step 4: Modify the `config.json` File
 
-Pour configurer les modèles utilisés par Continue (chat, autocomplétion, embeddings), vous devez modifier le fichier de configuration `config.json`.
+To configure the models used by Continue (chat, autocompletion, embeddings), you need to modify the `config.json` configuration file.
 
-1. Ouvrez Visual Studio Code.
-2. Appuyez sur `Ctrl + Shift + P` pour ouvrir la **Palette de Commandes**.
-3. Tapez **Continue: Open config.json** et sélectionnez cette option.
+1. Open Visual Studio Code.
+2. Press `Ctrl + Shift + P` to open the **Command Palette**.
+3. Type **Continue: Open config.json** and select this option.
 
-Cela ouvrira le fichier `config.json` où vous pouvez définir les modèles que vous souhaitez utiliser.
+This will open the `config.json` file where you can define the models you want to use.
 
-Voici un exemple de configuration pour utiliser **LLaMA 3** pour le chat, **StarCoder 2** pour l'autocomplétion, et **nomic-embed-text** pour les embeddings:
+Here's an example configuration for using **LLaMA 3** for chat, **StarCoder 2** for autocompletion, and **nomic-embed-text** for embeddings:
 
 ```json
 {
@@ -88,7 +88,7 @@ Voici un exemple de configuration pour utiliser **LLaMA 3** pour le chat, **Star
 }
 ```
 
-Si vous préférez utiliser **DeepSeek Coder v2** pour l'autocomplétion, modifiez la section `autocomplete` de la manière suivante:
+If you prefer to use **DeepSeek Coder v2** for autocompletion, modify the `autocomplete` section as follows:
 
 ```json
 "autocomplete": {
@@ -100,53 +100,54 @@ Si vous préférez utiliser **DeepSeek Coder v2** pour l'autocomplétion, modifi
 }
 ```
 
-### Étape 5: Télécharger et Installer les Modèles via Ollama
+### Step 5: Download and Install Models via Ollama
 
-Ensuite, vous devez télécharger les modèles nécessaires via Ollama.
+Next, you need to download the necessary models via Ollama.
 
-1. Téléchargez le modèle **LLaMA 3 70B**:
+1. Download the **LLaMA 3 70B** model:
 
 ```shell
 ollama pull llama3-70b
 ```
 
-Téléchargez le modèle **StarCoder 2** ou **DeepSeek Coder v2**, en fonction de votre choix pour l'autocomplétion:
+Download the **StarCoder 2** or **DeepSeek Coder v2** model, depending on your choice for autocompletion:
 
-- Pour **StarCoder 2**:
+- For **StarCoder 2**:
 
   ```shell
   ollama pull starcoder-2-7b
   ```
 
-- Pour **DeepSeek Coder v2**:
+- For **DeepSeek Coder v2**:
 
   ```
   ollama pull deepseek-coder-v2:16b
   ```
 
-- Pour les embeddings, assurez-vous d'avoir le modèle **nomic-embed-text** téléchargé <u>(cela devrait être configuré automatiquement par Continue)</u>.
+- For embeddings, make sure you have the **nomic-embed-text** model downloaded <u>(this should be automatically configured by Continue)</u>.
 
   ```shell
   ollama pull nomic-embed-text
   ```
 
-### Étape 6: Lancer Continue dans VSCode
+### Step 6: Start Continue in VSCode
 
-Une fois que vous avez installé et configuré tous les modèles, vous êtes prêt à utiliser Continue dans VSCode.
+Once you have installed and configured all the models, you are ready to use Continue in VSCode.
 
-1. Ouvrez un projet dans **VSCode**.
-2. Utilisez la commande **Continue: Start** dans la palette de commandes (`Ctrl + Shift + P`).
-3. Vous pouvez maintenant utiliser Continue avec les modèles que vous avez configurés pour des discussions interactives, de l'autocomplétion, et des embeddings.
+1. Open a project in VSCode.
+2. Use the Continue: Start command in the command palette (Ctrl + Shift + P).
+3. You can now use Continue with the models you have configured for interactive chats, autocompletion, and embeddings.
 
-### Étape 7: Tester les Modèles
+### Step 7: Test the Models
 
-Commencez par tester si les modèles fonctionnent correctement.
+Start by testing if the models are working correctly.
 
-- Pour le chat, essayez de lancer une session et vérifiez que **LLaMA 3** est utilisé.
-- Pour l'autocomplétion, tapez du code et voyez si **StarCoder 2** ou **DeepSeek Coder v2** propose des complétions pertinentes.
-- Pour les embeddings, utilisez des fonctionnalités qui nécessitent des vecteurs d'embeddings et vérifiez que **nomic-embed-text** est bien utilisé.
+- For chat, try starting a session and check that **LLaMA 3** is being used.
+- For autocompletion, type some code and see if **StarCoder 2** or **DeepSeek Coder v2** offers relevant completions.
+- For embeddings, use features that require embedding vectors and check that **nomic-embed-text** is being used correctly.
 
-:eyes: **En action**
+:eyes: **​In action:**
+
 {{< rawhtml >}} 
 <video width="400" height="250" controls>
   <source src="/videos/autocomple_sample.webm" type="video/webm">
