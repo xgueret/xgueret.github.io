@@ -21,7 +21,6 @@ Local Compute was created to address the need for a practical and efficient way 
 
 Here’s a summary of what Local Compute offers:
 
-- **Local Execution**: Perform calculations and manage tasks directly on your local machine, reducing reliance on external infrastructure.
 - **Ansible Integration**: The `local_laptop.sh` script uses Ansible to automate various computational and configuration tasks, making it easier to manage complex workflows.
 - **Python Virtual Environment**: The script sets up and activates a Python virtual environment (`venv`) for running Ansible commands, ensuring that all dependencies are managed in an isolated environment. After the tasks are completed, the virtual environment is deactivated.
 - **Simplicity and Flexibility**: Customize the bash script and Ansible playbooks to meet your specific needs, offering a versatile solution for various data processing tasks.

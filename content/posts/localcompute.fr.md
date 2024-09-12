@@ -11,44 +11,33 @@ categories= [
     ]
 +++
 
-Introduction
+## Introduction
 
-Je suis ravi de vous présenter Manage Repo, un projet conçu pour automatiser la création, l'initialisation et la gestion des dépôts GitHub à l'aide de Terraform. En tant que développeur et passionné de DevOps, j'ai créé cet outil pour simplifier le processus de configuration et de gestion des dépôts, vous permettant de vous concentrer davantage sur le codage et moins sur la configuration.
-Vue d'ensemble de Manage Repo
+Le projet [Local Compute](https://github.com/xgueret/local-compute) sur GitHub est conçu pour simplifier les tâches de traitement des données locales grâce à un outil simple mais puissant que vous pouvez exécuter directement sur votre machine.
 
-Manage Repo automatise l'ensemble du processus de création d'un nouveau dépôt sur GitHub, d'initialisation d'un dépôt Git local et de poussée du commit initial—le tout grâce à la puissance de Terraform et Python. Ce projet utilise l'outil d'infrastructure en tant que code Terraform ainsi que le fournisseur integrations/github pour gérer les dépôts de manière programmatique.
+## Aperçu de Local Compute
 
-Voici ce que Manage Repo offre :
+Local Compute a été créé pour répondre au besoin d'un moyen pratique et efficace de configurer un PC. Il fournit un ensemble d'outils et un script bash (`local_laptop.sh`) qui facilite l'exécution et la gestion des tâches. Le script automatise l'exécution des playbooks Ansible dans un environnement virtuel Python, garantissant que les dépendances nécessaires sont correctement gérées et isolées.
 
-    Création de Dépôts Automatisée : Utilisez Terraform pour créer un nouveau dépôt GitHub, économisant du temps et réduisant le risque d'erreurs manuelles.
+Voici un résumé de ce que propose Local Compute :
 
-    Initialisation de Git Local : Configurez automatiquement un dépôt Git local et poussez le commit initial, garantissant que votre environnement local est synchronisé avec le nouveau dépôt GitHub.
+- **Intégration d'Ansible** : Le script `local_laptop.sh` utilise Ansible pour automatiser diverses tâches informatiques et de configuration, facilitant ainsi la gestion de flux de travail complexes.
+- **Environnement virtuel Python** : Le script configure et active un environnement virtuel Python (`venv`) pour exécuter les commandes Ansible, garantissant que toutes les dépendances sont gérées dans un environnement isolé. Une fois les tâches terminées, l'environnement virtuel est désactivé.
+- **Simplicité et flexibilité** : Personnalisez le script bash et les playbooks Ansible pour répondre à vos besoins spécifiques, offrant ainsi une solution polyvalente pour diverses tâches de traitement des données.
 
-    Script Python : Le cœur de ce projet est écrit en Python, offrant flexibilité et facilité d'intégration avec d'autres outils d'automatisation.
+## Objectifs du projet
 
-    Intégration avec Terraform : En utilisant Terraform, le projet permet la gestion des configurations et des ressources de dépôt de manière déclarative et reproductible. Vous avez également la possibilité de détruire les ressources gérées par Terraform lorsqu'elles ne sont plus nécessaires.
+Les principaux objectifs de Local Compute sont les suivants :
 
-Objectifs du Projet
+1. **Automatiser avec Ansible** : Utiliser Ansible pour gérer des tâches et des configurations complexes, rendant le processus plus efficace et plus facile à gérer.
+2. **Simplifier l'automatisation des tâches** : Utiliser le script `local_laptop.sh` pour automatiser les tâches informatiques courantes, réduisant ainsi l'effort manuel et augmentant l'efficacité.
 
-Les principaux objectifs de Manage Repo sont de :
+## Ouvert aux contributions
 
-    Automatiser la Configuration des Dépôts : Simplifier le processus de création et d'initialisation des dépôts GitHub pour gagner du temps et réduire la complexité associée à la mise en place de nouveaux projets.
+Local Compute est un projet open-source, et les contributions de la communauté sont les bienvenues. Que vous souhaitiez améliorer les fonctionnalités existantes, ajouter de nouvelles fonctionnalités ou aider à la documentation, vos contributions sont grandement appréciées.
 
-    Utiliser Terraform pour l'Infrastructure en Tant que Code : Exploiter Terraform pour gérer les configurations et les ressources des dépôts, offrant un processus de configuration cohérent et reproductible.
+Si vous êtes intéressé par une contribution, n'hésitez pas à forker le dépôt sur GitHub et à soumettre une pull request. Vous pouvez également ouvrir des issues si vous trouvez des bugs ou avez des suggestions d'amélioration.
 
-    Flexibilité Alimentée par Python : Utiliser un script Python pour gérer l'exécution des commandes Terraform et l'initialisation du dépôt Git local, offrant une interface facile à utiliser pour les tâches d'automatisation.
+## Conclusion
 
-    Gestion des Ressources : Permettre aux utilisateurs de détruire facilement les ressources gérées par Terraform lorsqu'elles ne sont plus nécessaires, gardant ainsi leur infrastructure propre et gérable.
-
-Ouvert aux Contributions
-
-Manage Repo est un projet open-source, et les contributions de la communauté sont plus que bienvenues. Que vous souhaitiez améliorer le code existant, ajouter de nouvelles fonctionnalités ou aider à la documentation, vos contributions sont grandement appréciées.
-
-Si vous êtes intéressé par la contribution, n'hésitez pas à forker le dépôt sur GitHub et à soumettre une demande de tirage. Vous pouvez également ouvrir des issues si vous rencontrez des bugs ou avez des idées d'améliorations.
-Conclusion
-
-Manage Repo est conçu pour simplifier et automatiser la gestion des dépôts GitHub en combinant la puissance de Terraform et Python. Ce projet est idéal pour les développeurs et les professionnels DevOps cherchant à rationaliser leur flux de travail et réduire le temps de configuration manuel.
-
-Pour en savoir plus, essayer Manage Repo ou contribuer au projet, visitez le dépôt GitHub ici. J'attends avec impatience vos retours et contributions pour améliorer ce projet.
-
-Merci d'avoir pris le temps d'explorer Manage Repo. Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter ou à laisser un commentaire ci-dessous.
+Le projet Local Compute vise à simplifier le processus de configuration d'un nouveau PC.
