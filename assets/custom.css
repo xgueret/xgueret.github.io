@@ -1,7 +1,14 @@
 /* Styles personnalisés pour le site */
 
 /* Style du bouton dark/light dans le menu de navigation */
+/* IMPORTANT: Le thème a position:fixed sur #dark-mode-toggle, on doit override avec !important */
 .navigation #dark-mode-toggle {
+    position: static !important;
+    margin: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+    font-size: inherit !important;
     cursor: pointer;
     transition: color 0.25s ease-in;
 }
