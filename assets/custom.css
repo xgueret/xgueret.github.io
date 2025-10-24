@@ -1,0 +1,67 @@
+/* Styles personnalisés pour le site */
+
+/* Style du bouton dark/light dans le menu de navigation */
+/* IMPORTANT: Le thème a position:fixed sur #dark-mode-toggle, on doit override avec !important */
+.navigation #dark-mode-toggle {
+    position: static !important;
+    margin: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+    font-size: inherit !important;
+    cursor: pointer;
+    transition: color 0.25s ease-in;
+}
+
+.navigation-item .colorscheme-toggle {
+    display: inline;
+}
+
+.navigation-item .colorscheme-toggle i {
+    font-size: 1.7rem;
+    vertical-align: middle;
+}
+
+/* Responsive - Mobile */
+@media only screen and (max-width: 768px) {
+    .navigation-item .colorscheme-toggle {
+        line-height: 5rem;
+    }
+}
+
+/* Effets visuels sur le menu de navigation */
+.navigation-link {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.navigation-link::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.navigation-link:hover::before {
+    width: 100%;
+}
+
+/* Animation sur les items du menu */
+.navigation-item {
+    transition: transform 0.2s ease;
+}
+
+.navigation-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Effet de focus visible */
+.navigation-link:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+    border-radius: 2px;
+}
