@@ -1,3 +1,23 @@
 /* Styles personnalisés pour le site */
 
-/* Pas de styles personnalisés pour le moment */
+/* Style du bouton dark/light dans le menu de navigation */
+.navigation #dark-mode-toggle {
+    cursor: pointer;
+    transition: color 0.25s ease-in;
+}
+
+.navigation-item .colorscheme-toggle {
+    display: inline;
+}
+
+.navigation-item .colorscheme-toggle i {
+    font-size: 1.7rem;
+    vertical-align: middle;
+}
+
+/* Responsive - Mobile */
+@media only screen and (max-width: 768px) {
+    .navigation-item .colorscheme-toggle {
+        line-height: 5rem;
+    }
+}
