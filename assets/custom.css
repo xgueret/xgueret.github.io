@@ -28,3 +28,40 @@
         line-height: 5rem;
     }
 }
+
+/* Effets visuels sur le menu de navigation */
+.navigation-link {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.navigation-link::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.navigation-link:hover::before {
+    width: 100%;
+}
+
+/* Animation sur les items du menu */
+.navigation-item {
+    transition: transform 0.2s ease;
+}
+
+.navigation-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Effet de focus visible */
+.navigation-link:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+    border-radius: 2px;
+}
