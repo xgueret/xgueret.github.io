@@ -75,7 +75,7 @@ jobs:
       - name: Check for broken links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress --exclude 'http://localhost:*' --exclude 'https://gohugo.io' './public/**/*.html'
+          args: --verbose --no-progress --exclude-mail './public/**/*.html'
           fail: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
