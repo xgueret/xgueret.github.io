@@ -24,6 +24,26 @@
                 Bonjour ! 👋 Je suis là pour vous aider à en savoir plus sur mes compétences et mes projets. Posez-moi une question ou cliquez sur un sujet ci-dessous.
             </div>
         </div>
+
+        <!-- Vignette Articles Récents -->
+        {{ $posts := where .Site.RegularPages "Type" "posts" }}
+        {{ $posts := $posts | first 5 }}
+        {{ if gt (len $posts) 0 }}
+        <div class="message bot">
+            <div class="message-content chatbot-articles-widget">
+                <strong>📝 Articles Récents</strong>
+                <ul class="chatbot-articles-list">
+                {{- range $posts -}}
+                    <li>
+                        <a href="{{ .Params.externalLink | default .RelPermalink }}">{{ .Title }}</a>
+                        <span class="article-date">{{ .Date | time.Format "02 Jan 2006" }}</span>
+                    </li>
+                {{- end -}}
+                </ul>
+                <a href="{{ "posts/" | relLangURL }}" class="chatbot-view-all">Voir tous les articles →</a>
+            </div>
+        </div>
+        {{ end }}
     </div>
 
     <div class="quick-replies" id="quickReplies">
