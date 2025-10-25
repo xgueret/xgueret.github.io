@@ -1,0 +1,25 @@
+{{ $posts := where .Site.RegularPages "Type" "posts" }}
+{{ $posts := $posts | first 3 }}
+{{ if gt (len $posts) 0 }}
+<section class="recent-articles">
+  <h2>{{ i18n "recentArticles" | default "Recent Articles" }}</h2>
+  <ul>
+    {{- range $posts -}}
+    <li>
+      <span class="date">{{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
+      <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}">{{ .Title }}</a>
+      {{ if .Params.tags }}
+      <div class="tags">
+        {{ range .Params.tags }}
+        <span class="tag">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+    </li>
+    {{- end -}}
+  </ul>
+  <div class="view-all">
+    <a href="{{ "posts/" | relLangURL }}">{{ i18n "viewAllPosts" | default "View all posts" }} →</a>
+  </div>
+</section>
+{{ end }}
