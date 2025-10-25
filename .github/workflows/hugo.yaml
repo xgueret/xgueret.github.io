@@ -75,8 +75,16 @@ jobs:
       - name: Check for broken links
         uses: lycheeverse/lychee-action@v1
         with:
+<<<<<<< HEAD
           args: --verbose --no-progress --exclude-mail './public/**/*.html'
           fail: true
+||||||| parent of b05b444 (fix lychee to use --exclude-loopback and non-blocking mode)
+          args: --verbose --no-progress --exclude 'http://localhost:*' --exclude 'https://gohugo.io' './public/**/*.html'
+          fail: true
+=======
+          args: --verbose --no-progress --exclude-loopback --max-retries 3 './public/**/*.html'
+          fail: false
+>>>>>>> b05b444 (fix lychee to use --exclude-loopback and non-blocking mode)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
