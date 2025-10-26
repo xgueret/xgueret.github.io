@@ -1,0 +1,36 @@
+{{ define "title" }}
+  {{ title (i18n (lower .Title)) | default .Title }} · {{ .Site.Title }}
+{{ end }}
+{{ define "content" }}
+  <section class="container list">
+    <header>
+      {{/* Bouton de retour au blog */}}
+      <div class="back-to-blog">
+        <a href="{{ "posts/" | relLangURL }}" class="back-button">
+          <span class="back-icon">←</span>
+          <span class="back-text">{{ i18n "backToBlog" | default "Back to Blog" }}</span>
+        </a>
+      </div>
+
+      <h1 class="title">
+        <a class="title-link" href="{{ .Permalink | safeURL }}">
+          {{ title (i18n (lower .Title)) | default .Title }}
+        </a>
+      </h1>
+
+      {{/* Afficher le nombre d'articles dans cette catégorie */}}
+      <p class="category-count-header">
+        {{ len .Pages }} {{ if eq (len .Pages) 1 }}{{ i18n "article" | default "article" }}{{ else }}{{ i18n "articles" | default "articles" }}{{ end }}
+      </p>
+    </header>
+
+    {{ .Content }}
+    <ul>
+      {{- range .Paginator.Pages -}}
+        {{- .Render "li" -}}
+      {{- end -}}
+    </ul>
+
+    {{ partial "pagination.html" . }}
+  </section>
+{{ end }}
