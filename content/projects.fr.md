@@ -18,4 +18,4 @@ slug = "projects"
 
 ## :globe_with_meridians: Sites web réalisés
 
-* Adeline Guillot Gueret - Psychologue: https://adelineguillotgueret.fr/
+* Adeline Guillot Gueret - Enseignante spécialisée : https://adelineguillotgueret.fr/

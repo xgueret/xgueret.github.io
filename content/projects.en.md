@@ -3,9 +3,7 @@ title = "Projects"
 slug = "projects"
 +++
 
-
-
-## :eyes: My GitHub projects
+## 👀 My GitHub projects
 
 * homelab:  https://github.com/xgueret/my-homelab
 * hugo-site-manger: https://github.com/xgueret/hugo-site-manager
@@ -16,6 +14,6 @@ slug = "projects"
 * Leucocytes Tracking App: https://github.com/xgueret/LeucocytesTrackingApp
 * simplifalc: https://github.com/xgueret/simplifalc
 
-## :globe_with_meridians: Websites built
+## 🌐 Websites built
 
-* Adeline Guillot Gueret - Psychologist: https://adelineguillotgueret.fr/
+* Adeline Guillot Gueret - Specialist teacher: https://adelineguillotgueret.fr/
