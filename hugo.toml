@@ -22,7 +22,9 @@ keywords = "blog,developer,personal,xgueret, xavier gueret, devops, k8s, ansible
 info = [    
     "Un jour, quelqu'un a dit",
     "Automatiser, c'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code !",
-    "Alors depuis, je suis la voie de l'apprentissage de Kubernetes, Python, Ansible, Terraform.... en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l'esprit zen !"]
+    "Alors depuis, je suis la voie de l'apprentissage de Kubernetes, Python, Ansible, Terraform.... en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l'esprit zen !",
+    "De retour en Guadeloupe 🌴, mon île natale, où le code se déploie au rythme des Alizés."
+    ]
 avatarURL = "images/moi.jpg"
 #gravatar = "971xavier.gueret@gmail.com"
 dateFormat = "January 2, 2006"
@@ -232,6 +234,7 @@ url = "contact/"
 info = [
     "One day, someone said",
     "Automating is the key to a chill development: less stress, more flow, and deployments that happen effortlessly!",
-    "So since then, I've been on the path of learning Kubernetes, Python, Ansible, Terraform... in search of the ultimate mastery to automate everything that moves and keep a zen mind!"
+    "So since then, I've been on the path of learning Kubernetes, Python, Ansible, Terraform... in search of the ultimate mastery to automate everything that moves and keep a zen mind!",
+    "Back in Guadeloupe 🌴, my native island, where code deploys to the rhythm of the Trade Winds."
 ]
 description = "DevOps Engineer passionate about automation"

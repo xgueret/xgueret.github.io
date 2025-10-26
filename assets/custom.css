@@ -641,3 +641,175 @@ body.colorscheme-dark .cv-download-button:hover {
         font-size: 1.3rem;
     }
 }
+
+/* ============================================
+   TITRES DE PAGE AMÉLIORÉS
+   ============================================ */
+
+/* En-tête de page générique */
+.container.page header,
+.container.list header {
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+/* Titre principal de page */
+.container.page header .title,
+.container.list header .title {
+    margin-bottom: 1rem;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(135deg,
+        hsl(270, 30%, 88%) 0%,
+        hsl(240, 35%, 90%) 100%);
+    border-radius: 1.5rem;
+    border: 2px solid hsla(260, 25%, 85%, 0.6);
+    box-shadow: 0 4px 15px hsla(260, 30%, 70%, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Effet de brillance subtile */
+.container.page header .title::before,
+.container.list header .title::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 70%);
+    pointer-events: none;
+}
+
+/* Lien du titre */
+.container.page header .title-link,
+.container.list header .title-link {
+    color: hsl(260, 50%, 45%);
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* Effet de soulignement animé */
+.container.page header .title-link::after,
+.container.list header .title-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        hsl(270, 45%, 70%),
+        hsl(240, 50%, 75%));
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.container.page header .title-link:hover::after,
+.container.list header .title-link:hover::after {
+    width: 100%;
+}
+
+.container.page header .title-link:hover,
+.container.list header .title-link:hover {
+    transform: translateX(5px);
+    color: hsl(260, 55%, 55%);
+}
+
+/* Mode sombre */
+[data-theme="dark"] .container.page header .title,
+[data-theme="dark"] .container.list header .title,
+body.colorscheme-dark .container.page header .title,
+body.colorscheme-dark .container.list header .title {
+    background: linear-gradient(135deg,
+        hsl(270, 25%, 35%) 0%,
+        hsl(240, 30%, 38%) 100%);
+    border-color: hsla(260, 20%, 45%, 0.5);
+    box-shadow: 0 4px 15px hsla(260, 25%, 20%, 0.3);
+}
+
+[data-theme="dark"] .container.page header .title::before,
+[data-theme="dark"] .container.list header .title::before,
+body.colorscheme-dark .container.page header .title::before,
+body.colorscheme-dark .container.list header .title::before {
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 70%);
+}
+
+[data-theme="dark"] .container.page header .title-link,
+[data-theme="dark"] .container.list header .title-link,
+body.colorscheme-dark .container.page header .title-link,
+body.colorscheme-dark .container.list header .title-link {
+    color: hsl(260, 40%, 75%);
+}
+
+[data-theme="dark"] .container.page header .title-link:hover,
+[data-theme="dark"] .container.list header .title-link:hover,
+body.colorscheme-dark .container.page header .title-link:hover,
+body.colorscheme-dark .container.list header .title-link:hover {
+    color: hsl(260, 45%, 80%);
+}
+
+[data-theme="dark"] .container.page header .title-link::after,
+[data-theme="dark"] .container.list header .title-link::after,
+body.colorscheme-dark .container.page header .title-link::after,
+body.colorscheme-dark .container.list header .title-link::after {
+    background: linear-gradient(90deg,
+        hsl(270, 35%, 60%),
+        hsl(240, 40%, 65%));
+}
+
+/* Style spécifique pour les titres avec icône */
+.title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.page-title-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+    .container.page header .title,
+    .container.list header .title {
+        padding: 1.5rem 1.5rem;
+        font-size: 1.8rem;
+    }
+
+    .page-title-icon {
+        font-size: 2rem;
+    }
+
+    .container.page header .title-link:hover,
+    .container.list header .title-link:hover {
+        transform: translateX(3px);
+    }
+}
+
+/* Animation d'entrée pour les titres */
+.container.page header .title,
+.container.list header .title {
+    animation: titleFadeIn 0.6s ease-out;
+}
+
+@keyframes titleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
