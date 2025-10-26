@@ -9,9 +9,10 @@ Download my resume in PDF format to discover my professional background, skills,
 
 {{< rawhtml >}}
 
-<div style="text-align: center; margin: 2rem 0;">
-  <a href="/assets/CV-XGT-v4.pdf" download="CV-Xavier-GUERET.pdf" style="display: inline-block; padding: 1rem 2rem; background-color: #0366d6; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background-color 0.3s;">
-    📥 Download my Resume (PDF)
+<div class="cv-download-container">
+  <a href="/assets/CV-XGT-v4.pdf" download="CV-Xavier-GUERET.pdf" class="cv-download-button">
+    <span class="cv-icon">📥</span>
+    <span>Download my Resume (PDF)</span>
   </a>
 </div>
 {{< /rawhtml >}}

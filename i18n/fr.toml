@@ -3,3 +3,18 @@ other = "Articles Récents"
 
 [viewAllPosts]
 other = "Voir tous les articles"
+
+[categoriesCloud]
+other = "Catégories"
+
+[categoriesSubtitle]
+other = "Explorez les articles par thématique"
+
+[article]
+other = "article"
+
+[articles]
+other = "articles"
+
+[backToBlog]
+other = "Retour au blog"
