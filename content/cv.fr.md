@@ -10,7 +10,7 @@ Téléchargez mon CV au format PDF pour découvrir mon parcours professionnel, m
 {{< rawhtml >}}
 
 <div class="cv-download-container">
-  <a href="/assets/CV-XGT-v4.pdf" download="CV-Xavier-GUERET.pdf" class="cv-download-button">
+  <a href="/assets/cv.fr.pdf" download="cv-xavier-gueret.pdf" class="cv-download-button">
     <span class="cv-icon">📥</span>
     <span>Télécharger mon CV (PDF)</span>
   </a>
@@ -19,18 +19,25 @@ Téléchargez mon CV au format PDF pour découvrir mon parcours professionnel, m
 
 ---
 
-### Aperçu
+### PROFIL PROFESSIONNEL
 
-**Ingénieur DevOps** depuis 3 ans, avec un background de 11 ans en développement logiciel. Certifié CKA et Terraform Associate, spécialisé en automatisation d'infrastructures cloud-native et containerisation.
+**Ingénieur DevOps** en progression, issu du développement Java, avec une solide expérience en
+automatisation et en intégration continue. J’ai évolué vers le DevOps à travers la gestion
+d’environnements Linux, le déploiement d’applications sur OpenShift et Kubernetes, et la mise en place
+d’infrastructures reproductibles avec Ansible et Terraform. J’apprécie particulièrement concevoir des
+environnements stables, documentés et faciles à maintenir, et je continue à approfondir mes
+compétences en conteneurisation, CI/CD et pratiques Cloud-Native. Certifié Kubernetes Administrator
+(CKA), Terraform Associate et Red Hat Automation, je recherche un environnement technique stimulant
+favorisant la montée en compétences et le partage de bonnes pratiques. 
 
-### Domaines d'expertise
+### COMPÉTENCES TECHNIQUES
 
 - **Automatisation** : Terraform, Ansible
 - **CI/CD** : Jenkins, GitLab CI, GitHub Actions
 - **Containerisation** : Docker, Kubernetes
 - **Scriptage** : Bash, Python
 
-### Certifications
+### CERTIFICATIONS PROFESSIONNELLES
 
 - Certified Kubernetes Administrator (CKA)
 - HashiCorp Certified: Terraform Associate (002)
