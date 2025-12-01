@@ -17,3 +17,7 @@ slug = "projects"
 ## 🌐 Websites built
 
 * Adeline Guillot Gueret - Specialist teacher: https://adelineguillotgueret.fr/
+
+## 🎓 Training
+
+* Python Training - Red Thread: Hands-on project to learn Python through a practical case study: https://github.com/TiPunchLabs/formation-python-filerouge
