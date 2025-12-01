@@ -19,3 +19,7 @@ slug = "projects"
 ## :globe_with_meridians: Sites web réalisés
 
 * Adeline Guillot Gueret - Enseignante spécialisée : https://adelineguillotgueret.fr/
+
+## :mortar_board: Formations
+
+* Formation Python - Fil Rouge : Projet pratique pour apprendre Python à travers un cas concret : https://github.com/TiPunchLabs/formation-python-filerouge
