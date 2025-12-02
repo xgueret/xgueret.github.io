@@ -18,3 +18,9 @@ other = "articles"
 
 [backToBlog]
 other = "Back to Blog"
+
+[recentTrainings]
+other = "Recent Trainings"
+
+[viewAllTrainings]
+other = "View all trainings"
