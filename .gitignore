@@ -1,4 +1,17 @@
-# Environments
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# Python environments
 .env
 .venv
 env/
@@ -6,63 +19,30 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.vscode/
-**/files/*.deb
-**/vars/**/ip_hosts.yml
-**/vars/**/my-git-config-global.yml
 pyvenv.cfg
 
+# Node.js
+node_modules/
+
+# Hugo generated files
+public/
+resources/
+hugo_stats.json
+.hugo_build.lock
+
 # Terraform files
+.terraform/
+**/.terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
 *.tfplan
 
-# Directory for Terraform's workspace
-.terraform/
-
-# Terraform plan output
-*.tfplan
-
-# Local .terraform directories
-.terraform/*
-
-# .terraform directories that might be created by Terraform CLI
-**/.terraform/
-**/.terraform/*
-
-# Environment variable files
-.env
-
-# Editor directories and files
-.vscode/
-.idea/
-*.swp
-*.swo
-*.swn
-*.bak
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
 # Log files
 *.log
 
-# Logs et système
-.DS_Store
-Thumbs.db
-
-# Fichiers générés par Hugo
-public/
-resources/
-hugo_stats.json
-
-# Dossiers spécifiques à un éditeur de texte ou IDE
-.vscode/
-.idea/
-
-# Dépendances spécifiques aux modules Hugo
-node_modules/
-
+# Project specific
+**/files/*.deb
+**/vars/**/ip_hosts.yml
+**/vars/**/my-git-config-global.yml
 push.sh
