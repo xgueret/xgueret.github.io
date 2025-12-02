@@ -1,0 +1,25 @@
+{{ $trainings := where .Site.RegularPages "Type" "training" }}
+{{ $trainings := $trainings | first 3 }}
+{{ if gt (len $trainings) 0 }}
+<section class="recent-trainings">
+  <h2>{{ i18n "recentTrainings" | default "Formations Récentes" }}</h2>
+  <ul>
+    {{- range $trainings -}}
+    <li>
+      <span class="date">{{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
+      <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}"{{ if .Params.externalLink }} target="_blank" rel="noopener noreferrer"{{ end }}>{{ .Title }}</a>
+      {{ if .Params.tags }}
+      <div class="tags">
+        {{ range .Params.tags }}
+        <span class="tag">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+    </li>
+    {{- end -}}
+  </ul>
+  <div class="view-all">
+    <a href="{{ "training/" | relLangURL }}">{{ i18n "viewAllTrainings" | default "Voir toutes les formations" }} →</a>
+  </div>
+</section>
+{{ end }}
