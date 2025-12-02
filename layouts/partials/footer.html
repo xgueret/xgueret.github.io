@@ -6,7 +6,7 @@
         {{ if .icon }}
         <li>
           <a href="{{ .url | safeURL }}" aria-label="{{ .name }}" target="_blank" rel="noopener noreferrer">
-            <i class="{{ .icon | replaceRE "fa-2x" "" }}" aria-hidden="true"></i>
+            <i class="{{ replace .icon "fa-2x" "" }}" aria-hidden="true"></i>
           </a>
         </li>
         {{ end }}
