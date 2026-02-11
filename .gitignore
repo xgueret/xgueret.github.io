@@ -35,6 +35,3 @@ dist/
 # Screenshots (dev only)
 *.png
 !public/images/*.png
-
-# claude
-.claude/
