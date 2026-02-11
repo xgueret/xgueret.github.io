@@ -11,26 +11,17 @@ Thumbs.db
 *.swn
 *.bak
 
-# Python environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-pyvenv.cfg
-
 # Node.js
 node_modules/
 
-# Hugo generated files
-public/
-resources/
-hugo_stats.json
-.hugo_build.lock
+# Astro
+dist/
+.astro/
 
-# Terraform files
+# Playwright MCP
+.playwright-mcp/
+
+# Terraform
 .terraform/
 **/.terraform/
 *.tfstate
@@ -41,8 +32,9 @@ hugo_stats.json
 # Log files
 *.log
 
-# Project specific
-**/files/*.deb
-**/vars/**/ip_hosts.yml
-**/vars/**/my-git-config-global.yml
-push.sh
+# Screenshots (dev only)
+*.png
+!public/images/*.png
+
+# claude
+.claude/
