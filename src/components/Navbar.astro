@@ -1,0 +1,113 @@
+---
+import { type Locale, t, getAlternateLocale, localizedPath } from '../i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import DarkModeToggle from './DarkModeToggle.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const altLocale = getAlternateLocale(locale);
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { name: t(locale, 'home'), href: `/${locale}/` },
+  { name: t(locale, 'cv'), href: `/${locale}/cv/` },
+  { name: t(locale, 'posts'), href: `/${locale}/posts/` },
+  { name: t(locale, 'contact'), href: 'https://www.linkedin.com/in/xavier-gueret-47bb3019b/', external: true },
+];
+---
+
+<nav
+  class="fixed top-0 left-0 right-0 h-[var(--navbar-height)] bg-navy z-50 flex items-center"
+  role="navigation"
+  aria-label={t(locale, 'mainNavigation')}
+>
+  <div class="w-full max-w-site mx-auto px-6 flex items-center justify-between">
+    <!-- Left: Brand + Menu -->
+    <div class="flex items-center gap-8">
+      <a href={`/${locale}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight">
+        {t(locale, 'author')}
+      </a>
+
+      <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0" id="navbar-menu">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              class:list={[
+                'text-white/70 no-underline text-lg font-medium px-4 py-2 rounded-md transition-colors',
+                'hover:text-white hover:bg-white/10',
+                !item.external && currentPath === item.href && 'text-white bg-white/15',
+              ]}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Right: Dark mode + Language -->
+    <div class="hidden md:flex items-center gap-4">
+      <DarkModeToggle />
+      <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      class="md:hidden text-white text-xl p-2 border-0 bg-transparent cursor-pointer"
+      id="navbar-toggle"
+      aria-label={t(locale, 'toggleMenu')}
+      aria-expanded="false"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    class="md:hidden fixed top-[var(--navbar-height)] left-0 right-0 bottom-0 bg-navy flex-col p-6 gap-4 -translate-x-full transition-transform duration-200 z-40 hidden"
+    id="mobile-menu"
+  >
+    {navItems.map((item) => (
+      <a
+        href={item.href}
+        {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        class:list={[
+          'text-white/70 no-underline text-lg font-medium px-4 py-3 rounded-md text-center block',
+          'hover:text-white hover:bg-white/10',
+          !item.external && currentPath === item.href && 'text-white bg-white/15',
+        ]}
+      >
+        {item.name}
+      </a>
+    ))}
+    <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-white/10">
+      <DarkModeToggle />
+      <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    </div>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('navbar-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('translate-x-0');
+    if (isOpen) {
+      menu?.classList.remove('flex', 'translate-x-0');
+      menu?.classList.add('hidden', '-translate-x-full');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      menu?.classList.remove('hidden', '-translate-x-full');
+      menu?.classList.add('flex', 'translate-x-0');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+</script>

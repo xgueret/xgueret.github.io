@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TrainingsGrid from '../../../components/TrainingsGrid.astro';
+import { t } from '../../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale = 'fr';
+
+const allTrainings = await getCollection('training', ({ id, data }) => {
+  return id.startsWith('fr/') && !data.draft;
+});
+
+const trainings = allTrainings.map((training) => ({
+  title: training.data.title,
+  description: training.data.description,
+  href: training.data.externalLink || `/${locale}/training/`,
+  isExternal: !!training.data.externalLink,
+  tags: training.data.tags,
+}));
+---
+
+<BaseLayout title={t(locale, 'recentTrainings')} locale={locale}>
+  <div class="max-w-site mx-auto px-6 py-12">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)]">
+        {t(locale, 'recentTrainings')}
+      </h1>
+    </header>
+
+    <TrainingsGrid trainings={trainings} locale={locale} showViewAll={false} />
+  </div>
+</BaseLayout>

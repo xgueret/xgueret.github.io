@@ -1,0 +1,53 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+  locale: Locale;
+}
+
+const { currentPage, totalPages, baseUrl, locale } = Astro.props;
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+{totalPages > 1 && (
+  <nav class="flex justify-center gap-2 mt-10" aria-label="Pagination">
+    {currentPage > 1 && (
+      <a
+        href={currentPage === 2 ? baseUrl : `${baseUrl}${currentPage - 1}/`}
+        class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-all hover:bg-[var(--color-accent)] hover:text-white"
+        aria-label={t(locale, 'previousPage')}
+      >
+        &laquo;
+      </a>
+    )}
+
+    {pages.map((page) => (
+      page === currentPage ? (
+        <span class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium bg-navy text-white">
+          {page}
+        </span>
+      ) : (
+        <a
+          href={page === 1 ? baseUrl : `${baseUrl}${page}/`}
+          class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-all hover:bg-[var(--color-accent)] hover:text-white"
+        >
+          {page}
+        </a>
+      )
+    ))}
+
+    {currentPage < totalPages && (
+      <a
+        href={`${baseUrl}${currentPage + 1}/`}
+        class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-all hover:bg-[var(--color-accent)] hover:text-white"
+        aria-label={t(locale, 'nextPage')}
+      >
+        &raquo;
+      </a>
+    )}
+  </nav>
+)}

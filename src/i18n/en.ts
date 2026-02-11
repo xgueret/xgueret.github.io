@@ -1,0 +1,69 @@
+export default {
+  // Site
+  siteTitle: 'xgueret',
+  siteDescription: 'DevOps Engineer passionate about automation',
+
+  // Nav
+  home: 'Home',
+  cv: 'Resume',
+  posts: 'Articles',
+  contact: 'Contact',
+  mainNavigation: 'Main navigation',
+  toggleMenu: 'Toggle menu',
+  toggleColorScheme: 'Toggle color scheme',
+
+  // Hero
+  author: 'Xavier GUERET',
+  heroTitle: 'DevOps Engineer & Automation Enthusiast',
+  heroDescription: 'One day, someone said\nAutomating is the key to chill development: less stress, more flow, and deployments that happen with your fingers in the code!\nSo since then, I\'ve been on the path of learning Kubernetes, Python, Ansible, Terraform…. in quest of the ultimate mastery to automate everything that moves and keep a zen mindset!\nBack in Guadeloupe 🌴, my native island, where code deploys to the rhythm of the Trade Winds.',
+  viewCV: 'View my Resume',
+  contactMe: 'Contact me',
+
+  // Articles
+  recentArticles: 'Recent Articles',
+  articlesEyebrow: 'Blog & DevOps',
+  recentArticlesTitle: 'My Latest Articles',
+  viewAllArticles: 'View all articles',
+  readMore: 'Read more',
+  article: 'article',
+  articles: 'articles',
+  publishedOn: 'Published on',
+  by: 'by',
+
+  // Categories
+  categoriesCloud: 'Categories',
+  categoriesSubtitle: 'Explore articles by topic',
+  backToBlog: 'Back to Blog',
+
+  // Training
+  trainingsEyebrow: 'Trainings',
+  recentTrainingsTitle: 'Recent Trainings',
+  viewAllTrainings: 'View all trainings',
+  viewTraining: 'View training',
+  recentTrainings: 'Recent Trainings',
+
+  // Footer
+  allRightsReserved: 'All rights reserved.',
+
+  // CV
+  downloadCV: 'Download my Resume (PDF)',
+
+  // Pagination
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  page: 'Page',
+
+  // 404
+  notFound: 'Page not found',
+  notFoundMessage: 'The page you are looking for does not exist.',
+  backHome: 'Back to home',
+
+  // Chatbot
+  chatbotTitle: 'Virtual Assistant',
+  chatbotSubtitle: 'Ask me anything',
+  chatbotPlaceholder: 'Type your question...',
+  chatbotWelcome: 'Hello! 👋 I\'m here to help you learn more about my skills and projects. Ask me a question or click a topic below.',
+  chatbotRecentArticles: 'Recent Articles',
+  chatbotViewAll: 'View all articles →',
+  chatbotNoAnswer: 'Sorry, I couldn\'t find information on that topic.',
+} as const;

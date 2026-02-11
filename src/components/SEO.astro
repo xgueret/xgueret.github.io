@@ -1,0 +1,41 @@
+---
+import { getAlternateLocale, localizedPath, type Locale } from '../i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const { title, description, locale, canonicalUrl, ogImage } = Astro.props;
+const altLocale = getAlternateLocale(locale);
+const currentPath = Astro.url.pathname;
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
+const canonical = canonicalUrl || `${site}${currentPath}`;
+const altPath = localizedPath(altLocale, currentPath);
+const altUrl = `${site}${altPath}`;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang={locale} href={canonical} />
+<link rel="alternate" hreflang={altLocale} href={altUrl} />
+<link rel="alternate" hreflang="x-default" href={`${site}/fr/`} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_US'} />
+<meta property="og:locale:alternate" content={altLocale === 'fr' ? 'fr_FR' : 'en_US'} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}

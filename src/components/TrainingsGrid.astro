@@ -1,0 +1,78 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Training {
+  title: string;
+  description?: string;
+  href: string;
+  isExternal: boolean;
+  tags?: string[];
+}
+
+interface Props {
+  trainings: Training[];
+  locale: Locale;
+  showViewAll?: boolean;
+}
+
+const { trainings, locale, showViewAll = true } = Astro.props;
+---
+
+{trainings.length > 0 && (
+  <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 list-none m-0 p-0">
+    {trainings.map((training) => (
+      <li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+        <div class="aspect-[3/1] overflow-hidden rounded-t-xl">
+          <div class="w-full h-full transition-transform duration-300 group-hover:scale-105" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%)"></div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2">
+            <a
+              href={training.href}
+              class="text-inherit no-underline hover:text-[var(--color-accent)] transition-colors"
+              target={training.isExternal ? '_blank' : undefined}
+              rel={training.isExternal ? 'noopener noreferrer' : undefined}
+            >
+              {training.title}
+            </a>
+          </h3>
+          {training.description && (
+            <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 line-clamp-3">
+              {training.description}
+            </p>
+          )}
+          <a
+            href={training.href}
+            class="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] no-underline hover:gap-2 transition-all"
+            target={training.isExternal ? '_blank' : undefined}
+            rel={training.isExternal ? 'noopener noreferrer' : undefined}
+          >
+            {t(locale, 'viewTraining')}
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          {training.tags && training.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1 mt-4">
+              {training.tags.slice(0, 3).map((tag) => (
+                <span class="text-xs px-2 py-1 bg-[var(--color-bg-section)] text-[var(--color-text-muted)] rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </li>
+    ))}
+  </ul>
+)}
+
+{showViewAll && (
+  <div class="text-center mt-10">
+    <a
+      href={`/${locale}/training/`}
+      class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] no-underline px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-all hover:bg-[var(--color-accent)] hover:text-white"
+    >
+      {t(locale, 'viewAllTrainings')}
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+    </a>
+  </div>
+)}

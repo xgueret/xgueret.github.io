@@ -1,0 +1,18 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const locale = 'en';
+const pages = await getCollection('pages', ({ id }) => id === 'en/about.md');
+const page = pages[0];
+let Content;
+if (page) {
+  const rendered = await page.render();
+  Content = rendered.Content;
+}
+const title = page?.data.title || 'About';
+---
+
+<PageLayout title={title} locale={locale}>
+  {Content && <Content />}
+</PageLayout>

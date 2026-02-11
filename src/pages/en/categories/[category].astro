@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { t, formatDate } from '../../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale = 'en';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts', ({ id, data }) => {
+    return id.startsWith('en/') && !data.draft;
+  });
+
+  const categoryMap = new Map<string, typeof allPosts>();
+  allPosts.forEach((post) => {
+    post.data.categories.forEach((cat) => {
+      const key = cat.toLowerCase();
+      if (!categoryMap.has(key)) categoryMap.set(key, []);
+      categoryMap.get(key)!.push(post);
+    });
+  });
+
+  return Array.from(categoryMap.entries()).map(([category, posts]) => ({
+    params: { category },
+    props: {
+      categoryName: category,
+      posts: posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { categoryName, posts } = Astro.props;
+---
+
+<BaseLayout title={categoryName} locale={locale}>
+  <div class="max-w-site mx-auto px-6 py-12">
+    <div class="mb-8">
+      <a
+        href={`/${locale}/posts/`}
+        class="inline-flex items-center gap-2 px-5 py-3 rounded-full no-underline font-bold text-sm bg-[var(--color-bg-section)] text-[var(--color-text)] border border-[var(--color-border)] transition-all hover:-translate-x-1"
+      >
+        <span>&larr;</span>
+        {t(locale, 'backToBlog')}
+      </a>
+    </div>
+
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize">
+        {categoryName}
+      </h1>
+      <p class="text-sm text-[var(--color-text-muted)] mt-2 italic">
+        {posts.length} {posts.length === 1 ? t(locale, 'article') : t(locale, 'articles')}
+      </p>
+    </header>
+
+    <ul class="list-none p-0 m-0">
+      {posts.map((post) => (
+        <li class="flex gap-6 py-4 border-b border-[var(--color-border)] items-baseline">
+          <time
+            datetime={post.data.date.toISOString()}
+            class="text-[var(--color-text-light)] text-sm whitespace-nowrap min-w-[140px]"
+          >
+            {formatDate(post.data.date, locale)}
+          </time>
+          <a
+            href={`/${locale}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`}
+            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors"
+          >
+            {post.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

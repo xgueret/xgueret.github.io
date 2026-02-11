@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+import ChatWidget from '../components/chatbot/ChatWidget.tsx';
+import { type Locale, t, formatDate } from '../i18n';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title: string;
+  description?: string;
+  locale: Locale;
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const { title, description, locale, canonicalUrl, ogImage } = Astro.props;
+const siteTitle = t(locale, 'siteTitle');
+const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
+const desc = description || t(locale, 'siteDescription');
+
+// Get recent posts for chatbot
+const allPosts = await getCollection('posts', ({ id, data }) => {
+  return id.startsWith(`${locale}/`) && !data.draft;
+});
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 5)
+  .map((post) => ({
+    title: post.data.title,
+    href: `/${locale}/posts/${post.id.replace(`${locale}/`, '').replace(/\.md$/, '')}`,
+    date: formatDate(post.data.date, locale),
+  }));
+---
+
+<!doctype html>
+<html lang={locale} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={fullTitle}
+      description={desc}
+      locale={locale}
+      canonicalUrl={canonicalUrl}
+      ogImage={ogImage}
+    />
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+    <Navbar locale={locale} />
+    <main class="flex-1 pt-[var(--navbar-height)]">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <ChatWidget client:idle locale={locale} recentPosts={recentPosts} />
+  </body>
+</html>

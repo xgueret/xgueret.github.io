@@ -1,0 +1,59 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Category {
+  name: string;
+  count: number;
+  href: string;
+}
+
+interface Props {
+  categories: Category[];
+  locale: Locale;
+}
+
+const { categories, locale } = Astro.props;
+
+const maxCount = Math.max(...categories.map((c) => c.count), 1);
+---
+
+{categories.length > 0 && (
+  <section class="mb-10 p-8 bg-[var(--color-bg-section)] rounded-2xl border-2 border-[var(--color-border)]">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-extrabold text-[var(--color-text)] flex items-center justify-center gap-3 mb-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+        {t(locale, 'categoriesCloud')}
+      </h2>
+      <p class="text-sm text-[var(--color-text-muted)] italic">{t(locale, 'categoriesSubtitle')}</p>
+    </div>
+
+    <div class="flex flex-wrap gap-3 justify-center">
+      {categories.map((cat, index) => {
+        const weight = Math.log(cat.count + 1);
+        const hue = (index * 137) % 360;
+        return (
+          <a
+            href={cat.href}
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full no-underline font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+            style={`
+              background: linear-gradient(135deg, hsl(${hue}, 45%, 75%) 0%, hsl(${hue}, 50%, 70%) 100%);
+              color: hsl(${hue}, 60%, 25%);
+              font-size: calc(1.1rem + ${weight} * 0.35rem);
+              border: 2px solid hsla(${hue}, 45%, 80%, 0.5);
+              box-shadow: 0 4px 15px hsla(${hue}, 40%, 60%, 0.2);
+            `}
+            title={`${cat.count} ${cat.count === 1 ? t(locale, 'article') : t(locale, 'articles')}`}
+          >
+            <span class="font-bold">{cat.name}</span>
+            <span
+              class="bg-white/50 backdrop-blur-sm px-2 py-0.5 rounded-full text-[0.85em] font-extrabold min-w-[2rem] text-center border border-white/40"
+              style={`box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);`}
+            >
+              {cat.count}
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}
