@@ -43,10 +43,10 @@ export const getStaticPaths = (async () => {
 const { posts, currentPage, totalPages, categories } = Astro.props;
 ---
 
-<BaseLayout title={t(locale, 'posts')} locale={locale}>
+<BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)]">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] text-balance">
         {t(locale, 'posts')}
       </h1>
     </header>
@@ -64,7 +64,7 @@ const { posts, currentPage, totalPages, categories } = Astro.props;
           </time>
           <a
             href={`/${locale}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`}
-            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors"
+            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
           >
             {post.data.title}
           </a>

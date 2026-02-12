@@ -80,11 +80,11 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         {isOpen ? (
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
           </svg>
         )}
@@ -98,7 +98,7 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
               <h3>{l.title}</h3>
               <p>{l.subtitle}</p>
             </div>
-            <button className="close-btn" onClick={() => setIsOpen(false)}>
+            <button className="close-btn" onClick={() => setIsOpen(false)} aria-label={locale === 'fr' ? 'Fermer le chat' : 'Close chat'}>
               &times;
             </button>
           </div>
@@ -186,12 +186,13 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
               type="text"
               className="chat-input"
               placeholder={l.placeholder}
+              aria-label={locale === 'fr' ? 'Votre message' : 'Your message'}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button className="send-btn" onClick={() => handleSend()}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <button className="send-btn" onClick={() => handleSend()} aria-label={locale === 'fr' ? 'Envoyer' : 'Send'}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
               </svg>
             </button>

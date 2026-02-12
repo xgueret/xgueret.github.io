@@ -17,7 +17,6 @@ categories:
   - "Personal Projects"
 draft: false
 ---
-
 ## Why I created *cv-converter*
 
 This project started from the idea of turning my CV into an HTML template and automating the generation of PDF and DOCX versions using a **DevOps approach**.
@@ -52,18 +51,22 @@ This template serves as the single source of truth for generating all CV formats
 ## Why write your CV in HTML?
 
 ### Full flexibility
+
 You control the layout and the styling.
 
 ### Natural ATS compatibility
+
 ATS systems parse structured HTML extremely well.
 
 ### One source = multiple outputs
+
 One HTML file → a synchronized PDF + DOCX.
 
 **The generated documents (PDF and DOCX) preserve the semantic text structure from the HTML template, ensuring full ATS compatibility.**
 Nothing is converted to images: headings, lists, dates, sections and skills remain machine-readable.
 
 ### Perfect for a DevOps workflow
+
 - Git versioning
 - automated pipelines
 - reproducible environments
@@ -88,7 +91,7 @@ python cv_converter.py CV-template-en.html
 Output:
  `output/my_cv.pdf` and `output/my_cv.docx`.
 
-------
+---
 
 ## A project built as a DevOps playground
 
@@ -101,8 +104,8 @@ This project also became a small DevOps lab where I integrated:
 
 This CV generator is both a personal tool… and a **DevOps discipline exercise**.
 
-------
+---
 
 ## The project
 
-Available here:  https://github.com/xgueret/cv-converter
+Available here:  https://github.com/TiPunchLabs/cv-converter

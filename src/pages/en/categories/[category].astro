@@ -39,12 +39,12 @@ export async function getStaticPaths() {
 const { categoryName, posts, categories } = Astro.props;
 ---
 
-<BaseLayout title={categoryName} locale={locale}>
+<BaseLayout title={categoryName} description={`${t(locale, 'articles')} ${categoryName} — ${posts.length} ${posts.length === 1 ? t(locale, 'article') : t(locale, 'articles')}`} locale={locale}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <CategoriesCloud categories={categories} locale={locale} />
 
     <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize text-balance">
         {categoryName}
       </h1>
       <p class="text-sm text-[var(--color-text-muted)] mt-2 italic">
@@ -63,7 +63,7 @@ const { categoryName, posts, categories } = Astro.props;
           </time>
           <a
             href={`/${locale}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`}
-            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors"
+            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
           >
             {post.data.title}
           </a>

@@ -2,10 +2,10 @@
   "name": "Xavier GUERET - DevOps Engineer",
   "short_name": "xgueret",
   "description": "Portfolio et blog DevOps - Kubernetes, Python, Ansible, Terraform",
-  "start_url": "/",
+  "start_url": "/fr/",
   "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#1565c0",
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
   "icons": [
     {
       "src": "/images/favicon-32x32.png",

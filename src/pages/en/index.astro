@@ -7,6 +7,30 @@ import { t } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'en';
+const site = 'https://xgueret.github.io';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'Xavier GUERET',
+      url: site,
+      inLanguage: ['fr', 'en'],
+    },
+    {
+      '@type': 'Person',
+      name: 'Xavier GUERET',
+      url: `${site}/${locale}/`,
+      jobTitle: 'DevOps Engineer',
+      sameAs: [
+        'https://github.com/xgueret',
+        'https://gitlab.com/xgueret',
+        'https://linkedin.com/in/xgueret',
+      ],
+    },
+  ],
+};
 
 const allPosts = await getCollection('posts', ({ id, data }) => {
   return id.startsWith('en/') && !data.draft;
@@ -45,12 +69,12 @@ const trainings = allTrainings.map((t) => ({
 }));
 ---
 
-<BaseLayout title={t(locale, 'siteTitle')} locale={locale}>
+<BaseLayout title={t(locale, 'siteTitle')} locale={locale} jsonLd={jsonLd}>
   <Hero locale={locale} />
 
   <section id="featured" class="py-16 bg-[var(--color-bg-section)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
+      <div class="mb-10">
         <p class="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
           {t(locale, 'articlesEyebrow')}
         </p>
@@ -65,7 +89,7 @@ const trainings = allTrainings.map((t) => ({
   {trainings.length > 0 && (
     <section class="py-16 bg-[var(--color-bg)]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
+        <div class="mb-10">
           <p class="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
             {t(locale, 'trainingsEyebrow')}
           </p>

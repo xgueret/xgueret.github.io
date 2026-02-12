@@ -12,7 +12,7 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
   z-index: 1000;
   border: none;
   color: white;
@@ -89,7 +89,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s;
+  transition: background-color 0.2s;
 }
 
 .close-btn:hover {
@@ -172,7 +172,7 @@
   border-radius: 22px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   color: var(--color-text-muted, #555);
 }
 
@@ -197,7 +197,7 @@
   border-radius: 25px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s;
   background: var(--color-bg-alt, #f8f9fa);
   color: var(--color-text, #212121);
 }
@@ -217,7 +217,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s;
+  transition: transform 0.2s;
 }
 
 .send-btn:hover {

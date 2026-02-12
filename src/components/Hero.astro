@@ -8,43 +8,43 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<section class="bg-[var(--color-bg)] py-20 min-h-[calc(100vh-var(--navbar-height))] flex flex-col relative">
+<section class="bg-[var(--color-bg)] py-20 min-h-[calc(100dvh-var(--navbar-height))] flex flex-col relative">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1">
     <div class="lg:max-w-2xl">
       <!-- Avatar -->
       <div class="mb-6">
         <img
-          src="/images/moi.jpg"
+          src="/images/moi.png"
           alt={t(locale, 'author')}
-          class="w-40 h-40 rounded-full object-cover border-[3px] border-navy shadow-md"
-          loading="lazy"
-          width="160"
-          height="160"
+          class="size-52 rounded-full object-cover border-[3px] border-navy shadow-md"
+          loading="eager"
+          width="208"
+          height="208"
         />
       </div>
 
       <!-- Content -->
       <div class="flex flex-col items-start">
-      <h1 class="text-[3.25rem] font-extrabold text-[var(--color-text)] m-0 leading-[1.15] tracking-tight">
+      <h1 class="text-[3.25rem] font-extrabold text-[var(--color-text)] m-0 leading-[1.15] tracking-tight text-balance">
         {t(locale, 'author')}
       </h1>
-      <p class="text-[2.75rem] font-light text-[var(--color-text-muted)] mt-1 mb-8 leading-[1.25] tracking-tight">
+      <p class="text-[2.75rem] font-light text-[var(--color-text-muted)] mt-1 mb-8 leading-[1.25] tracking-tight text-balance">
         {t(locale, 'heroTitle')}
       </p>
       <div class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed mb-10 max-w-[620px] space-y-2">
         {t(locale, 'heroDescription').split('\n').map((line) => (
-          <p class="m-0">{line}</p>
+          <p class="m-0 text-pretty">{line}</p>
         ))}
       </div>
 
       <!-- CTA Buttons -->
       <div class="flex gap-4 flex-wrap">
         <a href={`/${locale}/cv/`} class="btn btn-primary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
           {t(locale, 'viewCV')}
         </a>
         <a href={`/${locale}/contact/`} class="btn btn-outline">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           {t(locale, 'contactMe')}
         </a>
       </div>
@@ -53,9 +53,22 @@ const { locale } = Astro.props;
   </div>
 
   <!-- Scroll indicator -->
-  <a href="#featured" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[var(--color-text-muted)] no-underline opacity-60 hover:opacity-100 transition-opacity" aria-label="Scroll down">
-    <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  <a href="#featured" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[var(--color-text-muted)] no-underline opacity-60 hover:opacity-100 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-full" aria-label={t(locale, 'scrollDown')}>
+    <svg id="scroll-arrow" class="size-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
     </svg>
   </a>
 </section>
+
+<script>
+  const arrow = document.getElementById('scroll-arrow');
+  if (arrow) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        arrow.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+      },
+      { threshold: 0 }
+    );
+    observer.observe(arrow);
+  }
+</script>

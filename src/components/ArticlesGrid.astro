@@ -37,10 +37,10 @@ const { articles, locale, showViewAll = true } = Astro.props;
   <div class="text-center mt-10">
     <a
       href={`/${locale}/posts/`}
-      class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] no-underline px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-all hover:bg-[var(--color-accent)] hover:text-white"
+      class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] no-underline px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
     >
       {t(locale, 'viewAllArticles')}
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
     </a>
   </div>
 )}

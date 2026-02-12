@@ -20,14 +20,13 @@ const navItems = [
 ---
 
 <nav
-  class="fixed top-0 left-0 right-0 h-[var(--navbar-height)] bg-navy z-50 flex items-center"
-  role="navigation"
+  class="fixed top-0 left-0 right-0 h-[var(--navbar-height)] bg-navy z-50 flex items-center pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
   aria-label={t(locale, 'mainNavigation')}
 >
   <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
     <!-- Left: Brand + Menu -->
     <div class="flex items-center gap-8">
-      <a href={`/${locale}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight">
+      <a href={`/${locale}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none focus-visible:rounded-md">
         {t(locale, 'author')}
       </a>
 
@@ -40,6 +39,7 @@ const navItems = [
               class:list={[
                 'text-white/70 no-underline text-lg font-medium px-4 py-2 rounded-md transition-colors',
                 'hover:text-white hover:bg-white/10',
+                'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
                 !item.external && currentPath === item.href && 'text-white bg-white/15',
               ]}
             >
@@ -52,18 +52,19 @@ const navItems = [
 
     <!-- Right: Dark mode + Language -->
     <div class="hidden md:flex items-center gap-4">
-      <DarkModeToggle />
+      <DarkModeToggle locale={locale} />
       <LanguageSwitcher locale={locale} currentPath={currentPath} />
     </div>
 
     <!-- Mobile hamburger -->
     <button
-      class="md:hidden text-white text-xl p-2 border-0 bg-transparent cursor-pointer"
+      class="md:hidden text-white text-xl p-2 border-0 bg-transparent cursor-pointer focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none rounded-md"
       id="navbar-toggle"
       aria-label={t(locale, 'toggleMenu')}
       aria-expanded="false"
+      aria-controls="mobile-menu"
     >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
@@ -81,6 +82,7 @@ const navItems = [
         class:list={[
           'text-white/70 no-underline text-lg font-medium px-4 py-3 rounded-md text-center block',
           'hover:text-white hover:bg-white/10',
+          'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
           !item.external && currentPath === item.href && 'text-white bg-white/15',
         ]}
       >
@@ -88,7 +90,7 @@ const navItems = [
       </a>
     ))}
     <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-white/10">
-      <DarkModeToggle />
+      <DarkModeToggle locale={locale} />
       <LanguageSwitcher locale={locale} currentPath={currentPath} />
     </div>
   </div>
@@ -98,16 +100,31 @@ const navItems = [
   const toggle = document.getElementById('navbar-toggle');
   const menu = document.getElementById('mobile-menu');
 
+  function closeMenu() {
+    menu?.classList.remove('flex', 'translate-x-0');
+    menu?.classList.add('hidden', '-translate-x-full');
+    toggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  function openMenu() {
+    menu?.classList.remove('hidden', '-translate-x-full');
+    menu?.classList.add('flex', 'translate-x-0');
+    toggle?.setAttribute('aria-expanded', 'true');
+  }
+
   toggle?.addEventListener('click', () => {
     const isOpen = menu?.classList.contains('translate-x-0');
     if (isOpen) {
-      menu?.classList.remove('flex', 'translate-x-0');
-      menu?.classList.add('hidden', '-translate-x-full');
-      toggle.setAttribute('aria-expanded', 'false');
+      closeMenu();
     } else {
-      menu?.classList.remove('hidden', '-translate-x-full');
-      menu?.classList.add('flex', 'translate-x-0');
-      toggle.setAttribute('aria-expanded', 'true');
+      openMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.classList.contains('translate-x-0')) {
+      closeMenu();
+      toggle?.focus();
     }
   });
 </script>

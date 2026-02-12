@@ -11,6 +11,10 @@ export default {
   mainNavigation: 'Navigation principale',
   toggleMenu: 'Ouvrir/fermer le menu',
   toggleColorScheme: 'Changer le thème',
+  skipToContent: 'Aller au contenu',
+  switchToFr: 'Passer en français',
+  switchToEn: 'Switch to English',
+  scrollDown: 'Défiler vers le bas',
 
   // Hero
   author: 'Xavier GUERET',
@@ -20,6 +24,7 @@ export default {
   contactMe: 'Me contacter',
 
   // Articles
+  postsDescription: 'Articles et tutoriels sur le DevOps, Kubernetes, Ansible, Terraform, Python et l\'automatisation.',
   recentArticles: 'Articles Récents',
   articlesEyebrow: 'Blog & DevOps',
   recentArticlesTitle: 'Mes derniers articles',
@@ -32,11 +37,13 @@ export default {
 
   // Categories
   categoriesCloud: 'Catégories',
+  categoriesDescription: 'Parcourez tous les articles classés par catégorie : DevOps, Kubernetes, Ansible, tutoriels et plus.',
   categoriesAll: 'Tous',
   categoriesSubtitle: 'Explorez les articles par thématique',
   backToBlog: 'Retour au blog',
 
   // Training
+  trainingsDescription: 'Formations et certifications en DevOps, Kubernetes, cloud et automatisation.',
   trainingsEyebrow: 'Formations',
   recentTrainingsTitle: 'Formations Récentes',
   viewAllTrainings: 'Voir toutes les formations',
@@ -61,6 +68,7 @@ export default {
   contactOrSocial: 'Ou retrouvez-moi sur',
 
   // CV
+  cvDescription: 'CV de Xavier GUERET, Ingénieur DevOps spécialisé en Kubernetes, Ansible, Terraform et automatisation.',
   downloadCV: 'Télécharger mon CV (PDF)',
 
   // Pagination

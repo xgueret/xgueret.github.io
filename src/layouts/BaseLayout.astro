@@ -13,9 +13,13 @@ interface Props {
   locale: Locale;
   canonicalUrl?: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  authorName?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description, locale, canonicalUrl, ogImage } = Astro.props;
+const { title, description, locale, canonicalUrl, ogImage, ogType, publishedTime, authorName, jsonLd } = Astro.props;
 const siteTitle = t(locale, 'siteTitle');
 const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
 const desc = description || t(locale, 'siteDescription');
@@ -43,6 +47,8 @@ const recentPosts = allPosts
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1e293b" />
     <meta name="generator" content={Astro.generator} />
     <SEO
       title={fullTitle}
@@ -50,7 +56,13 @@ const recentPosts = allPosts
       locale={locale}
       canonicalUrl={canonicalUrl}
       ogImage={ogImage}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      authorName={authorName}
     />
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
     <script is:inline>
       (function() {
         const saved = localStorage.getItem('theme');
@@ -60,9 +72,12 @@ const recentPosts = allPosts
       })();
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200">
+  <body class="min-h-dvh flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-white focus:rounded-md focus:text-sm focus:font-medium">
+      {t(locale, 'skipToContent')}
+    </a>
     <Navbar locale={locale} />
-    <main class="flex-1 pt-[var(--navbar-height)]">
+    <main id="main-content" class="flex-1 pt-[var(--navbar-height)]">
       <slot />
     </main>
     <Footer locale={locale} />

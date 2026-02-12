@@ -13,12 +13,37 @@ interface Props {
 }
 
 const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, locale } = Astro.props;
+
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
+const postUrl = `${site}${Astro.url.pathname}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author,
+    url: `${site}/${locale}/`,
+  },
+  ...(description && { description }),
+  url: postUrl,
+};
 ---
 
-<BaseLayout title={title} description={description} locale={locale}>
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  ogType="article"
+  publishedTime={date.toISOString()}
+  authorName={author}
+  jsonLd={jsonLd}
+>
   <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] mb-4 leading-tight">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] mb-4 leading-tight text-balance">
         {title}
       </h1>
       <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-light)]">
@@ -41,7 +66,7 @@ const { title, date, author = 'Xavier GUERET', tags = [], categories = [], descr
           {categories.map((cat) => (
             <a
               href={`/${locale}/categories/${cat.toLowerCase()}`}
-              class="px-3 py-1 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full hover:bg-[var(--color-accent)]/20 transition-colors"
+              class="px-3 py-1 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full hover:bg-[var(--color-accent)]/20 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
             >
               {cat}
             </a>
@@ -68,9 +93,9 @@ const { title, date, author = 'Xavier GUERET', tags = [], categories = [], descr
     <footer class="mt-12 pt-8 border-t border-[var(--color-border)]">
       <a
         href={`/${locale}/posts/`}
-        class="inline-flex items-center gap-2 text-[var(--color-accent)] font-medium hover:gap-3 transition-all"
+        class="group/back inline-flex items-center gap-2 text-[var(--color-accent)] font-medium focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
       >
-        <span>&larr;</span>
+        <span class="transition-transform duration-200 group-hover/back:-translate-x-1">&larr;</span>
         {t(locale, 'backToBlog')}
       </a>
     </footer>

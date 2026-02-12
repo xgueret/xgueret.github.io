@@ -1,5 +1,5 @@
 ---
-import { type Locale, getAlternateLocale, localizedPath } from '../i18n';
+import { type Locale, t, getAlternateLocale, localizedPath } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -14,15 +14,15 @@ const altPath = localizedPath(altLocale, currentPath);
 <div class="flex items-center gap-2 text-base">
   {locale === 'fr' ? (
     <>
-      <span class="text-navy font-semibold bg-white rounded px-3 py-1.5">FR</span>
-      <span class="text-white/40">|</span>
-      <a href={altPath} class="text-white/60 font-semibold no-underline px-3 py-1.5 rounded hover:text-white hover:bg-white/10 transition-all">EN</a>
+      <span class="text-navy font-semibold bg-white rounded px-3 py-1.5" aria-current="true">FR</span>
+      <span class="text-white/40" aria-hidden="true">|</span>
+      <a href={altPath} aria-label={t(locale, 'switchToEn')} class="text-white/60 font-semibold no-underline px-3 py-1.5 rounded hover:text-white hover:bg-white/10 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none">EN</a>
     </>
   ) : (
     <>
-      <a href={altPath} class="text-white/60 font-semibold no-underline px-3 py-1.5 rounded hover:text-white hover:bg-white/10 transition-all">FR</a>
-      <span class="text-white/40">|</span>
-      <span class="text-navy font-semibold bg-white rounded px-3 py-1.5">EN</span>
+      <a href={altPath} aria-label={t(locale, 'switchToFr')} class="text-white/60 font-semibold no-underline px-3 py-1.5 rounded hover:text-white hover:bg-white/10 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none">FR</a>
+      <span class="text-white/40" aria-hidden="true">|</span>
+      <span class="text-navy font-semibold bg-white rounded px-3 py-1.5" aria-current="true">EN</span>
     </>
   )}
 </div>
