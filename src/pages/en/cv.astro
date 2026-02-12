@@ -1,0 +1,49 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { t } from '../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale = 'en';
+const pages = await getCollection('pages', ({ id }) => id === 'en/cv.md');
+const page = pages[0];
+let Content;
+if (page) {
+  const rendered = await page.render();
+  Content = rendered.Content;
+}
+---
+
+<PageLayout title={t(locale, 'cv')} description={t(locale, 'cvDescription')} locale={locale}>
+  <div class="text-center mb-8">
+    <a
+      href="/assets/cv.en.pdf"
+      data-download="resume-xavier-gueret.pdf"
+      class="btn btn-primary inline-flex items-center gap-3 js-download"
+    >
+      <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      {t(locale, 'downloadCV')}
+    </a>
+  </div>
+  {Content && <Content />}
+</PageLayout>
+
+<script>
+  document.querySelectorAll('.js-download').forEach((link) => {
+    link.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const url = (link as HTMLAnchorElement).href;
+      const filename = (link as HTMLElement).dataset.download || 'cv.pdf';
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } catch {
+        window.location.href = url;
+      }
+    });
+  });
+</script>

@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../../components/CategoriesCloud.astro';
+import Pagination from '../../../components/Pagination.astro';
+import { t, formatDate } from '../../../i18n';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+const locale = 'fr';
+
+export const getStaticPaths = (async () => {
+  const PAGE_SIZE = 6;
+  const allPosts = await getCollection('posts', ({ id, data }) => {
+    return id.startsWith('fr/') && !data.draft;
+  });
+  const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  const categoryMap = new Map<string, number>();
+  sortedPosts.forEach((post) => {
+    post.data.categories.forEach((cat) => {
+      categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
+    });
+  });
+  const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
+    name,
+    count,
+    href: `/fr/categories/${name.toLowerCase()}/`,
+  }));
+
+  const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
+
+  return Array.from({ length: totalPages }, (_, i) => ({
+    params: { page: i === 0 ? undefined : String(i + 1) },
+    props: {
+      posts: sortedPosts.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE),
+      currentPage: i + 1,
+      totalPages,
+      categories,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { posts, currentPage, totalPages, categories } = Astro.props;
+---
+
+<BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] text-balance">
+        {t(locale, 'posts')}
+      </h1>
+    </header>
+
+    <CategoriesCloud categories={categories} locale={locale} />
+
+    <ul class="list-none p-0 m-0">
+      {posts.map((post) => (
+        <li class="flex gap-6 py-4 border-b border-[var(--color-border)] items-baseline">
+          <time
+            datetime={post.data.date.toISOString()}
+            class="text-[var(--color-text-light)] text-sm whitespace-nowrap min-w-[140px]"
+          >
+            {formatDate(post.data.date, locale)}
+          </time>
+          <a
+            href={`/${locale}/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
+            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
+          >
+            {post.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      baseUrl={`/${locale}/posts/`}
+      locale={locale}
+    />
+  </div>
+</BaseLayout>

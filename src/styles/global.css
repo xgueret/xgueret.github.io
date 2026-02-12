@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
+
+@theme {
+  --color-navy: #1e293b;
+  --color-navy-dark: #0f172a;
+  --color-navy-light: #334155;
+  --color-accent: #3b5998;
+  --color-accent-hover: #2d4373;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --z-skip-link: 60;
+}
+
+@layer base {
+  :root {
+    --color-primary: #1e293b;
+    --color-primary-dark: #0f172a;
+    --color-accent: #3b5998;
+    --color-accent-hover: #2d4373;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f8fafc;
+    --color-bg-section: #f1f5f9;
+    --color-text: #0f172a;
+    --color-text-muted: #475569;
+    --color-text-light: #64748b;
+    --color-border: #e2e8f0;
+    --navbar-height: 72px;
+  }
+
+  .dark {
+    --color-primary: #1e293b;
+    --color-primary-dark: #0f172a;
+    --color-accent: #6b8cce;
+    --color-accent-hover: #8aa4db;
+    --color-bg: #0f172a;
+    --color-bg-alt: #1e293b;
+    --color-bg-section: #1e293b;
+    --color-text: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-text-light: #64748b;
+    --color-border: #334155;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+}
+
+/* Button components */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, outline-color 0.2s;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-bg-section);
+  border-color: var(--color-text-muted);
+}
+
+.dark .btn-outline {
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.dark .btn-outline:hover {
+  background-color: var(--color-bg-alt);
+}
+
+.dark .btn-primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.dark .btn-primary:hover {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+/* Category pills with dark mode support */
+.category-pill {
+  background: hsl(var(--pill-hue), 40%, 92%);
+  color: hsl(var(--pill-hue), 50%, 30%);
+  border: 1px solid hsl(var(--pill-hue), 35%, 85%);
+}
+
+.dark .category-pill {
+  background: hsl(var(--pill-hue), 30%, 25%);
+  color: hsl(var(--pill-hue), 50%, 80%);
+  border: 1px solid hsl(var(--pill-hue), 25%, 35%);
+}
+
+/* Prose overrides for dark mode */
+.dark .prose {
+  --tw-prose-body: var(--color-text-muted);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-code: var(--color-text);
+  --tw-prose-pre-bg: var(--color-primary-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

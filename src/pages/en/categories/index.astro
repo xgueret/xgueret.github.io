@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../../components/CategoriesCloud.astro';
+import { t } from '../../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale = 'en';
+
+const allPosts = await getCollection('posts', ({ id, data }) => {
+  return id.startsWith('en/') && !data.draft;
+});
+
+const categoryMap = new Map<string, number>();
+allPosts.forEach((post) => {
+  post.data.categories.forEach((cat) => {
+    categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
+  });
+});
+const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
+  name,
+  count,
+  href: `/${locale}/categories/${name.toLowerCase()}/`,
+}));
+---
+
+<BaseLayout title={t(locale, 'categoriesCloud')} description={t(locale, 'categoriesDescription')} locale={locale}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)]">
+        {t(locale, 'categoriesCloud')}
+      </h1>
+    </header>
+
+    <CategoriesCloud categories={categories} locale={locale} />
+  </div>
+</BaseLayout>

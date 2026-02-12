@@ -1,0 +1,60 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Category {
+  name: string;
+  count: number;
+  href: string;
+}
+
+interface Props {
+  categories: Category[];
+  locale: Locale;
+}
+
+const { categories, locale } = Astro.props;
+
+const totalCount = categories.reduce((sum, c) => sum + c.count, 0);
+---
+
+{categories.length > 0 && (
+  <section class="mb-10 px-5 py-4 bg-[var(--color-bg-section)] rounded-xl border border-[var(--color-border)]">
+    <div class="flex items-center gap-2 mb-3">
+      <svg class="size-4 text-[var(--color-text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+      <h2 class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wide m-0">
+        {t(locale, 'categoriesCloud')}
+      </h2>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <a
+        href={`/${locale}/posts/`}
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full no-underline text-sm font-medium transition-[transform,box-shadow,color] duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none bg-[var(--color-text)] text-[var(--color-bg)] border border-[var(--color-text)]"
+        title={`${totalCount} ${t(locale, 'articles')}`}
+      >
+        <span>{t(locale, 'categoriesAll')}</span>
+        <span class="bg-white/30 px-1.5 py-px rounded-full text-xs font-semibold min-w-[1.25rem] text-center">
+          {totalCount}
+        </span>
+      </a>
+      {categories.map((cat, index) => {
+        const hue = (index * 137) % 360;
+        return (
+          <a
+            href={cat.href}
+            class="category-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full no-underline text-sm font-medium transition-[transform,box-shadow,color] duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+            style={`--pill-hue: ${hue};`}
+            title={`${cat.count} ${cat.count === 1 ? t(locale, 'article') : t(locale, 'articles')}`}
+          >
+            <span>{cat.name}</span>
+            <span
+              class="bg-white/60 dark:bg-white/20 px-1.5 py-px rounded-full text-xs font-semibold min-w-[1.25rem] text-center"
+            >
+              {cat.count}
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}
