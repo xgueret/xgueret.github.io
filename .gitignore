@@ -35,4 +35,4 @@ dist/
 
 # Screenshots (dev only)
 *.png
-!public/images/*.png
+!public/images/**/*.png
