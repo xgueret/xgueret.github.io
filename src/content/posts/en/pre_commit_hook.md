@@ -10,6 +10,7 @@ tags:
   - "python"
 categories:
   - "tutorial"
+image: "/images/posts/hook-pre-commit.png"
 ---
 
 # Setting Up a Pre-Commit Hook to Verify Files Are Encrypted with Ansible Vault

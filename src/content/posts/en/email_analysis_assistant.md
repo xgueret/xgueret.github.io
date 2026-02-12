@@ -14,8 +14,8 @@ categories:
   - "Tutorials"
   - "Artificial Intelligence"
   - "Practical Guides"
+image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 ---
-
 ## 🎯 What You're Going to Build
 
 Imagine being able to ask your computer:

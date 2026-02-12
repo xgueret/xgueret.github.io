@@ -32,6 +32,7 @@ const training = defineCollection({
     description: z.string().optional(),
     externalLink: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
   }),
 });
 

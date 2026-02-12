@@ -15,6 +15,7 @@ categories:
   - "Développement"
   - "DevOps"
   - "Projets Personnels"
+image: "/images/posts/cv-converter.png"
 draft: false
 ---
 ## Pourquoi j'ai créé *cv-converter*

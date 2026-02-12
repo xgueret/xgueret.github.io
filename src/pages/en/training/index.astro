@@ -16,6 +16,7 @@ const trainings = allTrainings.map((training) => ({
   href: training.data.externalLink || `/${locale}/training/`,
   isExternal: !!training.data.externalLink,
   tags: training.data.tags,
+  image: training.data.image,
 }));
 ---
 

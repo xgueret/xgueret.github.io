@@ -1,3 +1,15 @@
 ---
-return Astro.redirect('/fr/');
+// Static redirect — Astro.redirect() does not work with output: "static"
 ---
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0;url=/fr/" />
+    <link rel="canonical" href="/fr/" />
+    <title>Redirection…</title>
+  </head>
+  <body>
+    <a href="/fr/">Redirection vers /fr/</a>
+  </body>
+</html>

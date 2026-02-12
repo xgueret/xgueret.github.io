@@ -14,6 +14,7 @@ categories:
   - "Tutoriels"
   - "Intelligence Artificielle"
   - "Guides Pratiques"
+image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 draft: false
 toc: true
 ---
