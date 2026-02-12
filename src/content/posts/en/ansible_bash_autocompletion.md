@@ -9,8 +9,8 @@ tags:
   - "argcomplete"
 categories:
   - "ansible"
+image: "/images/posts/autocompletion-ansible-argcomplete.png"
 ---
-
 ## Activating Ansible Auto-completion with Argcomplete
 
 Terminal auto-completion is a valuable tool for improving efficiency when using Ansible. By setting up `argcomplete`, you can enjoy Bash auto-completion for Ansible commands. Follow these steps to enable auto-completion in your Bash terminal.
@@ -24,7 +24,6 @@ Terminal auto-completion is a valuable tool for improving efficiency when using 
    ```shell
    pip install argcomplete
    ```
-
 2. **Activate global auto-completion**:
 
    Once `argcomplete` is installed, activate global auto-completion by running:
@@ -34,7 +33,6 @@ Terminal auto-completion is a valuable tool for improving efficiency when using 
    ```
 
    This command modifies your `~/.bashrc` file to register auto-completion automatically.
-
 3. **Apply the changes**:
 
    Reload your `~/.bashrc` file to apply the changes:
@@ -42,7 +40,6 @@ Terminal auto-completion is a valuable tool for improving efficiency when using 
    ```shell
    source ~/.bashrc
    ```
-
 4. **Test auto-completion for Ansible**:
 
    Test auto-completion by typing an Ansible command followed by the `Tab` key:
@@ -50,7 +47,6 @@ Terminal auto-completion is a valuable tool for improving efficiency when using 
    ```shell
    ansible-playbook <Tab>
    ```
-
 
 ### Optional configuration
 
@@ -75,4 +71,4 @@ source ~/.bashrc
 
 ## Conclusion
 
-By configuring `argcomplete`, you enable Ansible auto-completion in Bash, greatly simplifying the use of this powerful tool.:tada:
+By configuring `argcomplete`, you enable Ansible auto-completion in Bash, greatly simplifying the use of this powerful tool.🎉

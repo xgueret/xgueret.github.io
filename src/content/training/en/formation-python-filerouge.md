@@ -8,6 +8,6 @@ tags:
   - Python
   - Training
   - Beginner
+image: "/images/trainning/formation-python-file-rouge.png"
 ---
-
 Learn Python through a complete hands-on project. This training guides you step by step in creating a real application, covering language fundamentals to development best practices.

@@ -11,8 +11,8 @@ tags:
   - "DeepSeek Coder v2"
 categories:
   - "tutorial"
+image: "/images/posts/configurer-continue-vscode-ollama.png"
 ---
-
 ## [Vscode](https://code.visualstudio.com/) utilisation de l'extension [Continue](https://www.continue.dev/) et configurer [Ollama](https://ollama.com/)
 
 Voici un tutoriel étape par étape pour installer et configurer l'extension Continue dans Visual Studio Code (VSCode) avec Ollama.
@@ -26,25 +26,20 @@ Avant de commencer, assurez-vous d'avoir:
 
 ### Étape 2: Installer Continue dans VSCode
 
-:eyes: [Installing Continue in VS Code](https://docs.continue.dev/install/vscode)
+👀 [Installing Continue in VS Code](https://docs.continue.dev/install/vscode)
 
 * Ouvrez **VSCode**.
-
 * Dans le panneau de gauche, cliquez sur l'icône des **Extensions**.
-
 * Recherchez **Continue** dans la barre de recherche des extensions.
 
   ![install_continue_vscode](/images/install_continue_vscode.png)
-
 * Cliquez sur **Installer** pour l'extension **Continue**.
-
 
 ### Étape 3: Configuration d'Ollama
 
 Ollama est nécessaire pour gérer les modèles d'IA comme LLaMA 3 et StarCoder. Assurez-vous que Ollama est bien installé et configuré.
 
 1. Installez Ollama en suivant les instructions fournies sur leur site : [Ollama Installation](https://ollama.com/).
-
 2. Une fois installé, vérifiez que Ollama fonctionne correctement en ouvrant un terminal et en exécutant la commande:
 
    ```shell
@@ -118,14 +113,12 @@ Téléchargez le modèle **StarCoder 2** ou **DeepSeek Coder v2**, en fonction d
   ```shell
   ollama pull starcoder-2-7b
   ```
-
 - Pour **DeepSeek Coder v2**:
 
   ```
   ollama pull deepseek-coder-v2:16b
   ```
-
-- Pour les embeddings, assurez-vous d'avoir le modèle **nomic-embed-text** téléchargé <u>(cela devrait être configuré automatiquement par Continue)</u>.
+- Pour les embeddings, assurez-vous d'avoir le modèle **nomic-embed-text** téléchargé `<u>`(cela devrait être configuré automatiquement par Continue)`</u>`.
 
   ```shell
   ollama pull nomic-embed-text
@@ -147,8 +140,9 @@ Commencez par tester si les modèles fonctionnent correctement.
 - Pour l'autocomplétion, tapez du code et voyez si **StarCoder 2** ou **DeepSeek Coder v2** propose des complétions pertinentes.
 - Pour les embeddings, utilisez des fonctionnalités qui nécessitent des vecteurs d'embeddings et vérifiez que **nomic-embed-text** est bien utilisé.
 
-:eyes: **En action**
+👀 **En action**
 {{< rawhtml >}}
+
 <video width="400" height="250" controls>
   <source src="/videos/autocomple_sample.webm" type="video/webm">
   Your browser does not support the video tag.
@@ -156,6 +150,7 @@ Commencez par tester si les modèles fonctionnent correctement.
 {{< /rawhtml >}}
 
 {{< rawhtml >}}
+
 <video width="400" height="250" controls>
   <source src="/videos/chat_sample.webm" type="video/webm">
   Your browser does not support the video tag.

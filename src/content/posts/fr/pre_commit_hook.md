@@ -10,6 +10,7 @@ tags:
   - "python"
 categories:
   - "tutorial"
+image: "/images/posts/hook-pre-commit.png"  
 ---
 
 # Configurer un Hook Pre-Commit pour Vérifier le Chiffrement des Fichiers avec Ansible Vault

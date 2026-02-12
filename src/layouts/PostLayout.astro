@@ -9,10 +9,11 @@ interface Props {
   tags?: string[];
   categories?: string[];
   description?: string;
+  image?: string;
   locale: Locale;
 }
 
-const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, locale } = Astro.props;
+const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') || '';
 const postUrl = `${site}${Astro.url.pathname}`;
@@ -28,6 +29,7 @@ const jsonLd = {
     url: `${site}/${locale}/`,
   },
   ...(description && { description }),
+  ...(image && { image }),
   url: postUrl,
 };
 ---
@@ -42,6 +44,11 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {image && (
+      <div class="mb-8 overflow-hidden rounded-xl">
+        <img src={image} alt={title} class="w-full h-auto object-cover aspect-[3/1]" />
+      </div>
+    )}
     <header class="mb-10">
       <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] mb-4 leading-tight text-balance">
         {title}

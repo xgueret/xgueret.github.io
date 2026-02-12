@@ -7,6 +7,7 @@ interface Training {
   href: string;
   isExternal: boolean;
   tags?: string[];
+  image?: string;
 }
 
 interface Props {
@@ -23,7 +24,11 @@ const { trainings, locale, showViewAll = true } = Astro.props;
     {trainings.map((training) => (
       <li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg">
         <div class="aspect-[3/1] overflow-hidden rounded-t-xl">
-          <div class="w-full h-full transition-transform duration-300 group-hover:scale-105 bg-navy-light"></div>
+          {training.image ? (
+            <img src={training.image} alt={training.title} class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+          ) : (
+            <div class="w-full h-full transition-transform duration-300 group-hover:scale-105 bg-navy-light"></div>
+          )}
         </div>
         <div class="p-6">
           <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2 text-balance">
