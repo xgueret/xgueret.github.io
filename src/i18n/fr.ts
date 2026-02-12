@@ -32,6 +32,7 @@ export default {
 
   // Categories
   categoriesCloud: 'Catégories',
+  categoriesAll: 'Tous',
   categoriesSubtitle: 'Explorez les articles par thématique',
   backToBlog: 'Retour au blog',
 
@@ -44,6 +45,20 @@ export default {
 
   // Footer
   allRightsReserved: 'Tous droits réservés.',
+
+  // Contact
+  contactTitle: 'Contact',
+  contactDescription: 'Une question, une proposition de collaboration ou simplement envie d\'échanger ? N\'hésitez pas à me contacter via ce formulaire.',
+  contactName: 'Nom',
+  contactNamePlaceholder: 'Votre nom',
+  contactEmail: 'Email',
+  contactEmailPlaceholder: 'votre@email.com',
+  contactMessage: 'Message',
+  contactMessagePlaceholder: 'Votre message...',
+  contactSend: 'Envoyer',
+  contactSuccess: 'Merci ! Votre message a bien été envoyé.',
+  contactError: 'Une erreur est survenue. Veuillez réessayer.',
+  contactOrSocial: 'Ou retrouvez-moi sur',
 
   // CV
   downloadCV: 'Télécharger mon CV (PDF)',

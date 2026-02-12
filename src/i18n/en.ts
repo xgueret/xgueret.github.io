@@ -32,6 +32,7 @@ export default {
 
   // Categories
   categoriesCloud: 'Categories',
+  categoriesAll: 'All',
   categoriesSubtitle: 'Explore articles by topic',
   backToBlog: 'Back to Blog',
 
@@ -44,6 +45,20 @@ export default {
 
   // Footer
   allRightsReserved: 'All rights reserved.',
+
+  // Contact
+  contactTitle: 'Contact',
+  contactDescription: 'Have a question, a collaboration proposal, or just want to chat? Feel free to reach out using the form below.',
+  contactName: 'Name',
+  contactNamePlaceholder: 'Your name',
+  contactEmail: 'Email',
+  contactEmailPlaceholder: 'your@email.com',
+  contactMessage: 'Message',
+  contactMessagePlaceholder: 'Your message...',
+  contactSend: 'Send',
+  contactSuccess: 'Thank you! Your message has been sent.',
+  contactError: 'An error occurred. Please try again.',
+  contactOrSocial: 'Or find me on',
 
   // CV
   downloadCV: 'Download my Resume (PDF)',

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../../components/CategoriesCloud.astro';
 import { t, formatDate } from '../../../i18n';
 import { getCollection } from 'astro:content';
 
@@ -19,29 +20,28 @@ export async function getStaticPaths() {
     });
   });
 
+  const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
+    name,
+    count: posts.length,
+    href: `/fr/categories/${name}/`,
+  }));
+
   return Array.from(categoryMap.entries()).map(([category, posts]) => ({
     params: { category },
     props: {
       categoryName: category,
       posts: posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+      categories: allCategories,
     },
   }));
 }
 
-const { categoryName, posts } = Astro.props;
+const { categoryName, posts, categories } = Astro.props;
 ---
 
 <BaseLayout title={categoryName} locale={locale}>
-  <div class="max-w-site mx-auto px-6 py-12">
-    <div class="mb-8">
-      <a
-        href={`/${locale}/posts/`}
-        class="inline-flex items-center gap-2 px-5 py-3 rounded-full no-underline font-bold text-sm bg-[var(--color-bg-section)] text-[var(--color-text)] border border-[var(--color-border)] transition-all hover:-translate-x-1"
-      >
-        <span>&larr;</span>
-        {t(locale, 'backToBlog')}
-      </a>
-    </div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <CategoriesCloud categories={categories} locale={locale} />
 
     <header class="mb-10">
       <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize">
