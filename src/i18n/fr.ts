@@ -58,7 +58,6 @@ export default {
   projectsCategoryTraining: 'Formations',
   visitSite: 'Voir le site',
   showMore: 'Voir plus',
-  showLess: 'Voir moins',
 
   // Footer
   allRightsReserved: 'Tous droits réservés.',

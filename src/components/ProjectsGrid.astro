@@ -41,7 +41,7 @@ const grouped = categoryOrder
             'group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg',
             index >= VISIBLE_COUNT && 'hidden',
           ]}
-          {...(index >= VISIBLE_COUNT ? { 'data-extra': '' } : {})}
+          data-index={index}
         >
           <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2 text-balance">
             {project.data.title}
@@ -86,16 +86,15 @@ const grouped = categoryOrder
       ))}
     </ul>
     {group.items.length > VISIBLE_COUNT && (
-      <div class="text-center mt-6">
+      <div class="text-center mt-6" data-toggle-wrapper>
         <button
           type="button"
           data-toggle-projects
-          data-label-more={t(locale, 'showMore')}
-          data-label-less={t(locale, 'showLess')}
+          data-step={VISIBLE_COUNT}
           class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
         >
-          <span data-toggle-label>{t(locale, 'showMore')}</span>
-          <svg data-toggle-icon class="size-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          <span>{t(locale, 'showMore')}</span>
+          <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
       </div>
     )}
@@ -105,18 +104,20 @@ const grouped = categoryOrder
 <script>
   document.querySelectorAll('[data-toggle-projects]').forEach((btn) => {
     const section = btn.closest('[data-projects-section]')!;
-    const extras = section.querySelectorAll('[data-extra]');
-    const label = btn.querySelector('[data-toggle-label]')!;
-    const icon = btn.querySelector('[data-toggle-icon]')!;
-    const moreText = btn.getAttribute('data-label-more')!;
-    const lessText = btn.getAttribute('data-label-less')!;
-    let expanded = false;
+    const items = section.querySelectorAll<HTMLElement>('[data-index]');
+    const wrapper = btn.closest('[data-toggle-wrapper]')!;
+    const step = parseInt(btn.getAttribute('data-step') || '4', 10);
+    let visible = step;
 
     btn.addEventListener('click', () => {
-      expanded = !expanded;
-      extras.forEach((el) => el.classList.toggle('hidden', !expanded));
-      label.textContent = expanded ? lessText : moreText;
-      icon.classList.toggle('rotate-180', expanded);
+      visible += step;
+      items.forEach((el) => {
+        const index = parseInt(el.getAttribute('data-index') || '0', 10);
+        if (index < visible) el.classList.remove('hidden');
+      });
+      if (visible >= items.length) {
+        (wrapper as HTMLElement).style.display = 'none';
+      }
     });
   });
 </script>
