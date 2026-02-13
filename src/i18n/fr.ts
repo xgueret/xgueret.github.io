@@ -7,6 +7,7 @@ export default {
   home: 'Accueil',
   cv: 'CV',
   posts: 'Articles',
+  projects: 'Projets',
   contact: 'Contact',
   mainNavigation: 'Navigation principale',
   toggleMenu: 'Ouvrir/fermer le menu',
@@ -49,6 +50,18 @@ export default {
   viewAllTrainings: 'Voir toutes les formations',
   viewTraining: 'Voir la formation',
   recentTrainings: 'Formations Récentes',
+
+  // Projects
+  projectsDescription: 'Projets personnels, contributions open source et réalisations.',
+  projectsCategoryGithub: 'Projets GitHub',
+  projectsCategoryWebsites: 'Sites web',
+  projectsCategoryTraining: 'Formations',
+  visitSite: 'Voir le site',
+  projectsSearch: 'Rechercher un projet...',
+  projectsNoResults: 'Aucun projet ne correspond. Essayez un autre terme.',
+  projectsClearSearch: 'Effacer la recherche',
+  showMore: 'Voir plus',
+  newWindow: 'nouvelle fenêtre',
 
   // Footer
   allRightsReserved: 'Tous droits réservés.',

@@ -7,6 +7,7 @@ export default {
   home: 'Home',
   cv: 'Resume',
   posts: 'Articles',
+  projects: 'Projects',
   contact: 'Contact',
   mainNavigation: 'Main navigation',
   toggleMenu: 'Toggle menu',
@@ -49,6 +50,18 @@ export default {
   viewAllTrainings: 'View all trainings',
   viewTraining: 'View training',
   recentTrainings: 'Recent Trainings',
+
+  // Projects
+  projectsDescription: 'Personal projects, open source contributions and achievements.',
+  projectsCategoryGithub: 'GitHub Projects',
+  projectsCategoryWebsites: 'Websites',
+  projectsCategoryTraining: 'Training',
+  visitSite: 'Visit site',
+  projectsSearch: 'Search projects...',
+  projectsNoResults: 'No matching projects. Try a different term.',
+  projectsClearSearch: 'Clear search',
+  showMore: 'Show more',
+  newWindow: 'new window',
 
   // Footer
   allRightsReserved: 'All rights reserved.',
