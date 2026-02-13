@@ -41,20 +41,20 @@ Ce blog partage mes expériences et apprentissages sur le DevOps, l'automatisati
 ### Prérequis
 
 - [Node.js](https://nodejs.org/) >= 22
-- npm
+- pnpm
 
 ### Installation
 
 ```bash
 git clone https://github.com/xgueret/xgueret.github.io.git
 cd xgueret.github.io
-npm install
+pnpm install
 ```
 
 ### Lancer le serveur de développement
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Le site sera accessible sur [http://localhost:4321/](http://localhost:4321/)
@@ -62,8 +62,8 @@ Le site sera accessible sur [http://localhost:4321/](http://localhost:4321/)
 ### Build de production
 
 ```bash
-npm run build
-npm run preview
+pnpm run build
+pnpm run preview
 ```
 
 Le site généré sera dans le dossier `dist/`.

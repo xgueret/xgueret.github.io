@@ -29,19 +29,49 @@ const grouped = categoryOrder
   .filter((g) => g.items.length > 0);
 ---
 
+<div data-projects-root>
+  <div class="relative mb-10">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-[var(--color-text-muted)] pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    <input
+      type="search"
+      data-search-input
+      placeholder={t(locale, 'projectsSearch')}
+      aria-label={t(locale, 'projectsSearch')}
+      class="w-full pl-10 pr-4 py-3 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-lg text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
+    />
+  </div>
+  <div
+    data-no-results
+    role="status"
+    aria-live="polite"
+    class="hidden text-center py-8"
+  >
+    <p class="text-[var(--color-text-muted)] mb-4 text-pretty">
+      {t(locale, 'projectsNoResults')}
+    </p>
+    <button
+      type="button"
+      data-clear-search
+      class="text-sm font-medium text-[var(--color-accent)] px-4 py-2 border border-[var(--color-accent)] rounded-md cursor-pointer hover:bg-[var(--color-accent)] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+    >
+      {t(locale, 'projectsClearSearch')}
+    </button>
+  </div>
+
 {grouped.map((group) => (
-  <section class="mb-12" data-projects-section>
-    <h2 class="text-xl font-semibold text-[var(--color-text)] mb-6">
+  <section class="mb-12" data-projects-section aria-labelledby={`projects-${group.key}`}>
+    <h2 id={`projects-${group.key}`} class="text-xl font-semibold text-[var(--color-text)] mb-6">
       {group.label}
     </h2>
     <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 list-none m-0 p-0">
       {group.items.map((project, index) => (
         <li
           class:list={[
-            'group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg',
+            'group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl p-6 transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg',
             index >= VISIBLE_COUNT && 'hidden',
           ]}
           data-index={index}
+          data-search={`${project.data.tags.join(' ')} ${project.data.description}`.toLowerCase()}
         >
           <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2 text-balance">
             {project.data.title}
@@ -67,7 +97,7 @@ const grouped = categoryOrder
                 class="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] no-underline hover:underline focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
               >
                 <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                GitHub
+                GitHub<span class="sr-only"> ({project.data.title}, {t(locale, 'newWindow')})</span>
               </a>
             )}
             {project.data.url && (
@@ -78,7 +108,7 @@ const grouped = categoryOrder
                 class="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] no-underline hover:underline focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
               >
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                {t(locale, 'visitSite')}
+                {t(locale, 'visitSite')}<span class="sr-only"> ({project.data.title}, {t(locale, 'newWindow')})</span>
               </a>
             )}
           </div>
@@ -91,7 +121,7 @@ const grouped = categoryOrder
           type="button"
           data-toggle-projects
           data-step={VISIBLE_COUNT}
-          class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+          class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] px-6 py-3 border-2 border-[var(--color-accent)] rounded-md hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
         >
           <span>{t(locale, 'showMore')}</span>
           <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -100,24 +130,95 @@ const grouped = categoryOrder
     )}
   </section>
 ))}
+</div>
 
 <script>
-  document.querySelectorAll('[data-toggle-projects]').forEach((btn) => {
-    const section = btn.closest('[data-projects-section]')!;
-    const items = section.querySelectorAll<HTMLElement>('[data-index]');
-    const wrapper = btn.closest('[data-toggle-wrapper]')!;
-    const step = parseInt(btn.getAttribute('data-step') || '4', 10);
-    let visible = step;
+  document.querySelectorAll<HTMLElement>('[data-projects-root]').forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]')!;
+    const noResults = root.querySelector<HTMLElement>('[data-no-results]')!;
+    const clearBtn = root.querySelector<HTMLButtonElement>('[data-clear-search]')!;
+    const sections = root.querySelectorAll<HTMLElement>('[data-projects-section]');
 
-    btn.addEventListener('click', () => {
-      visible += step;
-      items.forEach((el) => {
-        const index = parseInt(el.getAttribute('data-index') || '0', 10);
-        if (index < visible) el.classList.remove('hidden');
+    // --- Show more ---
+    const toggleState = new Map<HTMLElement, number>();
+
+    root.querySelectorAll('[data-toggle-projects]').forEach((btn) => {
+      const section = btn.closest<HTMLElement>('[data-projects-section]')!;
+      const wrapper = btn.closest<HTMLElement>('[data-toggle-wrapper]')!;
+      const step = parseInt(btn.getAttribute('data-step') || '4', 10);
+      toggleState.set(section, step);
+
+      btn.addEventListener('click', () => {
+        const items = section.querySelectorAll<HTMLElement>('[data-index]');
+        const current = (toggleState.get(section) || step) + step;
+        toggleState.set(section, current);
+        items.forEach((el) => {
+          if (parseInt(el.getAttribute('data-index') || '0', 10) < current) {
+            el.classList.remove('hidden');
+          }
+        });
+        if (current >= items.length) {
+          wrapper.style.display = 'none';
+        }
       });
-      if (visible >= items.length) {
-        (wrapper as HTMLElement).style.display = 'none';
+    });
+
+    // --- Clear search ---
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      input.dispatchEvent(new Event('input'));
+      input.focus();
+    });
+
+    // --- Search ---
+    function applyPagination() {
+      sections.forEach((section) => {
+        const items = section.querySelectorAll<HTMLElement>('[data-index]');
+        const visible = toggleState.get(section) || 4;
+        items.forEach((el) => {
+          const idx = parseInt(el.getAttribute('data-index') || '0', 10);
+          el.classList.toggle('hidden', idx >= visible);
+        });
+        const wrapper = section.querySelector<HTMLElement>('[data-toggle-wrapper]');
+        if (wrapper) {
+          wrapper.style.display = visible >= items.length ? 'none' : '';
+        }
+        section.style.display = '';
+      });
+      noResults.classList.add('hidden');
+    }
+
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      if (!query) {
+        applyPagination();
+        return;
       }
+
+      const terms = query.split(/\s+/);
+      let totalVisible = 0;
+
+      sections.forEach((section) => {
+        const items = section.querySelectorAll<HTMLElement>('[data-index]');
+        let sectionVisible = 0;
+
+        items.forEach((el) => {
+          const searchText = el.getAttribute('data-search') || '';
+          const matches = terms.every((term) => searchText.includes(term));
+          el.classList.toggle('hidden', !matches);
+          if (matches) sectionVisible++;
+        });
+
+        // Hide the "show more" button during search
+        const wrapper = section.querySelector<HTMLElement>('[data-toggle-wrapper]');
+        if (wrapper) wrapper.style.display = 'none';
+
+        // Hide empty sections
+        section.style.display = sectionVisible === 0 ? 'none' : '';
+        totalVisible += sectionVisible;
+      });
+
+      noResults.classList.toggle('hidden', totalVisible > 0);
     });
   });
 </script>

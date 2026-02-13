@@ -57,7 +57,11 @@ export default {
   projectsCategoryWebsites: 'Websites',
   projectsCategoryTraining: 'Training',
   visitSite: 'Visit site',
+  projectsSearch: 'Search projects...',
+  projectsNoResults: 'No matching projects. Try a different term.',
+  projectsClearSearch: 'Clear search',
   showMore: 'Show more',
+  newWindow: 'new window',
 
   // Footer
   allRightsReserved: 'All rights reserved.',
