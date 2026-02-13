@@ -51,6 +51,13 @@ export default {
   viewTraining: 'Voir la formation',
   recentTrainings: 'Formations Récentes',
 
+  // Projects
+  projectsDescription: 'Projets personnels, contributions open source et réalisations.',
+  projectsCategoryGithub: 'Projets GitHub',
+  projectsCategoryWebsites: 'Sites web',
+  projectsCategoryTraining: 'Formations',
+  visitSite: 'Voir le site',
+
   // Footer
   allRightsReserved: 'Tous droits réservés.',
 

@@ -36,4 +36,17 @@ const training = defineCollection({
   }),
 });
 
-export const collections = { posts, pages, training };
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.enum(['github', 'websites', 'training']),
+    tags: z.array(z.string()).default([]),
+    github: z.string().url().optional(),
+    url: z.string().url().optional(),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { posts, pages, training, projects };
