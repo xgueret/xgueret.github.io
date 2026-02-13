@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 
 interface Training {
   title: string;
@@ -73,7 +73,7 @@ const { trainings, locale, showViewAll = true } = Astro.props;
 {showViewAll && (
   <div class="text-center mt-10">
     <a
-      href={`/${locale}/training/`}
+      href={`${localePrefix(locale)}/training/`}
       class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] no-underline px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
     >
       {t(locale, 'viewAllTrainings')}

@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import ArticlesGrid from '../../components/ArticlesGrid.astro';
 import TrainingsGrid from '../../components/TrainingsGrid.astro';
-import { t } from '../../i18n';
+import { t, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'en';
@@ -21,7 +21,7 @@ const jsonLd = {
     {
       '@type': 'Person',
       name: 'Xavier GUERET',
-      url: `${site}/${locale}/`,
+      url: `${site}${localePrefix(locale)}/`,
       jobTitle: 'DevOps Engineer',
       sameAs: [
         'https://github.com/xgueret',
@@ -51,7 +51,7 @@ const articles = recentPosts.map((post) => {
   }
   return {
     title: post.data.title,
-    href: `/${locale}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
+    href: `${localePrefix(locale)}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
   };
@@ -63,7 +63,7 @@ const allTrainings = await getCollection('training', ({ id, data }) => {
 const trainings = allTrainings.map((t) => ({
   title: t.data.title,
   description: t.data.description,
-  href: t.data.externalLink || `/${locale}/training/`,
+  href: t.data.externalLink || `${localePrefix(locale)}/training/`,
   isExternal: !!t.data.externalLink,
   tags: t.data.tags,
   image: t.data.image,

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../../components/CategoriesCloud.astro';
-import { t, formatDate } from '../../../i18n';
+import { t, formatDate, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'en';
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
   const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
     name,
     count: posts.length,
-    href: `/en/categories/${name}/`,
+    href: `${localePrefix('en')}/categories/${name}/`,
   }));
 
   return Array.from(categoryMap.entries()).map(([category, posts]) => ({
@@ -62,7 +62,7 @@ const { categoryName, posts, categories } = Astro.props;
             {formatDate(post.data.date, locale)}
           </time>
           <a
-            href={`/${locale}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`}
+            href={`${localePrefix(locale)}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`}
             class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
           >
             {post.data.title}

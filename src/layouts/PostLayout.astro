@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { type Locale, t, formatDate } from '../i18n';
+import { type Locale, t, formatDate, localePrefix } from '../i18n';
 
 interface Props {
   title: string;
@@ -26,7 +26,7 @@ const jsonLd = {
   author: {
     '@type': 'Person',
     name: author,
-    url: `${site}/${locale}/`,
+    url: `${site}${localePrefix(locale)}/`,
   },
   ...(description && { description }),
   ...(image && { image }),
@@ -72,7 +72,7 @@ const jsonLd = {
         <div class="flex flex-wrap gap-2 mt-3">
           {categories.map((cat) => (
             <a
-              href={`/${locale}/categories/${cat.toLowerCase()}`}
+              href={`${localePrefix(locale)}/categories/${cat.toLowerCase()}`}
               class="px-3 py-1 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full hover:bg-[var(--color-accent)]/20 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
             >
               {cat}
@@ -99,7 +99,7 @@ const jsonLd = {
 
     <footer class="mt-12 pt-8 border-t border-[var(--color-border)]">
       <a
-        href={`/${locale}/posts/`}
+        href={`${localePrefix(locale)}/posts/`}
         class="group/back inline-flex items-center gap-2 text-[var(--color-accent)] font-medium focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
       >
         <span class="transition-transform duration-200 group-hover/back:-translate-x-1">&larr;</span>

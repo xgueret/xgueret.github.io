@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 
 interface Category {
   name: string;
@@ -28,7 +28,7 @@ const totalCount = categories.reduce((sum, c) => sum + c.count, 0);
 
     <div class="flex flex-wrap gap-2">
       <a
-        href={`/${locale}/posts/`}
+        href={`${localePrefix(locale)}/posts/`}
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full no-underline text-sm font-medium transition-[transform,box-shadow,color] duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none bg-[var(--color-text)] text-[var(--color-bg)] border border-[var(--color-text)]"
         title={`${totalCount} ${t(locale, 'articles')}`}
       >

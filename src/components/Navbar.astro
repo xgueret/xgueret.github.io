@@ -1,5 +1,5 @@
 ---
-import { type Locale, t, getAlternateLocale, localizedPath } from '../i18n';
+import { type Locale, t, getAlternateLocale, localizedPath, localePrefix } from '../i18n';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
 
@@ -11,11 +11,12 @@ const { locale } = Astro.props;
 const altLocale = getAlternateLocale(locale);
 const currentPath = Astro.url.pathname;
 
+const prefix = localePrefix(locale);
 const navItems = [
-  { name: t(locale, 'home'), href: `/${locale}/` },
-  { name: t(locale, 'cv'), href: `/${locale}/cv/` },
-  { name: t(locale, 'posts'), href: `/${locale}/posts/` },
-  { name: t(locale, 'contact'), href: `/${locale}/contact/` },
+  { name: t(locale, 'home'), href: `${prefix}/` },
+  { name: t(locale, 'cv'), href: `${prefix}/cv/` },
+  { name: t(locale, 'posts'), href: `${prefix}/posts/` },
+  { name: t(locale, 'contact'), href: `${prefix}/contact/` },
 ];
 ---
 
@@ -26,7 +27,7 @@ const navItems = [
   <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
     <!-- Left: Brand + Menu -->
     <div class="flex items-center gap-8">
-      <a href={`/${locale}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none focus-visible:rounded-md">
+      <a href={`${prefix}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none focus-visible:rounded-md">
         {t(locale, 'author')}
       </a>
 
