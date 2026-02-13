@@ -57,6 +57,8 @@ export default {
   projectsCategoryWebsites: 'Websites',
   projectsCategoryTraining: 'Training',
   visitSite: 'Visit site',
+  showMore: 'Show more',
+  showLess: 'Show less',
 
   // Footer
   allRightsReserved: 'All rights reserved.',
