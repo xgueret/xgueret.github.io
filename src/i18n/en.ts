@@ -7,6 +7,7 @@ export default {
   home: 'Home',
   cv: 'Resume',
   posts: 'Articles',
+  projects: 'Projects',
   contact: 'Contact',
   mainNavigation: 'Main navigation',
   toggleMenu: 'Toggle menu',
