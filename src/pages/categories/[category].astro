@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import CategoriesCloud from '../../../components/CategoriesCloud.astro';
-import { t, formatDate } from '../../../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../components/CategoriesCloud.astro';
+import { t, formatDate, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'fr';
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
   const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
     name,
     count: posts.length,
-    href: `/fr/categories/${name}/`,
+    href: `/categories/${name}/`,
   }));
 
   return Array.from(categoryMap.entries()).map(([category, posts]) => ({
@@ -62,7 +62,7 @@ const { categoryName, posts, categories } = Astro.props;
             {formatDate(post.data.date, locale)}
           </time>
           <a
-            href={`/${locale}/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
+            href={`/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
             class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
           >
             {post.data.title}

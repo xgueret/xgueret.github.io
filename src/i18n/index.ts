@@ -24,9 +24,13 @@ export function getAlternateLocale(locale: Locale): Locale {
   return locale === 'fr' ? 'en' : 'fr';
 }
 
+export function localePrefix(locale: Locale): string {
+  return locale === defaultLocale ? '' : `/${locale}`;
+}
+
 export function localizedPath(locale: Locale, path: string): string {
   const clean = path.replace(/^\/(fr|en)\//, '/').replace(/^\//, '');
-  return `/${locale}/${clean}`;
+  return locale === defaultLocale ? `/${clean}` : `/${locale}/${clean}`;
 }
 
 export function formatDate(date: Date, locale: Locale): string {

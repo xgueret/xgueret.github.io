@@ -144,7 +144,7 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
                     ))}
                   </ul>
                   <a
-                    href={`/${locale}/posts/`}
+                    href={`${locale === 'fr' ? '' : `/${locale}`}/posts/`}
                     style={{
                       color: 'var(--color-accent, #3b5998)',
                       fontWeight: 600,

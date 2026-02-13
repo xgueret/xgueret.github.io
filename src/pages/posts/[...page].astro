@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import CategoriesCloud from '../../../components/CategoriesCloud.astro';
-import Pagination from '../../../components/Pagination.astro';
-import { t, formatDate } from '../../../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../components/CategoriesCloud.astro';
+import Pagination from '../../components/Pagination.astro';
+import { t, formatDate, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
@@ -24,7 +24,7 @@ export const getStaticPaths = (async () => {
   const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
     name,
     count,
-    href: `/fr/categories/${name.toLowerCase()}/`,
+    href: `/categories/${name.toLowerCase()}/`,
   }));
 
   const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
@@ -63,7 +63,7 @@ const { posts, currentPage, totalPages, categories } = Astro.props;
             {formatDate(post.data.date, locale)}
           </time>
           <a
-            href={`/${locale}/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
+            href={`/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
             class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
           >
             {post.data.title}
@@ -75,7 +75,7 @@ const { posts, currentPage, totalPages, categories } = Astro.props;
     <Pagination
       currentPage={currentPage}
       totalPages={totalPages}
-      baseUrl={`/${locale}/posts/`}
+      baseUrl={`/posts/`}
       locale={locale}
     />
   </div>

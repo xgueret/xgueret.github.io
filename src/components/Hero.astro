@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -39,11 +39,11 @@ const { locale } = Astro.props;
 
       <!-- CTA Buttons -->
       <div class="flex gap-4 flex-wrap">
-        <a href={`/${locale}/cv/`} class="btn btn-primary">
+        <a href={`${localePrefix(locale)}/cv/`} class="btn btn-primary">
           <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
           {t(locale, 'viewCV')}
         </a>
-        <a href={`/${locale}/contact/`} class="btn btn-outline">
+        <a href={`${localePrefix(locale)}/contact/`} class="btn btn-outline">
           <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           {t(locale, 'contactMe')}
         </a>
