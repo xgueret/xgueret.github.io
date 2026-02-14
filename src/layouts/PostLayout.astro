@@ -11,9 +11,10 @@ interface Props {
   description?: string;
   image?: string;
   locale: Locale;
+  readingTime?: number;
 }
 
-const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale } = Astro.props;
+const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale, readingTime } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') || '';
 const postUrl = `${site}${Astro.url.pathname}`;
@@ -58,6 +59,7 @@ const jsonLd = {
           {t(locale, 'publishedOn')} {formatDate(date, locale)}
         </time>
         {author && <span>{t(locale, 'by')} {author}</span>}
+        {readingTime && <span>· {readingTime} {t(locale, 'minRead')}</span>}
       </div>
       {tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-4">
