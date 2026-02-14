@@ -4,6 +4,7 @@ import CategoriesCloud from '../../components/CategoriesCloud.astro';
 import Pagination from '../../components/Pagination.astro';
 import { t, formatDate, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../utils/readingTime';
 import type { GetStaticPaths } from 'astro';
 
 const locale = 'fr';
@@ -62,12 +63,17 @@ const { posts, currentPage, totalPages, categories } = Astro.props;
           >
             {formatDate(post.data.date, locale)}
           </time>
-          <a
-            href={`/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
-            class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
-          >
-            {post.data.title}
-          </a>
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
+            <a
+              href={`/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
+              class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
+            >
+              {post.data.title}
+            </a>
+            <span class="text-xs text-[var(--color-text-light)] whitespace-nowrap">
+              {getReadingTime(post.body ?? '')} {t(locale, 'minRead')}
+            </span>
+          </div>
         </li>
       ))}
     </ul>

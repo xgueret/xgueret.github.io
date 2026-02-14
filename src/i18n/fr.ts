@@ -35,6 +35,7 @@ export default {
   articles: 'articles',
   publishedOn: 'Publié le',
   by: 'par',
+  minRead: 'min de lecture',
 
   // Categories
   categoriesCloud: 'Catégories',

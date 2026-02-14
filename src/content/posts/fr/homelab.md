@@ -1,58 +1,112 @@
 ---
-title: "Présentation de mon projet HomeLab sur GitHub"
-date: "2024-08-30"
+title: "Mon homelab Proxmox, entièrement automatisé avec Ansible"
+date: "2026-02-13"
 author: "Xavier GUERET"
+description: "Comment j'ai automatisé le déploiement et la configuration de mon serveur Proxmox VE 9 avec Ansible et Cloud-Init."
 tags:
   - "HomeLab"
-  - "GitHub"
   - "Proxmox"
   - "Ansible"
-  - "Terraform"
-  - "Kubernetes"
-  - "Kubeadm"
-  - "k9s"
+  - "Cloud-Init"
+  - "IaC"
 categories:
   - "github"
+image: "/images/posts/proxmox-homelab.png"
 ---
+## Pourquoi ce projet ?
 
-## Introduction
+Comme beaucoup de gens dans le milieu, j'ai un vieux PC qui traîne — un Acer XC-605 — et l'idée de le transformer en serveur maison me trottait dans la tête depuis un moment. Proxmox VE était le choix évident : libre, puissant, et parfait pour faire tourner des VMs et des conteneurs sans se ruiner.
 
-Ce projet [HomeLab](https://github.com/xgueret/HomeLab) est conçu pour automatiser le déploiement d'un serveur Proxmox et la mise en place d'un cluster Kubernetes (K8s) en utilisant **kubeadm**, avec **Terraform** et **Ansible** pour la partie Infrastructure as Code (IaC). De plus, le projet inclut des étapes pour configurer **k9s** afin de gérer le cluster Kubernetes.
+Mais installer Proxmox à la main, créer des utilisateurs, configurer le stockage, monter des templates de VM… c'est le genre de tâches qu'on fait une fois et qu'on oublie. Sauf que le jour où il faut tout refaire (panne disque, migration, nouveau serveur), on se retrouve à fouiller dans ses notes et à perdre un week-end.
 
-## Vue d'ensemble de HomeLab
+J'ai donc décidé de tout coder. Le résultat, c'est le projet [TiPunchLabs/proxmox](https://github.com/TiPunchLabs/proxmox) : un ensemble de playbooks Ansible qui prend un Proxmox fraîchement installé et le configure de A à Z, de manière idempotente et reproductible.
 
-HomeLab est né de mon besoin de simplifier le déploiement et la gestion d'une infrastructure domestique robuste. Le projet se concentre sur l'automatisation de la configuration d'un serveur **Proxmox**, qui sert de base pour l'exécution de machines virtuelles (VM) et de conteneurs. Ensuite, l'objectif est de déployer un cluster **Kubernetes** en utilisant **kubeadm**, avec **Terraform** et **Ansible** s'occupant de la fourniture et de la configuration de l'infrastructure.
+## Ce que fait le projet, concrètement
 
-Voici un aperçu des technologies clés utilisées dans HomeLab :
+Le cœur du projet, c'est un playbook Ansible avec un rôle `configure` qui enchaîne quatre étapes, chacune exécutable indépendamment grâce aux tags :
 
-- **Proxmox** : Sert d'hyperviseur pour la gestion des machines virtuelles et des conteneurs, offrant un environnement flexible et évolutif pour l'exécution des services.
-- **Ansible** : Automatise la configuration et la gestion des serveurs, garantissant que l'environnement est configuré de manière cohérente et correcte.
-- **Terraform** : Gère l'infrastructure en tant que code, automatisant la fourniture des ressources Proxmox et du cluster Kubernetes.
-- **Kubernetes (K8s)** : Orchestre les applications conteneurisées, fournissant une plateforme robuste pour le déploiement, la mise à l'échelle et la gestion des charges de travail conteneurisées.
-- **kubeadm** : Simplifie la configuration d'un cluster Kubernetes, gérant l'initialisation et la configuration du plan de contrôle et des nœuds de travail.
-- **k9s** : Offre une interface utilisateur basée sur le terminal pour interagir avec votre cluster Kubernetes, facilitant la gestion et la surveillance de vos charges de travail.
+### 1. Durcissement SSH
 
-## Objectifs du projet
+Première étape après une installation fraîche : sécuriser l'accès. Le playbook crée un utilisateur `ansible` dédié avec accès sudo, déploie ma clé publique SSH, puis désactive l'authentification par mot de passe. Classique, mais indispensable.
 
-L'objectif principal de HomeLab est de fournir un moyen automatisé et reproductible de configurer une infrastructure domestique puissante et flexible. Plus précisément, le projet vise à :
+```bash
+ansible-playbook -u root playbook.yml --tags "security_ssh_hardening"
+```
 
-1. **Déployer un serveur Proxmox** : Utiliser Proxmox comme base pour exécuter des VM et des conteneurs, fournissant une plateforme polyvalente et efficace pour votre laboratoire à domicile.
-2. **Mettre en place un cluster Kubernetes** : Utiliser kubeadm pour initialiser et configurer un cluster Kubernetes sur les VM Proxmox, permettant le déploiement et la gestion des applications conteneurisées.
-3. **Utiliser Terraform et Ansible** : Mettre en œuvre l'Infrastructure as Code (IaC) en utilisant Terraform pour fournir les ressources Proxmox et Ansible pour automatiser la configuration de l'environnement, assurant la cohérence et réduisant l'intervention manuelle.
-4. **Mettre en œuvre k9s** : Fournir une interface terminale puissante et conviviale pour interagir avec votre cluster Kubernetes, simplifiant la gestion du cluster.
+Après ça, fini les connexions en root. Toutes les exécutions suivantes passent par l'utilisateur `ansible`.
 
-## Ouvert aux Contributions
+### 2. Rôles, utilisateurs et tokens API Proxmox
 
-HomeLab est un projet open-source, et j'accueille chaleureusement les contributions de la communauté. Que vous souhaitiez ajouter de nouvelles fonctionnalités, améliorer celles existantes ou simplement aider à la documentation, vos contributions sont très appréciées.
+C'est la partie que j'ai trouvée la plus intéressante à automatiser. Proxmox utilise son propre système de gestion des accès (`pveum`), et créer des tokens API avec les bons privilèges à la main est assez fastidieux.
 
-Si vous êtes intéressé par la contribution, n'hésitez pas à forker le dépôt sur GitHub et à soumettre une demande de tirage. Vous pouvez également ouvrir des issues si vous rencontrez des bugs ou avez des idées d'améliorations.
+Le playbook déploie un script Bash qui lit un fichier JSON décrivant les tokens à créer, puis utilise `pveum` pour provisionner le tout de manière idempotente :
 
-## Conclusion
+- Un token **Terraform** (`terraform-prov@pve!terraform`) avec 20 privilèges — tout ce qu'il faut pour créer des VMs, gérer le stockage et le réseau.
+- Un token **Ansible** (`ansible-prov@pve!ansible`) avec seulement 2 privilèges (`VM.PowerMgmt`, `VM.Audit`) — le strict minimum pour piloter des VMs existantes.
 
-Le projet HomeLab est une solution complète pour quiconque souhaite déployer un serveur Proxmox et configurer un cluster Kubernetes avec un accent sur l'automatisation et la facilité de gestion. En rendant ce projet public sur GitHub, j'espère partager les avantages de cette configuration avec d'autres passionnés d'auto-hébergement et de gestion des infrastructures.
+Les tokens générés sont stockés en JSON sur le serveur, prêts à être récupérés.
 
-Si vous souhaitez en savoir plus, essayer HomeLab ou contribuer au projet, je vous invite à consulter le dépôt GitHub [ici](https://github.com/xgueret/HomeLab). J'attends avec impatience vos retours et contributions pour améliorer ce projet.
+```bash
+ansible-playbook playbook.yml --tags "setup_roles_users_tokens"
+```
 
-------
+### 3. Configuration du stockage
 
-Merci d'avoir pris le temps de découvrir HomeLab. Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter ou à laisser un commentaire ci-dessous.
+Mon Acer a un SSD pour le système et un HDD supplémentaire pour les backups et les ISOs. Le playbook partitionne, formate et monte le disque, puis l'enregistre dans Proxmox comme storage de type `dir` avec les contenus `backup,iso,vztmpl`.
+
+Tout est idempotent : si le disque est déjà partitionné, rien ne se passe. Et un flag `configure_storage_force_format: false` empêche tout formatage accidentel.
+
+```bash
+ansible-playbook playbook.yml --tags "setup_storage"
+```
+
+### 4. Génération de templates VM Cloud-Init
+
+C'est la partie la plus dense. Le playbook télécharge une image cloud Ubuntu (24.04 Noble par défaut), la personnalise avec `virt-customize`, puis la transforme en template Proxmox prêt à cloner.
+
+La personnalisation inclut :
+
+- Installation de `qemu-guest-agent` et `cloud-init`
+- Création d'un utilisateur `ansible` avec clé SSH et sudo
+- Configuration du mot de passe root (stocké dans Ansible Vault)
+- Activation de la console série (contournement d'un souci sur Ubuntu 24.04)
+
+Ensuite, la VM est créée, le disque importé, les options de boot configurées, et le tout est converti en template. Plus qu'à cloner pour avoir une VM prête en quelques secondes.
+
+```bash
+ansible-playbook playbook.yml --tags "generate_vm_template"
+```
+
+## La gestion des secrets
+
+Un point sur lequel j'ai passé du temps : ne jamais avoir de secret en clair dans le dépôt. La stratégie repose sur trois couches :
+
+- **Ansible Vault** pour les variables sensibles (mots de passe des VMs, password de génération des tokens). Le fichier vault est chiffré en AES256.
+- **pass** (le gestionnaire de mots de passe Unix) pour stocker le mot de passe du Vault. Un petit script `ansible-vault-pass.sh` fait le lien.
+- **direnv** qui charge automatiquement les variables d'environnement quand j'entre dans le répertoire du projet.
+
+Résultat : je tape `ansible-playbook playbook.yml` et tout se déverrouille en cascade, sans jamais me demander de mot de passe.
+
+## Outillage et qualité de code
+
+Le projet embarque pas mal de garde-fous pour garder le code propre :
+
+- **pre-commit** avec 6 hooks : `shfmt`, `shellcheck`, `ansible-lint`, un check custom pour vérifier que les fichiers Vault sont bien chiffrés, `terraform fmt`, `terraform validate` et `tflint`.
+- **CI GitHub Actions** qui lance le linting Ansible, Terraform et ShellCheck à chaque push/PR.
+- **Dependabot** pour les mises à jour automatiques des dépendances.
+- **uv** comme gestionnaire de paquets Python — bien plus rapide que pip et parfaitement intégré avec direnv.
+
+## Installation
+
+Pour ceux que ça intéresse, l'installation de Proxmox VE 9 sur l'Acer XC-605 nécessite un petit tweak : au menu de démarrage, il faut éditer la ligne de boot (touche `e`) et ajouter `nomodeset` à la fin de la ligne `linux`, puis valider avec F10. Classique pour du matériel un peu ancien.
+
+## Et la suite ?
+
+Le projet est en v0.1.0, c'est une première release qui pose les fondations. Quelques pistes pour la suite :
+
+- **Rotation automatique des tokens** avec notifications
+- **Intégration d'un vrai gestionnaire de secrets** (HashiCorp Vault, Bitwarden CLI, ou age/sops)
+- **Remplacement des scripts Bash** par des modules Ansible natifs pour les opérations `pveum`
+- **Scoping des permissions** : aujourd'hui les ACL sont sur `/` (racine), l'idée serait de les restreindre par ressource
+
+Le projet est open-source sous licence MIT. Si le sujet vous parle, n'hésitez pas à jeter un œil au dépôt [TiPunchLabs/proxmox](https://github.com/TiPunchLabs/proxmox) — les contributions et retours sont les bienvenus.
