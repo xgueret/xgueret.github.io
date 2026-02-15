@@ -11,6 +11,7 @@ tags:
   - "Open Source"
 categories:
   - "github"
+  - "vibecoding"
 image: "/images/posts/ckad-dojo.png"
 ---
 ## Le problème de départ
@@ -96,6 +97,10 @@ On peut naviguer entre les questions, les marquer pour relecture (touche F), et 
 Le projet utilise une CLI Python unifiée (`ckad_dojo.py`) construite avec `argparse` et gérée par `uv`. Elle orchestre les scripts Bash qui font le travail réel (setup, scoring, cleanup). L'interface web est en vanilla JS avec un serveur Python standard library — pas de framework, pas de dépendance externe.
 
 Côté qualité de code : pre-commit avec `shellcheck`, `shfmt`, `flake8`, `yamllint`, `markdownlint`, et `gitleaks` pour la détection de secrets. Le projet inclut aussi des tests unitaires pour les fonctions Bash partagées.
+
+## Le rôle du vibecoding dans ce projet
+
+ckad-dojo est un projet entièrement construit en vibecoding avec Claude Code. L'infrastructure technique — CLI Python, interface web, scripts de setup et de cleanup, système de scoring automatique — a été générée par conversation en langage naturel. Mais le vibecoding ne s'est pas limité à l'outillage : les questions d'examen elles-mêmes ont été produites avec Claude Code, via un workflow interne que j'ai mis au point pour générer des simulations complètes (énoncés, environnements Kubernetes, critères de scoring). Mon rôle a été de cadrer chaque simulation, de valider la pertinence technique de chaque question sur mon cluster, et de m'assurer que le tout couvre correctement le programme CKAD. L'expertise Kubernetes reste indispensable — il faut savoir quoi demander et être capable de juger la qualité du résultat — mais Claude Code a transformé ce qui aurait été des mois de travail en quelques semaines.
 
 ## Licence et philosophie
 

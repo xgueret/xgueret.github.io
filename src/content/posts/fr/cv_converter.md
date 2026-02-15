@@ -15,6 +15,7 @@ categories:
   - "Développement"
   - "DevOps"
   - "Projets Personnels"
+  - "vibecoding"
 image: "/images/posts/cv-converter.png"
 draft: false
 ---
@@ -106,6 +107,10 @@ Ce projet m'a permis d'intégrer :
 Ce CV est donc autant un outil personnel… qu'un **exercice de rigueur DevOps**.
 
 ---
+
+## Le rôle du vibecoding dans ce projet
+
+Le script de conversion Python a été en grande partie généré via Claude Code. La logique de parsing HTML avec BeautifulSoup, la génération PDF avec WeasyPrint, la création du DOCX structuré avec python-docx — tout ça a été construit en mode conversationnel : je décrivais le rendu attendu, Claude produisait le code, je testais le résultat sur mes templates et j'itérais. Le vibecoding a été particulièrement utile pour la partie DOCX, où le mapping entre structure HTML et styles Word est fastidieux à écrire manuellement. En revanche, l'architecture DevOps du projet (direnv, pre-commit, Terraform) reflète mes propres pratiques — c'est la combinaison des deux qui fait l'intérêt de ce projet.
 
 ## Le projet
 

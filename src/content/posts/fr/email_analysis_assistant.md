@@ -14,6 +14,7 @@ categories:
   - "Tutoriels"
   - "Intelligence Artificielle"
   - "Guides Pratiques"
+  - "vibecoding"
 image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 draft: false
 toc: true
@@ -713,6 +714,10 @@ Résumé de la semaine :
 ```
 
 ---
+
+## Le rôle du vibecoding dans ce projet
+
+Ce tutoriel est lui-même un exemple concret de vibecoding — cette approche qui consiste à construire du logiciel en conversant avec une IA en langage naturel. L'intégralité du serveur MCP, la configuration OAuth, les exemples de prompts et même la structure de cet article ont été conçus en collaboration avec Claude Code. Plutôt que d'écrire chaque ligne de code à la main, j'ai décrit ce que je voulais obtenir, itéré sur les retours, et affiné le résultat par conversation. Le vibecoding ne remplace pas la compréhension technique — il faut toujours savoir ce qu'on construit et pourquoi — mais il accélère considérablement la mise en œuvre quand on a une vision claire du résultat attendu.
 
 ## Checklist Finale
 
