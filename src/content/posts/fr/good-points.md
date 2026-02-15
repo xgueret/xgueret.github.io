@@ -11,6 +11,7 @@ tags:
   - "Tailwind CSS"
 categories:
   - "github"
+  - "vibecoding"
 image: "/images/posts/goodpoints.png"
 ---
 
@@ -113,6 +114,10 @@ L'app tourne en production sur Netlify avec déploiement automatique depuis GitH
 - **prod** : build multi-stage, image finale d'environ 25 Mo
 
 Un Makefile simplifie le tout : `make dev`, `make prod`, `make clean`.
+
+## Le rôle du vibecoding dans ce projet
+
+Good Points a été construit presque entièrement en vibecoding avec Claude Code. L'idée de départ et les choix d'architecture venaient de moi, mais la majorité du code — composants React, hooks custom, règles Firebase, logique de gamification, gestion du offline — a été générée par conversation en langage naturel. Je décrivais une fonctionnalité ("je veux un système de badges qui se débloquent automatiquement quand l'enfant atteint certains seuils"), Claude produisait le code, je testais, j'ajustais. Les 19 hooks custom, le système de thèmes, les animations Framer Motion : tout ça a été itéré en mode conversationnel. Ce qui aurait pris des semaines en développement classique a été bouclé en quelques jours. Le vibecoding n'a pas réduit l'exigence — il fallait toujours valider chaque fonctionnalité, débugger les cas limites, soigner l'UX — mais il a radicalement changé le rapport entre l'idée et sa réalisation.
 
 ## Ce que ça a changé
 

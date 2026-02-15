@@ -14,6 +14,7 @@ categories:
   - "Tutorials"
   - "Artificial Intelligence"
   - "Practical Guides"
+  - "vibecoding"
 image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 ---
 ## 🎯 What You're Going to Build
@@ -710,6 +711,10 @@ Week summary:
 ```
 
 ---
+
+## The role of vibecoding in this project
+
+This tutorial is itself a concrete example of vibecoding — the approach of building software by conversing with an AI in natural language. The entire MCP server, the OAuth configuration, the prompt examples, and even the structure of this article were designed in collaboration with Claude Code. Rather than writing every line of code by hand, I described what I wanted, iterated on the feedback, and refined the result through conversation. Vibecoding doesn't replace technical understanding — you still need to know what you're building and why — but it dramatically speeds up implementation when you have a clear vision of the expected outcome.
 
 ## ✅ Final Checklist
 
