@@ -34,7 +34,7 @@ const jsonLd = {
 
 // Get recent articles
 const allPosts = await getCollection('posts', ({ id, data }) => {
-  return id.startsWith('fr/') && !data.draft;
+  return id.startsWith('fr/') && !data.draft && !data.archived;
 });
 const recentPosts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -60,7 +60,7 @@ const articles = recentPosts.map((post) => {
 
 // Get trainings
 const allTrainings = await getCollection('training', ({ id, data }) => {
-  return id.startsWith('fr/') && !data.draft;
+  return id.startsWith('fr/') && !data.draft && !data.archived;
 });
 const trainings = allTrainings.map((t) => ({
   title: t.data.title,

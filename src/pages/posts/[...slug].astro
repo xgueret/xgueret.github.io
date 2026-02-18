@@ -7,7 +7,7 @@ const locale = 'fr';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ id, data }) => {
-    return id.startsWith('fr/') && !data.draft;
+    return id.startsWith('fr/') && !data.draft && !data.archived;
   });
 
   return posts.map((post) => ({

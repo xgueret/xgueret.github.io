@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../components/CategoriesCloud.astro';
+import ArticlesGrid from '../../components/ArticlesGrid.astro';
+import Pagination from '../../components/Pagination.astro';
+import { t, localePrefix } from '../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale = 'fr';
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 10;
+  const allPosts = await getCollection('posts', ({ id, data }) => {
+    return id.startsWith('fr/') && !data.draft && !data.archived;
+  });
+
+  const categoryMap = new Map<string, typeof allPosts>();
+  allPosts.forEach((post) => {
+    post.data.categories.forEach((cat) => {
+      const key = cat.toLowerCase();
+      if (!categoryMap.has(key)) categoryMap.set(key, []);
+      categoryMap.get(key)!.push(post);
+    });
+  });
+
+  const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
+    name,
+    count: posts.length,
+    href: `/categories/${name}/`,
+  }));
+
+  const paths: Array<{
+    params: { path: string | undefined };
+    props: {
+      categoryName: string;
+      posts: typeof allPosts;
+      categories: typeof allCategories;
+      currentPage: number;
+      totalPages: number;
+      totalPosts: number;
+    };
+  }> = [];
+
+  for (const [category, posts] of categoryMap.entries()) {
+    const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+    const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
+
+    for (let i = 0; i < totalPages; i++) {
+      paths.push({
+        params: { path: i === 0 ? category : `${category}/${i + 1}` },
+        props: {
+          categoryName: category,
+          posts: sortedPosts.slice(i * PAGE_SIZE, (i + 1) * PAGE_SIZE),
+          categories: allCategories,
+          currentPage: i + 1,
+          totalPages,
+          totalPosts: sortedPosts.length,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { categoryName, posts, categories, currentPage, totalPages, totalPosts } = Astro.props;
+
+const articles = posts.map((post) => {
+  let summary = post.data.description;
+  if (!summary && post.body) {
+    summary = post.body
+      .replace(/^#+\s+.*/gm, '')
+      .replace(/[*_`~\[\]]/g, '')
+      .replace(/\n+/g, ' ')
+      .trim()
+      .slice(0, 150);
+  }
+  return {
+    title: post.data.title,
+    href: `/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
+    summary,
+    image: post.data.image,
+  };
+});
+---
+
+<BaseLayout title={categoryName} description={`${t(locale, 'articles')} ${categoryName} — ${totalPosts} ${totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}`} locale={locale}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <CategoriesCloud categories={categories} locale={locale} />
+
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize text-balance">
+        {categoryName}
+      </h1>
+      <p class="text-sm text-[var(--color-text-muted)] mt-2 italic">
+        {totalPosts} {totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}
+      </p>
+    </header>
+
+    <ArticlesGrid articles={articles} locale={locale} showViewAll={false} />
+
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      baseUrl={`/categories/${categoryName}/`}
+      locale={locale}
+    />
+  </div>
+</BaseLayout>
