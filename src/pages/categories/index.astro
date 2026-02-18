@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 const locale = 'fr';
 
 const allPosts = await getCollection('posts', ({ id, data }) => {
-  return id.startsWith('fr/') && !data.draft;
+  return id.startsWith('fr/') && !data.draft && !data.archived;
 });
 
 const categoryMap = new Map<string, number>();

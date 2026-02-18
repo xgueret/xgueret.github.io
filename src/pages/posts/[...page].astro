@@ -1,18 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../components/CategoriesCloud.astro';
+import ArticlesGrid from '../../components/ArticlesGrid.astro';
 import Pagination from '../../components/Pagination.astro';
-import { t, formatDate, localePrefix } from '../../i18n';
+import { t, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
-import { getReadingTime } from '../../utils/readingTime';
 import type { GetStaticPaths } from 'astro';
 
 const locale = 'fr';
 
 export const getStaticPaths = (async () => {
-  const PAGE_SIZE = 6;
+  const PAGE_SIZE = 10;
   const allPosts = await getCollection('posts', ({ id, data }) => {
-    return id.startsWith('fr/') && !data.draft;
+    return id.startsWith('fr/') && !data.draft && !data.archived;
   });
   const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
@@ -42,6 +42,24 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { posts, currentPage, totalPages, categories } = Astro.props;
+
+const articles = posts.map((post) => {
+  let summary = post.data.description;
+  if (!summary && post.body) {
+    summary = post.body
+      .replace(/^#+\s+.*/gm, '')
+      .replace(/[*_`~\[\]]/g, '')
+      .replace(/\n+/g, ' ')
+      .trim()
+      .slice(0, 150);
+  }
+  return {
+    title: post.data.title,
+    href: `/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
+    summary,
+    image: post.data.image,
+  };
+});
 ---
 
 <BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
@@ -54,29 +72,7 @@ const { posts, currentPage, totalPages, categories } = Astro.props;
 
     <CategoriesCloud categories={categories} locale={locale} />
 
-    <ul class="list-none p-0 m-0">
-      {posts.map((post) => (
-        <li class="flex gap-6 py-4 border-b border-[var(--color-border)] items-baseline">
-          <time
-            datetime={post.data.date.toISOString()}
-            class="text-[var(--color-text-light)] text-sm whitespace-nowrap min-w-[140px]"
-          >
-            {formatDate(post.data.date, locale)}
-          </time>
-          <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
-            <a
-              href={`/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`}
-              class="text-lg font-medium text-[var(--color-text)] no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
-            >
-              {post.data.title}
-            </a>
-            <span class="text-xs text-[var(--color-text-light)] whitespace-nowrap">
-              {getReadingTime(post.body ?? '')} {t(locale, 'minRead')}
-            </span>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <ArticlesGrid articles={articles} locale={locale} showViewAll={false} />
 
     <Pagination
       currentPage={currentPage}

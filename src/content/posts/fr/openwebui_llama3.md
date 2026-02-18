@@ -9,16 +9,16 @@ tags:
   - "LLaMA 3"
 categories:
   - "tutorial"
+archived: true
 ---
-
 ## Pré-requis
 
 Avant de commencer, assurez-vous d'avoir les éléments suivants installés :
 
-1. **Docker** : [Documentation d'installation Docker](https://docs.docker.com/get-docker/)
-2. **Docker Compose** : [Documentation d'installation Docker Compose](https://docs.docker.com/compose/install/)
-3. **Ollama** : [Documentation d'installation Ollama](https://ollama.com)
-4. **LLaMA 3** : Suivez les instructions de [la documentation d'Ollama pour intégrer LLaMA 3](https://ollama.com/docs) ou obtenez le modèle LLaMA 3 via Ollama
+1. **Docker** : [Documentation d&#39;installation Docker](https://docs.docker.com/get-docker/)
+2. **Docker Compose** : [Documentation d&#39;installation Docker Compose](https://docs.docker.com/compose/install/)
+3. **Ollama** : [Documentation d&#39;installation Ollama](https://ollama.com)
+4. **LLaMA 3** : Suivez les instructions de [la documentation d&#39;Ollama pour intégrer LLaMA 3](https://ollama.com/docs) ou obtenez le modèle LLaMA 3 via Ollama
 
 ## Étape 1: Configurer le service Ollama avec systemd
 
@@ -26,64 +26,60 @@ Ollama est généralement installé avec une configuration systemd préexistante
 
 1. Modifiez le fichier de service systemd pour Ollama :
 
-    ```bash
-    sudo nano /etc/systemd/system/ollama.service
-    ```
-
+   ```bash
+   sudo nano /etc/systemd/system/ollama.service
+   ```
 2. Ajoutez la ligne suivante sous la section `[Service]` pour définir l'adresse et le port d'écoute de Ollama :
 
-    ```ini
-    Environment="OLLAMA_HOST=0.0.0.0:11434"
-    ```
+   ```ini
+   Environment="OLLAMA_HOST=0.0.0.0:11434"
+   ```
 
-    **Remarque :** Cette ligne configure Ollama pour écouter sur toutes les interfaces réseau (`0.0.0.0`) sur le port `11434`, permettant à Open-WebUI d'accéder à Ollama via l'adresse définie dans `OLLAMA_BASE_URL`.
-
+   **Remarque :** Cette ligne configure Ollama pour écouter sur toutes les interfaces réseau (`0.0.0.0`) sur le port `11434`, permettant à Open-WebUI d'accéder à Ollama via l'adresse définie dans `OLLAMA_BASE_URL`.
 3. Rechargez la configuration de systemd pour appliquer les modifications et redémarrez le service Ollama :
 
-    ```bash
-    sudo systemctl daemon-reload
-    sudo systemctl restart ollama
-    ```
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl restart ollama
+   ```
 
 ## Étape 2: Configurer Docker Compose pour Open-WebUI
 
 1. Créez un répertoire pour votre configuration Docker Compose. Par exemple :
 
-    ```bash
-    mkdir -p /path/to/your/open-webui
-    ```
-
+   ```bash
+   mkdir -p /path/to/your/open-webui
+   ```
 2. Dans ce répertoire, créez un fichier `docker-compose.yml` avec le contenu suivant :
 
-    ```yaml
-    version: '3.8'
+   ```yaml
+   version: '3.8'
 
-    services:
-      open-webui:
-        image: ghcr.io/open-webui/open-webui:main
-        container_name: open-webui
-        ports:
-          - "3000:8080"
-        volumes:
-          - open-webui:/app/backend/data
-        extra_hosts:
-          - "host.docker.internal:host-gateway"
-        restart: always
-        environment:
-          - OLLAMA_BASE_URL=http://host.docker.internal:11434
+   services:
+     open-webui:
+       image: ghcr.io/open-webui/open-webui:main
+       container_name: open-webui
+       ports:
+         - "3000:8080"
+       volumes:
+         - open-webui:/app/backend/data
+       extra_hosts:
+         - "host.docker.internal:host-gateway"
+       restart: always
+       environment:
+         - OLLAMA_BASE_URL=http://host.docker.internal:11434
 
-    volumes:
-      open-webui:
-    ```
-
+   volumes:
+     open-webui:
+   ```
 3. Démarrez les services avec Docker Compose :
 
-    ```bash
-    cd /path/to/your/open-webui
-    docker-compose up -d
-    ```
+   ```bash
+   cd /path/to/your/open-webui
+   docker-compose up -d
+   ```
 
-    *Remarque :* Exécutez la commande `docker-compose` sans `sudo` si votre utilisateur fait partie du groupe Docker. Sinon, utilisez `sudo` pour les commandes Docker.
+   *Remarque :* Exécutez la commande `docker-compose` sans `sudo` si votre utilisateur fait partie du groupe Docker. Sinon, utilisez `sudo` pour les commandes Docker.
 
 ## Explication du Choix de `extra_hosts`
 
@@ -109,7 +105,6 @@ Pour vérifier que les services sont en cours d'exécution :
   ```bash
   sudo systemctl status ollama
   ```
-
 - **Open-WebUI :**
 
   Ouvrez un navigateur web et accédez à `http://localhost:3000`. Vous devriez voir l'interface Open-WebUI.

@@ -26,7 +26,7 @@ const desc = description || t(locale, 'siteDescription');
 
 // Get recent posts for chatbot
 const allPosts = await getCollection('posts', ({ id, data }) => {
-  return id.startsWith(`${locale}/`) && !data.draft;
+  return id.startsWith(`${locale}/`) && !data.draft && !data.archived;
 });
 const recentPosts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
