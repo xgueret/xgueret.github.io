@@ -10,7 +10,7 @@ tags:
   - "StarCoder 2"
   - "DeepSeek Coder v2"
 categories:
-  - "tutorial"
+  - "Tutorials"
 image: "/images/posts/configurer-continue-vscode-ollama.png"
 ---
 ## [Vscode](https://code.visualstudio.com/) using the [Continue](https://www.continue.dev/) extension and configuring [Ollama](https://ollama.com/)

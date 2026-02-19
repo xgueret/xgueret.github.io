@@ -8,7 +8,7 @@ tags:
   - "auto-completion"
   - "argcomplete"
 categories:
-  - "ansible"
+  - "Tutorials"
 image: "/images/posts/autocompletion-ansible-argcomplete.png"
 ---
 ## Activating Ansible Auto-completion with Argcomplete

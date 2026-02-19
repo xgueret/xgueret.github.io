@@ -8,7 +8,7 @@ tags:
   - "Ollama"
   - "LLaMA 3"
 categories:
-  - "tutorial"
+  - "Tutoriels"
 archived: true
 ---
 ## Pré-requis

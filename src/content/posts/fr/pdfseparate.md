@@ -6,7 +6,7 @@ tags:
   - "linux"
   - "tips"
 categories:
-  - "linux"
+  - "Linux"
 archived: true
 ---
 # Utiliser pdfseparate pour diviser un fichier PDF

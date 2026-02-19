@@ -13,8 +13,6 @@ tags:
 categories:
   - "Tutoriels"
   - "Intelligence Artificielle"
-  - "Guides Pratiques"
-  - "vibecoding"
 image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 draft: false
 toc: true

@@ -7,7 +7,7 @@ tags:
   - "Ansible"
   - "Python"
 categories:
-  - "github"
+  - "Projets Personnels"
 ---
 
 ## Introduction

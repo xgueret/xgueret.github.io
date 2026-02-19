@@ -10,7 +10,7 @@ tags:
   - "Cloud-Init"
   - "IaC"
 categories:
-  - "github"
+  - "Projets Personnels"
 image: "/images/posts/proxmox-homelab.png"
 ---
 ## Pourquoi ce projet ?

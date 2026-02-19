@@ -12,10 +12,7 @@ tags:
   - "local-first"
   - "automation"
 categories:
-  - "Développement"
-  - "DevOps"
   - "Projets Personnels"
-  - "vibecoding"
 image: "/images/posts/cv-converter.png"
 draft: false
 ---
