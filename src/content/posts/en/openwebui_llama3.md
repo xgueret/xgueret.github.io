@@ -9,7 +9,7 @@ tags:
   - "Ollama"
   - "LLaMA 3"
 categories:
-  - "tutorial"
+  - "Tutorials"
 archived: true
 ---
 ## Prerequisites

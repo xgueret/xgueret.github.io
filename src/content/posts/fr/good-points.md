@@ -10,8 +10,7 @@ tags:
   - "PWA"
   - "Tailwind CSS"
 categories:
-  - "github"
-  - "vibecoding"
+  - "Projets Personnels"
 image: "/images/posts/goodpoints.png"
 ---
 

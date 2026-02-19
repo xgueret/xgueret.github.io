@@ -10,8 +10,7 @@ tags:
   - "Bash"
   - "Open Source"
 categories:
-  - "github"
-  - "vibecoding"
+  - "Personal Projects"
 image: "/images/posts/ckad-dojo.png"
 ---
 ## The starting point

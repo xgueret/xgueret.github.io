@@ -9,7 +9,7 @@ tags:
   - "pre-commit"
   - "python"
 categories:
-  - "tutorial"
+  - "Tutorials"
 image: "/images/posts/hook-pre-commit.png"
 ---
 

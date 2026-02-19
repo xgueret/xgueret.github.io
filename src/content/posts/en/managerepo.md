@@ -10,7 +10,7 @@ tags:
   - "IAC"
   - "Automation"
 categories:
-  - "github"
+  - "Personal Projects"
 ---
 
 ## Introduction

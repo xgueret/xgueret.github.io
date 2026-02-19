@@ -7,7 +7,7 @@ tags:
   - "Docker"
   - "SSL"
 categories:
-  - "tutorial"
+  - "Tutorials"
 ---
 
 Portainer is a powerful and easy-to-use management tool for Docker. In this tutorial, we will guide you through the installation of Portainer using Docker Compose, covering both a standard installation and a more secure setup with self-signed certificates.

@@ -11,9 +11,8 @@ tags:
   - "automation"
   - "ai"
 categories:
-  - "tutorial"
+  - "Tutorials"
   - "Artificial Intelligence"
-  - "Practical Guides"
 image: "/images/posts/excalidraw_mcp.png"
 draft: false
 ---
