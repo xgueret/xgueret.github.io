@@ -16,10 +16,11 @@ interface Props {
   ogType?: 'website' | 'article';
   publishedTime?: string;
   authorName?: string;
+  tags?: string[];
   jsonLd?: Record<string, unknown>;
 }
 
-const { title, description, locale, canonicalUrl, ogImage, ogType, publishedTime, authorName, jsonLd } = Astro.props;
+const { title, description, locale, canonicalUrl, ogImage, ogType, publishedTime, authorName, tags, jsonLd } = Astro.props;
 const siteTitle = t(locale, 'siteTitle');
 const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
 const desc = description || t(locale, 'siteDescription');
@@ -59,6 +60,7 @@ const recentPosts = allPosts
       ogType={ogType}
       publishedTime={publishedTime}
       authorName={authorName}
+      tags={tags}
     />
     {jsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
