@@ -5,6 +5,7 @@ import { t, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'fr';
+const site = 'https://xgueret.github.io';
 
 const allTrainings = await getCollection('training', ({ id, data }) => {
   return id.startsWith('fr/') && !data.draft;
@@ -18,9 +19,19 @@ const trainings = allTrainings.map((training) => ({
   tags: training.data.tags,
   image: training.data.image,
 }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: t(locale, 'recentTrainings'),
+  description: t(locale, 'trainingsDescription'),
+  url: `${site}/training/`,
+  inLanguage: 'fr',
+  isPartOf: { '@type': 'WebSite', name: 'Xavier GUERET', url: site },
+};
 ---
 
-<BaseLayout title={t(locale, 'recentTrainings')} description={t(locale, 'trainingsDescription')} locale={locale}>
+<BaseLayout title={t(locale, 'recentTrainings')} description={t(locale, 'trainingsDescription')} locale={locale} jsonLd={jsonLd}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
       <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)]">

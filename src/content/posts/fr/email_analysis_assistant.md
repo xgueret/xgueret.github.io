@@ -18,7 +18,7 @@ draft: false
 toc: true
 ---
 
-## Ce Que Vous Allez Créer
+## Que permet de faire cet assistant IA d'emails ?
 
 Imaginez pouvoir demander à votre ordinateur :
 
@@ -28,7 +28,7 @@ Imaginez pouvoir demander à votre ordinateur :
 
 C'est exactement ce que vous allez construire dans ce tutoriel ! Nous allons créer un assistant personnel qui peut analyser vos emails Gmail en utilisant Claude Code, le tout **en lecture seule** pour une sécurité maximale.
 
-### Pourquoi ce tutoriel ?
+### Pourquoi créer un assistant d'analyse d'emails ?
 
 - **Simple** : Configuration en 30 minutes
 - **Sécurisé** : Accès lecture seule uniquement
@@ -43,7 +43,7 @@ C'est exactement ce que vous allez construire dans ce tutoriel ! Nous allons cr�
 - 30 minutes de votre temps
 - Aucune compétence en programmation requise !
 
-## Vue d'Ensemble : Comment Ca Marche ?
+## Comment est architecturée cette solution ?
 
 ```
      Vos Emails Gmail

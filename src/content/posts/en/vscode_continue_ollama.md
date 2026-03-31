@@ -32,7 +32,7 @@ Before you begin, make sure you have:
 - In the left panel, click on the **Extensions** icon.
 - Search for **Continue** in the extensions search bar.
 
-  ![install_continue_vscode](/images/install_continue_vscode.png)
+  ![Screenshot showing the Continue extension installation in the VS Code Extensions panel](/images/install_continue_vscode.png)
 - Click **Install** for the **Continue** extension.
 
 ### Step 3: Configure Ollama

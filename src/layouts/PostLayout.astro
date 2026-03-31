@@ -5,6 +5,7 @@ import { type Locale, t, formatDate, localePrefix } from '../i18n';
 interface Props {
   title: string;
   date: Date;
+  updatedDate?: Date;
   author?: string;
   tags?: string[];
   categories?: string[];
@@ -14,24 +15,65 @@ interface Props {
   readingTime?: number;
 }
 
-const { title, date, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale, readingTime } = Astro.props;
+const { title, date, updatedDate, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale, readingTime } = Astro.props;
+const modifiedDate = updatedDate || date;
 
 const site = Astro.site?.toString().replace(/\/$/, '') || '';
 const postUrl = `${site}${Astro.url.pathname}`;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
+const blogPostingLd = {
   '@type': 'BlogPosting',
   headline: title,
   datePublished: date.toISOString(),
+  dateModified: modifiedDate.toISOString(),
   author: {
     '@type': 'Person',
     name: author,
     url: `${site}${localePrefix(locale)}/`,
   },
+  publisher: {
+    '@type': 'Person',
+    name: 'Xavier GUERET',
+    url: site,
+  },
   ...(description && { description }),
   ...(image && { image }),
   url: postUrl,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': postUrl,
+  },
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+  inLanguage: locale,
+};
+
+const breadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: locale === 'fr' ? 'Accueil' : 'Home',
+      item: `${site}${localePrefix(locale)}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'fr' ? 'Articles' : 'Posts',
+      item: `${site}${localePrefix(locale)}/posts/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: title,
+      item: postUrl,
+    },
+  ],
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [blogPostingLd, breadcrumbLd],
 };
 ---
 
@@ -42,6 +84,7 @@ const jsonLd = {
   ogType="article"
   publishedTime={date.toISOString()}
   authorName={author}
+  tags={tags}
   jsonLd={jsonLd}
 >
   <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

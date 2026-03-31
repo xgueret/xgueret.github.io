@@ -3,9 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { t } from '../i18n';
 
 const locale = 'fr';
+const site = 'https://xgueret.github.io';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: t(locale, 'contactTitle'),
+  description: t(locale, 'contactDescription'),
+  url: `${site}/contact/`,
+  inLanguage: 'fr',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Xavier GUERET',
+    url: `${site}/`,
+    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret'],
+  },
+};
 ---
 
-<BaseLayout title={t(locale, 'contactTitle')} description={t(locale, 'contactDescription')} locale={locale}>
+<BaseLayout title={t(locale, 'contactTitle')} description={t(locale, 'contactDescription')} locale={locale} jsonLd={jsonLd}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
       <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] text-balance">

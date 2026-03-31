@@ -4,9 +4,20 @@ import ProjectsGrid from '../components/ProjectsGrid.astro';
 import { t } from '../i18n';
 
 const locale = 'fr';
+const site = 'https://xgueret.github.io';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: t(locale, 'projects'),
+  description: t(locale, 'projectsDescription'),
+  url: `${site}/projects/`,
+  inLanguage: 'fr',
+  isPartOf: { '@type': 'WebSite', name: 'Xavier GUERET', url: site },
+};
 ---
 
-<BaseLayout title={t(locale, 'projects')} description={t(locale, 'projectsDescription')} locale={locale}>
+<BaseLayout title={t(locale, 'projects')} description={t(locale, 'projectsDescription')} locale={locale} jsonLd={jsonLd}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
       <h1 class="text-4xl font-bold text-[var(--color-text)] text-balance">

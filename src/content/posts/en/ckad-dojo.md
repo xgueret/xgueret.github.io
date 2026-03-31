@@ -13,13 +13,13 @@ categories:
   - "Personal Projects"
 image: "/images/posts/ckad-dojo.png"
 ---
-## The starting point
+## Why create a CKAD training platform?
 
 When I started preparing for the CKAD certification, I quickly noticed a gap: there wasn't really a local simulator that replicated real exam conditions. Online platforms are often paid, time-limited, and most importantly you can't just relaunch them at will to work on your weak spots.
 
 What I wanted was a tool I could run on my local cluster, with a real 2-hour timer, questions that set up their own Kubernetes environment, and automatic scoring to know exactly where I stand. So I built it.
 
-## What ckad-dojo is
+## What does CKAD Dojo offer?
 
 [ckad-dojo](https://github.com/TiPunchLabs/ckad-dojo) is a CKAD exam simulator that runs entirely locally. You launch a command, it deploys the required Kubernetes environment (namespaces, resources, Helm releases), opens a web interface with a 120-minute timer and an embedded terminal, and at the end you can score your answers against 400+ automatically evaluated criteria.
 
@@ -91,7 +91,7 @@ The timer changes color based on remaining time:
 
 You can navigate between questions, flag them for review (F key), and move through them with arrow keys.
 
-## Tooling
+## What technologies are used in CKAD Dojo?
 
 The project uses a unified Python CLI (`ckad_dojo.py`) built with `argparse` and managed by `uv`. It orchestrates the Bash scripts that do the actual work (setup, scoring, cleanup). The web interface is vanilla JS with a standard library Python server — no framework, no external dependency.
 

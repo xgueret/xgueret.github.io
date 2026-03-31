@@ -3,6 +3,8 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 
 const locale = 'fr';
+const site = 'https://xgueret.github.io';
+
 const pages = await getCollection('pages', ({ id }) => id === 'fr/about.md');
 const page = pages[0];
 let Content;
@@ -11,8 +13,28 @@ if (page) {
   Content = rendered.Content;
 }
 const title = page?.data.title || 'A Propos';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: title,
+  url: `${site}/about/`,
+  inLanguage: 'fr',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Xavier GUERET',
+    jobTitle: 'DevOps Engineer',
+    url: `${site}/`,
+    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'CI/CD', 'GitHub Actions', 'GitLab CI'],
+    hasCredential: [
+      { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Certified Kubernetes Administrator (CKA)' },
+      { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'HashiCorp Certified: Terraform Associate (002)' },
+    ],
+    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret'],
+  },
+};
 ---
 
-<PageLayout title={title} locale={locale}>
+<PageLayout title={title} locale={locale} jsonLd={jsonLd}>
   {Content && <Content />}
 </PageLayout>

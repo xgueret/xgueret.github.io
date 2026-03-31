@@ -1,0 +1,112 @@
+# Xavier GUERET — DevOps Engineer
+
+> Personal portfolio and technical blog. Bilingual site (French/English).
+> URL: https://xgueret.github.io
+
+---
+
+## About Xavier GUERET
+
+Xavier GUERET is a DevOps Engineer based in Guadeloupe, with 11 years of experience in software development. Originally a Java developer, he transitioned to DevOps through Linux environment management, application deployment on OpenShift and Kubernetes, and building reproducible infrastructure with Ansible and Terraform.
+
+**Certifications:**
+- Certified Kubernetes Administrator (CKA)
+- HashiCorp Certified: Terraform Associate (002)
+
+**Core Skills:**
+- Automation: Terraform, Ansible
+- CI/CD: Jenkins, GitLab CI, GitHub Actions
+- Containerization: Docker, Kubernetes
+- Scripting: Bash, Python
+
+**Social Profiles:**
+- GitHub: https://github.com/xgueret
+- GitLab: https://gitlab.com/xgueret
+- LinkedIn: https://linkedin.com/in/xgueret
+
+---
+
+## Blog Topics & Key Articles
+
+### Infrastructure as Code & Homelab
+
+**My Homelab: From Proxmox to Kubernetes, Fully Automated**
+A comprehensive walkthrough of building an Infrastructure as Code monorepo to manage a personal homelab — Proxmox virtualization, Docker containers, Kubernetes clusters — all orchestrated with Terraform and Ansible. The project demonstrates enterprise-grade IaC practices applied to a home environment.
+
+### AI & Developer Tools
+
+**Build an AI Email Analysis Assistant with Claude Code**
+Step-by-step tutorial on creating a complete email analysis pipeline using Claude Code, integrating with Gmail API, and building AI-powered email classification and summarization.
+
+**Generate Excalidraw Diagrams from Claude Code with MCP**
+Technical tutorial on using the Model Context Protocol (MCP) to connect Claude Code with Excalidraw for automated diagram generation. Covers MCP server setup, Chromium headless rendering, and workflow automation.
+
+**VS Code + Continue + Ollama for Local AI Development**
+Guide to setting up a fully local AI coding assistant using VS Code with the Continue extension and Ollama for running LLMs locally. Zero cloud dependency, full privacy.
+
+**Open WebUI with Llama 3**
+Tutorial on deploying Open WebUI as a self-hosted ChatGPT alternative, powered by Llama 3 via Ollama.
+
+### Kubernetes & Container Orchestration
+
+**CKAD Dojo — Kubernetes Training Platform**
+A training platform for CKAD (Certified Kubernetes Application Developer) exam preparation, featuring hands-on exercises and real-world scenarios.
+
+**Deploy Portainer to Manage Docker**
+Step-by-step guide to deploying Portainer for Docker container management with a web UI.
+
+### DevOps Best Practices
+
+**Pre-commit Hooks for Clean Code**
+How to set up and configure pre-commit hooks to enforce code quality standards automatically before each commit.
+
+**Bash Autocompletion for Ansible**
+Setting up intelligent bash autocompletion for Ansible commands and playbooks.
+
+### Developer Tools
+
+**CV Converter — Multi-format Resume Generator**
+A tool that converts a single resume source into multiple output formats (PDF, HTML, Markdown).
+
+**ManageRepo — Git Repository Manager**
+CLI tool for managing multiple Git repositories across different providers.
+
+**PDFSeparate — PDF Splitting Tool**
+Utility for splitting PDF documents by page ranges.
+
+**LocalCompute — Distributed Local Compute**
+Framework for distributing computational workloads across local machines.
+
+---
+
+## Projects Portfolio
+
+### GitHub Projects
+- **homelab** — IaC monorepo: Proxmox + Docker + Kubernetes with Terraform & Ansible
+- **ckad-dojo** — Kubernetes training platform for CKAD certification
+- **good-points** — Behavior tracking app for children (gamified point system)
+- **hugo-site-manager** — CLI tool for managing Hugo static sites
+- **simplifalc** — Text simplification tool (FALC standard)
+- **leucocytes-tracking-app** — Medical tracking app for leucocyte counts
+- **vagrant-k8s-cluster** — Vagrant-based local Kubernetes cluster provisioner
+
+### Websites
+- **adelineguillotgueret** — Personal website project
+
+### Training
+- **formation-python** — Python training course materials with hands-on exercises
+
+---
+
+## Site Structure
+
+- **Homepage**: Overview with recent articles and trainings
+- **Blog** (`/posts/`): Technical articles on DevOps, Kubernetes, AI, automation
+- **Projects** (`/projects/`): Portfolio of GitHub projects, websites, and training materials
+- **Training** (`/training/`): Available training courses
+- **About** (`/about/`): Professional background and skills
+- **CV** (`/cv/`): Detailed resume with certifications
+- **Contact** (`/contact/`): Contact form
+- **Categories** (`/categories/`): Articles organized by topic (DevOps, GitHub, AI, etc.)
+
+All pages available in French (root) and English (`/en/` prefix).
