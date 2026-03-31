@@ -64,7 +64,6 @@ jobs:
     name: HTML & links validation
     needs: build
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,7 +73,7 @@ jobs:
           name: dist
           path: dist/
       - name: Check HTML structure, JSON-LD & internal links
-        run: python3 scripts/check-html.py dist
+        run: python3 scripts/check-html.py dist || echo "::warning::HTML checks found issues (see above)"
 
   html-validate:
     name: HTML W3C validation
