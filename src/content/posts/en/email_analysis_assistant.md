@@ -15,7 +15,7 @@ categories:
   - "Artificial Intelligence"
 image: "/images/posts/email-with-ia-clauded-code-gmail.png"
 ---
-## 🎯 What You're Going to Build
+## 🎯 What does this AI email assistant do?
 
 Imagine being able to ask your computer:
 
@@ -25,7 +25,7 @@ Imagine being able to ask your computer:
 
 That's exactly what you'll build in this tutorial! We're going to create a personal assistant that can analyze your Gmail emails using Claude Code, all in **read-only mode** for maximum security.
 
-### Why this tutorial?
+### Why create an email analysis assistant?
 
 - ✅ **Simple**: 30-minute setup
 - ✅ **Secure**: Read-only access only
@@ -40,7 +40,7 @@ That's exactly what you'll build in this tutorial! We're going to create a perso
 - 30 minutes of your time
 - No programming skills required!
 
-## 🚀 Overview: How Does It Work?
+## 🚀 How is this solution architected?
 
 ```
     Your Gmail Emails

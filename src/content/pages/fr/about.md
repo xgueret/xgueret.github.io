@@ -9,7 +9,7 @@ Je suis développeur de formation avec 11 ans d'expérience dans le développeme
 
 Mon parcours dans le DevOps a été à la fois stimulant et enrichissant, et je suis impatient de continuer à apprendre et à progresser dans ce domaine. Je suis toujours ouvert à de nouvelles opportunités qui me permettent de perfectionner mes compétences et de contribuer à des projets innovants.
 
-## Compétences
+## Quelles sont mes compétences techniques ?
 
 - **Automatisation** : Terraform, Ansible
 - **CI/CD** : Jenkins, GitLab CI, GitHub Actions
@@ -19,7 +19,7 @@ Mon parcours dans le DevOps a été à la fois stimulant et enrichissant, et je 
 <!-- - **Monitoring & Logs** : Prometheus, ELK Stack -->
 <!-- - **Sécurité** : Vault, SecOps -->
 
-## Certifications
+## Quelles certifications ai-je obtenues ?
 
 <!-- - AWS Certified Solutions Architect -->
 - Certified Kubernetes Administrator (CKA)

@@ -3,7 +3,7 @@ title: "Resume"
 description: "Resume of Xavier GUERET - DevOps Engineer"
 ---
 
-### PROFESSIONAL PROFILE
+### What is my professional profile?
 
 **DevOps Engineer** in progression, with a background in Java development and solid experience in
 automation and continuous integration. I have transitioned into DevOps through managing Linux
@@ -14,14 +14,14 @@ Cloud-Native practices. Certified Kubernetes Administrator (CKA), Terraform Asso
 Automation Specialist, I am looking for a technically stimulating environment that encourages growth,
 knowledge sharing, and best practices.
 
-### TECHNICAL SKILLS
+### What technologies do I work with?
 
 - **Automation**: Terraform, Ansible
 - **CI/CD**: Jenkins, GitLab CI, GitHub Actions
 - **Containerization**: Docker, Kubernetes
 - **Scripting**: Bash, Python
 
-### PROFESSIONAL CERTIFICATIONS
+### What professional certifications do I have?
 
 - Certified Kubernetes Administrator (CKA)
 - HashiCorp Certified: Terraform Associate (002)

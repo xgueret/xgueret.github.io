@@ -10,7 +10,7 @@ I am a developer by background with 11 years of experience in software developme
 My journey into DevOps has been both challenging and rewarding, and I'm eager to continue learning and growing in this field. I'm always open to new opportunities that allow me to further enhance my skills and contribute to innovative projects.
 
 
-## Skills
+## What are my technical skills?
 
 - **Automation**: Terraform, Ansible
 - **CI/CD**: Jenkins, GitLab CI, GitHub Actions
@@ -20,7 +20,7 @@ My journey into DevOps has been both challenging and rewarding, and I'm eager to
 <!-- - **Monitoring & Logs**: Prometheus, ELK Stack -->
 <!-- - **Security**: Vault, SecOps -->
 
-## Certifications
+## What certifications do I hold?
 
 <!-- - AWS Certified Solutions Architect -->
 - Certified Kubernetes Administrator (CKA)

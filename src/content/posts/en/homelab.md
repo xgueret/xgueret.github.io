@@ -22,7 +22,7 @@ categories:
   - "Personal Projects"
 image: "/images/posts/homelab.jpg"
 ---
-## Why this project?
+## Why build an automated homelab?
 
 Like many folks in the field, I had an old PC gathering dust — an Acer XC-605 — and the idea of turning it into a home server had been on my mind for a while. Proxmox VE was the obvious choice: open-source, powerful, and perfect for running VMs and containers without breaking the bank.
 
@@ -30,7 +30,7 @@ But installing Proxmox by hand, creating users, configuring storage, building VM
 
 So I decided to code the whole thing. And pretty quickly, the scope grew way beyond just Proxmox configuration: a Docker host for containerized services, a Kubernetes cluster to learn and experiment with, a VPN for remote access, a reverse proxy for internal domains, a local DNS to resolve `.internal` names… One thing led to another, and the project became a full platform. The result is the [TiPunchLabs/homelab](https://github.com/TiPunchLabs/homelab) project: an Infrastructure as Code monorepo that takes a freshly installed Proxmox and deploys an entire infrastructure on top of it, idempotently and reproducibly.
 
-## The monorepo architecture
+## How is the IaC monorepo organized?
 
 The project is split into seven independent sub-projects, each following the same pattern: **Terraform** provisions the VMs or LXC containers on Proxmox, then **Ansible** configures them.
 
@@ -68,7 +68,7 @@ All in all, that's 7 VMs and 2 LXC containers, all deployed on a single Proxmox 
 
 The `proxmox/` sub-project is where everything starts. Its Ansible playbook with a `configure` role runs four stages, each independently executable via tags:
 
-### SSH hardening
+### How to secure SSH on a homelab?
 
 First thing after a fresh install: lock down access. The playbook creates a dedicated `ansible` user with sudo privileges, deploys my SSH public key, then disables password authentication.
 
@@ -76,7 +76,7 @@ First thing after a fresh install: lock down access. The playbook creates a dedi
 ansible-playbook -u root playbook.yml --tags "security_ssh_hardening"
 ```
 
-### API roles, users, and tokens
+### How to manage access in a Proxmox homelab?
 
 Proxmox has its own access management system (`pveum`), and manually creating API tokens with the right privileges is pretty tedious. The playbook deploys a script that reads a JSON file describing the tokens to create, then uses `pveum` to provision everything idempotently:
 

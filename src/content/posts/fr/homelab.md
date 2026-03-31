@@ -22,7 +22,7 @@ categories:
   - "Projets Personnels"
 image: "/images/posts/homelab.jpg"
 ---
-## Pourquoi ce projet ?
+## Pourquoi construire un homelab automatisé ?
 
 Comme beaucoup de gens dans le milieu, j'ai un vieux PC qui traîne — un Acer XC-605 — et l'idée de le transformer en serveur maison me trottait dans la tête depuis un moment. Proxmox VE était le choix évident : libre, puissant, et parfait pour faire tourner des VMs et des conteneurs sans se ruiner.
 
@@ -30,7 +30,7 @@ Mais installer Proxmox à la main, créer des utilisateurs, configurer le stocka
 
 J'ai donc décidé de tout coder. Et très vite, le scope a grandi bien au-delà de la simple configuration de Proxmox : un Docker host pour mes services conteneurisés, un cluster Kubernetes pour apprendre et expérimenter, un VPN pour l'accès distant, un reverse proxy pour les domaines internes, un DNS local pour résoudre mes noms en `.internal`… De fil en aiguille, le projet est devenu une vraie plateforme. Le résultat, c'est le projet [TiPunchLabs/homelab](https://github.com/TiPunchLabs/homelab) : un monorepo Infrastructure as Code qui prend un Proxmox fraîchement installé et y déploie toute une infrastructure, de manière idempotente et reproductible.
 
-## L'architecture du monorepo
+## Comment est organisé le monorepo IaC ?
 
 Le projet est découpé en sept sous-projets indépendants, chacun suivant le même schéma : **Terraform** provisionne les VMs ou conteneurs LXC sur Proxmox, puis **Ansible** les configure.
 
@@ -68,7 +68,7 @@ Au total, ça fait 7 VMs et 2 conteneurs LXC, le tout déployé sur un seul nœu
 
 Le sous-projet `proxmox/` est le point de départ. Son playbook Ansible avec un rôle `configure` enchaîne quatre étapes, chacune exécutable indépendamment grâce aux tags :
 
-### Durcissement SSH
+### Comment sécuriser SSH sur un homelab ?
 
 Première étape après une installation fraîche : sécuriser l'accès. Le playbook crée un utilisateur `ansible` dédié avec accès sudo, déploie ma clé publique SSH, puis désactive l'authentification par mot de passe.
 
@@ -76,7 +76,7 @@ Première étape après une installation fraîche : sécuriser l'accès. Le play
 ansible-playbook -u root playbook.yml --tags "security_ssh_hardening"
 ```
 
-### Rôles, utilisateurs et tokens API
+### Comment gérer les accès dans un homelab Proxmox ?
 
 Proxmox utilise son propre système de gestion des accès (`pveum`), et créer des tokens API avec les bons privilèges à la main est assez fastidieux. Le playbook déploie un script qui lit un fichier JSON décrivant les tokens à créer, puis utilise `pveum` pour provisionner le tout de manière idempotente :
 

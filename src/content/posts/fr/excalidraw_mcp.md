@@ -42,13 +42,13 @@ Avant de foncer sur l'installation, un rapide tour d'horizon des options disponi
 
 Pour un setup **Claude Code CLI**, **excalidraw-render** est le choix le plus adapté : léger, sans serveur canvas à maintenir, rendu direct en fichier.
 
-## Prérequis
+## De quoi a-t-on besoin pour générer des diagrammes Excalidraw ?
 
 - **Node.js ≥ 18** (vérifier avec `node -v`)
 - **Claude Code CLI** installé et fonctionnel
 - Chromium est installé automatiquement par **Playwright** au premier lancement
 
-## Installation
+## Comment installer le serveur MCP Excalidraw ?
 
 ### Option 1 — npx (recommandé)
 
@@ -119,7 +119,7 @@ Voici ce qui se passe sous le capot à chaque demande :
 
 Le premier appel est donc un peu lent, mais les suivants sont quasi instantanés.
 
-## Utilisation dans Claude Code
+## Comment utiliser Excalidraw depuis Claude Code ?
 
 ### Premier diagramme
 
