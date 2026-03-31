@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# LLM discovery — see https://llmstxt.org
+Allow: /llms.txt
+Allow: /llms-full.txt
+
 Sitemap: https://xgueret.github.io/sitemap-index.xml
