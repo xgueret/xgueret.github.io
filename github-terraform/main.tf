@@ -15,6 +15,14 @@ resource "github_repository" "githubpage" {
   name        = var.repository_name
   description = var.repository_description
   visibility  = var.visibility
+
+  pages {
+    build_type = "workflow"
+    cname      = var.custom_domain
+    source {
+      branch = "main"
+    }
+  }
 }
 
 resource "github_branch_protection" "main" {
