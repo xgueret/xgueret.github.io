@@ -30,6 +30,9 @@ dist/
 *.tfvars
 *.tfplan
 
+# direnv (may contain secrets like TF_VAR_github_token)
+.envrc
+
 # Log files
 *.log
 
