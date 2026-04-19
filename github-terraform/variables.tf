@@ -21,3 +21,9 @@ variable "visibility" {
   type        = string
   default     = "public"
 }
+
+variable "custom_domain" {
+  description = "Custom domain (CNAME) for GitHub Pages. Leave empty to use the default *.github.io URL."
+  type        = string
+  default     = "xgueret.tipunchlabs.fr"
+}

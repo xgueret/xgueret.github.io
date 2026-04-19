@@ -18,6 +18,7 @@ resource "github_repository" "githubpage" {
 
   pages {
     build_type = "workflow"
+    cname      = var.custom_domain
     source {
       branch = "main"
     }
