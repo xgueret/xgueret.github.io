@@ -17,6 +17,24 @@ resource "github_repository" "githubpage" {
   visibility  = var.visibility
 }
 
+resource "github_branch_protection" "main" {
+  repository_id = github_repository.githubpage.node_id
+  pattern       = "main"
+
+  enforce_admins      = false
+  allows_deletions    = false
+  allows_force_pushes = false
+
+  required_status_checks {
+    strict   = false
+    contexts = [
+      "Article validation",
+      "Astro check",
+      "Build",
+    ]
+  }
+}
+
 output "repository_url" {
   value = github_repository.githubpage.html_url
 }
