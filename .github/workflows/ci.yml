@@ -28,11 +28,9 @@ jobs:
         with:
           node-version: "22"
       - name: Install pnpm
-        run: corepack enable && corepack prepare pnpm@latest --activate
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        env:
-          npm_config_only_built_dependencies: sharp,esbuild
       - name: Astro check
         run: pnpm exec astro check
 
@@ -49,11 +47,9 @@ jobs:
         with:
           node-version: "22"
       - name: Install pnpm
-        run: corepack enable && corepack prepare pnpm@latest --activate
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        env:
-          npm_config_only_built_dependencies: sharp,esbuild
       - name: Build
         run: pnpm run build
       - name: Upload dist
