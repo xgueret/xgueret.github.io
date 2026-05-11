@@ -1,0 +1,28 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  isActive?: boolean;
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const { href, label, isActive = false, size = 'sm', class: className = '' } = Astro.props;
+const sizeClasses = size === 'sm' ? 'px-4 py-2 text-sm' : 'px-4 py-3 text-base';
+---
+
+<a
+  href={href}
+  aria-current={isActive ? 'page' : undefined}
+  class:list={[
+    'inline-flex items-center gap-2 rounded-full no-underline font-semibold transition-colors',
+    sizeClasses,
+    'bg-navy-light text-white hover:bg-navy-light/80',
+    'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
+    isActive && 'ring-1 ring-white/30',
+    className,
+  ]}
+>
+  <span class="size-2 rounded-full bg-emerald-400 shadow-[0_0_0_2px_rgba(52,211,153,0.25)]" aria-hidden="true"></span>
+  <span>{label}</span>
+</a>

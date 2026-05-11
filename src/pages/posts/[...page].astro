@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../components/CategoriesCloud.astro';
 import ArticlesGrid from '../../components/ArticlesGrid.astro';
 import Pagination from '../../components/Pagination.astro';
-import { t, localePrefix } from '../../i18n';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import { t } from '../../i18n';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
@@ -65,9 +66,7 @@ const articles = posts.map((post) => {
 <BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] text-balance">
-        {t(locale, 'posts')}
-      </h1>
+      <SectionEyebrow text={t(locale, 'posts')} />
     </header>
 
     <CategoriesCloud categories={categories} locale={locale} />

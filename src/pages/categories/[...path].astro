@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../components/CategoriesCloud.astro';
 import ArticlesGrid from '../../components/ArticlesGrid.astro';
 import Pagination from '../../components/Pagination.astro';
-import { t, localePrefix } from '../../i18n';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import { t } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'fr';
@@ -89,9 +90,7 @@ const articles = posts.map((post) => {
     <CategoriesCloud categories={categories} locale={locale} />
 
     <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] capitalize text-balance">
-        {categoryName}
-      </h1>
+      <SectionEyebrow text={categoryName} />
       <p class="text-sm text-[var(--color-text-muted)] mt-2 italic">
         {totalPosts} {totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}
       </p>

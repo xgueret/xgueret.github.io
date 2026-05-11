@@ -31,6 +31,7 @@ const training = defineCollection({
     title: z.string(),
     date: z.coerce.date().optional(),
     draft: z.boolean().default(false),
+    archived: z.boolean().default(false),
     description: z.string().optional(),
     externalLink: z.string().url().optional(),
     tags: z.array(z.string()).default([]),

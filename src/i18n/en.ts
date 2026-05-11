@@ -9,6 +9,7 @@ export default {
   posts: 'Articles',
   projects: 'Projects',
   contact: 'Contact',
+  availableContact: 'Available · contact me',
   mainNavigation: 'Main navigation',
   toggleMenu: 'Toggle menu',
   toggleColorScheme: 'Toggle color scheme',
@@ -19,16 +20,11 @@ export default {
 
   // Hero
   author: 'Xavier GUERET',
-  heroTitle: 'DevOps Engineer & Automation Enthusiast',
-  heroTitlePrefix: 'DevOps Engineer &',
-  heroTitlePhrases: [
-    'Automation Enthusiast',
-    'Container Orchestrator',
-    'CI/CD Craftsman',
-  ],
-  heroDescription: 'One day, someone said\nAutomating is the key to chill development: less stress, more flow, and deployments that happen with your fingers in the code!\nSo since then, I\'ve been on the path of learning Kubernetes, Python, Ansible, Terraform…. in quest of the ultimate mastery to automate everything that moves and keep a zen mindset!\nBack in Guadeloupe 🌴, my native island, where code deploys to the rhythm of the Trade Winds.',
-  viewCV: 'View my Resume',
-  contactMe: 'Contact me',
+  heroEyebrow: 'DevOps Engineer · Guadeloupe',
+  heroHeadline1: 'Build,',
+  heroHeadline2: 'deploy,',
+  heroHeadline3: 'automate.',
+  heroDescription: 'One day, someone said\nAutomating is the key to chill development: less stress, more flow, and deployments that happen with your fingers in the code!\nSo since then, I\'ve been on the path of learning Kubernetes, Python, Ansible, Terraform…. in quest of the ultimate mastery to automate everything that moves and keep a zen mindset!\nBack in Guadeloupe, my native island, where code deploys to the rhythm of the Trade Winds.',
 
   // Articles
   postsDescription: 'Articles and tutorials about DevOps, Kubernetes, Ansible, Terraform, Python and automation.',

@@ -1,0 +1,16 @@
+---
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'p';
+  class?: string;
+}
+
+const { text, as: Tag = 'h1', class: className = '' } = Astro.props;
+---
+
+<div class:list={['flex items-center gap-3', className]}>
+  <span class="block h-px w-10 bg-[var(--color-accent)] shrink-0" aria-hidden="true"></span>
+  <Tag class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)] m-0">
+    {text}
+  </Tag>
+</div>

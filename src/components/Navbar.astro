@@ -1,24 +1,25 @@
 ---
-import { type Locale, t, getAlternateLocale, localizedPath, localePrefix } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
+import AvailabilityPill from './AvailabilityPill.astro';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const altLocale = getAlternateLocale(locale);
 const currentPath = Astro.url.pathname;
 
 const prefix = localePrefix(locale);
 const navItems = [
-  { name: t(locale, 'home'), href: `${prefix}/` },
   { name: t(locale, 'cv'), href: `${prefix}/cv/` },
   { name: t(locale, 'posts'), href: `${prefix}/posts/` },
   { name: t(locale, 'projects'), href: `${prefix}/projects/` },
-  { name: t(locale, 'contact'), href: `${prefix}/contact/` },
 ];
+const contactHref = `${prefix}/contact/`;
+const isContactActive = currentPath === contactHref;
+const pillLabel = t(locale, 'availableContact');
 ---
 
 <nav
@@ -28,7 +29,11 @@ const navItems = [
   <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
     <!-- Left: Brand + Menu -->
     <div class="flex items-center gap-8">
-      <a href={`${prefix}/`} class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none focus-visible:rounded-md">
+      <a
+        href={`${prefix}/`}
+        aria-label={t(locale, 'home')}
+        class="text-2xl font-bold text-white no-underline hover:opacity-80 transition-opacity tracking-tight focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none focus-visible:rounded-md"
+      >
         {t(locale, 'author')}
       </a>
 
@@ -37,18 +42,20 @@ const navItems = [
           <li>
             <a
               href={item.href}
-              {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               class:list={[
                 'text-white/70 no-underline text-lg font-medium px-4 py-2 rounded-md transition-colors',
                 'hover:text-white hover:bg-white/10',
                 'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
-                !item.external && currentPath === item.href && 'text-white bg-white/15',
+                currentPath === item.href && 'text-white bg-white/15',
               ]}
             >
               {item.name}
             </a>
           </li>
         ))}
+        <li class="ml-2">
+          <AvailabilityPill href={contactHref} label={pillLabel} isActive={isContactActive} size="sm" />
+        </li>
       </ul>
     </div>
 
@@ -80,17 +87,17 @@ const navItems = [
     {navItems.map((item) => (
       <a
         href={item.href}
-        {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         class:list={[
           'text-white/70 no-underline text-lg font-medium px-4 py-3 rounded-md text-center block',
           'hover:text-white hover:bg-white/10',
           'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
-          !item.external && currentPath === item.href && 'text-white bg-white/15',
+          currentPath === item.href && 'text-white bg-white/15',
         ]}
       >
         {item.name}
       </a>
     ))}
+    <AvailabilityPill href={contactHref} label={pillLabel} isActive={isContactActive} size="md" class="justify-center mx-auto mt-2" />
     <div class="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-white/10">
       <DarkModeToggle locale={locale} />
       <LanguageSwitcher locale={locale} currentPath={currentPath} />
