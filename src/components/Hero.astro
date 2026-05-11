@@ -1,150 +1,73 @@
 ---
-import { type Locale, t, localePrefix } from '../i18n';
-import fr from '../i18n/fr';
-import en from '../i18n/en';
+import { type Locale, t } from '../i18n';
+import SectionEyebrow from './SectionEyebrow.astro';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const phrases = locale === 'fr' ? fr.heroTitlePhrases : en.heroTitlePhrases;
+const descLines = t(locale, 'heroDescription').split('\n');
+// 0 = intro to quote, 1 = quote, 2-3 = paragraphs
 ---
 
-<section class="bg-[var(--color-bg)] py-20 min-h-[calc(100dvh-var(--navbar-height))] flex flex-col relative">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1">
-    <div class="lg:max-w-2xl">
-      <!-- Avatar -->
-      <div class="mb-6">
+<section class="bg-[var(--color-bg)] pt-12 lg:pt-20 pb-20 relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+    <div class="grid lg:grid-cols-2 gap-x-12 gap-y-12 items-start">
+
+      <div>
+        <SectionEyebrow text={t(locale, 'heroEyebrow')} as="p" class="mb-8" />
+
+        <h1 class="font-extrabold text-[var(--color-text)] m-0 leading-[0.95] tracking-tight text-balance text-[clamp(2.75rem,7vw,5rem)]">
+          <span class="block">{t(locale, 'heroHeadline1')}</span>
+          <span class="block">{t(locale, 'heroHeadline2')}</span>
+          <span class="block italic text-[var(--color-accent)]">{t(locale, 'heroHeadline3')}</span>
+        </h1>
+
+        <div class="mt-8 mb-10 max-w-[560px] flex flex-col gap-4">
+          <p class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed m-0 text-pretty">
+            {descLines[0]}
+          </p>
+          <blockquote class="border-l-4 border-[var(--color-accent)] pl-5 py-1 italic text-[1.0625rem] text-[var(--color-text)] leading-relaxed text-pretty m-0">
+            «&nbsp;{descLines[1]}&nbsp;»
+          </blockquote>
+          <p class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed m-0 text-pretty">
+            {descLines[2]}
+          </p>
+          <p class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed m-0 text-pretty">
+            {descLines[3]}
+          </p>
+        </div>
+
+        <p class="font-semibold text-sm text-[var(--color-text)] m-0">
+          CKA · CKAD · Terraform
+        </p>
+      </div>
+
+      <div>
         <img
           src="/images/moi.png"
           alt={t(locale, 'author')}
-          class="size-52 rounded-full object-cover border-[3px] border-navy shadow-md"
+          class="w-full aspect-[4/5] rounded-2xl object-cover shadow-lg"
           loading="eager"
-          width="208"
-          height="208"
+          width="600"
+          height="750"
         />
-      </div>
-
-      <!-- Content -->
-      <div class="flex flex-col items-start">
-      <h1 class="text-[3.25rem] font-extrabold text-[var(--color-text)] m-0 leading-[1.15] tracking-tight text-balance">
-        {t(locale, 'author')}
-      </h1>
-      <p class="text-[2.75rem] font-light text-[var(--color-text-muted)] mt-1 mb-8 leading-[1.25] tracking-tight">
-        {t(locale, 'heroTitlePrefix')}{' '}
-        <br />
-        <span
-          id="typewriter-text"
-          data-phrases={JSON.stringify(phrases)}
-        >{phrases[0]}</span><span
-          id="typewriter-cursor"
-          class="animate-blink"
-          aria-hidden="true"
-        >|</span>
-      </p>
-      <div class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed mb-10 max-w-[620px] space-y-2">
-        {t(locale, 'heroDescription').split('\n').map((line) => (
-          <p class="m-0 text-pretty">{line}</p>
-        ))}
-      </div>
-
-      <!-- CTA Buttons -->
-      <div class="flex gap-4 flex-wrap">
-        <a href={`${localePrefix(locale)}/cv/`} class="btn btn-primary">
-          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-          {t(locale, 'viewCV')}
-        </a>
-        <a href={`${localePrefix(locale)}/contact/`} class="btn btn-outline">
-          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-          {t(locale, 'contactMe')}
-        </a>
       </div>
     </div>
   </div>
-  </div>
 
-  <!-- Scroll indicator -->
-  <a href="#featured" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[var(--color-text-muted)] no-underline opacity-60 hover:opacity-100 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-full" aria-label={t(locale, 'scrollDown')}>
-    <svg id="scroll-arrow" class="size-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+  <a
+    href="#featured"
+    aria-label={t(locale, 'scrollDown')}
+    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-[var(--color-text-muted)] no-underline opacity-60 hover:opacity-100 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-full"
+  >
+    <svg id="scroll-arrow" class="size-6 animate-bounce motion-reduce:animate-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
     </svg>
   </a>
 </section>
-
-<style>
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-  .animate-blink {
-    animation: blink 0.75s step-end infinite;
-  }
-</style>
-
-<script>
-  function initTypewriter() {
-    const el = document.getElementById('typewriter-text');
-    const cursor = document.getElementById('typewriter-cursor');
-    if (!el || !cursor) return;
-
-    const phrases: string[] = JSON.parse(el.dataset.phrases || '[]');
-    if (phrases.length === 0) return;
-
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    const TYPE_SPEED = 70;
-    const DELETE_SPEED = 40;
-    const PAUSE_AFTER_TYPE = 6000;
-    const PAUSE_AFTER_DELETE = 400;
-    const CURSOR_REAPPEAR = 800;
-
-    el.textContent = '';
-    cursor.style.visibility = 'visible';
-
-    function tick() {
-      const current = phrases[phraseIndex];
-
-      if (!isDeleting) {
-        // Typing
-        charIndex++;
-        el.textContent = current.slice(0, charIndex);
-
-        if (charIndex === current.length) {
-          // Finished typing — hide cursor, wait, then show cursor briefly before deleting
-          cursor.style.visibility = 'hidden';
-          setTimeout(() => {
-            cursor.style.visibility = 'visible';
-            isDeleting = true;
-            setTimeout(tick, CURSOR_REAPPEAR);
-          }, PAUSE_AFTER_TYPE - CURSOR_REAPPEAR);
-        } else {
-          setTimeout(tick, TYPE_SPEED);
-        }
-      } else {
-        // Deleting
-        charIndex--;
-        el.textContent = current.slice(0, charIndex);
-
-        if (charIndex === 0) {
-          // Finished deleting — move to next phrase
-          isDeleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-          setTimeout(tick, PAUSE_AFTER_DELETE);
-        } else {
-          setTimeout(tick, DELETE_SPEED);
-        }
-      }
-    }
-
-    setTimeout(tick, 600);
-  }
-
-  initTypewriter();
-  document.addEventListener('astro:after-swap', initTypewriter);
-</script>
 
 <script>
   const arrow = document.getElementById('scroll-arrow');

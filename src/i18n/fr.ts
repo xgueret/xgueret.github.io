@@ -9,6 +9,7 @@ export default {
   posts: 'Articles',
   projects: 'Projets',
   contact: 'Contact',
+  availableContact: 'Disponible · me contacter',
   mainNavigation: 'Navigation principale',
   toggleMenu: 'Ouvrir/fermer le menu',
   toggleColorScheme: 'Changer le thème',
@@ -19,16 +20,11 @@ export default {
 
   // Hero
   author: 'Xavier GUERET',
-  heroTitle: 'DevOps Engineer & Passionné d\'automatisation',
-  heroTitlePrefix: 'DevOps Engineer &',
-  heroTitlePhrases: [
-    'Passionné d\'automatisation',
-    'Orchestrateur de conteneurs',
-    'Artisan du CI/CD',
-  ],
-  heroDescription: 'Un jour, quelqu\'un a dit\nAutomatiser, c\'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code !\nAlors depuis, je suis la voie de l\'apprentissage de Kubernetes, Python, Ansible, Terraform…. en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l\'esprit zen !\nDe retour en Guadeloupe 🌴, mon île natale, où le code se déploie au rythme des Alizés.',
-  viewCV: 'Voir mon CV',
-  contactMe: 'Me contacter',
+  heroEyebrow: 'Ingénieur DevOps · Guadeloupe',
+  heroHeadline1: 'Construire,',
+  heroHeadline2: 'déployer,',
+  heroHeadline3: 'automatiser.',
+  heroDescription: 'Un jour, quelqu\'un a dit\nAutomatiser, c\'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code !\nAlors depuis, je suis la voie de l\'apprentissage de Kubernetes, Python, Ansible, Terraform…. en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l\'esprit zen !\nDe retour en Guadeloupe, mon île natale, où le code se déploie au rythme des Alizés.',
 
   // Articles
   postsDescription: 'Articles et tutoriels sur le DevOps, Kubernetes, Ansible, Terraform, Python et l\'automatisation.',
