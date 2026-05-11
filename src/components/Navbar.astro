@@ -1,5 +1,5 @@
 ---
-import { type Locale, t, getAlternateLocale, localizedPath, localePrefix } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
 import AvailabilityPill from './AvailabilityPill.astro';
@@ -9,7 +9,6 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const altLocale = getAlternateLocale(locale);
 const currentPath = Astro.url.pathname;
 
 const prefix = localePrefix(locale);
@@ -43,12 +42,11 @@ const pillLabel = t(locale, 'availableContact');
           <li>
             <a
               href={item.href}
-              {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               class:list={[
                 'text-white/70 no-underline text-lg font-medium px-4 py-2 rounded-md transition-colors',
                 'hover:text-white hover:bg-white/10',
                 'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
-                !item.external && currentPath === item.href && 'text-white bg-white/15',
+                currentPath === item.href && 'text-white bg-white/15',
               ]}
             >
               {item.name}
@@ -89,12 +87,11 @@ const pillLabel = t(locale, 'availableContact');
     {navItems.map((item) => (
       <a
         href={item.href}
-        {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         class:list={[
           'text-white/70 no-underline text-lg font-medium px-4 py-3 rounded-md text-center block',
           'hover:text-white hover:bg-white/10',
           'focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none',
-          !item.external && currentPath === item.href && 'text-white bg-white/15',
+          currentPath === item.href && 'text-white bg-white/15',
         ]}
       >
         {item.name}
