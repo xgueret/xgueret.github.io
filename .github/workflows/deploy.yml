@@ -33,17 +33,17 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22"
-          cache: npm
-          cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
+      - name: Install pnpm
+        run: corepack enable
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: |
-          npx astro build \
+          pnpm exec astro build \
             --site "${{ steps.pages.outputs.origin }}" \
             --base "${{ steps.pages.outputs.base_path }}"
         working-directory: ${{ env.BUILD_PATH }}
