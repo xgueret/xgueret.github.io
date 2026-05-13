@@ -41,14 +41,7 @@ const descLines = t(locale, 'heroDescription').split('\n');
           </p>
         </div>
 
-        <a
-          href={`${prefix}/cv/`}
-          class="inline-block font-semibold text-sm text-[var(--color-text)] no-underline border-b border-transparent hover:border-[var(--color-text)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
-        >
-          CKA · CKAD · Terraform
-        </a>
-
-        <div class="mt-7 flex flex-wrap gap-3">
+        <div class="flex flex-wrap gap-3">
           <a href={`${prefix}/contact/`} class="btn btn-primary">
             {t(locale, 'heroCtaPrimary')}
           </a>
