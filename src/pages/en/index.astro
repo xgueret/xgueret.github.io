@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
+import CredentialsStrip from '../../components/CredentialsStrip.astro';
 import ArticlesFeaturedList from '../../components/ArticlesFeaturedList.astro';
 import TrainingsFeaturedList from '../../components/TrainingsFeaturedList.astro';
 import { t, localePrefix } from '../../i18n';
@@ -75,6 +76,8 @@ const trainings = allTrainings.map((t) => ({
 
 <BaseLayout title={t(locale, 'siteTitle')} locale={locale} jsonLd={jsonLd}>
   <Hero locale={locale} />
+
+  <CredentialsStrip locale={locale} />
 
   <section id="featured" class="py-20 lg:py-28 bg-[var(--color-bg-section)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

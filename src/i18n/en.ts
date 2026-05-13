@@ -47,6 +47,11 @@ export default {
   categoriesSubtitle: 'Explore articles by topic',
   backToBlog: 'Back to Blog',
 
+  // Credentials
+  credentialsEyebrow: 'Certifications',
+  credentialsTitle: 'Certified and verifiable',
+  credentialsVerify: 'Verify on Credly',
+
   // Training
   trainingsDescription: 'Trainings and certifications in DevOps, Kubernetes, cloud and automation.',
   trainingsEyebrow: 'Trainings',
