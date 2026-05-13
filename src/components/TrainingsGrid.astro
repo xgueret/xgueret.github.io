@@ -22,12 +22,12 @@ const { trainings, locale, showViewAll = true } = Astro.props;
 {trainings.length > 0 && (
   <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 list-none m-0 p-0">
     {trainings.map((training) => (
-      <li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg">
+      <li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-colors duration-200 hover:border-[var(--color-accent)]">
         <div class="aspect-[3/1] overflow-hidden rounded-t-xl">
           {training.image ? (
             <img src={training.image} alt={training.title} class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
           ) : (
-            <div class="w-full h-full transition-transform duration-300 group-hover:scale-105 bg-navy-light"></div>
+            <div class="w-full h-full transition-transform duration-300 group-hover:scale-105 bg-[var(--color-bg-alt)]"></div>
           )}
         </div>
         <div class="p-6">

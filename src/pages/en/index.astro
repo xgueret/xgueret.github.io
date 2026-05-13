@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
-import ArticlesGrid from '../../components/ArticlesGrid.astro';
-import TrainingsGrid from '../../components/TrainingsGrid.astro';
+import ArticlesFeaturedList from '../../components/ArticlesFeaturedList.astro';
+import TrainingsFeaturedList from '../../components/TrainingsFeaturedList.astro';
 import { t, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../utils/readingTime';
 
 const locale = 'en';
 const site = 'https://xgueret.github.io';
@@ -54,6 +55,8 @@ const articles = recentPosts.map((post) => {
     href: `${localePrefix(locale)}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
+    date: post.data.date,
+    readingMinutes: getReadingTime(post.body ?? ''),
   };
 });
 
@@ -73,32 +76,32 @@ const trainings = allTrainings.map((t) => ({
 <BaseLayout title={t(locale, 'siteTitle')} locale={locale} jsonLd={jsonLd}>
   <Hero locale={locale} />
 
-  <section id="featured" class="py-16 bg-[var(--color-bg-section)]">
+  <section id="featured" class="py-20 lg:py-28 bg-[var(--color-bg-section)]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-10">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
+        <p class="text-[0.8125rem] font-medium tracking-[0.01em] text-[var(--color-accent)] mb-2">
           {t(locale, 'articlesEyebrow')}
         </p>
-        <h2 class="text-3xl font-bold text-[var(--color-text)]">
+        <h2 class="font-serif font-medium text-[var(--color-text)] text-[clamp(1.5rem,3vw,2rem)] leading-tight tracking-tight text-balance">
           {t(locale, 'recentArticlesTitle')}
         </h2>
       </div>
-      <ArticlesGrid articles={articles} locale={locale} />
+      <ArticlesFeaturedList articles={articles} locale={locale} />
     </div>
   </section>
 
   {trainings.length > 0 && (
-    <section class="py-16 bg-[var(--color-bg)]">
+    <section class="py-16 lg:py-20 bg-[var(--color-bg)]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-10">
-          <p class="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-muted)] mb-2">
+          <p class="text-[0.8125rem] font-medium tracking-[0.01em] text-[var(--color-accent)] mb-2">
             {t(locale, 'trainingsEyebrow')}
           </p>
-          <h2 class="text-3xl font-bold text-[var(--color-text)]">
+          <h2 class="font-serif font-medium text-[var(--color-text)] text-[clamp(1.5rem,3vw,2rem)] leading-tight tracking-tight text-balance">
             {t(locale, 'recentTrainingsTitle')}
           </h2>
         </div>
-        <TrainingsGrid trainings={trainings} locale={locale} />
+        <TrainingsFeaturedList trainings={trainings} locale={locale} />
       </div>
     </section>
   )}

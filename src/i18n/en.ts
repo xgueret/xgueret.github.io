@@ -16,7 +16,6 @@ export default {
   skipToContent: 'Skip to content',
   switchToFr: 'Passer en français',
   switchToEn: 'Switch to English',
-  scrollDown: 'Scroll down',
 
   // Hero
   author: 'Xavier GUERET',
@@ -25,12 +24,14 @@ export default {
   heroHeadline2: 'deploy,',
   heroHeadline3: 'automate.',
   heroDescription: 'One day, someone said\nAutomating is the key to chill development: less stress, more flow, and deployments that happen with your fingers in the code!\nSo since then, I\'ve been on the path of learning Kubernetes, Python, Ansible, Terraform…. in quest of the ultimate mastery to automate everything that moves and keep a zen mindset!\nBack in Guadeloupe, my native island, where code deploys to the rhythm of the Trade Winds.',
+  heroCtaPrimary: 'Get in touch',
+  heroCtaSecondary: 'See my résumé',
 
   // Articles
   postsDescription: 'Articles and tutorials about DevOps, Kubernetes, Ansible, Terraform, Python and automation.',
   recentArticles: 'Recent Articles',
   articlesEyebrow: 'Blog & DevOps',
-  recentArticlesTitle: 'What are my latest DevOps articles?',
+  recentArticlesTitle: 'What I\'m writing right now',
   viewAllArticles: 'View all articles',
   readMore: 'Read more',
   article: 'article',
@@ -49,7 +50,7 @@ export default {
   // Training
   trainingsDescription: 'Trainings and certifications in DevOps, Kubernetes, cloud and automation.',
   trainingsEyebrow: 'Trainings',
-  recentTrainingsTitle: 'What DevOps trainings are available?',
+  recentTrainingsTitle: 'What I\'m training on',
   viewAllTrainings: 'View all trainings',
   viewTraining: 'View training',
   recentTrainings: 'Recent Trainings',

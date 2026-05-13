@@ -130,7 +130,7 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
                         <a
                           href={post.href}
                           style={{
-                            color: 'var(--color-accent, #3b5998)',
+                            color: 'var(--color-accent, #1f4d63)',
                             fontWeight: 500,
                             textDecoration: 'none',
                             fontSize: '13px',
@@ -146,7 +146,7 @@ export default function ChatWidget({ locale = 'fr', recentPosts = [] }: ChatWidg
                   <a
                     href={`${locale === 'fr' ? '' : `/${locale}`}/posts/`}
                     style={{
-                      color: 'var(--color-accent, #3b5998)',
+                      color: 'var(--color-accent, #1f4d63)',
                       fontWeight: 600,
                       fontSize: '13px',
                       textDecoration: 'none',

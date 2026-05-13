@@ -13,14 +13,14 @@ interface Props {
 const { title, href, summary, image, index = 0, locale } = Astro.props;
 
 const covers = [
-  'var(--color-accent, #3b5998)',
-  'var(--color-navy, #1e293b)',
-  'var(--color-navy-light, #334155)',
-  'var(--color-accent-hover, #2d4373)',
+  'var(--color-bg-alt, #f8f3ea)',
+  'var(--color-bg-section, #f1ede1)',
+  'var(--color-bg-alt, #f8f3ea)',
+  'var(--color-bg-section, #f1ede1)',
 ];
 ---
 
-<li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer list-none">
+<li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-colors duration-200 hover:border-[var(--color-accent)] list-none">
   <a href={href} class="block aspect-[3/1] overflow-hidden rounded-t-xl no-underline focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none">
     {image ? (
       <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
