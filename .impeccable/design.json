@@ -1,0 +1,396 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-12T00:00:00Z",
+  "title": "Design System: Xavier GUERET — Personal Site",
+  "extensions": {
+    "colorMeta": {
+      "sable-creme": {
+        "role": "neutral",
+        "displayName": "Sable Crème",
+        "canonical": "oklch(97% 0.012 65)",
+        "tonalRamp": [
+          "oklch(18% 0.020 65)",
+          "oklch(28% 0.025 65)",
+          "oklch(45% 0.025 65)",
+          "oklch(65% 0.018 65)",
+          "oklch(78% 0.015 65)",
+          "oklch(89% 0.012 65)",
+          "oklch(94% 0.010 65)",
+          "oklch(97% 0.012 65)"
+        ]
+      },
+      "coquille": {
+        "role": "neutral",
+        "displayName": "Coquille",
+        "canonical": "oklch(94% 0.010 65)",
+        "tonalRamp": [
+          "oklch(18% 0.020 65)",
+          "oklch(28% 0.025 65)",
+          "oklch(45% 0.025 65)",
+          "oklch(65% 0.018 65)",
+          "oklch(78% 0.015 65)",
+          "oklch(89% 0.012 65)",
+          "oklch(94% 0.010 65)",
+          "oklch(97% 0.012 65)"
+        ]
+      },
+      "border-sable": {
+        "role": "neutral",
+        "displayName": "Border Sable",
+        "canonical": "oklch(89% 0.012 65)",
+        "tonalRamp": [
+          "oklch(18% 0.020 65)",
+          "oklch(28% 0.025 65)",
+          "oklch(45% 0.025 65)",
+          "oklch(65% 0.018 65)",
+          "oklch(78% 0.015 65)",
+          "oklch(89% 0.012 65)",
+          "oklch(94% 0.010 65)",
+          "oklch(97% 0.012 65)"
+        ]
+      },
+      "encre-ocean": {
+        "role": "neutral",
+        "displayName": "Encre Océan",
+        "canonical": "oklch(22% 0.025 220)",
+        "tonalRamp": [
+          "oklch(22% 0.025 220)",
+          "oklch(32% 0.028 220)",
+          "oklch(45% 0.030 220)",
+          "oklch(58% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(82% 0.015 220)",
+          "oklch(90% 0.012 220)",
+          "oklch(96% 0.010 220)"
+        ]
+      },
+      "encre-ocean-muted": {
+        "role": "neutral",
+        "displayName": "Encre Océan Muted",
+        "canonical": "oklch(45% 0.030 220)",
+        "tonalRamp": [
+          "oklch(22% 0.025 220)",
+          "oklch(32% 0.028 220)",
+          "oklch(45% 0.030 220)",
+          "oklch(58% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(82% 0.015 220)",
+          "oklch(90% 0.012 220)",
+          "oklch(96% 0.010 220)"
+        ]
+      },
+      "encre-ocean-light": {
+        "role": "neutral",
+        "displayName": "Encre Océan Light",
+        "canonical": "oklch(53% 0.028 220)",
+        "tonalRamp": [
+          "oklch(22% 0.025 220)",
+          "oklch(32% 0.028 220)",
+          "oklch(45% 0.030 220)",
+          "oklch(58% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(82% 0.015 220)",
+          "oklch(90% 0.012 220)",
+          "oklch(96% 0.010 220)"
+        ]
+      },
+      "teal-ocean": {
+        "role": "primary",
+        "displayName": "Teal Océan",
+        "canonical": "oklch(38% 0.10 220)",
+        "tonalRamp": [
+          "oklch(18% 0.050 220)",
+          "oklch(28% 0.090 220)",
+          "oklch(38% 0.100 220)",
+          "oklch(50% 0.120 220)",
+          "oklch(65% 0.130 220)",
+          "oklch(78% 0.080 220)",
+          "oklch(88% 0.040 220)",
+          "oklch(95% 0.020 220)"
+        ]
+      },
+      "teal-ocean-deep": {
+        "role": "primary",
+        "displayName": "Teal Océan Deep",
+        "canonical": "oklch(28% 0.09 220)",
+        "tonalRamp": [
+          "oklch(18% 0.050 220)",
+          "oklch(28% 0.090 220)",
+          "oklch(38% 0.100 220)",
+          "oklch(50% 0.120 220)",
+          "oklch(65% 0.130 220)",
+          "oklch(78% 0.080 220)",
+          "oklch(88% 0.040 220)",
+          "oklch(95% 0.020 220)"
+        ]
+      },
+      "teal-ocean-light": {
+        "role": "primary",
+        "displayName": "Teal Océan Light",
+        "canonical": "oklch(65% 0.13 220)",
+        "tonalRamp": [
+          "oklch(18% 0.050 220)",
+          "oklch(28% 0.090 220)",
+          "oklch(38% 0.100 220)",
+          "oklch(50% 0.120 220)",
+          "oklch(65% 0.130 220)",
+          "oklch(78% 0.080 220)",
+          "oklch(88% 0.040 220)",
+          "oklch(95% 0.020 220)"
+        ]
+      },
+      "corail-soleil": {
+        "role": "secondary",
+        "displayName": "Corail Soleil",
+        "canonical": "oklch(66% 0.17 35)",
+        "tonalRamp": [
+          "oklch(18% 0.040 35)",
+          "oklch(28% 0.070 35)",
+          "oklch(38% 0.100 35)",
+          "oklch(55% 0.160 35)",
+          "oklch(70% 0.170 35)",
+          "oklch(80% 0.130 35)",
+          "oklch(88% 0.060 35)",
+          "oklch(95% 0.030 35)"
+        ]
+      },
+      "corail-soleil-deep": {
+        "role": "secondary",
+        "displayName": "Corail Soleil Deep",
+        "canonical": "oklch(55% 0.16 35)",
+        "tonalRamp": [
+          "oklch(18% 0.040 35)",
+          "oklch(28% 0.070 35)",
+          "oklch(38% 0.100 35)",
+          "oklch(55% 0.160 35)",
+          "oklch(70% 0.170 35)",
+          "oklch(80% 0.130 35)",
+          "oklch(88% 0.060 35)",
+          "oklch(95% 0.030 35)"
+        ]
+      },
+      "nuit-ocean": {
+        "role": "neutral",
+        "displayName": "Nuit Océan",
+        "canonical": "oklch(15% 0.02 220)",
+        "tonalRamp": [
+          "oklch(15% 0.020 220)",
+          "oklch(20% 0.025 220)",
+          "oklch(28% 0.030 220)",
+          "oklch(40% 0.030 220)",
+          "oklch(55% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(85% 0.015 220)",
+          "oklch(95% 0.010 220)"
+        ]
+      },
+      "nuit-ocean-surface": {
+        "role": "neutral",
+        "displayName": "Nuit Océan Surface",
+        "canonical": "oklch(20% 0.025 220)",
+        "tonalRamp": [
+          "oklch(15% 0.020 220)",
+          "oklch(20% 0.025 220)",
+          "oklch(28% 0.030 220)",
+          "oklch(40% 0.030 220)",
+          "oklch(55% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(85% 0.015 220)",
+          "oklch(95% 0.010 220)"
+        ]
+      },
+      "nuit-ocean-border": {
+        "role": "neutral",
+        "displayName": "Nuit Océan Border",
+        "canonical": "oklch(28% 0.03 220)",
+        "tonalRamp": [
+          "oklch(15% 0.020 220)",
+          "oklch(20% 0.025 220)",
+          "oklch(28% 0.030 220)",
+          "oklch(40% 0.030 220)",
+          "oklch(55% 0.025 220)",
+          "oklch(70% 0.020 220)",
+          "oklch(85% 0.015 220)",
+          "oklch(95% 0.010 220)"
+        ]
+      },
+      "available-emerald": {
+        "role": "tertiary",
+        "displayName": "Available Emerald",
+        "canonical": "oklch(72% 0.18 145)",
+        "tonalRamp": [
+          "oklch(20% 0.060 145)",
+          "oklch(35% 0.110 145)",
+          "oklch(50% 0.150 145)",
+          "oklch(62% 0.170 145)",
+          "oklch(72% 0.180 145)",
+          "oklch(82% 0.130 145)",
+          "oklch(90% 0.070 145)",
+          "oklch(96% 0.030 145)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero H1 only. Source Serif 4, weight 600, italic cut available for the one accent word."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section H2s. Source Serif 4 roman cut, weight 500. Replaces the current sans bold treatment."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Article card titles, related-content titles. Geist weight 600."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraph copy. Geist weight 400 at 1.0625rem, clamped near 65ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Eyebrows, metadata, pill text, button labels. Sentence case, never uppercase."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Code blocks inside articles only. JetBrains Mono. Never in nav, eyebrows, metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px oklch(38% 0.10 220 / 0.35)",
+        "purpose": "The only shadow in the system. Applied on :focus-visible of every interactive element. No hover shadows, no ambient elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-quart",
+        "value": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Default easing for color, border, and background transitions. No bounce, no elastic."
+      },
+      {
+        "name": "duration-fast",
+        "value": "150ms",
+        "purpose": "State transitions (hover color shift, border shift)."
+      },
+      {
+        "name": "duration-base",
+        "value": "200ms",
+        "purpose": "Background fills and larger color shifts."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The committed-teal CTA. Used for the hero contact button and the article-list 'see all' anchor.",
+      "html": "<button class=\"ds-btn-primary\">Me contacter</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.3; color: oklch(97% 0.012 65); background: oklch(38% 0.10 220); border: none; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-primary:hover { background: oklch(28% 0.09 220); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(38% 0.10 220 / 0.35); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary CTA. Transparent background, 1px teal border, teal text.",
+      "html": "<button class=\"ds-btn-outline\">Voir le CV</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.3; color: oklch(38% 0.10 220); background: transparent; border: 1px solid oklch(38% 0.10 220); border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-outline:hover { background: oklch(94% 0.010 65); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(38% 0.10 220 / 0.35); }"
+    },
+    {
+      "name": "Section Eyebrow (new)",
+      "kind": "custom",
+      "refersTo": "section-eyebrow",
+      "description": "Replaces the filet-plus-uppercase pattern. Plain sentence-case label in teal, no rule, no tracking-wider. Pairs with a Source Serif 4 H2 below.",
+      "html": "<div class=\"ds-eyebrow-block\"><p class=\"ds-section-eyebrow\">Articles récents</p><h2 class=\"ds-section-headline\">Ce que j'écris en ce moment</h2></div>",
+      "css": ".ds-eyebrow-block { display: flex; flex-direction: column; gap: 4px; } .ds-section-eyebrow { margin: 0; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 0.8125rem; font-weight: 500; line-height: 1.3; letter-spacing: 0.01em; color: oklch(38% 0.10 220); text-transform: none; } .ds-section-headline { margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; color: oklch(22% 0.025 220); }"
+    },
+    {
+      "name": "Article Card",
+      "kind": "card",
+      "refersTo": "article-card",
+      "description": "Flat by default. Border shifts to teal on hover — no translateY, no shadow, no scale.",
+      "html": "<a href=\"#\" class=\"ds-article-card\"><div class=\"ds-article-card__media\"></div><div class=\"ds-article-card__body\"><h3 class=\"ds-article-card__title\">Mettre en place un cluster K3s sur un Raspberry Pi</h3><p class=\"ds-article-card__excerpt\">Pas-à-pas pour bootstrap un cluster Kubernetes léger à la maison, sans cloud, avec Ansible.</p><span class=\"ds-article-card__more\">Lire la suite →</span></div></a>",
+      "css": ".ds-article-card { display: flex; flex-direction: column; background: oklch(97% 0.012 65); border: 1px solid oklch(89% 0.012 65); border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: border-color 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-article-card:hover { border-color: oklch(38% 0.10 220); } .ds-article-card:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(38% 0.10 220 / 0.35); } .ds-article-card__media { aspect-ratio: 16 / 9; background: oklch(94% 0.010 65); } .ds-article-card__body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px; } .ds-article-card__title { margin: 0; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; line-height: 1.35; color: oklch(22% 0.025 220); } .ds-article-card__excerpt { margin: 0; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 400; line-height: 1.6; color: oklch(45% 0.030 220); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } .ds-article-card__more { margin-top: 4px; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 0.9375rem; font-weight: 500; color: oklch(38% 0.10 220); }"
+    },
+    {
+      "name": "Availability Pill",
+      "kind": "chip",
+      "refersTo": "availability-pill",
+      "description": "Status pill in navbar. Warm coquille background, emerald dot signal, no glow.",
+      "html": "<a href=\"#\" class=\"ds-availability-pill\"><span class=\"ds-availability-pill__dot\" aria-hidden=\"true\"></span><span>Disponible · me contacter</span></a>",
+      "css": ".ds-availability-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; font-family: Geist, 'Inter Tight', system-ui, sans-serif; font-size: 0.8125rem; font-weight: 500; line-height: 1.3; letter-spacing: 0.01em; color: oklch(22% 0.025 220); background: oklch(94% 0.010 65); border: 1px solid oklch(89% 0.012 65); border-radius: 9999px; text-decoration: none; transition: border-color 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-availability-pill:hover { border-color: oklch(38% 0.10 220); } .ds-availability-pill:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(38% 0.10 220 / 0.35); } .ds-availability-pill__dot { width: 8px; height: 8px; border-radius: 9999px; background: oklch(72% 0.18 145); flex-shrink: 0; }"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "navbar-link",
+      "description": "Sable-creme navbar replaces the navy bar. Active state via 2px teal underline, not a filled background.",
+      "html": "<nav class=\"ds-navbar\"><a href=\"#\" class=\"ds-navbar__brand\">Xavier GUERET</a><ul class=\"ds-navbar__list\"><li><a href=\"#\" class=\"ds-navbar__link\">CV</a></li><li><a href=\"#\" class=\"ds-navbar__link ds-navbar__link--active\">Articles</a></li><li><a href=\"#\" class=\"ds-navbar__link\">Projets</a></li></ul></nav>",
+      "css": ".ds-navbar { display: flex; align-items: center; gap: 32px; padding: 16px 24px; background: oklch(97% 0.012 65); border-bottom: 1px solid oklch(89% 0.012 65); font-family: Geist, 'Inter Tight', system-ui, sans-serif; } .ds-navbar__brand { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.25rem; font-weight: 500; color: oklch(22% 0.025 220); text-decoration: none; letter-spacing: -0.01em; } .ds-navbar__list { display: flex; align-items: center; gap: 4px; margin: 0; padding: 0; list-style: none; } .ds-navbar__link { display: inline-block; padding: 8px 12px; font-size: 1rem; font-weight: 400; color: oklch(45% 0.030 220); text-decoration: none; border-bottom: 2px solid transparent; transition: color 150ms cubic-bezier(0.25, 1, 0.5, 1), border-color 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-navbar__link:hover { color: oklch(22% 0.025 220); } .ds-navbar__link--active { color: oklch(22% 0.025 220); border-bottom-color: oklch(38% 0.10 220); } .ds-navbar__link:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(38% 0.10 220 / 0.35); border-radius: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Les Alizés au clavier.",
+    "overview": "The system is a personal site written from Guadeloupe at dawn — when the ocean is still dark, the sand is already warm, and the sky is opening. The warm sand of the page and the cool ink of the type set up the system's defining tension: warm/cool, exactly as the trade winds meet the sea. The register is brand: design IS the product. The aesthetic is committed, not restrained — teal-océan carries 30–60% of any given page. Motion is restrained: state transitions only, no entrance choreography. Reading is the primary task, and the system's job is to disappear into it.",
+    "keyCharacteristics": [
+      "Warm sand fields (sable-crème, coquille) replace #ffffff and slate-50 as default backgrounds.",
+      "Deep teal-océan as the committed brand color, carried on hero, navigation, primary CTAs.",
+      "Corail soleil as a 5%-or-less accent: a single signal, never wallpaper.",
+      "Serif display + sans body, neither in the impeccable reflex-reject list.",
+      "Flat by default: depth comes from warm/cool color tension, not shadows.",
+      "Italic carries the soft voice; the roman cut carries the technical voice.",
+      "Mono is reserved for code inside articles. Mono in navigation, eyebrows, metadata = costume."
+    ],
+    "rules": [
+      { "name": "The Warm/Cool Rule", "body": "Backgrounds are warm (hue 65). Text is cool (hue 220). The tension between them is the system's signature. Never tint both toward the same hue; never use a fully-neutral gray.", "section": "colors" },
+      { "name": "The 30-60 Teal Rule", "body": "Teal-Océan must carry 30–60% of any given fold's visible area: navbar, hero block, primary CTA, or a band of section background — pick one or two per screen, never zero, never the entire page.", "section": "colors" },
+      { "name": "The 5% Coral Rule", "body": "Corail Soleil is a one-shot accent: a single state, a single element, never repeated within a fold.", "section": "colors" },
+      { "name": "The No-White Rule", "body": "#ffffff is banned. So is #000000. So is color: white; as a literal value. All neutrals come from the named tokens.", "section": "colors" },
+      { "name": "The Italic Voice Rule", "body": "The italic cut of the display serif carries the soft, oral, Caribbean-voice half of the brand. The roman cut carries the technical half. Reach for italic only when the word is the voice.", "section": "typography" },
+      { "name": "The Mono Restraint Rule", "body": "Monospace is reserved for actual code inside articles and for explicit terminal mockups. Mono in eyebrows, dates, tags, metadata, navigation, body copy, headings: forbidden.", "section": "typography" },
+      { "name": "The Sentence-Case Rule", "body": "Eyebrows, labels, button text, navigation: sentence case, never UPPERCASE, never Title Case. The letter-spacing: 0.2em uppercase tracking is forbidden.", "section": "typography" },
+      { "name": "The 65ch Rule", "body": "Body line length never exceeds 75ch and rarely drops below 60ch.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. There is no ambient elevation in the system. Shadows appear only as a focus signal, never as visual hierarchy.", "section": "elevation" },
+      { "name": "The No-Lift Hover Rule", "body": "Hover transforms must change at most one property: color, or border, or background. Stacking translateY + shadow + scale is forbidden.", "section": "elevation" },
+      { "name": "The No Side-Stripe Rule", "body": "border-left or border-right greater than 1px as a colored accent is forbidden on every component. Use full 1px borders, background tints, leading numerals, or nothing.", "section": "components" },
+      { "name": "The One-Hover Rule", "body": "Hover on any component transitions exactly one property: color, border, or background.", "section": "components" },
+      { "name": "The Sentence-Case Buttons Rule", "body": "Button labels are sentence-case, never UPPERCASE, never Title Case.", "section": "components" }
+    ],
+    "dos": [
+      "Do use OKLCH for every color token. Hex codes are an implementation artifact.",
+      "Do put teal-ocean on 30–60% of every fold (navbar + one block, hero band, primary CTA + section anchor).",
+      "Do keep corail-soleil to one element per fold maximum.",
+      "Do tint warm neutrals to hue 65 and cool neutrals to hue 220. Never both toward the same hue.",
+      "Do pair Source Serif 4 (display) with Geist (body). Italic of the display cut for one accent word at a time.",
+      "Do size body type at 1.0625rem with line-height 1.6 and max-width clamped near 65ch.",
+      "Do set buttons, eyebrows, labels, and nav links in sentence case.",
+      "Do make hovers shift exactly one property — color OR border OR background.",
+      "Do redesign dark mode as its own scene (the night ocean), not a hue-inverted derivative.",
+      "Do use the focus-ring token (3px teal halo) on every interactive element."
+    ],
+    "donts": [
+      "Don't ship #ffffff, #000000, or color: white; in any production code.",
+      "Don't use Plus Jakarta Sans, Inter, Outfit, DM Sans, Space Grotesk, Instrument Sans, Fraunces, Newsreader, Cormorant, or any other family in the impeccable reflex-reject list.",
+      "Don't ship the navy + Facebook-blue palette (#1e293b + #3b5998). That combination is named anti-reference 2 in PRODUCT.md.",
+      "Don't use border-left-4 or border-right-4 (or any side-stripe ≥2px) as a colored accent.",
+      "Don't use background-clip: text with a gradient (gradient text).",
+      "Don't use backdrop-blur decoratively (glassmorphism).",
+      "Don't stack hover effects: translateY + shadow + scale together is forbidden.",
+      "Don't use animate-bounce or any bouncy/elastic easing. Motion uses ease-out exponential curves only.",
+      "Don't UPPERCASE eyebrows with tracking-[0.2em] — that is the editorial-magazine second-order trap.",
+      "Don't put monospace on anything that isn't actual code or a terminal mockup.",
+      "Don't repeat the same card grid layout for two content types in a row.",
+      "Don't invent a Skills section with progress bars or a Years of experience counter.",
+      "Don't ship a Kubernetes wheel, Docker whale, or terminal-screenshot hero.",
+      "Don't drift toward editorial-magazine-on-recovery from corporate-navy."
+    ]
+  }
+}

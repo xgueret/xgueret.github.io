@@ -4,32 +4,18 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        navy: {
-          DEFAULT: '#1e293b',
-          dark: '#0f172a',
-          light: '#334155',
-        },
-        accent: {
-          DEFAULT: '#3b5998',
-          hover: '#2d4373',
-        },
-      },
-      fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-      },
       maxWidth: {
         site: '1200px',
       },
-      typography: (theme) => ({
+      typography: () => ({
         DEFAULT: {
           css: {
             maxWidth: '80ch',
             a: {
-              color: theme('colors.accent.DEFAULT'),
+              color: 'var(--color-accent)',
               textDecoration: 'none',
               '&:hover': {
-                color: theme('colors.accent.hover'),
+                color: 'var(--color-accent-hover)',
                 textDecoration: 'underline',
               },
             },

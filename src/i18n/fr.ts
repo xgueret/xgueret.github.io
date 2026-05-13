@@ -16,7 +16,6 @@ export default {
   skipToContent: 'Aller au contenu',
   switchToFr: 'Passer en français',
   switchToEn: 'Switch to English',
-  scrollDown: 'Défiler vers le bas',
 
   // Hero
   author: 'Xavier GUERET',
@@ -25,12 +24,14 @@ export default {
   heroHeadline2: 'déployer,',
   heroHeadline3: 'automatiser.',
   heroDescription: 'Un jour, quelqu\'un a dit\nAutomatiser, c\'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code !\nAlors depuis, je suis la voie de l\'apprentissage de Kubernetes, Python, Ansible, Terraform…. en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l\'esprit zen !\nDe retour en Guadeloupe, mon île natale, où le code se déploie au rythme des Alizés.',
+  heroCtaPrimary: 'Me contacter',
+  heroCtaSecondary: 'Voir mon CV',
 
   // Articles
   postsDescription: 'Articles et tutoriels sur le DevOps, Kubernetes, Ansible, Terraform, Python et l\'automatisation.',
   recentArticles: 'Articles Récents',
   articlesEyebrow: 'Blog & DevOps',
-  recentArticlesTitle: 'Quels sont mes derniers articles DevOps ?',
+  recentArticlesTitle: 'Ce que j\'écris en ce moment',
   viewAllArticles: 'Voir tous les articles',
   readMore: 'Lire la suite',
   article: 'article',
@@ -49,7 +50,7 @@ export default {
   // Training
   trainingsDescription: 'Formations et certifications en DevOps, Kubernetes, cloud et automatisation.',
   trainingsEyebrow: 'Formations',
-  recentTrainingsTitle: 'Quelles formations DevOps sont disponibles ?',
+  recentTrainingsTitle: 'Ce sur quoi je me forme',
   viewAllTrainings: 'Voir toutes les formations',
   viewTraining: 'Voir la formation',
   recentTrainings: 'Formations Récentes',

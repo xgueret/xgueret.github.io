@@ -1,0 +1,91 @@
+---
+import { type Locale, t, localePrefix } from '../i18n';
+
+interface Training {
+  title: string;
+  description?: string;
+  href: string;
+  isExternal: boolean;
+  tags?: string[];
+  image?: string;
+}
+
+interface Props {
+  trainings: Training[];
+  locale: Locale;
+  showViewAll?: boolean;
+}
+
+const { trainings, locale, showViewAll = true } = Astro.props;
+---
+
+{trainings.length > 0 && (
+  <ul class="m-0 list-none space-y-8 p-0 lg:space-y-10">
+    {trainings.map((training) => (
+      <li>
+        <article class="group grid grid-cols-1 overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] transition-colors duration-200 hover:border-[var(--color-accent)] md:grid-cols-[1fr_2fr]">
+          <div class="aspect-[4/3] overflow-hidden bg-[var(--color-bg-alt)] md:aspect-auto">
+            {training.image ? (
+              <img
+                src={training.image}
+                alt={training.title}
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="h-full w-full" aria-hidden="true"></div>
+            )}
+          </div>
+          <div class="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+            <h3 class="mb-3 text-balance font-serif font-medium leading-[1.15] tracking-[-0.01em] text-[var(--color-text)] text-[clamp(1.5rem,3vw,2rem)]">
+              <a
+                href={training.href}
+                target={training.isExternal ? '_blank' : undefined}
+                rel={training.isExternal ? 'noopener noreferrer' : undefined}
+                class="text-inherit no-underline transition-colors duration-200 hover:text-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-md"
+              >
+                {training.title}
+              </a>
+            </h3>
+            {training.description && (
+              <p class="mb-5 max-w-prose text-pretty text-[1.0625rem] leading-relaxed text-[var(--color-text-muted)]">
+                {training.description}
+              </p>
+            )}
+            {training.tags && training.tags.length > 0 && (
+              <ul class="mb-6 flex flex-wrap gap-x-4 gap-y-1 m-0 p-0 list-none">
+                {training.tags.slice(0, 4).map((tag) => (
+                  <li class="text-[0.8125rem] font-medium tracking-[0.01em] text-[var(--color-text-light)]">
+                    <span aria-hidden="true">#</span>{tag}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a
+              href={training.href}
+              target={training.isExternal ? '_blank' : undefined}
+              rel={training.isExternal ? 'noopener noreferrer' : undefined}
+              class="group/link inline-flex items-center gap-2 self-start border-b border-[var(--color-accent)]/40 pb-0.5 text-[0.9375rem] font-medium text-[var(--color-accent)] no-underline transition-colors hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+            >
+              {t(locale, 'viewTraining')}
+              <svg class="size-4 transition-transform duration-200 group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+          </div>
+        </article>
+      </li>
+    ))}
+  </ul>
+)}
+
+{showViewAll && trainings.length > 0 && (
+  <div class="mt-12">
+    <a
+      href={`${localePrefix(locale)}/training/`}
+      class="inline-flex items-center gap-2 border-b border-[var(--color-accent)]/40 pb-0.5 text-[0.9375rem] font-medium text-[var(--color-accent)] no-underline transition-colors hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+    >
+      {t(locale, 'viewAllTrainings')}
+      <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+    </a>
+  </div>
+)}

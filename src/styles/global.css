@@ -1,57 +1,97 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-@import '@fontsource/plus-jakarta-sans/400.css';
-@import '@fontsource/plus-jakarta-sans/500.css';
-@import '@fontsource/plus-jakarta-sans/600.css';
-@import '@fontsource/plus-jakarta-sans/700.css';
-@import '@fontsource/plus-jakarta-sans/800.css';
+/* Display + headline + accent italic */
+@import '@fontsource/source-serif-4/400.css';
+@import '@fontsource/source-serif-4/500.css';
+@import '@fontsource/source-serif-4/600.css';
+@import '@fontsource/source-serif-4/400-italic.css';
+@import '@fontsource/source-serif-4/600-italic.css';
+
+/* Body, label, title, navigation */
+@import '@fontsource/geist-sans/400.css';
+@import '@fontsource/geist-sans/500.css';
+@import '@fontsource/geist-sans/600.css';
+
+/* Reserved for code blocks in articles */
+@import '@fontsource/jetbrains-mono/400.css';
 
 @theme {
-  --color-navy: #1e293b;
-  --color-navy-dark: #0f172a;
-  --color-navy-light: #334155;
-  --color-accent: #3b5998;
-  --color-accent-hover: #2d4373;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* The Dawn Palette — source of truth, see DESIGN.md */
+  --color-ocean: oklch(38% 0.10 220);
+  --color-ocean-deep: oklch(28% 0.09 220);
+  --color-ocean-light: oklch(65% 0.13 220);
+  --color-coral: oklch(66% 0.17 35);
+  --color-coral-deep: oklch(55% 0.16 35);
+  --color-sand: oklch(97% 0.012 65);
+  --color-sand-alt: oklch(94% 0.010 65);
+  --color-sand-section: oklch(91% 0.012 65);
+  --color-sand-border: oklch(89% 0.012 65);
+  --color-ink: oklch(22% 0.025 220);
+  --color-ink-muted: oklch(45% 0.030 220);
+  --color-ink-light: oklch(53% 0.028 220);
+  --color-night: oklch(15% 0.02 220);
+  --color-night-surface: oklch(20% 0.025 220);
+  --color-night-border: oklch(28% 0.03 220);
+  --color-available: oklch(72% 0.18 145);
+
+  /* Deprecated legacy aliases — kept so non-homepage files (Pagination, CategoriesCloud, etc.) keep rendering coherently until they are colorized too. Remove once those passes are done. */
+  --color-navy: var(--color-ocean);
+  --color-navy-dark: var(--color-ocean-deep);
+  --color-navy-light: var(--color-ocean-light);
+  --color-accent: var(--color-ocean);
+  --color-accent-hover: var(--color-ocean-deep);
+
+  /* Typography — see DESIGN.md */
+  --font-sans: 'Geist Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
   --z-skip-link: 60;
 }
 
 @layer base {
   :root {
-    --color-primary: #1e293b;
-    --color-primary-dark: #0f172a;
-    --color-accent: #3b5998;
-    --color-accent-hover: #2d4373;
-    --color-bg: #ffffff;
-    --color-bg-alt: #f8fafc;
-    --color-bg-section: #f1f5f9;
-    --color-text: #0f172a;
-    --color-text-muted: #475569;
-    --color-text-light: #64748b;
-    --color-border: #e2e8f0;
+    /* Semantic aliases consumed by components via [var(--color-X)] */
+    --color-primary: var(--color-ocean);
+    --color-primary-dark: var(--color-ocean-deep);
+    --color-accent: var(--color-ocean);
+    --color-accent-hover: var(--color-ocean-deep);
+    --color-bg: var(--color-sand);
+    --color-bg-alt: var(--color-sand-alt);
+    --color-bg-section: var(--color-sand-section);
+    --color-text: var(--color-ink);
+    --color-text-muted: var(--color-ink-muted);
+    --color-text-light: var(--color-ink-light);
+    --color-border: var(--color-sand-border);
     --navbar-height: 72px;
   }
 
   .dark {
-    --color-primary: #1e293b;
-    --color-primary-dark: #0f172a;
-    --color-accent: #6b8cce;
-    --color-accent-hover: #8aa4db;
-    --color-bg: #0f172a;
-    --color-bg-alt: #1e293b;
-    --color-bg-section: #1e293b;
-    --color-text: #f1f5f9;
-    --color-text-muted: #94a3b8;
-    --color-text-light: #64748b;
-    --color-border: #334155;
+    /* "Nuit Océan" — designed as a distinct scene, not a hue-inverted derivative. */
+    --color-primary: var(--color-ocean-light);
+    --color-primary-dark: var(--color-ocean);
+    --color-accent: var(--color-ocean-light);
+    --color-accent-hover: oklch(75% 0.13 220);
+    --color-bg: var(--color-night);
+    --color-bg-alt: var(--color-night-surface);
+    --color-bg-section: var(--color-night-surface);
+    --color-text: var(--color-sand);
+    --color-text-muted: oklch(75% 0.020 65);
+    --color-text-light: oklch(60% 0.025 65);
+    --color-border: var(--color-night-border);
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
+  }
+
+  /* The Mono Restraint Rule: monospace is reserved for actual code. */
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
   }
 }
 
@@ -77,7 +117,7 @@
 
 .btn-primary {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-bg);
   border-color: var(--color-primary);
 }
 
@@ -88,18 +128,18 @@
 
 .btn-outline {
   background-color: transparent;
-  color: var(--color-text);
-  border-color: var(--color-border);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-bg-section);
-  border-color: var(--color-text-muted);
+  background-color: var(--color-bg-alt);
+  border-color: var(--color-accent-hover);
 }
 
 .dark .btn-outline {
-  color: var(--color-text);
-  border-color: var(--color-border);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .dark .btn-outline:hover {
@@ -109,11 +149,13 @@
 .dark .btn-primary {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
+  color: var(--color-night);
 }
 
 .dark .btn-primary:hover {
   background-color: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
+  color: var(--color-night);
 }
 
 /* Category pills with dark mode support */
@@ -136,7 +178,7 @@
   --tw-prose-links: var(--color-accent);
   --tw-prose-bold: var(--color-text);
   --tw-prose-code: var(--color-text);
-  --tw-prose-pre-bg: var(--color-primary-dark);
+  --tw-prose-pre-bg: var(--color-night-surface);
 }
 
 @media (prefers-reduced-motion: reduce) {

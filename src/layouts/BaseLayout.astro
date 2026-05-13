@@ -49,7 +49,8 @@ const recentPosts = allPosts
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#1e293b" />
+    <meta name="theme-color" content="#fbf4ed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#030d11" media="(prefers-color-scheme: dark)" />
     <meta name="generator" content={Astro.generator} />
     <SEO
       title={fullTitle}
@@ -75,7 +76,7 @@ const recentPosts = allPosts
     </script>
   </head>
   <body class="min-h-dvh flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-white focus:rounded-md focus:text-sm focus:font-medium">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[var(--color-bg)] focus:rounded-md focus:text-sm focus:font-medium">
       {t(locale, 'skipToContent')}
     </a>
     <Navbar locale={locale} />

@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../i18n';
+import { type Locale, t, localePrefix } from '../i18n';
 import SectionEyebrow from './SectionEyebrow.astro';
 
 interface Props {
@@ -7,30 +7,31 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+const prefix = localePrefix(locale);
 const descLines = t(locale, 'heroDescription').split('\n');
 // 0 = intro to quote, 1 = quote, 2-3 = paragraphs
 ---
 
-<section class="bg-[var(--color-bg)] pt-12 lg:pt-20 pb-20 relative">
+<section class="bg-[var(--color-bg)] pt-16 lg:pt-24 pb-24">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-    <div class="grid lg:grid-cols-2 gap-x-12 gap-y-12 items-start">
+    <div class="grid lg:grid-cols-[1.4fr_1fr] gap-x-16 gap-y-12 items-start">
 
       <div>
         <SectionEyebrow text={t(locale, 'heroEyebrow')} as="p" class="mb-8" />
 
-        <h1 class="font-extrabold text-[var(--color-text)] m-0 leading-[0.95] tracking-tight text-balance text-[clamp(2.75rem,7vw,5rem)]">
+        <h1 class="font-serif font-semibold text-[var(--color-text)] m-0 leading-[0.95] tracking-[-0.035em] text-balance text-[clamp(3rem,9vw,6.5rem)]">
           <span class="block">{t(locale, 'heroHeadline1')}</span>
           <span class="block">{t(locale, 'heroHeadline2')}</span>
-          <span class="block italic text-[var(--color-accent)]">{t(locale, 'heroHeadline3')}</span>
+          <span class="block italic text-[var(--color-coral)]">{t(locale, 'heroHeadline3')}</span>
         </h1>
 
         <div class="mt-8 mb-10 max-w-[560px] flex flex-col gap-4">
-          <p class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed m-0 text-pretty">
+          <p class="text-[0.8125rem] font-medium tracking-[0.01em] text-[var(--color-text-muted)] m-0">
             {descLines[0]}
           </p>
-          <blockquote class="border-l-4 border-[var(--color-accent)] pl-5 py-1 italic text-[1.0625rem] text-[var(--color-text)] leading-relaxed text-pretty m-0">
-            «&nbsp;{descLines[1]}&nbsp;»
+          <blockquote class="font-serif italic text-[1.5rem] text-[var(--color-text)] leading-snug text-pretty m-0 pl-6">
+            {descLines[1]}
           </blockquote>
           <p class="text-[1.0625rem] text-[var(--color-text-muted)] leading-relaxed m-0 text-pretty">
             {descLines[2]}
@@ -40,44 +41,51 @@ const descLines = t(locale, 'heroDescription').split('\n');
           </p>
         </div>
 
-        <p class="font-semibold text-sm text-[var(--color-text)] m-0">
+        <a
+          href={`${prefix}/cv/`}
+          class="inline-block font-semibold text-sm text-[var(--color-text)] no-underline border-b border-transparent hover:border-[var(--color-text)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:rounded-sm"
+        >
           CKA · CKAD · Terraform
-        </p>
+        </a>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={`${prefix}/contact/`} class="btn btn-primary">
+            {t(locale, 'heroCtaPrimary')}
+          </a>
+          <a href={`${prefix}/cv/`} class="btn btn-outline">
+            {t(locale, 'heroCtaSecondary')}
+          </a>
+        </div>
       </div>
 
-      <div>
-        <img
-          src="/images/moi.png"
-          alt={t(locale, 'author')}
-          class="w-full aspect-[4/5] rounded-2xl object-cover shadow-lg"
-          loading="eager"
-          width="600"
-          height="750"
-        />
+      <div class="relative grid">
+        <div
+          aria-hidden="true"
+          class="col-start-1 row-start-1 hidden lg:block translate-x-6 translate-y-6 xl:translate-x-8 xl:translate-y-8 bg-[var(--color-accent)] rounded-lg"
+        ></div>
+        <picture class="col-start-1 row-start-1 relative z-10 block">
+          <source
+            type="image/avif"
+            srcset="/images/moi-600.avif 600w, /images/moi-1000.avif 1000w"
+            sizes="(min-width: 1024px) 30vw, 90vw"
+          />
+          <source
+            type="image/webp"
+            srcset="/images/moi-600.webp 600w, /images/moi-1000.webp 1000w"
+            sizes="(min-width: 1024px) 30vw, 90vw"
+          />
+          <img
+            src="/images/moi.png"
+            alt={t(locale, 'author')}
+            class="w-full aspect-[3/4] rounded-lg object-cover"
+            loading="eager"
+            fetchpriority="high"
+            width="864"
+            height="1184"
+          />
+        </picture>
       </div>
     </div>
   </div>
 
-  <a
-    href="#featured"
-    aria-label={t(locale, 'scrollDown')}
-    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-[var(--color-text-muted)] no-underline opacity-60 hover:opacity-100 transition-opacity focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-full"
-  >
-    <svg id="scroll-arrow" class="size-6 animate-bounce motion-reduce:animate-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
-    </svg>
-  </a>
 </section>
-
-<script>
-  const arrow = document.getElementById('scroll-arrow');
-  if (arrow) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        arrow.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
-      },
-      { threshold: 0 }
-    );
-    observer.observe(arrow);
-  }
-</script>
