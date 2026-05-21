@@ -11,11 +11,13 @@ interface Props {
   categories?: string[];
   description?: string;
   image?: string;
+  imageAlt?: string;
   locale: Locale;
   readingTime?: number;
 }
 
-const { title, date, updatedDate, author = 'Xavier GUERET', tags = [], categories = [], description, image, locale, readingTime } = Astro.props;
+const { title, date, updatedDate, author = 'Xavier GUERET', tags = [], categories = [], description, image, imageAlt, locale, readingTime } = Astro.props;
+const heroAlt = imageAlt || title;
 const modifiedDate = updatedDate || date;
 
 const site = Astro.site?.toString().replace(/\/$/, '') || '';
@@ -95,7 +97,7 @@ const jsonLd = {
   <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     {image && (
       <div class="mb-8 overflow-hidden rounded-xl">
-        <img src={image} alt={title} class="w-full h-auto object-cover aspect-[3/1]" />
+        <img src={image} alt={heroAlt} class="w-full h-auto object-cover aspect-[3/1]" />
       </div>
     )}
     <header class="mb-10">
