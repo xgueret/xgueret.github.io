@@ -1,7 +1,7 @@
 export default {
   // Site
   siteTitle: 'xgueret',
-  siteDescription: 'Ingénieur DevOps passionné par l\'automatisation',
+  siteDescription: 'Ingénieur DevOps spécialisé en Kubernetes, Terraform, Ansible et Python. Portfolio, articles techniques et retours d\'expérience sur l\'automatisation et le cloud-native.',
 
   // Nav
   home: 'Accueil',
