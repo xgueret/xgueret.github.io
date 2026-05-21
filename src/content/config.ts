@@ -13,6 +13,7 @@ const posts = defineCollection({
     draft: z.boolean().default(false),
     archived: z.boolean().default(false),
     image: z.string().optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 
