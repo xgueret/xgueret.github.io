@@ -9,18 +9,20 @@ interface Props {
   ogImage?: string;
   ogType?: 'website' | 'article';
   publishedTime?: string;
+  modifiedTime?: string;
   authorName?: string;
   tags?: string[];
 }
 
-const { title, description, locale, canonicalUrl, ogImage, ogType = 'website', publishedTime, authorName, tags = [] } = Astro.props;
+const { title, description, locale, canonicalUrl, ogImage, ogType = 'website', publishedTime, modifiedTime, authorName, tags = [] } = Astro.props;
 const altLocale = getAlternateLocale(locale);
 const currentPath = Astro.url.pathname;
 const site = Astro.site?.toString().replace(/\/$/, '') || '';
 const canonical = canonicalUrl || `${site}${currentPath}`;
 const altPath = localizedPath(altLocale, currentPath);
 const altUrl = `${site}${altPath}`;
-const image = ogImage || `${site}/images/moi.png`;
+const rawImage = ogImage || '/images/moi.png';
+const image = rawImage.startsWith('http') ? rawImage : `${site}${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`;
 ---
 
 <title>{title}</title>
@@ -39,14 +41,12 @@ const image = ogImage || `${site}/images/moi.png`;
 <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_US'} />
 <meta property="og:locale:alternate" content={altLocale === 'fr' ? 'fr_FR' : 'en_US'} />
 <meta property="og:image" content={image} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={title} />
 {ogType === 'article' && publishedTime && (
   <meta property="article:published_time" content={publishedTime} />
 )}
-{ogType === 'article' && publishedTime && (
-  <meta property="article:modified_time" content={publishedTime} />
+{ogType === 'article' && (modifiedTime || publishedTime) && (
+  <meta property="article:modified_time" content={modifiedTime || publishedTime} />
 )}
 {ogType === 'article' && authorName && (
   <meta property="article:author" content={authorName} />
@@ -57,6 +57,8 @@ const image = ogImage || `${site}/images/moi.png`;
 
 <!-- Twitter -->
 <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:site" content="@hixmaster" />
+<meta name="twitter:creator" content="@hixmaster" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
