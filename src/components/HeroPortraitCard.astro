@@ -1,0 +1,49 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="card-perspective">
+  <div class="card-3d">
+    <div class="face face-front">
+      <picture>
+        <source
+          type="image/avif"
+          srcset="/images/moi-600.avif 600w, /images/moi-1000.avif 1000w"
+          sizes="(min-width: 1024px) 30vw, 90vw"
+        />
+        <source
+          type="image/webp"
+          srcset="/images/moi-600.webp 600w, /images/moi-1000.webp 1000w"
+          sizes="(min-width: 1024px) 30vw, 90vw"
+        />
+        <img
+          src="/images/moi.png"
+          alt={t(locale, 'author')}
+          class="w-full aspect-[3/4] rounded-lg object-cover"
+          loading="eager"
+          fetchpriority="high"
+          width="864"
+          height="1184"
+        />
+      </picture>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card-perspective {
+    display: block;
+    width: 100%;
+  }
+  .card-3d,
+  .face {
+    display: block;
+    width: 100%;
+  }
+</style>
