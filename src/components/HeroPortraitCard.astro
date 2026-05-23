@@ -14,8 +14,14 @@ const labelKey = (key: string): TranslationKey =>
   `skill${key.charAt(0).toUpperCase()}${key.slice(1)}` as TranslationKey;
 ---
 
-<div class="card-perspective">
-  <div class="card-3d">
+<button
+  type="button"
+  class="card-perspective"
+  aria-pressed="false"
+  aria-label={t(locale, 'skillsAriaFlip')}
+  data-flip-card
+>
+  <div class="card-3d" data-flip-inner>
     <div class="face face-front">
       <picture>
         <source
@@ -39,7 +45,7 @@ const labelKey = (key: string): TranslationKey =>
         />
       </picture>
     </div>
-    <div class="face face-back" aria-hidden="true">
+    <div class="face face-back">
       <h3 class="back-title">{t(locale, 'skillsTitle')}</h3>
       <ul class="skills-list">
         {HERO_SKILLS.map((skill, i) => {
@@ -63,13 +69,28 @@ const labelKey = (key: string): TranslationKey =>
       <p class="back-hint">{t(locale, 'skillsBack')}</p>
     </div>
   </div>
-</div>
+</button>
 
 <style>
   .card-perspective {
     display: block;
     width: 100%;
     perspective: 1200px;
+    /* Reset native <button> defaults */
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .card-perspective:focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 4px;
+    border-radius: 0.5rem;
   }
 
   .card-3d {
@@ -204,3 +225,34 @@ const labelKey = (key: string): TranslationKey =>
     }
   }
 </style>
+
+<script>
+  function initHeroCard(button: HTMLButtonElement) {
+    const inner = button.querySelector<HTMLElement>('[data-flip-inner]');
+    if (!inner) return;
+
+    const setFlipped = (flipped: boolean) => {
+      button.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+      inner.classList.toggle('is-flipped', flipped);
+    };
+
+    button.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'mouse') setFlipped(true);
+    });
+
+    button.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse') setFlipped(false);
+    });
+
+    button.addEventListener('click', () => {
+      const isFlipped = button.getAttribute('aria-pressed') === 'true';
+      setFlipped(!isFlipped);
+    });
+
+    // Native <button> handles Enter/Space -> click event, so no extra keyboard handler needed.
+  }
+
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-flip-card]')
+    .forEach(initHeroCard);
+</script>
