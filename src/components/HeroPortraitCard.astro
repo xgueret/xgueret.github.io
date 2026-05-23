@@ -57,7 +57,7 @@ const labelKey = (key: string): TranslationKey =>
                 <span class="gauge-label">{t(locale, labelKey(skill.key))}</span>
                 <span class="gauge-value">{level}%</span>
               </div>
-              <div class="gauge-track">
+              <div class="gauge-track" aria-hidden="true">
                 <div
                   class="gauge-fill"
                   style={`--level: ${level}%; --stagger: ${i * 100}ms;`}
