@@ -245,6 +245,9 @@ const labelKey = (key: string): TranslationKey =>
     });
 
     button.addEventListener('click', () => {
+      // Mouse users: hover handles state, click is a no-op.
+      // Touch / keyboard activation: hover is not in effect, so click toggles.
+      if (button.matches(':hover')) return;
       const isFlipped = button.getAttribute('aria-pressed') === 'true';
       setFlipped(!isFlipped);
     });
