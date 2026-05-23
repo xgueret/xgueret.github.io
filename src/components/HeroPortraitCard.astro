@@ -44,6 +44,7 @@ const labelKey = (key: string): TranslationKey =>
           height="1184"
         />
       </picture>
+      <span class="flip-affordance" aria-hidden="true">↻</span>
     </div>
     <div class="face face-back">
       <h3 class="back-title">{t(locale, 'skillsTitle')}</h3>
@@ -119,6 +120,30 @@ const labelKey = (key: string): TranslationKey =>
 
   .face-front {
     z-index: 2;
+  }
+
+  .flip-affordance {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--color-ocean-deep) 60%, transparent);
+    color: var(--color-sand);
+    font-size: 0.875rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  .card-perspective:hover .flip-affordance,
+  .card-perspective:focus-visible .flip-affordance {
+    opacity: 1;
   }
 
   .face-back {
@@ -221,6 +246,9 @@ const labelKey = (key: string): TranslationKey =>
       opacity: 0;
     }
     .gauge-fill {
+      transition: none;
+    }
+    .flip-affordance {
       transition: none;
     }
   }
