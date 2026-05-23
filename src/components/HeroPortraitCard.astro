@@ -236,6 +236,12 @@ const labelKey = (key: string): TranslationKey =>
       inner.classList.toggle('is-flipped', flipped);
     };
 
+    const togglePressed = () => {
+      const isFlipped = button.getAttribute('aria-pressed') === 'true';
+      setFlipped(!isFlipped);
+    };
+
+    // Mouse: hover drives the state (no sticky hover on desktop).
     button.addEventListener('pointerenter', (e) => {
       if (e.pointerType === 'mouse') setFlipped(true);
     });
@@ -244,15 +250,18 @@ const labelKey = (key: string): TranslationKey =>
       if (e.pointerType === 'mouse') setFlipped(false);
     });
 
-    button.addEventListener('click', () => {
-      // Mouse users: hover handles state, click is a no-op.
-      // Touch / keyboard activation: hover is not in effect, so click toggles.
-      if (button.matches(':hover')) return;
-      const isFlipped = button.getAttribute('aria-pressed') === 'true';
-      setFlipped(!isFlipped);
+    // Touch / pen: tap toggles. Uses pointerup (not click) so we can read pointerType.
+    button.addEventListener('pointerup', (e) => {
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        togglePressed();
+      }
     });
 
-    // Native <button> handles Enter/Space -> click event, so no extra keyboard handler needed.
+    // Keyboard: Enter / Space on a native <button> fires a click with detail === 0.
+    // Mouse clicks have detail > 0 — those are ignored here (hover handles mouse).
+    button.addEventListener('click', (e) => {
+      if (e.detail === 0) togglePressed();
+    });
   }
 
   document
