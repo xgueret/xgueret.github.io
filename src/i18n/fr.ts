@@ -27,6 +27,17 @@ export default {
   heroCtaPrimary: 'Me contacter',
   heroCtaSecondary: 'Voir mon CV',
 
+  // Skills (hero flip card)
+  skillsTitle: 'Compétences',
+  skillsBack: '← Retour',
+  skillsAriaFlip: 'Voir mes compétences',
+  skillKubernetes: 'Kubernetes',
+  skillDocker: 'Docker',
+  skillTerraform: 'Terraform',
+  skillAnsible: 'Ansible',
+  skillGithubActions: 'GitHub Actions',
+  skillPython: 'Python',
+
   // Articles
   postsDescription: 'Articles et tutoriels sur le DevOps, Kubernetes, Ansible, Terraform, Python et l\'automatisation.',
   recentArticles: 'Articles Récents',
