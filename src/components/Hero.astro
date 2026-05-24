@@ -1,6 +1,7 @@
 ---
 import { type Locale, t, localePrefix } from '../i18n';
 import SectionEyebrow from './SectionEyebrow.astro';
+import HeroPortraitCard from './HeroPortraitCard.astro';
 
 interface Props {
   locale: Locale;
@@ -56,27 +57,9 @@ const descLines = t(locale, 'heroDescription').split('\n');
           aria-hidden="true"
           class="col-start-1 row-start-1 hidden lg:block translate-x-6 translate-y-6 xl:translate-x-8 xl:translate-y-8 bg-[var(--color-accent)] rounded-lg"
         ></div>
-        <picture class="col-start-1 row-start-1 relative z-10 block">
-          <source
-            type="image/avif"
-            srcset="/images/moi-600.avif 600w, /images/moi-1000.avif 1000w"
-            sizes="(min-width: 1024px) 30vw, 90vw"
-          />
-          <source
-            type="image/webp"
-            srcset="/images/moi-600.webp 600w, /images/moi-1000.webp 1000w"
-            sizes="(min-width: 1024px) 30vw, 90vw"
-          />
-          <img
-            src="/images/moi.png"
-            alt={t(locale, 'author')}
-            class="w-full aspect-[3/4] rounded-lg object-cover"
-            loading="eager"
-            fetchpriority="high"
-            width="864"
-            height="1184"
-          />
-        </picture>
+        <div class="col-start-1 row-start-1 relative z-10 block">
+          <HeroPortraitCard locale={locale} />
+        </div>
       </div>
     </div>
   </div>
