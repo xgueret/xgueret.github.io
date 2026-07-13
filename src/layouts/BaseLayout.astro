@@ -23,7 +23,9 @@ interface Props {
 
 const { title, description, locale, canonicalUrl, ogImage, ogType, publishedTime, modifiedTime, authorName, tags, jsonLd } = Astro.props;
 const siteTitle = t(locale, 'siteTitle');
-const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
+const homeTitle = t(locale, 'homeTitle');
+// Homepage keeps its own full name-bearing title; sub-pages get the brand suffix.
+const fullTitle = title === siteTitle || title === homeTitle ? title : `${title} · ${siteTitle}`;
 const desc = description || t(locale, 'siteDescription');
 
 // Get recent posts for chatbot
