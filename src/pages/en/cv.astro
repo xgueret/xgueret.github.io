@@ -25,14 +25,23 @@ const jsonLd = {
   mainEntity: {
     '@type': 'Person',
     name: 'Xavier GUERET',
+    alternateName: 'Xavier Gueret',
     jobTitle: 'DevOps Engineer',
     url: `${site}/en/`,
-    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'Bash', 'CI/CD', 'Jenkins', 'GitLab CI', 'GitHub Actions'],
+    image: `${site}/images/moi.png`,
+    description:
+      'DevOps Engineer based in Guadeloupe, specialized in Kubernetes, Terraform, Ansible and Python, with a strong interest in applied AI (LLM, MCP).',
+    homeLocation: {
+      '@type': 'Place',
+      name: 'Guadeloupe',
+      address: { '@type': 'PostalAddress', addressRegion: 'Guadeloupe', addressCountry: 'FR' },
+    },
+    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'Bash', 'CI/CD', 'Jenkins', 'GitLab CI', 'GitHub Actions', 'Artificial Intelligence', 'Large Language Models', 'Model Context Protocol'],
     hasCredential: [
       { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Certified Kubernetes Administrator (CKA)' },
       { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'HashiCorp Certified: Terraform Associate (002)' },
     ],
-    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret'],
+    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret', 'https://x.com/hixmaster'],
   },
 };
 ---
