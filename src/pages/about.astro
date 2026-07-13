@@ -23,14 +23,23 @@ const jsonLd = {
   mainEntity: {
     '@type': 'Person',
     name: 'Xavier GUERET',
+    alternateName: 'Xavier Gueret',
     jobTitle: 'DevOps Engineer',
     url: `${site}/`,
-    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'CI/CD', 'GitHub Actions', 'GitLab CI'],
+    image: `${site}/images/moi.png`,
+    description:
+      "Ingénieur DevOps basé en Guadeloupe, spécialisé en Kubernetes, Terraform, Ansible et Python, avec un intérêt marqué pour l'IA appliquée (LLM, MCP).",
+    homeLocation: {
+      '@type': 'Place',
+      name: 'Guadeloupe',
+      address: { '@type': 'PostalAddress', addressRegion: 'Guadeloupe', addressCountry: 'FR' },
+    },
+    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'CI/CD', 'GitHub Actions', 'GitLab CI', 'Artificial Intelligence', 'Large Language Models', 'Model Context Protocol'],
     hasCredential: [
       { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Certified Kubernetes Administrator (CKA)' },
       { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'HashiCorp Certified: Terraform Associate (002)' },
     ],
-    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret'],
+    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret', 'https://x.com/hixmaster'],
   },
 };
 ---
