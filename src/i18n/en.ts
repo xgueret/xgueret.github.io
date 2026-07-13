@@ -1,7 +1,8 @@
 export default {
   // Site
   siteTitle: 'xgueret',
-  siteDescription: 'DevOps Engineer specialized in Kubernetes, Terraform, Ansible and Python. Portfolio, technical articles and field notes on automation and cloud-native systems.',
+  homeTitle: 'Xavier Gueret — DevOps Engineer in Guadeloupe',
+  siteDescription: 'Xavier Gueret, DevOps Engineer based in Guadeloupe. Kubernetes, Terraform, Python and applied AI (LLM, MCP): technical articles, tutorials and field notes on automation and cloud-native systems.',
 
   // Nav
   home: 'Home',
@@ -19,7 +20,7 @@ export default {
 
   // Hero
   author: 'Xavier GUERET',
-  heroEyebrow: 'DevOps Engineer · Guadeloupe',
+  heroEyebrow: 'Xavier Gueret · DevOps Engineer in Guadeloupe',
   heroHeadline1: 'Build,',
   heroHeadline2: 'deploy,',
   heroHeadline3: 'automate.',
