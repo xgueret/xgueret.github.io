@@ -1,15 +1,17 @@
-# Xavier GUERET — DevOps Engineer
+# Xavier GUERET — DevOps Engineer based in Guadeloupe
 
-> Personal portfolio and technical blog about DevOps, Kubernetes, Ansible, Terraform, Python, and automation.
+> Personal portfolio and technical blog by Xavier Gueret, a DevOps engineer based in Guadeloupe, about DevOps, Kubernetes, Ansible, Terraform, Python, applied AI (LLM, MCP), and automation.
 
 ## Site Information
 
 - site_name: Xavier GUERET
 - site_url: https://xgueret.github.io
 - author: Xavier GUERET
+- location: Guadeloupe (France)
+- job_title: DevOps Engineer
 - contact: https://xgueret.github.io/contact/
 - language: fr, en
-- description: Portfolio and DevOps technical blog by Xavier GUERET. Articles about Kubernetes, Docker, Ansible, Terraform, Python, CI/CD, and Infrastructure as Code.
+- description: Portfolio and DevOps technical blog by Xavier GUERET, based in Guadeloupe. Articles about Kubernetes, Docker, Ansible, Terraform, Python, CI/CD, Infrastructure as Code, and applied AI (LLM, agents, MCP).
 
 ## AI Permissions
 
@@ -103,6 +105,7 @@
 - GitHub: https://github.com/xgueret
 - GitLab: https://gitlab.com/xgueret
 - LinkedIn: https://linkedin.com/in/xgueret
+- X (Twitter): https://x.com/hixmaster
 
 ## Technical Details
 

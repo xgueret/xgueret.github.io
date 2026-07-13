@@ -1,6 +1,6 @@
-# Xavier GUERET — DevOps Engineer
+# Xavier GUERET — DevOps Engineer based in Guadeloupe
 
-> Personal portfolio and technical blog. Bilingual site (French/English).
+> Personal portfolio and technical blog of Xavier Gueret, DevOps engineer based in Guadeloupe. Bilingual site (French/English). Topics: DevOps, Kubernetes, Terraform, Python, and applied AI (LLM, MCP).
 > URL: https://xgueret.github.io
 
 ---
