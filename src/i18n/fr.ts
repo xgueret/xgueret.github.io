@@ -114,6 +114,17 @@ export default {
   notFoundMessage: 'La page que vous cherchez n\'existe pas.',
   backHome: 'Retour à l\'accueil',
 
+  // Article — sommaire & série
+  tableOfContents: 'Sommaire',
+  seriesLabel: 'Série',
+  seriesEpisodes: 'Épisodes de la série',
+  episode: 'Épisode',
+  previousEpisode: 'Épisode précédent',
+  nextEpisode: 'Épisode suivant',
+  tocClose: 'Fermer le sommaire',
+  tocHide: 'Masquer le sommaire',
+  tocShow: 'Afficher le sommaire',
+
   // Chatbot
   chatbotTitle: 'Assistant Virtuel',
   chatbotSubtitle: 'Posez vos questions',

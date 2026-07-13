@@ -2,6 +2,7 @@
 import PostLayout from '../../../layouts/PostLayout.astro';
 import { getCollection } from 'astro:content';
 import { getReadingTime } from '../../../utils/readingTime';
+import { getSeriesNav } from '../../../utils/series';
 
 const locale = 'en';
 
@@ -17,8 +18,9 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 const readingTime = getReadingTime(post.body ?? '');
+const { episodes, prev, next } = await getSeriesNav(post, locale);
 ---
 
 <PostLayout
@@ -33,6 +35,12 @@ const readingTime = getReadingTime(post.body ?? '');
   imageAlt={post.data.imageAlt}
   locale={locale}
   readingTime={readingTime}
+  headings={headings}
+  toc={post.data.toc}
+  seriesName={post.data.series}
+  seriesEpisodes={episodes}
+  seriesPrev={prev}
+  seriesNext={next}
 >
   <Content />
 </PostLayout>

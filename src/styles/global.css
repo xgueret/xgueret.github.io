@@ -181,6 +181,25 @@
   --tw-prose-pre-bg: var(--color-night-surface);
 }
 
+/* Wide Markdown tables scroll within their own box instead of stretching the
+   page past the viewport (source of horizontal overflow on mobile). Tables that
+   already fit keep their natural width and show no scrollbar. */
+.prose :where(table) {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+/* Inline code (a filename, a command, a long path) must wrap rather than push
+   the page wider than the viewport. Code blocks (pre code) are excluded — they
+   stay on one line and scroll horizontally. */
+.prose :not(pre) > code {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

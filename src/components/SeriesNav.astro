@@ -1,0 +1,91 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Episode {
+  title: string;
+  order: number;
+  href: string;
+  current: boolean;
+}
+
+interface Props {
+  seriesName: string;
+  episodes: Episode[];
+  prev?: Episode;
+  next?: Episode;
+  locale: Locale;
+}
+
+const { seriesName, episodes, prev, next, locale } = Astro.props;
+---
+
+{episodes.length > 0 && (
+  <nav
+    class="series-nav mt-12 pt-8 border-t border-[var(--color-border)]"
+    aria-label={`${t(locale, 'seriesLabel')}: ${seriesName}`}
+  >
+    <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-light)] mb-4">
+      {t(locale, 'seriesLabel')} · <span class="text-[var(--color-accent)]">{seriesName}</span>
+    </p>
+
+    <ol class="space-y-1.5 mb-8">
+      {episodes.map((ep) => (
+        <li>
+          <a
+            href={ep.href}
+            aria-current={ep.current ? 'page' : undefined}
+            class={`flex items-baseline gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
+              ep.current
+                ? 'bg-[var(--color-accent)]/10 text-[var(--color-text)] font-semibold'
+                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-bg-section)] hover:text-[var(--color-accent)]'
+            }`}
+          >
+            <span
+              class={`shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
+                ep.current
+                  ? 'bg-[var(--color-accent)] text-white'
+                  : 'bg-[var(--color-bg-section)] text-[var(--color-text-light)]'
+              }`}
+            >
+              {ep.order}
+            </span>
+            <span>{ep.title}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    {(prev || next) && (
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {prev ? (
+          <a
+            href={prev.href}
+            class="group/prev flex flex-col rounded-xl border border-[var(--color-border)] p-4 hover:border-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+          >
+            <span class="text-xs text-[var(--color-text-light)] mb-1">
+              &larr; {t(locale, 'previousEpisode')}
+            </span>
+            <span class="text-sm font-medium text-[var(--color-text)] group-hover/prev:text-[var(--color-accent)] transition-colors">
+              {prev.title}
+            </span>
+          </a>
+        ) : (
+          <span class="hidden sm:block" />
+        )}
+        {next && (
+          <a
+            href={next.href}
+            class="group/next flex flex-col rounded-xl border border-[var(--color-border)] p-4 text-right hover:border-[var(--color-accent)] transition-colors sm:col-start-2 focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+          >
+            <span class="text-xs text-[var(--color-text-light)] mb-1">
+              {t(locale, 'nextEpisode')} &rarr;
+            </span>
+            <span class="text-sm font-medium text-[var(--color-text)] group-hover/next:text-[var(--color-accent)] transition-colors">
+              {next.title}
+            </span>
+          </a>
+        )}
+      </div>
+    )}
+  </nav>
+)}

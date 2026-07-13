@@ -114,6 +114,17 @@ export default {
   notFoundMessage: 'The page you are looking for does not exist.',
   backHome: 'Back to home',
 
+  // Article — table of contents & series
+  tableOfContents: 'Contents',
+  seriesLabel: 'Series',
+  seriesEpisodes: 'Episodes in this series',
+  episode: 'Episode',
+  previousEpisode: 'Previous episode',
+  nextEpisode: 'Next episode',
+  tocClose: 'Close contents',
+  tocHide: 'Hide contents',
+  tocShow: 'Show contents',
+
   // Chatbot
   chatbotTitle: 'Virtual Assistant',
   chatbotSubtitle: 'Ask me anything',
