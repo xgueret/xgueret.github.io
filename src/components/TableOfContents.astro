@@ -1,0 +1,485 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  locale: Locale;
+}
+
+const { headings, locale } = Astro.props;
+
+// Top-level sections only (H2) — keeps the TOC scannable and non-intrusive.
+const items = headings.filter((h) => h.depth === 2);
+const title = t(locale, 'tableOfContents');
+const closeLabel = t(locale, 'tocClose');
+const hideLabel = t(locale, 'tocHide');
+const showLabel = t(locale, 'tocShow');
+---
+
+{items.length > 1 && (
+  <>
+    {/* Desktop: sticky sidebar (occupies the grid column) */}
+    <nav
+      class="toc-desktop hidden lg:block sticky top-[calc(var(--navbar-height)+1.5rem)] max-h-[calc(100vh-var(--navbar-height)-3rem)] overflow-y-auto pr-2"
+      aria-label={title}
+    >
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-light)]">
+          {title}
+        </p>
+        <button type="button" class="toc-hide" aria-label={hideLabel} title={hideLabel}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <ul class="space-y-1 border-l border-[var(--color-border)]">
+        {items.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              data-slug={h.slug}
+              class="toc-link block py-1 pl-3 -ml-px border-l-2 border-transparent text-sm leading-snug font-medium text-[var(--color-text-muted)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 transition-colors"
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {/* Mobile: floating pill + bottom sheet — never pushes the article content */}
+    <div class="toc-mobile lg:hidden" data-toc>
+      <button type="button" class="toc-fab" aria-expanded="false" aria-controls="toc-sheet">
+        <svg class="toc-fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="8" y1="7" x2="20" y2="7" />
+          <line x1="8" y1="12" x2="20" y2="12" />
+          <line x1="8" y1="17" x2="16" y2="17" />
+          <circle cx="4" cy="7" r="0.5" fill="currentColor" />
+          <circle cx="4" cy="12" r="0.5" fill="currentColor" />
+          <circle cx="4" cy="17" r="0.5" fill="currentColor" />
+        </svg>
+        <span>{title}</span>
+      </button>
+
+      <div id="toc-sheet" class="toc-sheet" hidden>
+        <div class="toc-sheet-backdrop" data-toc-close></div>
+        <div class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label={title}>
+          <div class="toc-sheet-grip" aria-hidden="true"></div>
+          <div class="toc-sheet-head">
+            <span class="toc-sheet-title">{title}</span>
+            <button type="button" class="toc-sheet-x" data-toc-close aria-label={closeLabel}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="6" y1="6" x2="18" y2="18" />
+                <line x1="18" y1="6" x2="6" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <ul class="toc-sheet-list">
+            {items.map((h) => (
+              <li>
+                <a href={`#${h.slug}`} data-slug={h.slug} class="toc-link toc-sheet-link">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <button type="button" class="toc-sheet-hide" data-toc-hide>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+              <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+            <span>{hideLabel}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Recall handle — only shown on mobile once the sommaire has been hidden */}
+      <button type="button" class="toc-recall" aria-label={showLabel} title={showLabel}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="8" y1="7" x2="20" y2="7" />
+          <line x1="8" y1="12" x2="20" y2="12" />
+          <line x1="8" y1="17" x2="16" y2="17" />
+          <circle cx="4" cy="7" r="0.5" fill="currentColor" />
+          <circle cx="4" cy="12" r="0.5" fill="currentColor" />
+          <circle cx="4" cy="17" r="0.5" fill="currentColor" />
+        </svg>
+      </button>
+    </div>
+  </>
+)}
+
+<style>
+  .toc-link.is-active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* ---- Desktop "hide" button ---- */
+  .toc-hide {
+    display: inline-flex;
+    padding: 0.2rem;
+    border-radius: 0.375rem;
+    color: var(--color-text-light);
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .toc-hide:hover {
+    color: var(--color-accent);
+    background: color-mix(in oklab, var(--color-accent) 12%, transparent);
+  }
+  .toc-hide svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  /* ---- Collapsed state: sidebar hidden, article full width, pill reopens ---- */
+  :global([data-toc-grid].toc-collapsed) {
+    display: block !important;
+  }
+  :global([data-toc-grid].toc-collapsed) .toc-desktop {
+    display: none !important;
+  }
+  :global([data-toc-grid].toc-collapsed) .toc-mobile {
+    display: block !important;
+  }
+
+  /* ---- Mobile floating pill ---- */
+  .toc-fab {
+    position: fixed;
+    left: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 6px 20px -6px rgb(0 0 0 / 0.25);
+    opacity: 0;
+    transform: translateY(0.75rem);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .toc-fab.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .toc-fab-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-accent);
+  }
+
+  /* ---- Mobile bottom sheet ---- */
+  .toc-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .toc-sheet[hidden] {
+    display: none;
+  }
+  .toc-sheet-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.4);
+    animation: toc-fade 0.2s ease;
+  }
+  .toc-sheet-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 80vh;
+    overflow: hidden;
+    background: var(--color-bg);
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-bottom: none;
+    padding: 0.5rem 1.25rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -12px 40px -12px rgb(0 0 0 / 0.35);
+    animation: toc-slide-up 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .toc-sheet-grip {
+    flex: none;
+    width: 2.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: var(--color-border);
+    margin: 0.25rem auto 0.75rem;
+  }
+  .toc-sheet-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .toc-sheet-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+  }
+  .toc-sheet-x {
+    display: inline-flex;
+    padding: 0.4rem;
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+  }
+  .toc-sheet-x svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .toc-sheet-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+  }
+  .toc-sheet-link {
+    display: block;
+    padding: 0.75rem 0.25rem;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-border) 60%, transparent);
+  }
+  .toc-sheet-list li:last-child .toc-sheet-link {
+    border-bottom: none;
+  }
+  .toc-sheet-hide {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+  }
+  .toc-sheet-hide svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* ---- Recall handle (mobile, after the sommaire is hidden) ---- */
+  .toc-recall {
+    position: fixed;
+    left: 0;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.6rem 0.5rem 0.45rem;
+    border: 1px solid var(--color-border);
+    border-left: none;
+    border-radius: 0 9999px 9999px 0;
+    background: var(--color-bg);
+    color: var(--color-accent);
+    box-shadow: 0 4px 14px -6px rgb(0 0 0 / 0.25);
+    opacity: 0.8;
+  }
+  .toc-recall svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  /* When hidden on mobile: swap the pill for the discreet recall handle. */
+  @media (max-width: 1023px) {
+    :global([data-toc-grid].toc-collapsed) .toc-fab {
+      display: none !important;
+    }
+    :global([data-toc-grid].toc-collapsed) .toc-recall {
+      display: inline-flex !important;
+    }
+  }
+
+  @keyframes toc-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes toc-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .toc-fab,
+    .toc-sheet-backdrop,
+    .toc-sheet-panel {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initToc() {
+    const root = document.querySelector<HTMLElement>('article');
+    if (!root) return;
+
+    // ---- Scrollspy: highlight the H2 section currently in view ----
+    const linksBySlug = new Map<string, HTMLAnchorElement[]>();
+    document.querySelectorAll<HTMLAnchorElement>('.toc-link[data-slug]').forEach((a) => {
+      const slug = a.dataset.slug!;
+      if (!linksBySlug.has(slug)) linksBySlug.set(slug, []);
+      linksBySlug.get(slug)!.push(a);
+    });
+
+    const headings = Array.from(root.querySelectorAll<HTMLElement>('h2[id]'));
+
+    if (linksBySlug.size > 0 && headings.length > 0) {
+      const setActive = (slug: string) => {
+        document.querySelectorAll('.toc-link.is-active').forEach((a) => {
+          a.classList.remove('is-active');
+          a.removeAttribute('aria-current');
+        });
+        (linksBySlug.get(slug) || []).forEach((a) => {
+          a.classList.add('is-active');
+          a.setAttribute('aria-current', 'true');
+        });
+      };
+
+      const visible = new Set<string>();
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) visible.add(entry.target.id);
+            else visible.delete(entry.target.id);
+          }
+          const active = headings.find((h) => visible.has(h.id));
+          if (active) setActive(active.id);
+        },
+        { rootMargin: '-80px 0px -75% 0px', threshold: 0 }
+      );
+      headings.forEach((h) => observer.observe(h));
+    }
+
+    // ---- Smooth scroll (both desktop sidebar & mobile sheet) ----
+    document.querySelectorAll<HTMLAnchorElement>('.toc-link[data-slug]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const slug = a.dataset.slug!;
+        const target = document.getElementById(slug);
+        if (!target) return;
+        e.preventDefault();
+        closeSheet();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', `#${slug}`);
+      });
+    });
+
+    // ---- Mobile bottom sheet ----
+    const wrap = document.querySelector<HTMLElement>('[data-toc]');
+    const fab = wrap?.querySelector<HTMLButtonElement>('.toc-fab');
+    const sheet = document.getElementById('toc-sheet');
+    if (!wrap || !fab || !sheet) return;
+
+    function openSheet() {
+      sheet!.hidden = false;
+      fab!.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSheet() {
+      if (sheet!.hidden) return;
+      sheet!.hidden = true;
+      fab!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    sheet.querySelectorAll('[data-toc-close]').forEach((el) => {
+      el.addEventListener('click', closeSheet);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSheet();
+    });
+
+    // ---- Hide / restore the whole TOC (preference persisted) ----
+    // Desktop: sidebar <-> reopen pill. Mobile: pill <-> discreet edge handle.
+    const grid = document.querySelector<HTMLElement>('[data-toc-grid]');
+    const hideBtn = document.querySelector<HTMLButtonElement>('.toc-hide');
+    const sheetHideBtn = sheet.querySelector<HTMLButtonElement>('[data-toc-hide]');
+    const recall = wrap.querySelector<HTMLButtonElement>('.toc-recall');
+    const STORAGE = 'toc-collapsed';
+    const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
+    const isCollapsed = () => grid?.classList.contains('toc-collapsed') ?? false;
+
+    // Reveal the pill only once the reader has scrolled past the header, so it
+    // never sits over the opening of the article. Skip the gate when it is the
+    // desktop reopen affordance (must stay reachable at any scroll position).
+    const toggleFab = () => {
+      if (isDesktop() && isCollapsed()) return;
+      if (window.scrollY > 400) fab.classList.add('is-visible');
+      else fab.classList.remove('is-visible');
+    };
+
+    function setCollapsed(collapsed: boolean) {
+      if (!grid) return;
+      grid.classList.toggle('toc-collapsed', collapsed);
+      if (isDesktop()) {
+        // On desktop, the pill is the reopen affordance — keep it visible while collapsed.
+        fab!.classList.toggle('is-visible', collapsed);
+      } else {
+        // On mobile, restoring brings the pill back; refresh its scroll-gated state.
+        toggleFab();
+      }
+      try {
+        collapsed ? localStorage.setItem(STORAGE, '1') : localStorage.removeItem(STORAGE);
+      } catch {}
+    }
+
+    // Hide triggers: desktop sidebar × and the mobile sheet button.
+    hideBtn?.addEventListener('click', () => setCollapsed(true));
+    sheetHideBtn?.addEventListener('click', () => {
+      closeSheet();
+      setCollapsed(true);
+    });
+    // Mobile recall handle brings the pill back.
+    recall?.addEventListener('click', () => setCollapsed(false));
+
+    fab.addEventListener('click', () => {
+      // Desktop + collapsed: the pill restores the sidebar.
+      if (isDesktop() && isCollapsed()) {
+        setCollapsed(false);
+        return;
+      }
+      // Mobile: the pill opens/closes the bottom sheet.
+      sheet.hidden ? openSheet() : closeSheet();
+    });
+
+    // Restore the persisted preference (before first paint of the sidebar).
+    try {
+      if (localStorage.getItem(STORAGE) === '1') setCollapsed(true);
+    } catch {}
+
+    toggleFab();
+    window.addEventListener('scroll', toggleFab, { passive: true });
+  }
+
+  initToc();
+  document.addEventListener('astro:page-load', initToc);
+</script>

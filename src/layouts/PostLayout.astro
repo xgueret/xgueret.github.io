@@ -1,6 +1,21 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import SeriesNav from '../components/SeriesNav.astro';
 import { type Locale, t, formatDate, localePrefix } from '../i18n';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Episode {
+  title: string;
+  order: number;
+  href: string;
+  current: boolean;
+}
 
 interface Props {
   title: string;
@@ -14,9 +29,18 @@ interface Props {
   imageAlt?: string;
   locale: Locale;
   readingTime?: number;
+  headings?: Heading[];
+  toc?: boolean;
+  seriesName?: string;
+  seriesEpisodes?: Episode[];
+  seriesPrev?: Episode;
+  seriesNext?: Episode;
 }
 
-const { title, date, updatedDate, author = 'Xavier GUERET', tags = [], categories = [], description, image, imageAlt, locale, readingTime } = Astro.props;
+const { title, date, updatedDate, author = 'Xavier GUERET', tags = [], categories = [], description, image, imageAlt, locale, readingTime, headings = [], toc = false, seriesName, seriesEpisodes = [], seriesPrev, seriesNext } = Astro.props;
+
+const tocHeadings = headings.filter((h) => h.depth === 2);
+const showToc = toc && tocHeadings.length > 1;
 const heroAlt = imageAlt || title;
 const modifiedDate = updatedDate || date;
 
@@ -134,20 +158,34 @@ const jsonLd = {
       )}
     </header>
 
-    <div class="prose prose-lg max-w-none
-      prose-headings:text-[var(--color-text)] prose-headings:font-bold
-      prose-p:text-[var(--color-text-muted)] prose-p:leading-relaxed
-      prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-[var(--color-text)]
-      prose-code:text-[var(--color-text)] prose-code:bg-[var(--color-bg-section)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-      prose-pre:bg-[var(--color-primary-dark)] prose-pre:rounded-lg
-      prose-pre:code:bg-transparent prose-pre:code:text-gray-100
-      prose-blockquote:border-l-4 prose-blockquote:border-[var(--color-accent)]
-      prose-img:rounded-lg
-      prose-li:text-[var(--color-text-muted)]
-      dark:prose-invert">
-      <slot />
+    <div data-toc-grid class:list={["gap-x-10", showToc && "lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]"]}>
+      {showToc && <TableOfContents headings={headings} locale={locale} />}
+      <div class="prose prose-lg max-w-none
+        prose-headings:text-[var(--color-text)] prose-headings:font-bold
+        prose-headings:scroll-mt-[calc(var(--navbar-height)+1.5rem)]
+        prose-p:text-[var(--color-text-muted)] prose-p:leading-relaxed
+        prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-[var(--color-text)]
+        prose-code:text-[var(--color-text)] prose-code:bg-[var(--color-bg-section)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+        prose-pre:bg-[var(--color-primary-dark)] prose-pre:rounded-lg
+        prose-pre:code:bg-transparent prose-pre:code:text-gray-100
+        prose-blockquote:border-l-4 prose-blockquote:border-[var(--color-accent)]
+        prose-img:rounded-lg
+        prose-li:text-[var(--color-text-muted)]
+        dark:prose-invert">
+        <slot />
+      </div>
     </div>
+
+    {seriesName && seriesEpisodes.length > 0 && (
+      <SeriesNav
+        seriesName={seriesName}
+        episodes={seriesEpisodes}
+        prev={seriesPrev}
+        next={seriesNext}
+        locale={locale}
+      />
+    )}
 
     <footer class="mt-12 pt-8 border-t border-[var(--color-border)]">
       <a
