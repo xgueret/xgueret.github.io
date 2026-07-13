@@ -62,6 +62,8 @@ const articles = recentPosts.map((post) => {
   };
 });
 
+// Formations section temporarily disabled — flip to true to re-enable.
+const showTrainings = false;
 const allTrainings = await getCollection('training', ({ id, data }) => {
   return id.startsWith('en/') && !data.draft && !data.archived;
 });
@@ -94,7 +96,7 @@ const trainings = allTrainings.map((t) => ({
     </div>
   </section>
 
-  {trainings.length > 0 && (
+  {showTrainings && trainings.length > 0 && (
     <section class="py-16 lg:py-20 bg-[var(--color-bg)]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-10">
