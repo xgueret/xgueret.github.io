@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import SeriesNav from '../components/SeriesNav.astro';
+import SeriesHeader from '../components/SeriesHeader.astro';
 import { type Locale, t, formatDate, localePrefix } from '../i18n';
 
 interface Heading {
@@ -155,6 +156,9 @@ const jsonLd = {
             </a>
           ))}
         </div>
+      )}
+      {seriesName && seriesEpisodes.length > 0 && (
+        <SeriesHeader seriesName={seriesName} episodes={seriesEpisodes} locale={locale} />
       )}
     </header>
 

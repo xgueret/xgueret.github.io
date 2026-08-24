@@ -1,0 +1,37 @@
+---
+import type { Episode } from '../utils/series';
+
+interface Props {
+  episodes: Episode[];
+  class?: string;
+}
+
+const { episodes, class: className = '' } = Astro.props;
+---
+
+<ol class:list={['space-y-1.5 list-none m-0 p-0', className]}>
+  {episodes.map((ep) => (
+    <li>
+      <a
+        href={ep.href}
+        aria-current={ep.current ? 'page' : undefined}
+        class={`flex items-baseline gap-3 rounded-lg px-3 py-2 text-sm no-underline transition-colors ${
+          ep.current
+            ? 'bg-[var(--color-accent)]/10 text-[var(--color-text)] font-semibold'
+            : 'text-[var(--color-text-muted)] hover:bg-[var(--color-bg-section)] hover:text-[var(--color-accent)]'
+        }`}
+      >
+        <span
+          class={`shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
+            ep.current
+              ? 'bg-[var(--color-accent)] text-white'
+              : 'bg-[var(--color-bg-section)] text-[var(--color-text-light)]'
+          }`}
+        >
+          {ep.order}
+        </span>
+        <span>{ep.title}</span>
+      </a>
+    </li>
+  ))}
+</ol>

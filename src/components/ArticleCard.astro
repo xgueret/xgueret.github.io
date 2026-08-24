@@ -8,9 +8,16 @@ interface Props {
   image?: string;
   index?: number;
   locale: Locale;
+  seriesName?: string;
+  seriesOrder?: number;
 }
 
-const { title, href, summary, image, index = 0, locale } = Astro.props;
+const { title, href, summary, image, index = 0, locale, seriesName, seriesOrder } = Astro.props;
+
+const episodeLabel =
+  seriesOrder !== undefined
+    ? `${seriesName ? `${seriesName} · ` : ''}${t(locale, 'episode')} ${seriesOrder}`
+    : undefined;
 
 const covers = [
   'var(--color-bg-alt, #f8f3ea)',
@@ -30,6 +37,11 @@ const covers = [
   </a>
 
   <div class="p-6">
+    {episodeLabel && (
+      <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-2 truncate">
+        {episodeLabel}
+      </p>
+    )}
     <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2 leading-snug text-balance">
       <a href={href} class="text-inherit no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md">
         {title}
