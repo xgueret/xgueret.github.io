@@ -7,6 +7,7 @@ import SectionEyebrow from '../../../components/SectionEyebrow.astro';
 import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
 import { sortCategoryPosts } from '../../../utils/series';
+import { assertCategoriesMapped } from '../../../i18n/categories';
 
 const locale = 'en';
 
@@ -24,6 +25,8 @@ export async function getStaticPaths() {
       categoryMap.get(key)!.push(post);
     });
   });
+
+  assertCategoriesMapped(Array.from(categoryMap.keys()), 'en');
 
   const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
     name,
