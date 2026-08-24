@@ -1,6 +1,6 @@
 ---
 title: "Le hasard maîtrisé : température, top-k, top-p"
-date: "2026-07-17"
+date: "2026-08-24"
 author: "Xavier GUERET"
 description: "Troisième volet de la série « Du token au chatbot ». Comment un LLM choisit réellement le prochain mot : greedy, échantillonnage, et les trois curseurs température / top-k / top-p, avec de vraies manips Python pour sentir l'équilibre entre fiabilité et créativité."
 tags:

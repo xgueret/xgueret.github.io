@@ -1,6 +1,6 @@
 ---
 title: "Randomness Under Control: Temperature, Top-k, Top-p"
-date: "2026-07-17"
+date: "2026-08-24"
 author: "Xavier GUERET"
 description: "Part 3 of the series 'From Token to Chatbot'. How an LLM actually picks the next word: greedy, sampling, and the three dials temperature / top-k / top-p, with hands-on Python to feel the balance between reliability and creativity."
 tags:
