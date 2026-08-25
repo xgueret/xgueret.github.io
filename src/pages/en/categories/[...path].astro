@@ -6,6 +6,8 @@ import Pagination from '../../../components/Pagination.astro';
 import SectionEyebrow from '../../../components/SectionEyebrow.astro';
 import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
+import { sortCategoryPosts } from '../../../utils/series';
+import { assertCategoriesMapped } from '../../../i18n/categories';
 
 const locale = 'en';
 
@@ -23,6 +25,8 @@ export async function getStaticPaths() {
       categoryMap.get(key)!.push(post);
     });
   });
+
+  assertCategoriesMapped(Array.from(categoryMap.keys()), 'en');
 
   const allCategories = Array.from(categoryMap.entries()).map(([name, posts]) => ({
     name,
@@ -43,7 +47,7 @@ export async function getStaticPaths() {
   }> = [];
 
   for (const [category, posts] of categoryMap.entries()) {
-    const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+    const sortedPosts = sortCategoryPosts(posts);
     const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
 
     for (let i = 0; i < totalPages; i++) {
@@ -81,6 +85,8 @@ const articles = posts.map((post) => {
     href: `${localePrefix(locale)}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
+    seriesName: post.data.series,
+    seriesOrder: post.data.seriesOrder,
   };
 });
 ---

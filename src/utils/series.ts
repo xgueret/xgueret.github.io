@@ -54,3 +54,25 @@ export async function getSeriesNav(
     next: idx >= 0 && idx < episodes.length - 1 ? episodes[idx + 1] : undefined,
   };
 }
+
+/**
+ * Order the posts of a category listing. When every post of the category
+ * belongs to one and the same series, the category *is* that series and must
+ * be read in episode order; any other category keeps the usual newest-first
+ * ordering.
+ */
+export function sortCategoryPosts(
+  posts: CollectionEntry<'posts'>[]
+): CollectionEntry<'posts'>[] {
+  const seriesName = posts[0]?.data.series;
+  const isSingleSeries =
+    posts.length > 1 &&
+    Boolean(seriesName) &&
+    posts.every((p) => p.data.series === seriesName);
+
+  return [...posts].sort((a, b) =>
+    isSingleSeries
+      ? (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0)
+      : b.data.date.getTime() - a.data.date.getTime()
+  );
+}

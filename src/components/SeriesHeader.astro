@@ -1,0 +1,51 @@
+---
+import { type Locale, t } from '../i18n';
+import SeriesEpisodeList from './SeriesEpisodeList.astro';
+import type { Episode } from '../utils/series';
+
+interface Props {
+  seriesName: string;
+  episodes: Episode[];
+  locale: Locale;
+}
+
+const { seriesName, episodes, locale } = Astro.props;
+
+const currentIndex = episodes.findIndex((ep) => ep.current);
+const progress = t(locale, 'seriesProgress')
+  .replace('{n}', String(currentIndex + 1))
+  .replace('{total}', String(episodes.length));
+---
+
+{episodes.length > 1 && currentIndex >= 0 && (
+  <details class="series-header group/series mt-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-section)]/40">
+    <summary
+      class="flex items-center gap-2 px-4 py-3 cursor-pointer list-none text-sm select-none rounded-xl focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+    >
+      <svg
+        class="size-3.5 shrink-0 text-[var(--color-text-light)] transition-transform duration-200 group-open/series:rotate-90"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+      <span class="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-light)]">
+        {t(locale, 'seriesLabel')}
+      </span>
+      <span class="font-medium text-[var(--color-accent)] truncate">{seriesName}</span>
+      <span class="ml-auto shrink-0 text-xs text-[var(--color-text-light)]">{progress}</span>
+    </summary>
+
+    <div class="px-2 pb-3">
+      <SeriesEpisodeList episodes={episodes} />
+    </div>
+  </details>
+)}
+
+<style>
+  .series-header > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

@@ -1,5 +1,6 @@
 import fr from './fr';
 import en from './en';
+import { translateCategorySlug } from './categories';
 
 const translations = { fr, en } as const;
 
@@ -30,7 +31,23 @@ export function localePrefix(locale: Locale): string {
 
 export function localizedPath(locale: Locale, path: string): string {
   const clean = path.replace(/^\/(fr|en)\//, '/').replace(/^\//, '');
-  return locale === defaultLocale ? `/${clean}` : `/${locale}/${clean}`;
+  const prefix = localePrefix(locale);
+
+  // Category slugs are translated names, so they cannot be carried across
+  // locales as-is. Unknown categories fall back to the category index rather
+  // than to a dead link.
+  const category = clean.match(/^categories\/(.+?)\/?$/);
+  if (category) {
+    const translated = translateCategorySlug(
+      decodeURIComponent(category[1]),
+      locale
+    );
+    return translated === undefined
+      ? `${prefix}/categories/`
+      : `${prefix}/categories/${translated}/`;
+  }
+
+  return `${prefix}/${clean}`;
 }
 
 export function formatDate(date: Date, locale: Locale): string {

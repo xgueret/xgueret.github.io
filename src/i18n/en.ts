@@ -120,6 +120,7 @@ export default {
   seriesLabel: 'Series',
   seriesEpisodes: 'Episodes in this series',
   episode: 'Episode',
+  seriesProgress: 'Episode {n} of {total}',
   previousEpisode: 'Previous episode',
   nextEpisode: 'Next episode',
   tocClose: 'Close contents',

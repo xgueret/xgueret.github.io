@@ -7,6 +7,8 @@ interface Article {
   href: string;
   summary?: string;
   image?: string;
+  seriesName?: string;
+  seriesOrder?: number;
 }
 
 interface Props {
@@ -28,6 +30,8 @@ const { articles, locale, showViewAll = true } = Astro.props;
         image={article.image}
         index={index}
         locale={locale}
+        seriesName={article.seriesName}
+        seriesOrder={article.seriesOrder}
       />
     ))}
   </ul>

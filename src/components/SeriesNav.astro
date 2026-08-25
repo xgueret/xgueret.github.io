@@ -1,12 +1,7 @@
 ---
 import { type Locale, t } from '../i18n';
-
-interface Episode {
-  title: string;
-  order: number;
-  href: string;
-  current: boolean;
-}
+import SeriesEpisodeList from './SeriesEpisodeList.astro';
+import type { Episode } from '../utils/series';
 
 interface Props {
   seriesName: string;
@@ -28,32 +23,7 @@ const { seriesName, episodes, prev, next, locale } = Astro.props;
       {t(locale, 'seriesLabel')} · <span class="text-[var(--color-accent)]">{seriesName}</span>
     </p>
 
-    <ol class="space-y-1.5 mb-8">
-      {episodes.map((ep) => (
-        <li>
-          <a
-            href={ep.href}
-            aria-current={ep.current ? 'page' : undefined}
-            class={`flex items-baseline gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-              ep.current
-                ? 'bg-[var(--color-accent)]/10 text-[var(--color-text)] font-semibold'
-                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-bg-section)] hover:text-[var(--color-accent)]'
-            }`}
-          >
-            <span
-              class={`shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
-                ep.current
-                  ? 'bg-[var(--color-accent)] text-white'
-                  : 'bg-[var(--color-bg-section)] text-[var(--color-text-light)]'
-              }`}
-            >
-              {ep.order}
-            </span>
-            <span>{ep.title}</span>
-          </a>
-        </li>
-      ))}
-    </ol>
+    <SeriesEpisodeList episodes={episodes} class="mb-8" />
 
     {(prev || next) && (
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

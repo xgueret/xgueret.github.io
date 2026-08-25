@@ -59,6 +59,8 @@ const articles = posts.map((post) => {
     href: `/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
+    seriesName: post.data.series,
+    seriesOrder: post.data.seriesOrder,
   };
 });
 ---
