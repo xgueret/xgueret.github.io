@@ -50,10 +50,17 @@ export function localizedPath(locale: Locale, path: string): string {
   return `${prefix}/${clean}`;
 }
 
+/**
+ * Frontmatter dates are bare `YYYY-MM-DD`, which Zod coerces to midnight UTC.
+ * Formatting them in the build machine's timezone shifts the day backwards
+ * west of Greenwich, so the calendar date is read back in UTC — the timezone
+ * it was written in.
+ */
 export function formatDate(date: Date, locale: Locale): string {
   return date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 }
