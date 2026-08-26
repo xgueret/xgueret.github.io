@@ -73,7 +73,7 @@ jobs:
           name: dist
           path: dist/
       - name: Check HTML structure, JSON-LD & internal links
-        run: python3 scripts/check-html.py dist || echo "::warning::HTML checks found issues (see above)"
+        run: python3 scripts/check-html.py dist
 
   check-i18n-links:
     name: Language switcher links
