@@ -24,5 +24,6 @@ My journey into DevOps has been both challenging and rewarding, and I'm eager to
 ## What certifications do I hold?
 
 <!-- - AWS Certified Solutions Architect -->
+- Certified Kubernetes Application Developer (CKAD)
 - Certified Kubernetes Administrator (CKA)
 - HashiCorp Certified: Terraform Associate (002)

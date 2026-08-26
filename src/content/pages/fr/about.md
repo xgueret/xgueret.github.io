@@ -23,5 +23,6 @@ Mon parcours dans le DevOps a été à la fois stimulant et enrichissant, et je 
 ## Quelles certifications ai-je obtenues ?
 
 <!-- - AWS Certified Solutions Architect -->
+- Certified Kubernetes Application Developer (CKAD)
 - Certified Kubernetes Administrator (CKA)
 - HashiCorp Certified: Terraform Associate (002)
