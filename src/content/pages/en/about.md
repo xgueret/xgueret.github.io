@@ -3,7 +3,7 @@ title: "About"
 date: 2024-08-29
 ---
 
-# Hello, I'm Xavier GUERET!
+## Hello, I'm Xavier GUERET!
 
 I am a developer by background with 11 years of experience in software development, now a **DevOps engineer based in Guadeloupe**. Over the past year, I've transitioned into this role, driven by my passion for infrastructure automation and deployment management.
 
@@ -24,5 +24,6 @@ My journey into DevOps has been both challenging and rewarding, and I'm eager to
 ## What certifications do I hold?
 
 <!-- - AWS Certified Solutions Architect -->
+- Certified Kubernetes Application Developer (CKAD)
 - Certified Kubernetes Administrator (CKA)
 - HashiCorp Certified: Terraform Associate (002)

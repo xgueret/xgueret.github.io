@@ -13,8 +13,6 @@ categories:
 image: "/images/posts/hook-pre-commit.png"  
 ---
 
-# Configurer un Hook Pre-Commit pour Vérifier le Chiffrement des Fichiers avec Ansible Vault
-
 Dans ce tutoriel, nous allons mettre en place un *hook [pre-commit](https://pre-commit.com/)* qui s'assurera que tous les fichiers du dossier `secret` sont chiffrés avec `ansible-vault` avant d'autoriser leur commit dans Git. Cela permet de garantir que les informations sensibles restent protégées.
 
 ## Prérequis

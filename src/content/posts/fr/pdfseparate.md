@@ -9,8 +9,6 @@ categories:
   - "Linux"
 archived: true
 ---
-# Utiliser pdfseparate pour diviser un fichier PDF
-
 Ce matin, j'ai scanné plusieurs feuilles d'un dossier, qui se sont finalement retrouvées dans un seul fichier PDF. J'avais prévu d'envoyer ce dossier par mail, mais mon destinataire souhaitait recevoir les feuilles de manière unitaire. C'est là que `pdfseparate` m'a été d'une grande utilité.
 
 ## Comment utiliser pdfseparate ?
