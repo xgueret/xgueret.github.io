@@ -3,7 +3,7 @@ title: "A Propos"
 date: 2024-08-29
 ---
 
-# Bonjour, je suis Xavier GUERET !
+## Bonjour, je suis Xavier GUERET !
 
 Je suis développeur de formation avec 11 ans d'expérience dans le développement logiciel, aujourd'hui **ingénieur DevOps basé en Guadeloupe**. Au cours de l'année écoulée, j'ai évolué vers ce rôle, motivé par ma passion pour l'automatisation de l'infrastructure et la gestion des déploiements.
 

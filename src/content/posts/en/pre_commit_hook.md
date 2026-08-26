@@ -13,8 +13,6 @@ categories:
 image: "/images/posts/hook-pre-commit.png"
 ---
 
-# Setting Up a Pre-Commit Hook to Verify Files Are Encrypted with Ansible Vault
-
 In this tutorial, we'll set up a *[pre-commit](https://pre-commit.com/) hook* to ensure that all files in the `secret` directory are encrypted with `ansible-vault` before allowing them to be committed to Git. This ensures that sensitive information remains secure.
 
 ## Prerequisites

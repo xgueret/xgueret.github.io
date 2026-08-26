@@ -9,8 +9,6 @@ categories:
   - "Linux"
 archived: true
 ---
-# Using pdfseparate to Split a PDF File
-
 This morning, I scanned several pages of a document, which ended up in a single PDF file. I planned to send this document via email, but my recipient wanted to receive each page individually. That's where `pdfseparate` came in handy.
 
 ## What is pdfseparate?
