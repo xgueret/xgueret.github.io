@@ -7,9 +7,10 @@ import TrainingsFeaturedList from '../../components/TrainingsFeaturedList.astro'
 import { t, localePrefix } from '../../i18n';
 import { getCollection } from 'astro:content';
 import { getReadingTime } from '../../utils/readingTime';
+import { personLd } from '../../lib/person-ld';
 
 const locale = 'en';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -20,45 +21,7 @@ const jsonLd = {
       url: site,
       inLanguage: ['fr', 'en'],
     },
-    {
-      '@type': 'Person',
-      name: 'Xavier GUERET',
-      alternateName: 'Xavier Gueret',
-      url: `${site}${localePrefix(locale)}/`,
-      jobTitle: 'DevOps Engineer',
-      description:
-        'DevOps Engineer based in Guadeloupe, specialized in Kubernetes, Terraform, Ansible and Python, with a strong interest in applied AI (LLM, MCP).',
-      image: `${site}/images/moi.png`,
-      homeLocation: {
-        '@type': 'Place',
-        name: 'Guadeloupe',
-        address: {
-          '@type': 'PostalAddress',
-          addressRegion: 'Guadeloupe',
-          addressCountry: 'FR',
-        },
-      },
-      knowsAbout: [
-        'Kubernetes',
-        'Terraform',
-        'Ansible',
-        'Docker',
-        'Python',
-        'CI/CD',
-        'GitHub Actions',
-        'GitLab CI',
-        'Artificial Intelligence',
-        'Large Language Models',
-        'Model Context Protocol',
-        'DevOps',
-      ],
-      sameAs: [
-        'https://github.com/xgueret',
-        'https://gitlab.com/xgueret',
-        'https://linkedin.com/in/xgueret',
-        'https://x.com/hixmaster',
-      ],
-    },
+    personLd(site, locale),
   ],
 };
 

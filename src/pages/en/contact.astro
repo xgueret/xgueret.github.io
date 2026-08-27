@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionEyebrow from '../../components/SectionEyebrow.astro';
 import { t } from '../../i18n';
+import { personLd } from '../../lib/person-ld';
 
 const locale = 'en';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -13,12 +14,7 @@ const jsonLd = {
   description: t(locale, 'contactDescription'),
   url: `${site}/en/contact/`,
   inLanguage: 'en',
-  mainEntity: {
-    '@type': 'Person',
-    name: 'Xavier GUERET',
-    url: `${site}/en/`,
-    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret'],
-  },
+  mainEntity: personLd(site, locale),
 };
 ---
 

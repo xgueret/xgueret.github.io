@@ -3,9 +3,10 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import CredentialsBadges from '../../components/CredentialsBadges.astro';
 import { t } from '../../i18n';
 import { getCollection } from 'astro:content';
+import { personLd } from '../../lib/person-ld';
 
 const locale = 'en';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const pages = await getCollection('pages', ({ id }) => id === 'en/cv.md');
 const page = pages[0];
@@ -22,28 +23,7 @@ const jsonLd = {
   description: t(locale, 'cvDescription'),
   url: `${site}/en/cv/`,
   inLanguage: 'en',
-  mainEntity: {
-    '@type': 'Person',
-    name: 'Xavier GUERET',
-    alternateName: 'Xavier Gueret',
-    jobTitle: 'DevOps Engineer',
-    url: `${site}/en/`,
-    image: `${site}/images/moi.png`,
-    description:
-      'DevOps Engineer based in Guadeloupe, specialized in Kubernetes, Terraform, Ansible and Python, with a strong interest in applied AI (LLM, MCP).',
-    homeLocation: {
-      '@type': 'Place',
-      name: 'Guadeloupe',
-      address: { '@type': 'PostalAddress', addressRegion: 'Guadeloupe', addressCountry: 'FR' },
-    },
-    knowsAbout: ['Kubernetes', 'Terraform', 'Ansible', 'Docker', 'Python', 'Bash', 'CI/CD', 'Jenkins', 'GitLab CI', 'GitHub Actions', 'Artificial Intelligence', 'Large Language Models', 'Model Context Protocol'],
-    hasCredential: [
-      { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Certified Kubernetes Administrator (CKA)' },
-      { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Certified Kubernetes Application Developer (CKAD)' },
-      { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'HashiCorp Certified: Terraform Associate (002)' },
-    ],
-    sameAs: ['https://github.com/xgueret', 'https://gitlab.com/xgueret', 'https://linkedin.com/in/xgueret', 'https://x.com/hixmaster'],
-  },
+  mainEntity: personLd(site, locale),
 };
 ---
 
