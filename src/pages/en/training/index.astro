@@ -6,7 +6,7 @@ import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
 
 const locale = 'en';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const allTrainings = await getCollection('training', ({ id, data }) => {
   return id.startsWith('en/') && !data.draft;

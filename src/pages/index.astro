@@ -10,7 +10,7 @@ import { getReadingTime } from '../utils/readingTime';
 import { personLd } from '../lib/person-ld';
 
 const locale = 'fr';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const jsonLd = {
   '@context': 'https://schema.org',

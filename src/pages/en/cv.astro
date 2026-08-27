@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import { personLd } from '../../lib/person-ld';
 
 const locale = 'en';
-const site = 'https://xgueret.github.io';
+const site = Astro.site?.toString().replace(/\/$/, '') || '';
 
 const pages = await getCollection('pages', ({ id }) => id === 'en/cv.md');
 const page = pages[0];
