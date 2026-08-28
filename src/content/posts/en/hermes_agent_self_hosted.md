@@ -1,5 +1,5 @@
 ---
-title: "Self-hosting a persistent AI agent: Hermes Agent on a VM, from zero to HTTPS"
+title: "Self-hosting a persistent AI agent: Hermes Agent on your own VM"
 date: "2026-08-27"
 author: "Xavier GUERET"
 description: "A standalone tutorial for running Hermes Agent on your own VM — Proxmox, VPS or local hypervisor. Docker Compose, secrets, firewall, HTTPS, and the traps that leave a deployment green while nothing works."
