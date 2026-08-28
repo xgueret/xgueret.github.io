@@ -143,7 +143,7 @@ make lint-ansible   # ansible-lint seul, feedback rapide pendant l'édition d'un
 
 L'effet utile, c'est qu'il devient impossible de pousser un YAML mal indenté, un script bash sans `set -e`, un rôle Ansible avec un `command:` non idempotent ou un fichier vault déchiffré.
 
-## Comment tester sans niquer mon vrai laptop : Vagrant + libvirt
+## Comment tester sans casser mon vrai laptop : Vagrant + libvirt
 
 C'est le point dont je suis le plus content. Modifier un rôle Ansible et tester directement sur son poste, c'est une **très** mauvaise idée — quand le rôle a un bug, on le découvre en cassant son propre environnement de travail.
 
