@@ -2,7 +2,7 @@
 title: "Auto-héberger un agent IA persistant : Hermes Agent sur votre propre VM"
 date: "2026-08-27"
 author: "Xavier GUERET"
-description: "Un tutoriel autonome pour faire tourner Hermes Agent sur votre propre VM — Proxmox, VPS ou hyperviseur local. Docker Compose, secrets, pare-feu, HTTPS, et les pièges qui laissent un déploiement vert alors que rien ne marche."
+description: "Premier volet de la série « Hermes Agent » : faire tourner Hermes Agent sur votre propre VM — Proxmox, VPS ou hyperviseur local. Docker Compose, secrets, pare-feu, HTTPS, et les pièges qui laissent un déploiement vert alors que rien ne marche."
 tags:
   - "Docker"
   - "Proxmox"
@@ -12,13 +12,17 @@ tags:
   - "tutoriel"
   - "local-first"
 categories:
+  - "Hermes Agent"
   - "Tutoriels"
   - "DevOps"
   - "vibecoding"
 image: "/images/posts/hermes_agent_self_hosted.png"
 draft: false
 toc: true
+series: "Hermes Agent"
+seriesOrder: 1
 ---
+*Épisode 1 de la série **« Hermes Agent »** — un parcours pratique autour d'un agent IA persistant auto-hébergé, du déploiement sur votre propre VM jusqu'à son intégration dans le quotidien.*
 
 ## Pourquoi auto-héberger un agent IA ?
 

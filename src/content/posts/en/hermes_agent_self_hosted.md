@@ -2,7 +2,7 @@
 title: "Self-hosting a persistent AI agent: Hermes Agent on your own VM"
 date: "2026-08-27"
 author: "Xavier GUERET"
-description: "A standalone tutorial for running Hermes Agent on your own VM — Proxmox, VPS or local hypervisor. Docker Compose, secrets, firewall, HTTPS, and the traps that leave a deployment green while nothing works."
+description: "Part one of the 'Hermes Agent' series: running Hermes Agent on your own VM — Proxmox, VPS or local hypervisor. Docker Compose, secrets, firewall, HTTPS, and the traps that leave a deployment green while nothing works."
 tags:
   - "Docker"
   - "Proxmox"
@@ -12,13 +12,17 @@ tags:
   - "tutorial"
   - "local-first"
 categories:
+  - "Hermes Agent"
   - "Tutorials"
   - "DevOps"
   - "vibecoding"
 image: "/images/posts/hermes_agent_self_hosted.png"
 draft: false
 toc: true
+series: "Hermes Agent"
+seriesOrder: 1
 ---
+*Part 1 of the series **"Hermes Agent"** — a hands-on journey around a self-hosted persistent AI agent, from deploying it on your own VM to weaving it into your daily workflow.*
 
 ## Why self-host an AI agent?
 
