@@ -76,7 +76,6 @@ export default {
   projectsDescription: 'Personal projects, open source contributions and achievements.',
   projectsCategoryGithub: 'What are my open source projects?',
   projectsCategoryWebsites: 'What websites have I built?',
-  projectsCategoryTraining: 'What training materials have I created?',
   visitSite: 'Visit site',
   projectsSearch: 'Search projects...',
   projectsNoResults: 'No matching projects. Try a different term.',
