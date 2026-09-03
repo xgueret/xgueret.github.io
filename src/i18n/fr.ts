@@ -126,13 +126,4 @@ export default {
   tocClose: 'Fermer le sommaire',
   tocHide: 'Masquer le sommaire',
   tocShow: 'Afficher le sommaire',
-
-  // Chatbot
-  chatbotTitle: 'Assistant Virtuel',
-  chatbotSubtitle: 'Posez vos questions',
-  chatbotPlaceholder: 'Tapez votre question...',
-  chatbotWelcome: 'Bonjour ! 👋 Je suis là pour vous aider à en savoir plus sur mes compétences et mes projets. Posez-moi une question ou cliquez sur un sujet ci-dessous.',
-  chatbotRecentArticles: 'Articles Récents',
-  chatbotViewAll: 'Voir tous les articles →',
-  chatbotNoAnswer: 'Désolé, je n\'ai pas trouvé d\'information sur ce sujet.',
 } as const;

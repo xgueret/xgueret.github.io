@@ -22,7 +22,6 @@ Ce blog partage mes expériences et apprentissages sur le DevOps, l'automatisati
 
 - **Framework** : [Astro](https://astro.build/) v5
 - **CSS** : [Tailwind CSS](https://tailwindcss.com/) v4
-- **Composant interactif** : [React](https://react.dev/) (chatbot, island architecture)
 - **Hébergement** : GitHub Pages
 - **CI/CD** : GitHub Actions
 - **Infrastructure** : Terraform
@@ -32,9 +31,8 @@ Ce blog partage mes expériences et apprentissages sur le DevOps, l'automatisati
 - Multilingue FR / EN avec routing préfixé
 - Dark mode (toggle + détection système)
 - Blog avec pagination et filtrage par catégories
-- Chatbot intégré (React island)
 - Sitemap et SEO (Open Graph, hreflang)
-- 100% statique, zéro JS par défaut (sauf chatbot)
+- 100% statique, zéro JS par défaut
 
 ## Développement local
 
@@ -73,7 +71,7 @@ Le site généré sera dans le dossier `dist/`.
 ```
 .
 ├── src/
-│   ├── components/       # Composants Astro + React (chatbot)
+│   ├── components/       # Composants Astro
 │   ├── content/          # Content Collections (Zod)
 │   │   ├── posts/        # Articles FR + EN
 │   │   ├── pages/        # Pages statiques FR + EN
