@@ -13,11 +13,10 @@ const VISIBLE_COUNT = 4;
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${locale}/`));
 const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
 
-const categoryOrder = ['github', 'websites', 'training'] as const;
+const categoryOrder = ['github', 'websites'] as const;
 const categoryLabels: Record<string, TranslationKey> = {
   github: 'projectsCategoryGithub',
   websites: 'projectsCategoryWebsites',
-  training: 'projectsCategoryTraining',
 };
 
 const grouped = categoryOrder

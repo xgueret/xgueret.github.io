@@ -48,7 +48,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['github', 'websites', 'training']),
+    category: z.enum(['github', 'websites']),
     tags: z.array(z.string()).default([]),
     github: z.string().url().optional(),
     url: z.string().url().optional(),
