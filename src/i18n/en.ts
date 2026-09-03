@@ -126,13 +126,4 @@ export default {
   tocClose: 'Close contents',
   tocHide: 'Hide contents',
   tocShow: 'Show contents',
-
-  // Chatbot
-  chatbotTitle: 'Virtual Assistant',
-  chatbotSubtitle: 'Ask me anything',
-  chatbotPlaceholder: 'Type your question...',
-  chatbotWelcome: 'Hello! 👋 I\'m here to help you learn more about my skills and projects. Ask me a question or click a topic below.',
-  chatbotRecentArticles: 'Recent Articles',
-  chatbotViewAll: 'View all articles →',
-  chatbotNoAnswer: 'Sorry, I couldn\'t find information on that topic.',
 } as const;

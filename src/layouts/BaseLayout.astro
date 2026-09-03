@@ -3,9 +3,7 @@ import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import SEO from '../components/SEO.astro';
-import ChatWidget from '../components/chatbot/ChatWidget.tsx';
-import { type Locale, t, formatDate, localePrefix } from '../i18n';
-import { getCollection } from 'astro:content';
+import { type Locale, t } from '../i18n';
 
 interface Props {
   title: string;
@@ -27,19 +25,6 @@ const homeTitle = t(locale, 'homeTitle');
 // Homepage keeps its own full name-bearing title; sub-pages get the brand suffix.
 const fullTitle = title === siteTitle || title === homeTitle ? title : `${title} · ${siteTitle}`;
 const desc = description || t(locale, 'siteDescription');
-
-// Get recent posts for chatbot
-const allPosts = await getCollection('posts', ({ id, data }) => {
-  return id.startsWith(`${locale}/`) && !data.draft && !data.archived;
-});
-const recentPosts = allPosts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 5)
-  .map((post) => ({
-    title: post.data.title,
-    href: `${localePrefix(locale)}/posts/${post.id.replace(`${locale}/`, '').replace(/\.md$/, '')}`,
-    date: formatDate(post.data.date, locale),
-  }));
 ---
 
 <!doctype html>
@@ -88,6 +73,5 @@ const recentPosts = allPosts
       <slot />
     </main>
     <Footer locale={locale} />
-    <ChatWidget client:idle locale={locale} recentPosts={recentPosts} />
   </body>
 </html>
