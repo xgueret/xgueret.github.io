@@ -1,189 +1,337 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-/* Display + headline + accent italic */
-@import '@fontsource/source-serif-4/400.css';
-@import '@fontsource/source-serif-4/500.css';
-@import '@fontsource/source-serif-4/600.css';
-@import '@fontsource/source-serif-4/400-italic.css';
-@import '@fontsource/source-serif-4/600-italic.css';
+/* Display + body */
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/700.css';
 
-/* Body, label, title, navigation */
-@import '@fontsource/geist-sans/400.css';
-@import '@fontsource/geist-sans/500.css';
-@import '@fontsource/geist-sans/600.css';
-
-/* Reserved for code blocks in articles */
+/* Labels, HUD, nav, buttons, code */
+@import '@fontsource/jetbrains-mono/300.css';
 @import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
 
 @theme {
-  /* The Dawn Palette — source of truth, see DESIGN.md */
-  --color-ocean: oklch(38% 0.10 220);
-  --color-ocean-deep: oklch(28% 0.09 220);
-  --color-ocean-light: oklch(65% 0.13 220);
-  --color-coral: oklch(66% 0.17 35);
-  --color-coral-deep: oklch(55% 0.16 35);
-  --color-sand: oklch(97% 0.012 65);
-  --color-sand-alt: oklch(94% 0.010 65);
-  --color-sand-section: oklch(91% 0.012 65);
-  --color-sand-border: oklch(89% 0.012 65);
-  --color-ink: oklch(22% 0.025 220);
-  --color-ink-muted: oklch(45% 0.030 220);
-  --color-ink-light: oklch(53% 0.028 220);
-  --color-night: oklch(15% 0.02 220);
-  --color-night-surface: oklch(20% 0.025 220);
-  --color-night-border: oklch(28% 0.03 220);
-  --color-available: oklch(72% 0.18 145);
+  /* Monochrome system — see DESIGN.md */
+  --color-tp-black: #000;
+  --color-tp-white: #fff;
+  --color-tp-lime: #a8cf3e;
+  --color-tp-line-18: rgba(255, 255, 255, 0.18);
+  --color-tp-line-22: rgba(255, 255, 255, 0.22);
+  --color-tp-line-30: rgba(255, 255, 255, 0.3);
+  --color-tp-line-35: rgba(255, 255, 255, 0.35);
+  --color-tp-line-50: rgba(255, 255, 255, 0.5);
 
-  /* Deprecated legacy aliases — kept so non-homepage files (Pagination, CategoriesCloud, etc.) keep rendering coherently until they are colorized too. Remove once those passes are done. */
-  --color-navy: var(--color-ocean);
-  --color-navy-dark: var(--color-ocean-deep);
-  --color-navy-light: var(--color-ocean-light);
-  --color-accent: var(--color-ocean);
-  --color-accent-hover: var(--color-ocean-deep);
-
-  /* Typography — see DESIGN.md */
-  --font-sans: 'Geist Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Space Grotesk', Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --z-skip-link: 60;
+  --z-skip-link: 110;
 }
 
 @layer base {
   :root {
-    /* Semantic aliases consumed by components via [var(--color-X)] */
-    --color-primary: var(--color-ocean);
-    --color-primary-dark: var(--color-ocean-deep);
-    --color-accent: var(--color-ocean);
-    --color-accent-hover: var(--color-ocean-deep);
-    --color-bg: var(--color-sand);
-    --color-bg-alt: var(--color-sand-alt);
-    --color-bg-section: var(--color-sand-section);
-    --color-text: var(--color-ink);
-    --color-text-muted: var(--color-ink-muted);
-    --color-text-light: var(--color-ink-light);
-    --color-border: var(--color-sand-border);
-    --navbar-height: 72px;
+    /* Semantic aliases: the article components (TOC, series, pagination)
+       resolve these names, so they are remapped rather than renamed. */
+    --color-bg: #000;
+    --color-bg-alt: #0a0a0a;
+    --color-bg-section: #0a0a0a;
+    --color-text: #fff;
+    --color-text-muted: rgba(255, 255, 255, 0.82);
+    --color-text-light: rgba(255, 255, 255, 0.62);
+    --color-border: rgba(255, 255, 255, 0.18);
+    --color-accent: #a8cf3e;
+    --color-accent-hover: #c4e26a;
+    --color-primary: #fff;
+    --color-primary-dark: #000;
+    --navbar-height: 90px;
   }
 
-  .dark {
-    /* "Nuit Océan" — designed as a distinct scene, not a hue-inverted derivative. */
-    --color-primary: var(--color-ocean-light);
-    --color-primary-dark: var(--color-ocean);
-    --color-accent: var(--color-ocean-light);
-    --color-accent-hover: oklch(75% 0.13 220);
-    --color-bg: var(--color-night);
-    --color-bg-alt: var(--color-night-surface);
-    --color-bg-section: var(--color-night-surface);
-    --color-text: var(--color-sand);
-    --color-text-muted: oklch(75% 0.020 65);
-    --color-text-light: oklch(60% 0.025 65);
-    --color-border: var(--color-night-border);
+  html {
+    background: #000;
+    color: #fff;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    line-height: 1.6;
+    background: #000;
+    color: #fff;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
   }
 
-  /* The Mono Restraint Rule: monospace is reserved for actual code. */
+  ::selection {
+    background: #fff;
+    color: #000;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
   code, pre, kbd, samp {
     font-family: var(--font-mono);
   }
+
+  /* The custom cursor replaces the system one only on fine pointers. */
+  html.tp-cursor,
+  html.tp-cursor a,
+  html.tp-cursor button,
+  html.tp-cursor input,
+  html.tp-cursor textarea,
+  html.tp-cursor label {
+    cursor: none;
+  }
+
+  :focus-visible {
+    outline: 1px solid #a8cf3e;
+    outline-offset: 3px;
+  }
 }
 
-/* Button components */
-.btn {
+/* ---- Typographic primitives (mockup values) ---------------------------- */
+.tp-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.tp-label-sm {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.tp-h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5.6vw, 4.6rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+}
+
+.tp-link {
   display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.tp-link:hover {
+  opacity: 1;
+  border-bottom-color: #a8cf3e;
+}
+
+.tp-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 160px) 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tp-row:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tp-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.74;
+}
+
+.tp-field {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  padding: 10px 2px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.tp-field:focus {
+  border-bottom-color: #fff;
+}
+
+.tp-button {
+  background: #fff;
+  color: #000;
+  border: 1px solid #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 15px 34px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.tp-button:hover {
+  background: #000;
+  color: #fff;
+}
+
+.tp-social {
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s, outline-color 0.2s;
-  border: 2px solid transparent;
-  text-decoration: none;
+  gap: 12px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: border-color 0.3s ease;
 }
 
-.btn:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+.tp-social:hover {
+  opacity: 1;
+  border-color: #fff;
 }
 
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
+/* Grayscale artwork that holds its colour on hover (featured post, portrait). */
+.tp-mono-img {
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
+.tp-mono-hover:hover .tp-mono-img,
+.tp-mono-img.tp-mono-self:hover {
+  filter: grayscale(0) contrast(1) brightness(1);
 }
 
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+/* ---- Motion ------------------------------------------------------------ */
+.tp-char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(0.3em) scale(1.14);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.28, 1),
+    filter 0.75s cubic-bezier(0.22, 1, 0.28, 1),
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
 
-.btn-outline:hover {
-  background-color: var(--color-bg-alt);
-  border-color: var(--color-accent-hover);
+.tp-in .tp-char {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) scale(1);
 }
 
-.dark .btn-outline {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+#tp-loader {
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dark .btn-outline:hover {
-  background-color: var(--color-bg-alt);
+#tp-detail {
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dark .btn-primary {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-night);
+#tp-logo:hover #tp-logo-face {
+  transform: rotate(-22deg) translateY(-2px);
 }
 
-.dark .btn-primary:hover {
-  background-color: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  color: var(--color-night);
+@keyframes tpLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-/* Category pills with dark mode support */
-.category-pill {
-  background: hsl(var(--pill-hue), 40%, 92%);
-  color: hsl(var(--pill-hue), 50%, 30%);
-  border: 1px solid hsl(var(--pill-hue), 35%, 85%);
+@keyframes tpBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
 }
 
-.dark .category-pill {
-  background: hsl(var(--pill-hue), 30%, 25%);
-  color: hsl(var(--pill-hue), 50%, 80%);
-  border: 1px solid hsl(var(--pill-hue), 25%, 35%);
+@media (hover: none) {
+  #tp-cursor { display: none !important; }
 }
 
-/* Prose overrides for dark mode */
-.dark .prose {
-  --tw-prose-body: var(--color-text-muted);
-  --tw-prose-headings: var(--color-text);
-  --tw-prose-links: var(--color-accent);
-  --tw-prose-bold: var(--color-text);
-  --tw-prose-code: var(--color-text);
-  --tw-prose-pre-bg: var(--color-night-surface);
+/* ---- Blog pages: CSS grain stands in for the WebGL pass ---------------- */
+.tp-grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Prose (articles) -------------------------------------------------- */
+.prose {
+  --tw-prose-body: rgba(255, 255, 255, 0.82);
+  --tw-prose-headings: #fff;
+  --tw-prose-lead: rgba(255, 255, 255, 0.82);
+  --tw-prose-links: #a8cf3e;
+  --tw-prose-bold: #fff;
+  --tw-prose-counters: rgba(255, 255, 255, 0.5);
+  --tw-prose-bullets: rgba(255, 255, 255, 0.5);
+  --tw-prose-hr: rgba(255, 255, 255, 0.18);
+  --tw-prose-quotes: #fff;
+  --tw-prose-quote-borders: #a8cf3e;
+  --tw-prose-captions: rgba(255, 255, 255, 0.62);
+  --tw-prose-code: #fff;
+  --tw-prose-pre-code: #e6e6e6;
+  --tw-prose-pre-bg: #0a0a0a;
+  --tw-prose-th-borders: rgba(255, 255, 255, 0.18);
+  --tw-prose-td-borders: rgba(255, 255, 255, 0.18);
+  font-weight: 300;
+}
+
+.prose h2 {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.prose pre,
+.prose pre.astro-code {
+  background-color: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0;
+}
+
+.prose :not(pre) > code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15em 0.4em;
+  border-radius: 0;
+  font-weight: 400;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+.prose img {
+  border-radius: 0;
 }
 
 /* Wide Markdown tables scroll within their own box instead of stretching the
-   page past the viewport (source of horizontal overflow on mobile). Tables that
-   already fit keep their natural width and show no scrollbar. */
+   page past the viewport (source of horizontal overflow on mobile). */
 .prose :where(table) {
   display: block;
   width: max-content;
@@ -192,9 +340,8 @@
   overscroll-behavior-x: contain;
 }
 
-/* Inline code (a filename, a command, a long path) must wrap rather than push
-   the page wider than the viewport. Code blocks (pre code) are excluded — they
-   stay on one line and scroll horizontally. */
+/* Inline code must wrap rather than push the page wider than the viewport.
+   Code blocks (pre code) are excluded — they keep one line and scroll. */
 .prose :not(pre) > code {
   overflow-wrap: break-word;
   word-break: break-word;
