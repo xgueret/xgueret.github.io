@@ -137,7 +137,7 @@ jobs:
             --collect.staticDistDir=dist \
             --collect.url=/ \
             --collect.url=/blog/ \
-            --collect.url=/about/ \
+            --collect.url=/en/ \
             --assert.preset=lighthouse:recommended \
             --assert.assertions.categories:performance=off \
             --assert.assertions.categories:accessibility="warn" \
