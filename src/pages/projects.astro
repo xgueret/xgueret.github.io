@@ -8,7 +8,7 @@ const locale: Locale = 'fr';
 
 const entries = await getCollection('projects', ({ id }) => id.startsWith(`${locale}/`));
 const projects: ProjectRow[] = entries
-  .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+  .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, locale))
   .map((e) => ({
     title: e.data.title,
     description: e.data.description,

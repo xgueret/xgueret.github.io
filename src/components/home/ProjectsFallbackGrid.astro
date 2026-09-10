@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../../i18n';
+import { type Locale, t, localePrefix } from '../../i18n';
 import type { FeaturedProject } from '../../lib/featured-projects';
 
 interface Props {
@@ -12,7 +12,13 @@ const { locale, projects } = Astro.props;
 
 {/* Read by the scene script for the 3D plates; shown as-is when WebGL is missing. */}
 <div id="tp-projects" class="tp-sr-grid relative z-10">
-  <div class="tp-label" style="opacity:.8; margin-bottom:40px;">{t(locale, 'workLabel')}</div>
+  <div class="tp-label flex flex-wrap justify-between items-start" style="gap:16px 24px; opacity:.8; margin-bottom:40px;">
+    <span>{t(locale, 'workLabel')}</span>
+    <a href={`${localePrefix(locale)}/projects/`} data-cursor="link" class="tp-link" style="padding-bottom:6px;">
+      <span>{t(locale, 'projectsViewAll')}</span>
+      <span style="color:#a8cf3e;">↗</span>
+    </a>
+  </div>
   <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2px;">
     {projects.map((p) => (
       <article

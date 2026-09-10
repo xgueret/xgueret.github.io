@@ -16,8 +16,8 @@ interface Props {
 
 const { locale, projects } = Astro.props;
 const groups = [
-  { key: 'github', label: t(locale, 'projectOpenSource'), rows: projects.filter((p) => p.category === 'github') },
-  { key: 'websites', label: t(locale, 'projectWebsite'), rows: projects.filter((p) => p.category === 'websites') },
+  { label: t(locale, 'projectOpenSource'), rows: projects.filter((p) => p.category === 'github') },
+  { label: t(locale, 'projectWebsite'), rows: projects.filter((p) => p.category === 'websites') },
 ].filter((g) => g.rows.length > 0);
 let n = 0;
 ---
