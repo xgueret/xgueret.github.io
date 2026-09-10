@@ -78,8 +78,8 @@ export default {
 
   // About
   aboutLabel: '02 — About',
-  aboutTitle1: 'How',
-  aboutTitle2: 'I work',
+  aboutTitle1: 'From code',
+  aboutTitle2: 'to infra',
   aboutP1: 'A developer by background, I drifted step by step into Linux distribution work and infrastructure through my assignments: on my last two consultancy assignments the workstation ran Ubuntu for one, a Debian derivative for the other, with package creation and fixes.',
   aboutP2: 'Those assignments also brought me to automation with Ansible, and to deploying applications and microservices on cloud-native platforms such as VMware Tanzu Application Service and OpenShift. That is where the urge to go deeper came from.',
   aboutP3: 'My homelab is my proving ground: whatever ends up in production has been broken and rebuilt at home first. That is where I put it into practice and where I make progress.',

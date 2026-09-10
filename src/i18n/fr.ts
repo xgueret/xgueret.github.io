@@ -78,8 +78,8 @@ export default {
 
   // About
   aboutLabel: '02 — À propos',
-  aboutTitle1: 'Comment',
-  aboutTitle2: 'je travaille',
+  aboutTitle1: 'Du code',
+  aboutTitle2: 'à l\'infra',
   aboutP1: 'Développeur d\'origine, j\'ai tout doucement évolué vers le développement des distributions Linux et l\'infrastructure, au travers de mes différentes missions : sur les deux dernières, en ESN, le poste de travail était sous Ubuntu pour l\'une, sous une distribution dérivée de Debian pour l\'autre, avec des tâches de création et de correction de paquets.',
   aboutP2: 'Ces missions m\'ont aussi amené à l\'automatisation avec Ansible et au déploiement d\'applications et de microservices sur des plateformes cloud-native comme VMware Tanzu Application Service ou OpenShift. De là m\'est venue l\'envie d\'approfondir ces sujets.',
   aboutP3: 'Mon homelab me sert de terrain d\'essai : ce qui finit en production a d\'abord pu être cassé et reconstruit chez moi. C\'est là que je mets tout ça en pratique et que je progresse.',

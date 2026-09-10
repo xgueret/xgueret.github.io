@@ -62,6 +62,14 @@ const rows = [
     min-width: 0;
   }
 
+  /* Between 1025 and 1440 the title column narrows faster than the shared
+     heading scale does, so the longest line ran past it — "FROM CODE" by 16px
+     at 1280. Tying this heading to a gentler slope keeps both locales inside
+     their column at every width. */
+  .tp-about-head .tp-h2 {
+    font-size: clamp(2rem, 4.6vw, 4.2rem);
+  }
+
   .tp-about-body {
     display: flex;
     flex-direction: column;
