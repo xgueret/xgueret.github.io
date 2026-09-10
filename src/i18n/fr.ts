@@ -39,6 +39,7 @@ export default {
   categoriesDescription: 'Parcourez tous les articles classés par catégorie : DevOps, Kubernetes, Ansible, tutoriels et plus.',
   categoriesAll: 'Tous',
   backToBlog: 'Retour au blog',
+  backHome: 'Retour à l\'accueil',
 
   // Pagination
   previousPage: 'Page précédente',

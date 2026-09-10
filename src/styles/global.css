@@ -369,3 +369,16 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Back to the main flow, at the head of the listing pages. It keeps to its
+   own width and sits a little clear of the section label above the title. */
+.tp-back {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 1024px) {
+  .tp-back {
+    margin-bottom: 4px;
+  }
+}

@@ -70,6 +70,10 @@ const articles = posts.map((post) => {
 <BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
   <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
     <header class="mb-12 flex flex-col" style="gap:22px;">
+      <a href={`${localePrefix(locale)}/#tp-blog`} data-cursor="link" class="tp-back tp-link">
+        <span style="color:#a8cf3e;">&larr;</span>
+        <span>{t(locale, 'backHome')}</span>
+      </a>
       <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'blogLabel')}</p>
       <h1 class="tp-h2" data-split="1">{t(locale, 'blogTitle1')}<br />{t(locale, 'blogTitle2')}<br />{t(locale, 'blogTitle3')}</h1>
       <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.9; max-width:52ch; text-wrap:pretty;" data-split="1">{t(locale, 'blogIntro')}</p>
