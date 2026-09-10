@@ -84,7 +84,7 @@ export default {
   aboutRow1Label: 'Reproducible',
   aboutRow1Text: 'Terraform and Ansible rather than a configuration done by hand, once.',
   aboutRow2Label: 'Documented',
-  aboutRow2Text: 'A repository someone can pick up six months later without asking me.',
+  aboutRow2Text: 'Documentation is written with the code: hygiene, not a debt to pay down later.',
   aboutRow3Label: 'Automated',
   aboutRow3Text: 'Whatever repeats goes to CI/CD: a manual deployment is an incident waiting to happen.',
 
