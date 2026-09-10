@@ -63,6 +63,7 @@ export default {
   scrollCue: 'Scroll to explore',
   footerFootage: 'Footage: Pexels',
   menuOpen: 'Open menu',
+  menuClose: 'Close menu',
 
   // Work (projects HUD + overlay)
   workLabel: 'Projects & experiments',
