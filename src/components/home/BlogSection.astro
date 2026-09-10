@@ -55,14 +55,14 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
           {post.description && (
             <p style="margin:0; font-size:.95rem; line-height:1.55; font-weight:300; opacity:.82; text-wrap:pretty;">{post.description}</p>
           )}
-          <span class="tp-label flex items-baseline" style="gap:12px; margin-top:2px; letter-spacing:.28em;">{t(locale, 'blogReadArticle')} <span style="color:#a8cf3e;">↗</span></span>
+          <span class="tp-label flex items-baseline" style="gap:12px; margin-top:2px; letter-spacing:.28em;">{t(locale, 'blogReadArticle')} <span class="tp-arrow">↗</span></span>
         </div>
       </a>
     )}
 
     <a href={blogHref} data-cursor="link" class="tp-link" style="flex:0 0 auto;">
       <span>{t(locale, 'blogReadAll')}</span>
-      <span style="color:#a8cf3e;">↗</span>
+      <span class="tp-arrow">↗</span>
     </a>
   </div>
 </section>

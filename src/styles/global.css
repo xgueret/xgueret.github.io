@@ -137,6 +137,11 @@
   border-bottom-color: #a8cf3e;
 }
 
+/* Every arrow that marks a link or an action, in one place. */
+.tp-arrow {
+  color: #a8cf3e;
+}
+
 .tp-row {
   display: grid;
   grid-template-columns: minmax(110px, 160px) 1fr;

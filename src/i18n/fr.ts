@@ -72,7 +72,7 @@ export default {
   projectOpenSource: 'Open source',
   projectWebsite: 'Site web',
   detailClose: 'Fermer ✕',
-  detailView: 'Voir le projet ↗',
+  detailView: 'Voir le projet',
 
   // About
   aboutLabel: '02 — À propos',
@@ -105,7 +105,7 @@ export default {
   // CV section
   cvLabel: '03 — CV',
   cvTagline: 'Ingénieur DevOps basé en Guadeloupe, issu du développement Java.',
-  cvDownload: 'Télécharger le CV (PDF) ↓',
+  cvDownload: 'Télécharger le CV (PDF)',
   cvProfileLabel: 'Profil',
   cvProfileP1: 'Évolution vers le DevOps par la gestion d\'environnements Linux, le déploiement d\'applications sur OpenShift et Kubernetes, et la mise en place d\'infrastructures reproductibles avec Ansible et Terraform.',
   cvProfileP2: 'Concevoir des environnements stables, documentés et faciles à maintenir — et continuer à approfondir la conteneurisation, le CI/CD, les pratiques Cloud-Native et l\'IA appliquée (LLM, agents, MCP).',

@@ -18,7 +18,7 @@ const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid
 {totalPages > 1 && (
   <nav class="flex justify-center flex-wrap mt-16" style="gap:2px;" aria-label="Pagination">
     {currentPage > 1 && (
-      <a href={hrefFor(currentPage - 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'previousPage')}>←</a>
+      <a href={hrefFor(currentPage - 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'previousPage')}><span class="tp-arrow">←</span></a>
     )}
     {pages.map((page) =>
       page === currentPage ? (
@@ -28,7 +28,7 @@ const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid
       )
     )}
     {currentPage < totalPages && (
-      <a href={hrefFor(currentPage + 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'nextPage')}>→</a>
+      <a href={hrefFor(currentPage + 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'nextPage')}><span class="tp-arrow">→</span></a>
     )}
   </nav>
 )}

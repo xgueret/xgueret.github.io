@@ -44,7 +44,7 @@ const { articles, locale, showViewAll = true } = Astro.props;
   <div class="mt-10">
     <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class="tp-link">
       <span>{t(locale, 'blogReadAll')}</span>
-      <span style="color:#a8cf3e;">↗</span>
+      <span class="tp-arrow">↗</span>
     </a>
   </div>
 )}

@@ -19,21 +19,21 @@ const stack = [
 const certs = [
   {
     name: 'CKA — Certified Kubernetes Administrator',
-    issuer: 'Linux Foundation · 2023 ↗',
+    issuer: 'Linux Foundation · 2023',
     image: '/images/badges/cka.png',
     alt: 'Badge CKA',
     href: 'https://www.credly.com/badges/dfcc38d2-4c29-4da4-9483-d96de72a1f29/public_url',
   },
   {
     name: 'CKAD — Kubernetes Application Developer',
-    issuer: 'Linux Foundation · 2026 ↗',
+    issuer: 'Linux Foundation · 2026',
     image: '/images/badges/ckad.png',
     alt: 'Badge CKAD',
     href: 'https://www.credly.com/badges/d4b18a00-4c59-4a0f-a5fb-35e6b4b8236f/public_url',
   },
   {
     name: 'HashiCorp Certified — Terraform Associate',
-    issuer: 'HashiCorp · 2023 ↗',
+    issuer: 'HashiCorp · 2023',
     image: '/images/badges/terraform-associate.png',
     alt: 'Badge Terraform Associate',
     href: 'https://www.credly.com/badges/a20c23e0-e453-433d-a100-e7056fab84be/public_url',
@@ -46,7 +46,7 @@ const certs = [
     <div class="flex flex-col" style="flex:1 1 300px; min-width:0; max-width:38ch; gap:22px;">
       <div class="tp-label" style="opacity:.8;" data-split="1">{t(locale, 'cvLabel')}</div>
       <p style="margin:0; font-size:clamp(1.1rem,2vw,1.7rem); line-height:1.25; font-weight:300; text-wrap:pretty; max-width:24ch;" data-split="1">{t(locale, 'cvTagline')}</p>
-      <a href={pdf} target="_blank" rel="noopener" data-cursor="link" class="tp-link self-start" style="padding-bottom:6px;">{t(locale, 'cvDownload')}</a>
+      <a href={pdf} target="_blank" rel="noopener" data-cursor="link" class="tp-link self-start" style="padding-bottom:6px;"><span>{t(locale, 'cvDownload')}</span><span class="tp-arrow">↓</span></a>
     </div>
 
     <div class="flex flex-col" style="flex:2 1 560px; min-width:0; gap:2px;">
@@ -78,7 +78,7 @@ const certs = [
               <img src={c.image} alt={c.alt} width="56" height="56" loading="lazy" class="block flex-none object-contain" style="width:56px; height:56px;" />
               <div class="flex flex-col" style="gap:6px;">
                 <span class="uppercase" style="font-size:1.02rem; font-weight:500; letter-spacing:.02em;">{c.name}</span>
-                <span class="tp-label-sm" style="letter-spacing:.22em; opacity:.62;">{c.issuer}</span>
+                <span class="tp-label-sm flex items-baseline" style="letter-spacing:.22em; gap:6px;"><span style="opacity:.62;">{c.issuer}</span><span class="tp-arrow">↗</span></span>
               </div>
             </a>
           ))}
