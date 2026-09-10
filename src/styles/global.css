@@ -202,6 +202,22 @@
   opacity: 0.74;
 }
 
+/* A phone reads these rows as one column: a label column would leave the copy
+   a third of the width. The label rises above its row at full strength — mono
+   caps against the sans body is what tells them apart once they stack — and
+   the rules between rows stay where they are. The markup sets its own column
+   template inline, which outranks a plain declaration. */
+@media (max-width: 640px) {
+  .tp-row:has(.tp-row-label) {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .tp-row .tp-row-label {
+    opacity: 1;
+  }
+}
+
 .tp-field {
   background: transparent;
   border: 0;
