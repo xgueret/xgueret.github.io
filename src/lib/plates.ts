@@ -3,7 +3,7 @@
  * the pool; when the pool is larger, the scene picks this many at random on
  * each visit. Section height and camera travel derive from the count.
  */
-export const MAX_PLATES = 4;
+export const MAX_PLATES = 3;
 
 /** `data-project` value of the catalogue plate that links to the projects page. */
 export const ALL_PROJECTS_PLATE = 'all';
