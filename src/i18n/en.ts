@@ -92,7 +92,7 @@ export default {
   blogTitle1: 'Break,',
   blogTitle2: 'rebuild,',
   blogTitle3: 'learn.',
-  blogIntro: 'Kubernetes, Terraform, Ansible, homelab, applied AI. What I take apart at home before deploying it anywhere else, and what I learned doing it — dead ends included.',
+  blogIntro: 'Kubernetes, Terraform, Ansible, homelab, applied AI… The subjects I dig into here, in long-form articles, use cases and step-by-step tutorials.',
   blogHomeTitle1: 'What I\'m writing',
   blogHomeTitle2: 'right now',
   blogReadAll: 'Read the articles',
