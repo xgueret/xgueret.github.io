@@ -56,8 +56,11 @@ def main() -> None:
             log_error(f"{rel}: {h1_count} <h1> tags (expected 1)")
             multi_h1 += 1
 
-        # <html lang="">
-        if not re.search(r"<html[^>]*\slang=", content):
+        # <html lang=""> — skip Astro's bare meta-refresh redirect stubs,
+        # which have no <html> element at all to carry the attribute.
+        if re.search(r"<html[^>]*>", content) and not re.search(
+            r"<html[^>]*\slang=", content
+        ):
             log_error(f"{rel}: Missing lang attribute on <html>")
             missing_lang += 1
 

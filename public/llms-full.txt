@@ -101,7 +101,7 @@ Framework for distributing computational workloads across local machines.
 ## Site Structure
 
 - **Homepage**: Overview with recent articles and trainings
-- **Blog** (`/posts/`): Technical articles on DevOps, Kubernetes, AI, automation
+- **Blog** (`/blog/`): Technical articles on DevOps, Kubernetes, AI, automation
 - **Projects** (`/projects/`): Portfolio of GitHub projects, websites, and training materials
 - **Training** (`/training/`): Available training courses
 - **About** (`/about/`): Professional background and skills

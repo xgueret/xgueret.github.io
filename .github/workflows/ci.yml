@@ -136,7 +136,7 @@ jobs:
           lhci autorun \
             --collect.staticDistDir=dist \
             --collect.url=/ \
-            --collect.url=/posts/ \
+            --collect.url=/blog/ \
             --collect.url=/about/ \
             --assert.preset=lighthouse:recommended \
             --assert.assertions.categories:performance=off \

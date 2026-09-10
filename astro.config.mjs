@@ -5,6 +5,12 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://xgueret.github.io',
+  redirects: {
+    '/posts': '/blog',
+    '/posts/[...slug]': '/blog/[...slug]',
+    '/en/posts': '/en/blog',
+    '/en/posts/[...slug]': '/en/blog/[...slug]',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

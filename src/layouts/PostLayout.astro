@@ -89,8 +89,8 @@ const breadcrumbLd = {
     {
       '@type': 'ListItem',
       position: 2,
-      name: locale === 'fr' ? 'Articles' : 'Posts',
-      item: `${site}${localePrefix(locale)}/posts/`,
+      name: 'Blog',
+      item: `${site}${localePrefix(locale)}/blog/`,
     },
     {
       '@type': 'ListItem',
@@ -193,7 +193,7 @@ const jsonLd = {
 
     <footer class="mt-12 pt-8 border-t border-[var(--color-border)]">
       <a
-        href={`${localePrefix(locale)}/posts/`}
+        href={`${localePrefix(locale)}/blog/`}
         class="group/back inline-flex items-center gap-2 text-[var(--color-accent)] font-medium focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
       >
         <span class="transition-transform duration-200 group-hover/back:-translate-x-1">&larr;</span>

@@ -82,7 +82,7 @@ const articles = posts.map((post) => {
   }
   return {
     title: post.data.title,
-    href: `/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
+    href: `/blog/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
     seriesName: post.data.series,

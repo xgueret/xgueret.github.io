@@ -1,19 +1,19 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import CategoriesCloud from '../../components/CategoriesCloud.astro';
-import ArticlesGrid from '../../components/ArticlesGrid.astro';
-import Pagination from '../../components/Pagination.astro';
-import SectionEyebrow from '../../components/SectionEyebrow.astro';
-import { t } from '../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoriesCloud from '../../../components/CategoriesCloud.astro';
+import ArticlesGrid from '../../../components/ArticlesGrid.astro';
+import Pagination from '../../../components/Pagination.astro';
+import SectionEyebrow from '../../../components/SectionEyebrow.astro';
+import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
-const locale = 'fr';
+const locale = 'en';
 
 export const getStaticPaths = (async () => {
   const PAGE_SIZE = 10;
   const allPosts = await getCollection('posts', ({ id, data }) => {
-    return id.startsWith('fr/') && !data.draft && !data.archived;
+    return id.startsWith('en/') && !data.draft && !data.archived;
   });
   const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
@@ -26,7 +26,7 @@ export const getStaticPaths = (async () => {
   const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
     name,
     count,
-    href: `/categories/${name.toLowerCase()}/`,
+    href: `${localePrefix('en')}/categories/${name.toLowerCase()}/`,
   }));
 
   const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
@@ -56,7 +56,7 @@ const articles = posts.map((post) => {
   }
   return {
     title: post.data.title,
-    href: `/posts/${post.id.replace('fr/', '').replace(/\.md$/, '')}`,
+    href: `${localePrefix(locale)}/blog/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
     seriesName: post.data.series,
@@ -78,7 +78,7 @@ const articles = posts.map((post) => {
     <Pagination
       currentPage={currentPage}
       totalPages={totalPages}
-      baseUrl={`/posts/`}
+      baseUrl={`${localePrefix(locale)}/blog/`}
       locale={locale}
     />
   </div>
