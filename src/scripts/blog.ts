@@ -1,2 +1,5 @@
-// Filled in Task 8: custom cursor + split-text reveals for blog pages.
-export {};
+import { initCursor } from './ui/cursor';
+import { initSplitText } from './ui/split-text';
+
+initCursor({ autoLoop: true });
+initSplitText();
