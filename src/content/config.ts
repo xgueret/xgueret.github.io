@@ -20,29 +20,6 @@ const posts = defineCollection({
   }),
 });
 
-const pages = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date().optional(),
-    description: z.string().optional(),
-  }),
-});
-
-const training = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date().optional(),
-    draft: z.boolean().default(false),
-    archived: z.boolean().default(false),
-    description: z.string().optional(),
-    externalLink: z.string().url().optional(),
-    tags: z.array(z.string()).default([]),
-    image: z.string().optional(),
-  }),
-});
-
 const projects = defineCollection({
   type: 'content',
   schema: z.object({
@@ -60,4 +37,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { posts, pages, training, projects };
+export const collections = { posts, projects };

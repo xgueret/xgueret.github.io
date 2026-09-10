@@ -9,7 +9,7 @@
 - author: Xavier GUERET
 - location: Guadeloupe (France)
 - job_title: DevOps Engineer
-- contact: https://xgueret.github.io/contact/
+- contact: https://xgueret.github.io/#tp-contact
 - language: fr, en
 - description: Portfolio and DevOps technical blog by Xavier GUERET, based in Guadeloupe. Articles about Kubernetes, Docker, Ansible, Terraform, Python, CI/CD, Infrastructure as Code, and applied AI (LLM, agents, MCP).
 
@@ -22,37 +22,21 @@
 
 ## Important Pages
 
-### Homepage
+### Homepage (one page: projects, about, blog, resume, contact)
 - https://xgueret.github.io/
 - https://xgueret.github.io/en/
-
-### About
-- https://xgueret.github.io/about/
-- https://xgueret.github.io/en/about/
-
-### CV / Resume
-- https://xgueret.github.io/cv/
-- https://xgueret.github.io/en/cv/
 
 ### Blog (Articles)
 - https://xgueret.github.io/blog/
 - https://xgueret.github.io/en/blog/
 
-### Projects
-- https://xgueret.github.io/projects/
-- https://xgueret.github.io/en/projects/
-
-### Training
-- https://xgueret.github.io/training/
-- https://xgueret.github.io/en/training/
-
-### Contact
-- https://xgueret.github.io/contact/
-- https://xgueret.github.io/en/contact/
-
 ### Categories
 - https://xgueret.github.io/categories/
 - https://xgueret.github.io/en/categories/
+
+### Resume (PDF)
+- https://xgueret.github.io/assets/cv.fr.pdf
+- https://xgueret.github.io/assets/cv.en.pdf
 
 ## Blog Articles (French)
 

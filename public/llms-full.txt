@@ -100,13 +100,8 @@ Framework for distributing computational workloads across local machines.
 
 ## Site Structure
 
-- **Homepage**: Overview with recent articles and trainings
+- **Homepage**: one page combining projects, about, blog preview, resume and contact, each reachable via its own anchor (`#tp-work`, `#tp-about`, `#tp-blog`, `#tp-cv`, `#tp-contact`)
 - **Blog** (`/blog/`): Technical articles on DevOps, Kubernetes, AI, automation
-- **Projects** (`/projects/`): Portfolio of GitHub projects, websites, and training materials
-- **Training** (`/training/`): Available training courses
-- **About** (`/about/`): Professional background and skills
-- **CV** (`/cv/`): Detailed resume with certifications
-- **Contact** (`/contact/`): Contact form
 - **Categories** (`/categories/`): Articles organized by topic (DevOps, GitHub, AI, etc.)
 
 All pages available in French (root) and English (`/en/` prefix).
