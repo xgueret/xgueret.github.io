@@ -8,49 +8,76 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-{/* Both labels are rendered and CSS picks one, so a page restored in the light
-    theme never paints the wrong word before the script runs. */}
+{/* Both marks are rendered and CSS picks one, so a page restored in the light
+    theme never paints the wrong glyph before the script runs. The mark names
+    the theme the click would bring; the accessible name spells that out. */}
 <button
   id="tp-theme-toggle"
   type="button"
   data-cursor="link"
-  class="tp-label tp-theme-toggle"
-  style="letter-spacing:.24em;"
+  class="tp-theme-toggle"
   aria-label={t(locale, 'themeToLight')}
   data-label-light={t(locale, 'themeToLight')}
   data-label-dark={t(locale, 'themeToDark')}
 >
-  <span class="tp-theme-word tp-theme-light">{t(locale, 'themeLight')}</span>
-  <span class="tp-theme-word tp-theme-dark">{t(locale, 'themeDark')}</span>
+  <svg class="tp-theme-mark tp-theme-sun" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="3.1" fill="currentColor" />
+    <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+      <line x1="10" y1="1.6" x2="10" y2="4.2" />
+      <line x1="10" y1="15.8" x2="10" y2="18.4" />
+      <line x1="1.6" y1="10" x2="4.2" y2="10" />
+      <line x1="15.8" y1="10" x2="18.4" y2="10" />
+      <line x1="4.05" y1="4.05" x2="5.9" y2="5.9" />
+      <line x1="14.1" y1="14.1" x2="15.95" y2="15.95" />
+      <line x1="4.05" y1="15.95" x2="5.9" y2="14.1" />
+      <line x1="14.1" y1="5.9" x2="15.95" y2="4.05" />
+    </g>
+  </svg>
+  <svg class="tp-theme-mark tp-theme-moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <path
+      d="M14.8 12.6A6.4 6.4 0 0 1 7.4 5.2a5 5 0 0 0-1.1.6 6.6 6.6 0 1 0 9.2 9.2 5 5 0 0 0 .6-1.1 6.4 6.4 0 0 1-1.3-1.3Z"
+      fill="currentColor"
+    />
+  </svg>
 </button>
 
 <style>
   .tp-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: 0;
     padding: 0;
+    width: 20px;
+    height: 20px;
     color: inherit;
-    text-transform: uppercase;
     opacity: 0.6;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, color 0.3s ease;
   }
 
   .tp-theme-toggle:hover,
   .tp-theme-toggle:focus-visible {
     opacity: 1;
+    color: var(--color-accent);
   }
 
-  /* The word names the theme the click would bring, so only one shows. */
-  .tp-theme-dark { display: none; }
+  .tp-theme-mark {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
 
-  :global(:root[data-theme='light']) .tp-theme-dark { display: inline; }
-  :global(:root[data-theme='light']) .tp-theme-light { display: none; }
+  .tp-theme-moon { display: none; }
+
+  :global(:root[data-theme='light']) .tp-theme-moon { display: block; }
+  :global(:root[data-theme='light']) .tp-theme-sun { display: none; }
 </style>
 
 <script>
   import { toggleTheme, getTheme } from '../scripts/ui/theme';
 
-  document.querySelectorAll<HTMLButtonElement>('#tp-theme-toggle, .tp-theme-toggle').forEach((btn) => {
+  document.querySelectorAll<HTMLButtonElement>('.tp-theme-toggle').forEach((btn) => {
     const label = (): void => {
       btn.setAttribute('aria-label', getTheme() === 'dark' ? btn.dataset.labelLight ?? '' : btn.dataset.labelDark ?? '');
     };

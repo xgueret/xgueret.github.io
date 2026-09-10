@@ -39,8 +39,6 @@ export default {
   categoriesDescription: 'Browse all articles by category: DevOps, Kubernetes, Ansible, tutorials and more.',
   categoriesAll: 'All',
   backToBlog: 'Back to Blog',
-  themeLight: 'Light',
-  themeDark: 'Dark',
   themeToLight: 'Switch to the light theme',
   themeToDark: 'Switch to the dark theme',
   backHome: 'Back to home',
