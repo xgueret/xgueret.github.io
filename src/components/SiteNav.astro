@@ -22,6 +22,13 @@ const links = [
 ];
 ---
 
+{/* Leaving the viewport is what collapses the wordmark — see the script below. */}
+<div
+  id="tp-top-sentinel"
+  aria-hidden="true"
+  style="position:absolute; top:0; left:0; width:1px; height:56px; pointer-events:none;"
+></div>
+
 <nav
   id="tp-nav"
   aria-label={t(locale, 'mainNavigation')}
@@ -32,9 +39,8 @@ const links = [
     id="tp-logo"
     href={home ? '#tp-hero' : `${prefix}/`}
     data-cursor="link"
-    aria-label={t(locale, 'brand')}
     class="flex items-center flex-none overflow-hidden"
-    style="width:42px; height:42px;"
+    style="height:42px;"
   >
     <img
       id="tp-logo-face"
@@ -45,6 +51,12 @@ const links = [
       class="block flex-none object-contain"
       style="width:42px; height:42px; transition:transform .6s cubic-bezier(.34,1.56,.64,1);"
     />
+    <span id="tp-logo-word">
+      <span class="tp-logo-word-inner tp-label" style="letter-spacing:.24em;">
+        <span class="tp-logo-brand">{t(locale, 'brand')}</span>
+        <span class="tp-logo-role">{t(locale, 'heroEyebrow')}</span>
+      </span>
+    </span>
   </a>
 
   <div id="tp-nav-links" class="tp-label items-center" style="display:flex; gap:28px; letter-spacing:.24em;">
@@ -83,6 +95,60 @@ const links = [
 </div>
 
 <style>
+  /* The wordmark rides in a grid column that collapses to nothing, so it
+     animates to its own width without a hardcoded value. */
+  #tp-logo-word {
+    display: grid;
+    grid-template-columns: 1fr;
+    transition:
+      grid-template-columns 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tp-logo-word-inner {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* The gap to the mark lives inside the clipped box, so it collapses with
+     the wordmark instead of leaving a notch. */
+  .tp-logo-brand {
+    color: #a8cf3e;
+    padding-left: 16px;
+  }
+
+  .tp-logo-role {
+    opacity: 0.82;
+  }
+
+  /* Scrolled away from the top: the mark stands alone until pointer or focus
+     asks for the wordmark back. */
+  #tp-logo.is-compact #tp-logo-word {
+    grid-template-columns: 0fr;
+    opacity: 0;
+  }
+
+  #tp-logo.is-compact:hover #tp-logo-word,
+  #tp-logo.is-compact:focus-visible #tp-logo-word {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+
+  /* The global link hover dims the whole anchor; the wordmark must not fade
+     in half-lit. */
+  #tp-logo:hover {
+    opacity: 1;
+  }
+
+  /* Below the nav's own breakpoints the wordmark would meet the links. */
+  @media (max-width: 1120px) {
+    .tp-logo-role { display: none; }
+  }
+
   @media (max-width: 820px) {
     #tp-nav-links { display: none !important; }
     #tp-menu-toggle { display: inline-flex !important; }
@@ -107,4 +173,22 @@ const links = [
   toggle?.addEventListener('click', () => setOpen(menu?.hidden ?? true));
   menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  /**
+   * Collapse the wordmark once the top of the page has scrolled away. An
+   * observer on a sentinel keeps this off the scroll path entirely, and its
+   * first callback sets the state for a page restored mid-scroll.
+   */
+  const logo = document.getElementById('tp-logo');
+  const sentinel = document.getElementById('tp-top-sentinel');
+
+  if (logo && sentinel) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) logo.classList.toggle('is-compact', !entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+  }
 </script>
