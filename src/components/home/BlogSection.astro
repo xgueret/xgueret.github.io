@@ -25,14 +25,7 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
   <div class="flex flex-wrap items-end w-full" style="gap:44px 56px; max-width:1400px;">
     <div class="flex flex-col" style="flex:1 1 360px; min-width:0; gap:22px;">
       <div class="tp-label" style="opacity:.8;" data-split="1">{t(locale, 'blogLabel')}</div>
-      <h2 class="tp-h2" data-split="1">{t(locale, 'blogTitle1')}<br />{t(locale, 'blogTitle2')}</h2>
-    </div>
-    <div class="flex flex-col" style="flex:1 1 340px; min-width:0; gap:26px; max-width:52ch;">
-      <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.9; text-wrap:pretty;" data-split="1">{t(locale, 'blogIntro')}</p>
-      <a href={blogHref} data-cursor="link" class="tp-link self-start">
-        <span>{t(locale, 'blogReadAll')}</span>
-        <span style="color:#a8cf3e;">↗</span>
-      </a>
+      <h2 class="tp-h2" data-split="1">{t(locale, 'blogHomeTitle1')}<br />{t(locale, 'blogHomeTitle2')}</h2>
     </div>
 
     {post && (
@@ -66,6 +59,11 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
         </div>
       </a>
     )}
+
+    <a href={blogHref} data-cursor="link" class="tp-link" style="flex:0 0 auto;">
+      <span>{t(locale, 'blogReadAll')}</span>
+      <span style="color:#a8cf3e;">↗</span>
+    </a>
   </div>
 </section>
 

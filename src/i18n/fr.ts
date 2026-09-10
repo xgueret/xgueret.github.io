@@ -92,6 +92,8 @@ export default {
   blogTitle1: 'Notes',
   blogTitle2: 'd\'atelier',
   blogIntro: 'Ce que j\'apprends en construisant : Kubernetes, Terraform, Ansible, homelab et automatisation — écrit au fil des chantiers, erreurs comprises.',
+  blogHomeTitle1: 'Ce que j\'écris',
+  blogHomeTitle2: 'en ce moment',
   blogReadAll: 'Lire les articles',
   blogFeatured: 'Article du moment',
   blogReadArticle: 'Lire l\'article',
