@@ -145,9 +145,10 @@ const jsonLd = {
       )}
     </header>
 
+    {/* In colour: on the article itself the image is the subject, not a thumbnail. */}
     {image && (
-      <div class="tp-mono-hover mb-12" style="border:1px solid rgba(255,255,255,.2);">
-        <img src={image} alt={heroAlt} class="tp-mono-img block w-full object-cover" style="aspect-ratio:3/1;" />
+      <div class="mb-12" style="border:1px solid rgba(255,255,255,.2);">
+        <img src={image} alt={heroAlt} class="block w-full object-cover" style="aspect-ratio:3/1;" />
       </div>
     )}
 
