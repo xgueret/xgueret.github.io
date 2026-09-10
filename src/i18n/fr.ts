@@ -39,6 +39,10 @@ export default {
   categoriesDescription: 'Parcourez tous les articles classés par catégorie : DevOps, Kubernetes, Ansible, tutoriels et plus.',
   categoriesAll: 'Tous',
   backToBlog: 'Retour au blog',
+  themeLight: 'Clair',
+  themeDark: 'Sombre',
+  themeToLight: 'Passer au thème clair',
+  themeToDark: 'Passer au thème sombre',
   backHome: 'Retour à l\'accueil',
 
   // Pagination

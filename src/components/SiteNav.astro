@@ -1,6 +1,7 @@
 ---
 import { type Locale, t, localePrefix } from '../i18n';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
   locale: Locale;
@@ -65,6 +66,7 @@ const links = [
       <a href={l.href} data-cursor="link">{l.label}</a>
     ))}
     <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    <ThemeToggle locale={locale} />
   </div>
 
   <button
@@ -96,8 +98,9 @@ const links = [
   {links.map((l) => (
     <a href={l.href} data-cursor="link" class="uppercase" style="font-size:clamp(1.6rem,8vw,3rem); font-weight:500; line-height:1;">{l.label}</a>
   ))}
-  <div style="margin-top:12px;">
+  <div class="flex items-center" style="margin-top:12px; gap:28px;">
     <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    <ThemeToggle locale={locale} />
   </div>
 </div>
 

@@ -1,0 +1,60 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+{/* Both labels are rendered and CSS picks one, so a page restored in the light
+    theme never paints the wrong word before the script runs. */}
+<button
+  id="tp-theme-toggle"
+  type="button"
+  data-cursor="link"
+  class="tp-label tp-theme-toggle"
+  style="letter-spacing:.24em;"
+  aria-label={t(locale, 'themeToLight')}
+  data-label-light={t(locale, 'themeToLight')}
+  data-label-dark={t(locale, 'themeToDark')}
+>
+  <span class="tp-theme-word tp-theme-light">{t(locale, 'themeLight')}</span>
+  <span class="tp-theme-word tp-theme-dark">{t(locale, 'themeDark')}</span>
+</button>
+
+<style>
+  .tp-theme-toggle {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  .tp-theme-toggle:hover,
+  .tp-theme-toggle:focus-visible {
+    opacity: 1;
+  }
+
+  /* The word names the theme the click would bring, so only one shows. */
+  .tp-theme-dark { display: none; }
+
+  :global(:root[data-theme='light']) .tp-theme-dark { display: inline; }
+  :global(:root[data-theme='light']) .tp-theme-light { display: none; }
+</style>
+
+<script>
+  import { toggleTheme, getTheme } from '../scripts/ui/theme';
+
+  document.querySelectorAll<HTMLButtonElement>('#tp-theme-toggle, .tp-theme-toggle').forEach((btn) => {
+    const label = (): void => {
+      btn.setAttribute('aria-label', getTheme() === 'dark' ? btn.dataset.labelLight ?? '' : btn.dataset.labelDark ?? '');
+    };
+    label();
+    btn.addEventListener('click', () => { toggleTheme(); label(); });
+  });
+</script>
