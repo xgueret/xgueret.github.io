@@ -215,8 +215,7 @@
   transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tp-mono-hover:hover .tp-mono-img,
-.tp-mono-img.tp-mono-self:hover {
+.tp-mono-hover:hover .tp-mono-img {
   filter: grayscale(0) contrast(1) brightness(1);
 }
 
