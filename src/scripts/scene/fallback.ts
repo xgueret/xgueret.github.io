@@ -8,7 +8,9 @@ export function fallbackDOM(): void {
 
   const grid = document.getElementById('tp-projects');
   const work = document.getElementById('tp-work');
-  if (grid) grid.classList.remove('tp-sr-grid');
+  // The padding only belongs to the visible grid: leaving it on the sr-only box
+  // would add ~240 px of dead scroll under the footer on the WebGL path.
+  if (grid) { grid.classList.remove('tp-sr-grid'); grid.style.padding = '120px 28px'; }
   if (work && grid) {
     work.style.height = 'auto';
     work.appendChild(grid);

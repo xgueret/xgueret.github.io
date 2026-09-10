@@ -109,6 +109,7 @@ export function startScene(caps: Capabilities): void {
   const detail = byId('tp-detail');
   const main = byId('tp-main');
   const nav = byId('tp-nav');
+  const projects = byId('tp-projects');
   const cue = byId('tp-scrollcue');
   const closeBtn = byId('tp-detail-close');
   let lastFocus: HTMLElement | null = null;
@@ -136,8 +137,10 @@ export function startScene(caps: Capabilities): void {
     }
     lenis?.stop();
     setFocus(card, 1);
-    if (main) main.style.opacity = '0';
-    if (nav) nav.style.opacity = '0';
+    // The dialog is aria-modal: take the page behind it out of the tab order.
+    if (main) { main.style.opacity = '0'; main.setAttribute('inert', ''); }
+    if (nav) { nav.style.opacity = '0'; nav.setAttribute('inert', ''); }
+    projects?.setAttribute('inert', '');
     if (cue) cue.style.opacity = '0';
     closeBtn?.focus();
   };
@@ -155,8 +158,9 @@ export function startScene(caps: Capabilities): void {
     }
     lenis?.start();
     setFocus(card, 0);
-    if (main) main.style.opacity = '1';
-    if (nav) nav.style.opacity = '1';
+    if (main) { main.style.opacity = '1'; main.removeAttribute('inert'); }
+    if (nav) { nav.style.opacity = '1'; nav.removeAttribute('inert'); }
+    projects?.removeAttribute('inert');
     lastFocus?.focus();
   };
 
@@ -166,7 +170,7 @@ export function startScene(caps: Capabilities): void {
     if (state.focused) return;
     const target = e.target as Element | null;
     if (target?.closest && target.closest('a,button,form,input,textarea,label')) return;
-    if (state.hovered) openCard(state.hovered);
+    if (state.hovered?.visible) openCard(state.hovered);
   });
 
   // --- loader -------------------------------------------------------------
@@ -214,7 +218,9 @@ export function startScene(caps: Capabilities): void {
     const p = cursor.pointer;
     pointer.set(p.nx, p.ny);
     raycaster.setFromCamera(pointer, camera);
-    const hits = state.focused ? [] : raycaster.intersectObjects(cards, false);
+    // Raycaster ignores Mesh.visible, so hidden plates would still be hit from
+    // the hero: only ever test the ones actually drawn.
+    const hits = state.focused ? [] : raycaster.intersectObjects(cards.filter((c) => c.visible), false);
     state.hovered = hits.length ? (hits[0].object as Card) : null;
     cursor.setBoost(!!state.hovered);
 

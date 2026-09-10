@@ -7,7 +7,9 @@ export interface Capabilities {
 function hasWebGL(): boolean {
   try {
     const c = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+    // three r186 only ever creates a webgl2 context: probing webgl1 would send
+    // WebGL1-only browsers down the scene path and fail after the chunk loads.
+    return !!(window.WebGL2RenderingContext && c.getContext('webgl2'));
   } catch {
     return false;
   }
