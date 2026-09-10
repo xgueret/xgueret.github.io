@@ -13,9 +13,10 @@ const currentPath = Astro.url.pathname;
 // On the home page anchors are local; elsewhere they point back to the home.
 const base = home ? '' : `${prefix}/`;
 
+// Blog and projects have pages of their own; the rest are home sections.
 const links = [
-  { href: `${base}#tp-blog`, label: t(locale, 'blog') },
-  { href: `${base}#tp-work`, label: t(locale, 'projects') },
+  { href: `${prefix}/blog/`, label: t(locale, 'blog') },
+  { href: `${prefix}/projects/`, label: t(locale, 'projects') },
   { href: `${base}#tp-about`, label: t(locale, 'about') },
   { href: `${base}#tp-cv`, label: t(locale, 'cv') },
   { href: `${base}#tp-contact`, label: t(locale, 'contact') },
