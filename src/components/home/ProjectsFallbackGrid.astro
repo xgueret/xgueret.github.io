@@ -1,0 +1,39 @@
+---
+import { type Locale, t } from '../../i18n';
+import type { FeaturedProject } from '../../lib/featured-projects';
+
+interface Props {
+  locale: Locale;
+  projects: FeaturedProject[];
+}
+
+const { locale, projects } = Astro.props;
+---
+
+{/* Read by the scene script for the 3D plates; shown as-is when WebGL is missing. */}
+<div id="tp-projects" class="relative z-10" style="display:none; padding:120px 28px;">
+  <div class="tp-label" style="opacity:.8; margin-bottom:40px;">{t(locale, 'workLabel')}</div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2px;">
+    {projects.map((p) => (
+      <article
+        data-project={p.index}
+        data-title={p.title}
+        data-tag={p.plateTag}
+        data-year={p.year}
+        data-desc={p.description}
+        data-url={p.url}
+        data-motif={p.motif}
+        class="flex flex-col justify-between"
+        style="border:1px solid rgba(255,255,255,.18); padding:28px; min-height:220px;"
+      >
+        <span class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(p.index).padStart(2, '0')}</span>
+        <div>
+          <h3 class="uppercase" style="margin:0 0 8px; font-size:1.5rem; font-weight:500; letter-spacing:.02em;">
+            <a href={p.url} target="_blank" rel="noopener" data-cursor="link">{p.title}</a>
+          </h3>
+          <p class="tp-label" style="margin:0; letter-spacing:.2em; opacity:.74;">{`${p.plateTag} — ${p.year}`}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>

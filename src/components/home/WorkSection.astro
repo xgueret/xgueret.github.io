@@ -1,0 +1,34 @@
+---
+import { type Locale, t } from '../../i18n';
+import type { FeaturedProject } from '../../lib/featured-projects';
+
+interface Props {
+  locale: Locale;
+  projects: FeaturedProject[];
+}
+
+const { locale, projects } = Astro.props;
+const first = projects[0];
+const total = String(projects.length).padStart(2, '0');
+const firstTag = first ? `${first.plateTag} — ${first.year}` : '';
+---
+
+<section id="tp-work" data-screen-label="Work" class="relative" style="height:340vh;">
+  <div
+    id="tp-work-hud"
+    class="sticky top-0 flex flex-col justify-between pointer-events-none"
+    style="height:100vh; box-sizing:border-box; padding:96px 28px 32px;"
+  >
+    <div class="tp-label flex justify-between items-start">
+      <span data-split="1">{t(locale, 'workLabel')}</span>
+      <span style="opacity:.8;">{t(locale, 'workScroll')}</span>
+    </div>
+    <div class="flex items-end justify-between" style="gap:24px;">
+      <div>
+        <div id="tp-idx-title" class="uppercase" style="font-size:clamp(1.3rem,3.6vw,2.6rem); font-weight:400; letter-spacing:.02em; line-height:1; overflow-wrap:anywhere;">{first?.title ?? ''}</div>
+        <div id="tp-idx-tag" class="tp-label" style="letter-spacing:.24em; opacity:.8; margin-top:12px;">{firstTag}</div>
+      </div>
+      <div id="tp-idx-num" class="font-mono" style="font-size:clamp(2rem,6vw,4.5rem); font-weight:300; line-height:.8;">01<span style="opacity:.35; font-size:.4em;">/{total}</span></div>
+    </div>
+  </div>
+</section>
