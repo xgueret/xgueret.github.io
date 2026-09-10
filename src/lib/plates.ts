@@ -3,7 +3,7 @@
  * the pool; when the pool is larger, the scene picks this many at random on
  * each visit. Section height and camera travel derive from the count.
  */
-export const MAX_PLATES = 6;
+export const MAX_PLATES = 4;
 
 /** Depth of the first plate and spacing between plates (mockup values). */
 export const CARD_FIRST_Z = -11;
