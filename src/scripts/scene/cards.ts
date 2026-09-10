@@ -3,6 +3,7 @@ import {
 } from 'three';
 import { MOTIFS } from '../../lib/motif';
 import { ALL_PROJECTS_PLATE, CARD_FIRST_Z, CARD_GAP_Z } from './config';
+import { pickInOrder } from '../../lib/plates';
 import { drawMotif, type Motif } from './motifs';
 
 export interface ProjectData {
@@ -93,14 +94,7 @@ export function readProjects(): ProjectData[] {
  * entries picked at random, kept in featured order so the column rhythm holds.
  */
 export function pickPlates(pool: ProjectData[], max: number): ProjectData[] {
-  if (max <= 0) return [];
-  if (max >= pool.length) return pool;
-  const indices = pool.map((_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
-  }
-  return indices.slice(0, max).sort((a, b) => a - b).map((i) => pool[i]);
+  return pickInOrder(pool, max);
 }
 
 /**

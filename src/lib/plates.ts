@@ -19,6 +19,21 @@ export const CARD_GAP_Z = 7.5;
 /** The camera starts at the hero depth and flies just past the last plate. */
 export const CAMERA_START_Z = 8;
 
+/**
+ * Pick `max` entries at random, kept in their original order. The whole pool
+ * comes back untouched when it already fits.
+ */
+export function pickInOrder<T>(pool: T[], max: number): T[] {
+  if (max <= 0) return [];
+  if (max >= pool.length) return pool;
+  const indices = pool.map((_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return indices.slice(0, max).sort((a, b) => a - b).map((i) => pool[i]);
+}
+
 /** `#tp-work` height in vh for a plate count — 340 vh for six, as the mockup. */
 export function workHeightVh(count: number): number {
   return 40 + count * 50;

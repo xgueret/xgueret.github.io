@@ -7,6 +7,7 @@ import { initSplitText } from '../ui/split-text';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
 import { createCards, readProjects, selectPlates, type Card } from './cards';
+import { revealProjectList } from './fallback';
 import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
@@ -68,9 +69,11 @@ export function startScene(caps: Capabilities): void {
   const hd = canvas.dataset.videoHd ?? '';
   const sd = canvas.dataset.videoSd ?? '';
   const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel);
-  const data = selectPlates(readProjects(), MAX_PLATES);
-  const cards: Card[] = createCards(scene, data, caps.mobile);
-  const travelZ = cameraTravelZ(cards.length);
+  const data = caps.plates ? selectPlates(readProjects(), MAX_PLATES) : [];
+  const cards: Card[] = caps.plates ? createCards(scene, data, caps.mobile) : [];
+  // Without plates the camera has nothing to fly through, so it holds still.
+  const travelZ = cards.length ? cameraTravelZ(cards.length) : 0;
+  if (!caps.plates) revealProjectList();
   const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain) : null;
 
   const onResize = (): void => {
@@ -225,6 +228,7 @@ export function startScene(caps: Capabilities): void {
   };
 
   const updateCards = (t: number): void => {
+    if (!cards.length) return;
     const p = cursor.pointer;
     pointer.set(p.nx, p.ny);
     raycaster.setFromCamera(pointer, camera);

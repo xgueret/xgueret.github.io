@@ -142,6 +142,38 @@
   color: #a8cf3e;
 }
 
+/* ---- Projects as a list ------------------------------------------------ */
+/* The grid is sr-only while the 3D plates are drawn; these rules apply once
+   the script hands it back its box. */
+.tp-projects-open {
+  padding: 120px 28px;
+}
+
+.tp-projects-open article {
+  transition: border-color 0.3s ease;
+}
+
+/* The cells carry an inline border, so the hover has to outrank it. */
+.tp-projects-open article:hover {
+  border-color: #a8cf3e !important;
+}
+
+/* Phones and tablets read the projects rather than fly through them: one
+   column, and the section is sized by its content. */
+@media (max-width: 1024px) {
+  .tp-projects-open {
+    padding: 48px 28px 64px;
+  }
+
+  .tp-projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #tp-work {
+    height: auto !important;
+  }
+}
+
 .tp-row {
   display: grid;
   grid-template-columns: minmax(110px, 160px) 1fr;
