@@ -4,7 +4,7 @@
 
 Blog personnel de Xavier GUERET - DevOps Engineer passionné par l'automatisation.
 
-**Site web** : [https://xgueret.github.io/](https://xgueret.github.io/)
+**Site web** : [https://xgueret.tipunchlabs.fr](https://xgueret.tipunchlabs.fr)
 
 ## À propos
 
@@ -28,11 +28,12 @@ Ce blog partage mes expériences et apprentissages sur le DevOps, l'automatisati
 
 ## Fonctionnalités
 
+- Page d'accueil one-page par langue (hero, plates 3D des projets, à propos, teaser blog, CV, contact) avec une scène three.js (repli DOM sans WebGL, respect de `prefers-reduced-motion`)
 - Multilingue FR / EN avec routing préfixé
-- Dark mode (toggle + détection système)
-- Blog avec pagination et filtrage par catégories
+- Blog à `/blog/` et `/en/blog/`, avec pagination et filtrage par catégories
+- Anciennes URLs (`/posts/*`, `/about/`, `/cv/`, `/contact/`, `/projects/`, `/training/` et leurs jumelles `/en/`) conservées en redirections meta-refresh
 - Sitemap et SEO (Open Graph, hreflang)
-- 100% statique, zéro JS par défaut
+- 100% statique, zéro JS hors home/blog
 
 ## Développement local
 
@@ -71,18 +72,19 @@ Le site généré sera dans le dossier `dist/`.
 ```
 .
 ├── src/
-│   ├── components/       # Composants Astro
+│   ├── components/       # Composants Astro (dont home/ pour la one-page)
 │   ├── content/          # Content Collections (Zod)
 │   │   ├── posts/        # Articles FR + EN
-│   │   ├── pages/        # Pages statiques FR + EN
-│   │   └── training/     # Formations FR + EN
+│   │   └── projects/     # Projets FR + EN (plates 3D de la home)
 │   ├── i18n/             # Traductions (fr.ts, en.ts)
-│   ├── layouts/          # BaseLayout, PostLayout, PageLayout
-│   ├── pages/            # Routes (file-based routing)
+│   ├── layouts/          # BaseLayout, PostLayout
+│   ├── lib/              # person-ld.ts, motif.ts, featured-projects.ts
+│   ├── pages/            # Routes (file-based routing) — blog/, categories/, en/
+│   ├── scripts/          # home.ts, blog.ts, ui/, scene/ (three.js, home uniquement)
 │   └── styles/           # CSS global (Tailwind)
 ├── public/               # Assets statiques (images, PDF, vidéos)
 ├── terraform/            # Configuration infrastructure GitHub
-├── astro.config.mjs      # Configuration Astro
+├── astro.config.mjs      # Configuration Astro (redirections des anciennes URLs)
 ├── tailwind.config.mjs   # Configuration Tailwind
 └── tsconfig.json         # Configuration TypeScript
 ```
