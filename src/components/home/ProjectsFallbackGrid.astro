@@ -30,7 +30,7 @@ const allIndex = String(plateCount(projects.length)).padStart(2, '0');
         data-url={p.url}
         data-motif={p.motif}
         class="flex flex-col justify-between"
-        style="border:1px solid rgba(255,255,255,.18); padding:28px; min-height:220px;"
+        style="border:1px solid rgb(var(--ink) / .18); padding:28px; min-height:220px;"
       >
         <span data-cell-index class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(p.index).padStart(2, '0')}</span>
         <div>
@@ -50,7 +50,7 @@ const allIndex = String(plateCount(projects.length)).padStart(2, '0');
       data-url={allHref}
       data-motif="all"
       class="flex flex-col justify-between"
-      style="border:1px solid rgba(255,255,255,.35); padding:28px; min-height:220px;"
+      style="border:1px solid rgb(var(--ink) / .35); padding:28px; min-height:220px;"
     >
       <span data-cell-index class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{allIndex}</span>
       <div>

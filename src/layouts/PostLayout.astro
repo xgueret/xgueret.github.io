@@ -140,10 +140,10 @@ const jsonLd = {
       {(tags.length > 0 || categories.length > 0) && (
         <div class="flex flex-wrap" style="gap:8px; margin-top:22px;">
           {categories.map((cat) => (
-            <a href={`${localePrefix(locale)}/categories/${cat.toLowerCase()}/`} data-cursor="link" class="tp-label tp-tag" style="padding:8px 14px; border:1px solid rgba(255,255,255,.35); letter-spacing:.22em; color:#a8cf3e;">{cat}</a>
+            <a href={`${localePrefix(locale)}/categories/${cat.toLowerCase()}/`} data-cursor="link" class="tp-label tp-tag" style="padding:8px 14px; border:1px solid rgb(var(--ink) / .35); letter-spacing:.22em; color:var(--color-accent);">{cat}</a>
           ))}
           {tags.map((tag) => (
-            <span class="tp-label" style="padding:8px 14px; border:1px solid rgba(255,255,255,.18); letter-spacing:.22em; opacity:.74;">{tag}</span>
+            <span class="tp-label" style="padding:8px 14px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.22em; opacity:.74;">{tag}</span>
           ))}
         </div>
       )}
@@ -154,7 +154,7 @@ const jsonLd = {
 
     {/* In colour: on the article itself the image is the subject, not a thumbnail. */}
     {image && (
-      <div class="mb-12" style="border:1px solid rgba(255,255,255,.2);">
+      <div class="mb-12" style="border:1px solid rgb(var(--ink) / .2);">
         <img src={image} alt={heroAlt} class="block w-full object-cover" style="aspect-ratio:3/1;" />
       </div>
     )}
@@ -170,7 +170,7 @@ const jsonLd = {
       <SeriesNav seriesName={seriesName} episodes={seriesEpisodes} prev={seriesPrev} next={seriesNext} locale={locale} />
     )}
 
-    <footer class="mt-16 pt-8" style="border-top:1px solid rgba(255,255,255,.18);">
+    <footer class="mt-16 pt-8" style="border-top:1px solid rgb(var(--ink) / .18);">
       <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class="tp-link">
         <span class="tp-arrow">←</span>
         <span>{t(locale, 'backToBlog')}</span>
@@ -179,6 +179,6 @@ const jsonLd = {
   </article>
 
 <style>
-  .tp-tag:hover { opacity: 1; border-color: #a8cf3e; }
+  .tp-tag:hover { opacity: 1; border-color: var(--color-accent); }
 </style>
 </BaseLayout>

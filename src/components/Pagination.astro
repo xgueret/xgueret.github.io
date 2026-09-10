@@ -12,7 +12,7 @@ const { currentPage, totalPages, baseUrl, locale } = Astro.props;
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 const hrefFor = (page: number): string => (page === 1 ? baseUrl : `${baseUrl}${page}/`);
 const cell = 'tp-label inline-flex items-center justify-center';
-const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid rgba(255,255,255,.18); letter-spacing:.2em;';
+const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.2em;';
 ---
 
 {totalPages > 1 && (
@@ -22,7 +22,7 @@ const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid
     )}
     {pages.map((page) =>
       page === currentPage ? (
-        <span class={cell} style={`${cellStyle} background:#fff; color:#000; border-color:#fff;`} aria-current="page">{page}</span>
+        <span class={cell} style={`${cellStyle} background:rgb(var(--ink)); color:rgb(var(--ground)); border-color:rgb(var(--ink));`} aria-current="page">{page}</span>
       ) : (
         <a href={hrefFor(page)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle}>{page}</a>
       )
@@ -34,5 +34,5 @@ const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid
 )}
 
 <style>
-  .tp-page:hover { opacity: 1; border-color: #a8cf3e !important; }
+  .tp-page:hover { opacity: 1; border-color: var(--color-accent) !important; }
 </style>

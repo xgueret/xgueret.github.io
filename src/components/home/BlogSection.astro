@@ -34,7 +34,7 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
         href={post.href}
         data-cursor="link"
         class="flex flex-wrap items-stretch"
-        style="flex:1 1 100%; border:1px solid rgba(255,255,255,.2); transition:border-color .3s ease;"
+        style="flex:1 1 100%; border:1px solid rgb(var(--ink) / .2); transition:border-color .3s ease;"
       >
         {post.image && (
           <img
@@ -48,7 +48,7 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
         )}
         <div class="flex flex-col" style="flex:1 1 360px; min-width:0; gap:16px; padding:clamp(22px,3vw,34px);">
           <div class="tp-label-sm flex flex-wrap" style="gap:8px 18px; letter-spacing:.26em;">
-            <span style="color:#a8cf3e;">{t(locale, 'blogFeatured')}</span>
+            <span style="color:var(--color-accent);">{t(locale, 'blogFeatured')}</span>
             <span style="opacity:.6;">{postMeta}</span>
           </div>
           <h3 style="margin:0; font-size:clamp(1.15rem,1.9vw,1.6rem); font-weight:500; line-height:1.2; letter-spacing:.005em; text-wrap:pretty;">{post.title}</h3>
@@ -78,5 +78,5 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
     }
   }
 
-  #tp-featured:hover { opacity: 1; border-color: #a8cf3e !important; }
+  #tp-featured:hover { opacity: 1; border-color: var(--color-accent) !important; }
 </style>

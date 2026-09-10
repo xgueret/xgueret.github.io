@@ -26,7 +26,7 @@ const projects: ProjectRow[] = entries
         <span>{t(locale, 'backHome')}</span>
       </a>
       <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'workLabel')}</p>
-      <h1 class="tp-h2" data-split="1">{t(locale, 'projectsTitle1')}<br />{`${t(locale, 'projectsTitle2')} `}<span style="color:#a8cf3e;">{t(locale, 'projectsTitle3')}</span></h1>
+      <h1 class="tp-h2" data-split="1">{t(locale, 'projectsTitle1')}<br />{`${t(locale, 'projectsTitle2')} `}<span style="color:var(--color-accent);">{t(locale, 'projectsTitle3')}</span></h1>
       <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.9; max-width:52ch; text-wrap:pretty;" data-split="1">{t(locale, 'projectsIntro')}</p>
     </header>
     <ProjectsList projects={projects} locale={locale} />

@@ -47,13 +47,15 @@
 
   /* Paper, not white: a pure white would drop the printed character the design
      is built on. The accent has to darken — #a8cf3e on this ground measures
-     1.77:1, far under the 4.5:1 a text colour owes the reader. */
+     1.77:1, far under the 4.5:1 a text colour owes the reader. #4f6f0a gives
+     5.1:1 against this exact ground, measured, not against a white that is
+     not there. */
   :root[data-theme='light'] {
     --ink: 17 17 17;
     --ground: 244 242 237;
     --color-bg-alt: #e9e6df;
-    --color-accent: #5a7d0c;
-    --color-accent-hover: #40590a;
+    --color-accent: #4f6f0a;
+    --color-accent-hover: #3b520a;
   }
 
   :root {
@@ -439,6 +441,26 @@
   background-color: var(--color-bg-alt) !important;
   border: 1px solid rgb(var(--ink) / 0.18);
   border-radius: 0;
+}
+
+/* Shiki ships both palettes as variables on every token (`defaultColor: false`
+   in astro.config); the theme decides which one is painted. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+:root[data-theme='light'] .astro-code,
+:root[data-theme='light'] .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
 }
 
 .prose :not(pre) > code {

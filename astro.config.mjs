@@ -44,7 +44,10 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      // Both themes ship as CSS variables on every token; `global.css` picks
+      // one from `data-theme`. A single theme left code unreadable on paper.
+      themes: { dark: 'github-dark', light: 'github-light' },
+      defaultColor: false,
     },
   },
 });

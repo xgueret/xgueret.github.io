@@ -15,14 +15,14 @@ interface Props {
 const { categories, locale } = Astro.props;
 const totalCount = categories.reduce((sum, c) => sum + c.count, 0);
 const chip = 'tp-label inline-flex items-baseline transition-colors';
-const chipStyle = 'gap:10px; padding:10px 16px; border:1px solid rgba(255,255,255,.18); letter-spacing:.22em;';
+const chipStyle = 'gap:10px; padding:10px 16px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.22em;';
 ---
 
 {categories.length > 0 && (
   <nav class="mb-12" aria-label={t(locale, 'categoriesCloud')}>
     <p class="tp-label-sm" style="opacity:.62; margin:0 0 14px;">{t(locale, 'categoriesCloud')}</p>
     <div class="flex flex-wrap" style="gap:8px;">
-      <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class={`${chip} tp-chip`} style={`${chipStyle} border-color:#fff;`}>
+      <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class={`${chip} tp-chip`} style={`${chipStyle} border-color:rgb(var(--ink));`}>
         <span>{t(locale, 'categoriesAll')}</span>
         <span style="opacity:.5;">{totalCount}</span>
       </a>
@@ -37,5 +37,5 @@ const chipStyle = 'gap:10px; padding:10px 16px; border:1px solid rgba(255,255,25
 )}
 
 <style>
-  .tp-chip:hover { opacity: 1; border-color: #a8cf3e !important; }
+  .tp-chip:hover { opacity: 1; border-color: var(--color-accent) !important; }
 </style>

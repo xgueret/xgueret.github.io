@@ -78,7 +78,7 @@ const links = [
     data-label-open={t(locale, 'menuOpen')}
     data-label-close={t(locale, 'menuClose')}
     data-cursor="link"
-    class="bg-transparent border border-[rgba(255,255,255,.4)]"
+    class="bg-transparent border border-[rgb(var(--ink) / .4)]"
     style="display:none; align-items:center; justify-content:center; width:42px; height:42px; padding:0;"
   >
     <span class="tp-burger" aria-hidden="true">
@@ -127,7 +127,7 @@ const links = [
   /* The gap to the mark lives inside the clipped box, so it collapses with
      the wordmark instead of leaving a notch. */
   .tp-logo-brand {
-    color: #a8cf3e;
+    color: var(--color-accent);
     padding-left: 16px;
   }
 
@@ -168,7 +168,7 @@ const links = [
     left: 0;
     width: 100%;
     height: 1px;
-    background: #fff;
+    background: rgb(var(--ink));
     transition:
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.25s linear;
@@ -192,7 +192,7 @@ const links = [
   }
 
   #tp-menu-toggle:hover {
-    border-color: #a8cf3e;
+    border-color: var(--color-accent);
   }
 
   /* Below the nav's own breakpoints the wordmark would meet the links. */

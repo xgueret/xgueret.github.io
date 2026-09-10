@@ -38,7 +38,7 @@ let n = 0;
               <p style="margin:0; font-size:.95rem; line-height:1.55; font-weight:300; opacity:.82; max-width:62ch; text-wrap:pretty;">{p.description}</p>
               <div class="flex flex-wrap" style="gap:8px;">
                 {p.tags.map((tag) => (
-                  <span class="tp-label-sm" style="padding:6px 10px; border:1px solid rgba(255,255,255,.18); letter-spacing:.22em; opacity:.74;">{tag}</span>
+                  <span class="tp-label-sm" style="padding:6px 10px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.22em; opacity:.74;">{tag}</span>
                 ))}
               </div>
               <a href={p.href} target="_blank" rel="noopener" data-cursor="link" class="tp-link self-start" style="padding-bottom:6px;"><span>{t(locale, 'detailView')}</span><span class="tp-arrow">↗</span></a>

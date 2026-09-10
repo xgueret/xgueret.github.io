@@ -75,11 +75,14 @@ const desc = description || t(locale, 'siteDescription');
       {t(locale, 'skipToContent')}
     </a>
 
+    {/* Literally white, in both themes: `difference` blending is what makes the
+        dot read, and only white inverts what is under it. The ink token would
+        leave it invisible on the light ground. */}
     <div
       id="tp-cursor"
       aria-hidden="true"
-      class="fixed top-0 left-0 rounded-full bg-tp-white pointer-events-none z-[90]"
-      style="width:14px; height:14px; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0; will-change:transform;"
+      class="fixed top-0 left-0 rounded-full pointer-events-none z-[90]"
+      style="width:14px; height:14px; background:#fff; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0; will-change:transform;"
     ></div>
 
     <SiteNav locale={locale} home={home} />

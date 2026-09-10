@@ -29,16 +29,16 @@ const meta = [date && formatDate(date, locale), readingMinutes && `${readingMinu
     href={href}
     data-cursor="link"
     class="tp-card tp-mono-hover flex flex-col h-full"
-    style="border:1px solid rgba(255,255,255,.2); transition:border-color .3s ease;"
+    style="border:1px solid rgb(var(--ink) / .2); transition:border-color .3s ease;"
   >
     {image ? (
       <img src={image} alt={title} loading="lazy" class="tp-mono-img block w-full object-cover" style="aspect-ratio:3/1;" />
     ) : (
-      <div class="w-full" style="aspect-ratio:3/1; background:#0a0a0a; border-bottom:1px solid rgba(255,255,255,.18);"></div>
+      <div class="w-full" style="aspect-ratio:3/1; background:#0a0a0a; border-bottom:1px solid rgb(var(--ink) / .18);"></div>
     )}
     <div class="flex flex-col" style="gap:14px; padding:clamp(20px,2.4vw,28px);">
       <div class="tp-label-sm flex flex-wrap" style="gap:8px 18px; letter-spacing:.26em;">
-        {episodeLabel && <span style="color:#a8cf3e;">{episodeLabel}</span>}
+        {episodeLabel && <span style="color:var(--color-accent);">{episodeLabel}</span>}
         {meta && <span style="opacity:.6;">{meta}</span>}
       </div>
       <h3 style="margin:0; font-size:clamp(1.1rem,1.6vw,1.4rem); font-weight:500; line-height:1.2; letter-spacing:.005em; text-wrap:pretty;">{title}</h3>
@@ -51,5 +51,5 @@ const meta = [date && formatDate(date, locale), readingMinutes && `${readingMinu
 </li>
 
 <style>
-  .tp-card:hover { opacity: 1; border-color: #a8cf3e !important; }
+  .tp-card:hover { opacity: 1; border-color: var(--color-accent) !important; }
 </style>
