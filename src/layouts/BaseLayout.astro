@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import SiteNav from '../components/SiteNav.astro';
+import FooterLine from '../components/FooterLine.astro';
+import BlogScripts from '../components/BlogScripts.astro';
 import SEO from '../components/SEO.astro';
 import { type Locale, t } from '../i18n';
 
@@ -17,9 +18,14 @@ interface Props {
   authorName?: string;
   tags?: string[];
   jsonLd?: Record<string, unknown>;
+  home?: boolean;
 }
 
-const { title, description, locale, canonicalUrl, ogImage, ogType, publishedTime, modifiedTime, authorName, tags, jsonLd } = Astro.props;
+const {
+  title, description, locale, canonicalUrl, ogImage, ogType,
+  publishedTime, modifiedTime, authorName, tags, jsonLd, home = false,
+} = Astro.props;
+
 const siteTitle = t(locale, 'siteTitle');
 const homeTitle = t(locale, 'homeTitle');
 // Homepage keeps its own full name-bearing title; sub-pages get the brand suffix.
@@ -28,7 +34,7 @@ const desc = description || t(locale, 'siteDescription');
 ---
 
 <!doctype html>
-<html lang={locale} class="scroll-smooth">
+<html lang={locale} class:list={[!home && 'scroll-smooth']}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,8 +43,7 @@ const desc = description || t(locale, 'siteDescription');
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#fbf4ed" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#030d11" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#000000" />
     <meta name="generator" content={Astro.generator} />
     <SEO
       title={fullTitle}
@@ -55,23 +60,31 @@ const desc = description || t(locale, 'siteDescription');
     {jsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
-    <script is:inline>
-      (function() {
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
   </head>
-  <body class="min-h-dvh flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[var(--color-bg)] focus:rounded-md focus:text-sm focus:font-medium">
+  <body class:list={['min-h-dvh flex flex-col bg-black text-white', !home && 'tp-grain']}>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-white focus:text-black tp-label">
       {t(locale, 'skipToContent')}
     </a>
-    <Navbar locale={locale} />
-    <main id="main-content" class="flex-1 pt-[var(--navbar-height)]">
+
+    <div
+      id="tp-cursor"
+      aria-hidden="true"
+      class="fixed top-0 left-0 rounded-full bg-white pointer-events-none z-[90]"
+      style="width:14px; height:14px; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0; will-change:transform;"
+    ></div>
+
+    <SiteNav locale={locale} home={home} />
+
+    <main id="main-content" class:list={['flex-1 relative z-10', !home && 'pt-[var(--navbar-height)]']}>
       <slot />
     </main>
-    <Footer locale={locale} />
+
+    {!home && (
+      <footer class="relative z-10" style="padding:48px 28px 32px;">
+        <FooterLine locale={locale} />
+      </footer>
+    )}
+
+    {!home && <BlogScripts />}
   </body>
 </html>

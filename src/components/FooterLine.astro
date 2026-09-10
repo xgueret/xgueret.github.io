@@ -1,0 +1,17 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  footage?: boolean;
+}
+
+const { locale, footage = false } = Astro.props;
+const year = new Date().getUTCFullYear();
+const copyright = `© ${year} ${t(locale, 'brand')}`;
+---
+
+<div class="tp-label flex flex-wrap" style="gap:32px; letter-spacing:.24em;">
+  {footage && <span style="opacity:.62;">{t(locale, 'footerFootage')}</span>}
+  <span style="opacity:.62; margin-left:auto;">{copyright}</span>
+</div>
