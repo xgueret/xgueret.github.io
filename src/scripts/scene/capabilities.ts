@@ -8,10 +8,16 @@ export interface Capabilities {
 
 function hasWebGL(): boolean {
   try {
-    const c = document.createElement('canvas');
     // three r186 only ever creates a webgl2 context: probing webgl1 would send
     // WebGL1-only browsers down the scene path and fail after the chunk loads.
-    return !!(window.WebGL2RenderingContext && c.getContext('webgl2'));
+    if (!window.WebGL2RenderingContext) return false;
+    const gl = document.createElement('canvas').getContext('webgl2');
+    if (!gl) return false;
+    // Hand the context straight back. A browser caps how many can be alive at
+    // once, and on a machine near that cap the probe would be the one holding
+    // the slot the real canvas needs a moment later.
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return true;
   } catch {
     return false;
   }
