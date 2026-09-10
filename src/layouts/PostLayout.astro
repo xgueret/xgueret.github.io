@@ -121,6 +121,13 @@ const jsonLd = {
 >
   <article class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
     <header class="mb-12">
+      {/* The way back out, in reach from the top as well as from the footer. */}
+      <div style="margin-bottom:32px;">
+        <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class="tp-link">
+          <span class="tp-arrow">&larr;</span>
+          <span>{t(locale, 'backToBlog')}</span>
+        </a>
+      </div>
       <p class="tp-label" style="opacity:.8; margin:0 0 22px;" data-split="1">{t(locale, 'blogEyebrow')}</p>
       <h1 class="uppercase" style="margin:0; font-size:clamp(1.9rem,4.5vw,3.6rem); font-weight:500; line-height:.95; letter-spacing:.01em; text-wrap:balance; max-width:22ch;" data-split="1">
         {title}
