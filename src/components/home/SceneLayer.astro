@@ -34,14 +34,14 @@ const { locale } = Astro.props;
 <div
   id="tp-veil"
   aria-hidden="true"
-  class="fixed inset-0 z-[6] pointer-events-none bg-black"
+  class="fixed inset-0 z-[6] pointer-events-none bg-tp-black"
   style="opacity:0; transition:opacity .45s linear;"
 ></div>
 
 <div
   id="tp-loader"
   aria-hidden="true"
-  class="fixed inset-0 z-[100] bg-black flex items-end justify-between"
+  class="fixed inset-0 z-[100] bg-tp-black flex items-end justify-between"
   style="padding:32px 28px;"
 >
   <div class="tp-label" style="letter-spacing:.28em; opacity:.8;">{t(locale, 'loaderTagline')}</div>
@@ -64,7 +64,7 @@ const { locale } = Astro.props;
       id="tp-detail-close"
       type="button"
       data-cursor="link"
-      class="tp-label bg-transparent text-white"
+      class="tp-label bg-transparent text-tp-white"
       style="border:1px solid rgba(255,255,255,.4); letter-spacing:.28em; padding:8px 16px;"
     >{t(locale, 'detailClose')}</button>
   </div>
@@ -81,7 +81,7 @@ const { locale } = Astro.props;
   class="tp-label-sm fixed z-[60] flex items-center"
   style="left:28px; bottom:28px; gap:14px; mix-blend-mode:difference; transition:opacity .5s ease; letter-spacing:.3em;"
 >
-  <span class="block bg-white" style="width:1px; height:48px; animation:tpLine 2.4s cubic-bezier(.7,0,.3,1) infinite;"></span>
+  <span class="block bg-tp-white" style="width:1px; height:48px; animation:tpLine 2.4s cubic-bezier(.7,0,.3,1) infinite;"></span>
   <span style="opacity:.82;">{t(locale, 'scrollCue')}</span>
 </div>
 

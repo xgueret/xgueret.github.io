@@ -61,15 +61,15 @@ const desc = description || t(locale, 'siteDescription');
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
   </head>
-  <body class:list={['min-h-dvh flex flex-col bg-black text-white', !home && 'tp-grain']}>
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-white focus:text-black tp-label">
+  <body class:list={['min-h-dvh flex flex-col bg-tp-black text-tp-white', !home && 'tp-grain']}>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[var(--z-skip-link)] focus:px-4 focus:py-2 focus:bg-tp-white focus:text-tp-black tp-label">
       {t(locale, 'skipToContent')}
     </a>
 
     <div
       id="tp-cursor"
       aria-hidden="true"
-      class="fixed top-0 left-0 rounded-full bg-white pointer-events-none z-[90]"
+      class="fixed top-0 left-0 rounded-full bg-tp-white pointer-events-none z-[90]"
       style="width:14px; height:14px; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0; will-change:transform;"
     ></div>
 
