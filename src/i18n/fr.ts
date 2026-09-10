@@ -86,7 +86,7 @@ export default {
   aboutRow2Label: 'Documenté',
   aboutRow2Text: 'La documentation s\'écrit avec le code : une hygiène, pas une dette à solder plus tard.',
   aboutRow3Label: 'Automatisé',
-  aboutRow3Text: 'Ce qui se répète part en CI/CD : le déploiement manuel est un incident en attente.',
+  aboutRow3Text: 'Une chaîne de livraison CI/CD robuste et stable : c\'est elle qui fiabilise les mises en production.',
 
   // Blog section + listing
   blogLabel: '01 — Le Blog',

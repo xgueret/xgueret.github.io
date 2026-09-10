@@ -86,7 +86,7 @@ export default {
   aboutRow2Label: 'Documented',
   aboutRow2Text: 'Documentation is written with the code: hygiene, not a debt to pay down later.',
   aboutRow3Label: 'Automated',
-  aboutRow3Text: 'Whatever repeats goes to CI/CD: a manual deployment is an incident waiting to happen.',
+  aboutRow3Text: 'A robust, stable CI/CD delivery chain: that is what makes every release dependable.',
 
   // Blog section + listing
   blogLabel: '01 — The Blog',
