@@ -265,22 +265,52 @@
 }
 
 /* ---- Motion ------------------------------------------------------------ */
-.tp-char {
-  display: inline-block;
+/* Copy enters from a short step to the right and eases home. The hiding
+   classes are added by the script, so a page without JS keeps its text. */
+.tp-reveal,
+.tp-word {
   opacity: 0;
-  filter: blur(14px);
-  transform: translateY(0.3em) scale(1.14);
+  transform: translate3d(var(--tp-shift, 24px), 0, 0);
   transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.28, 1),
-    filter 0.75s cubic-bezier(0.22, 1, 0.28, 1),
-    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity, filter;
+    opacity 0.62s cubic-bezier(0.22, 1, 0.28, 1),
+    transform 0.88s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tp-in .tp-char {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0) scale(1);
+/* A title travels line by line, each one a beat behind the one above. */
+.tp-word {
+  display: inline-block;
+  transition-delay: calc(var(--tp-line, 0) * 0.09s);
+}
+
+.tp-lines {
+  --tp-shift: 34px;
+}
+
+.tp-reveal.tp-in,
+.tp-in .tp-word {
+  opacity: var(--tp-opacity, 1);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Narrow viewports have less room to the right of the copy. */
+@media (max-width: 1024px) {
+  .tp-reveal {
+    --tp-shift: 16px;
+  }
+
+  /* Words inherit the shift from the title they belong to. */
+  .tp-lines {
+    --tp-shift: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-reveal,
+  .tp-word {
+    opacity: var(--tp-opacity, 1);
+    transform: none;
+    transition: none;
+  }
 }
 
 #tp-loader {
