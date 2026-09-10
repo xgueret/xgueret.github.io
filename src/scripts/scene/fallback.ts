@@ -8,7 +8,7 @@ export function fallbackDOM(): void {
 
   const grid = document.getElementById('tp-projects');
   const work = document.getElementById('tp-work');
-  if (grid) grid.style.display = 'block';
+  if (grid) grid.classList.remove('tp-sr-grid');
   if (work && grid) {
     work.style.height = 'auto';
     work.appendChild(grid);

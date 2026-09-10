@@ -269,6 +269,20 @@
   #tp-cursor { display: none !important; }
 }
 
+/* ---- Home ------------------------------------------------------------- */
+/* Project grid stays in the accessibility tree while the 3D plates are drawn. */
+.tp-sr-grid {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---- Blog pages: CSS grain stands in for the WebGL pass ---------------- */
 .tp-grain::after {
   content: '';

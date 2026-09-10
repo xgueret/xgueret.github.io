@@ -6,7 +6,9 @@ const caps = detectCapabilities();
 
 if (caps.webgl) {
   // three.js is only fetched on machines that can draw with it.
-  import('./scene').then(({ startScene }) => startScene(caps));
+  import('./scene')
+    .then(({ startScene }) => startScene(caps))
+    .catch(() => { fallbackDOM(); initSplitText(); });
 } else {
   fallbackDOM();
   initSplitText();
