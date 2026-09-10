@@ -28,10 +28,23 @@ const height = `${workHeightVh(count)}vh`;
     </div>
     <div class="flex items-end justify-between" style="gap:24px;">
       <div>
-        <div id="tp-idx-title" class="uppercase" style="font-size:clamp(1.3rem,3.6vw,2.6rem); font-weight:400; letter-spacing:.02em; line-height:1; overflow-wrap:anywhere;">{first?.title ?? ''}</div>
+        <button
+          id="tp-idx-open"
+          type="button"
+          data-cursor="link"
+          class="flex items-baseline text-left"
+          style="pointer-events:auto; gap:14px; background:none; border:0; padding:0; color:inherit; font-family:inherit;"
+        >
+          <span id="tp-idx-title" class="uppercase" style="font-size:clamp(1.3rem,3.6vw,2.6rem); font-weight:400; letter-spacing:.02em; line-height:1; overflow-wrap:anywhere;">{first?.title ?? ''}</span>
+          <span aria-hidden="true" style="color:#a8cf3e; font-size:clamp(1rem,2vw,1.4rem); line-height:1;">↗</span>
+        </button>
         <div id="tp-idx-tag" class="tp-label" style="letter-spacing:.24em; opacity:.8; margin-top:12px;">{firstTag}</div>
       </div>
       <div id="tp-idx-num" class="font-mono" style="font-size:clamp(2rem,6vw,4.5rem); font-weight:300; line-height:.8;">01<span style="opacity:.35; font-size:.4em;">/{total}</span></div>
     </div>
   </div>
 </section>
+
+<style>
+  #tp-idx-open:hover #tp-idx-title { color: #a8cf3e; }
+</style>

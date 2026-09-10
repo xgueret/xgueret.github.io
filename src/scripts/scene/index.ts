@@ -169,6 +169,11 @@ export function startScene(caps: Capabilities): void {
     lastFocus?.focus();
   };
 
+  byId('tp-idx-open')?.addEventListener('click', () => {
+    const card = cards[state.lastIdx];
+    if (card) openCard(card);
+  });
+
   closeBtn?.addEventListener('click', closeCard);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
   window.addEventListener('click', (e) => {
