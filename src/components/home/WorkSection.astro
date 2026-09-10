@@ -1,5 +1,5 @@
 ---
-import { type Locale, t } from '../../i18n';
+import { type Locale, t, localePrefix } from '../../i18n';
 import type { FeaturedProject } from '../../lib/featured-projects';
 import { MAX_PLATES, workHeightVh } from '../../lib/plates';
 
@@ -24,7 +24,13 @@ const height = `${workHeightVh(count)}vh`;
   >
     <div class="tp-label flex justify-between items-start">
       <span data-split="1">{t(locale, 'workLabel')}</span>
-      <span style="opacity:.8;">{t(locale, 'workScroll')}</span>
+      <div class="flex flex-col items-end" style="gap:14px;">
+        <span style="opacity:.8;">{t(locale, 'workScroll')}</span>
+        <a href={`${localePrefix(locale)}/projects/`} data-cursor="link" class="tp-link" style="pointer-events:auto; padding-bottom:6px;">
+          <span>{t(locale, 'projectsViewAll')}</span>
+          <span style="color:#a8cf3e;">↗</span>
+        </a>
+      </div>
     </div>
     <div class="flex items-end justify-between" style="gap:24px;">
       <div>

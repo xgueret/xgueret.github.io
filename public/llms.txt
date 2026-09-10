@@ -34,6 +34,10 @@
 - https://xgueret.github.io/categories/
 - https://xgueret.github.io/en/categories/
 
+### Projects
+- https://xgueret.github.io/projects/
+- https://xgueret.github.io/en/projects/
+
 ### Resume (PDF)
 - https://xgueret.github.io/assets/cv.fr.pdf
 - https://xgueret.github.io/assets/cv.en.pdf

@@ -122,4 +122,11 @@ export default {
   contactSuccess: 'Merci ! Votre message a bien été envoyé.',
   contactError: 'Une erreur est survenue. Veuillez réessayer.',
   contactOrSocial: 'Ou retrouvez-moi sur',
+
+  // Projects page
+  projectsTitle1: 'Projets',
+  projectsTitle2: 'et expériences',
+  projectsIntro: 'Dépôts open source et sites livrés : ce que je construis quand je ne déploie pas chez un client.',
+  projectsViewAll: 'Voir tous les projets',
+  projectsDescription: 'Projets open source et sites web de Xavier Gueret : Kubernetes, Terraform, Ansible, Python, sites statiques.',
 } as const;

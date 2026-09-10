@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectsList, { type ProjectRow } from '../../components/ProjectsList.astro';
+import { t, type Locale } from '../../i18n';
+import { getCollection } from 'astro:content';
+
+const locale: Locale = 'en';
+
+const entries = await getCollection('projects', ({ id }) => id.startsWith(`${locale}/`));
+const projects: ProjectRow[] = entries
+  .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+  .map((e) => ({
+    title: e.data.title,
+    description: e.data.description,
+    category: e.data.category,
+    tags: e.data.tags,
+    href: e.data.github ?? e.data.url ?? '#',
+  }));
+---
+
+<BaseLayout title={t(locale, 'projects')} description={t(locale, 'projectsDescription')} locale={locale}>
+  <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
+    <header class="mb-12 flex flex-col" style="gap:22px;">
+      <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'workLabel')}</p>
+      <h1 class="tp-h2" data-split="1">{t(locale, 'projectsTitle1')}<br />{t(locale, 'projectsTitle2')}</h1>
+      <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.9; max-width:52ch; text-wrap:pretty;" data-split="1">{t(locale, 'projectsIntro')}</p>
+    </header>
+    <ProjectsList projects={projects} locale={locale} />
+  </div>
+</BaseLayout>

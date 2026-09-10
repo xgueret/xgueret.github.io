@@ -122,4 +122,11 @@ export default {
   contactSuccess: 'Thank you! Your message has been sent.',
   contactError: 'An error occurred. Please try again.',
   contactOrSocial: 'Or find me on',
+
+  // Projects page
+  projectsTitle1: 'Projects',
+  projectsTitle2: 'and experiments',
+  projectsIntro: 'Open-source repositories and shipped websites: what I build when I am not deploying for a client.',
+  projectsViewAll: 'View all projects',
+  projectsDescription: 'Open-source projects and websites by Xavier Gueret: Kubernetes, Terraform, Ansible, Python, static sites.',
 } as const;

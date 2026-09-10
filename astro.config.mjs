@@ -13,12 +13,10 @@ export default defineConfig({
     '/about': '/#tp-about',
     '/cv': '/#tp-cv',
     '/contact': '/#tp-contact',
-    '/projects': '/#tp-work',
     '/training': '/',
     '/en/about': '/en/#tp-about',
     '/en/cv': '/en/#tp-cv',
     '/en/contact': '/en/#tp-contact',
-    '/en/projects': '/en/#tp-work',
     '/en/training': '/en/',
   },
   vite: {
