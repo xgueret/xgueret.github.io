@@ -46,9 +46,9 @@ const featuredPost = latest && {
   <SceneLayer locale={locale} />
   <div id="tp-main" class="relative z-10" style="transition:opacity .55s cubic-bezier(.16,1,.3,1);">
     <HeroSection locale={locale} />
+    <BlogSection locale={locale} post={featuredPost} />
     <WorkSection locale={locale} projects={projects} />
     <AboutSection locale={locale} />
-    <BlogSection locale={locale} post={featuredPost} />
     <CvSection locale={locale} />
     <ContactSection locale={locale} />
   </div>

@@ -73,7 +73,7 @@ export default {
   detailView: 'View the project ↗',
 
   // About
-  aboutLabel: '01 — About',
+  aboutLabel: '02 — About',
   aboutTitle1: 'How',
   aboutTitle2: 'I work',
   aboutP1: 'I come from Java development. Linux, OpenShift and Kubernetes environments pushed me towards DevOps: writing less of the application, building more of the ground it runs on.',
@@ -86,7 +86,7 @@ export default {
   aboutRow3Text: 'Whatever repeats goes to CI/CD: a manual deployment is an incident waiting to happen.',
 
   // Blog section + listing
-  blogLabel: '02 — The Blog',
+  blogLabel: '01 — The Blog',
   blogEyebrow: 'The Blog',
   blogTitle1: 'Workshop',
   blogTitle2: 'notes',

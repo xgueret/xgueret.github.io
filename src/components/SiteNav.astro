@@ -14,9 +14,9 @@ const currentPath = Astro.url.pathname;
 const base = home ? '' : `${prefix}/`;
 
 const links = [
+  { href: `${base}#tp-blog`, label: t(locale, 'blog') },
   { href: `${base}#tp-work`, label: t(locale, 'projects') },
   { href: `${base}#tp-about`, label: t(locale, 'about') },
-  { href: `${base}#tp-blog`, label: t(locale, 'blog') },
   { href: `${base}#tp-cv`, label: t(locale, 'cv') },
   { href: `${base}#tp-contact`, label: t(locale, 'contact') },
 ];
