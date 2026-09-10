@@ -84,3 +84,12 @@ const { locale } = Astro.props;
   <span class="block bg-white" style="width:1px; height:48px; animation:tpLine 2.4s cubic-bezier(.7,0,.3,1) infinite;"></span>
   <span style="opacity:.82;">{t(locale, 'scrollCue')}</span>
 </div>
+
+<style>
+  /* The cue was drawn for a full-bleed hero. On small screens the next
+     section now reaches the first fold and a fixed cue lands on its heading;
+     touch readers scroll by reflex anyway. */
+  @media (max-width: 1024px) {
+    #tp-scrollcue { display: none; }
+  }
+</style>

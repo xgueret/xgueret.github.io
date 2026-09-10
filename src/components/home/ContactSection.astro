@@ -100,3 +100,15 @@ const fields: { name: string; type: 'text' | 'email'; label: string }[] = [
     }
   });
 </script>
+
+<style>
+  /* Sized by its content on small screens: a viewport-sized box banks a
+     screenful of slack on a tall phone or portrait tablet. */
+  @media (max-width: 1024px) {
+    #tp-contact {
+      min-height: 0 !important;
+      padding-top: 56px !important;
+      padding-bottom: 40px !important;
+    }
+  }
+</style>

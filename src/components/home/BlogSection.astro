@@ -21,7 +21,7 @@ const blogHref = `${localePrefix(locale)}/blog/`;
 const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinutes} ${t(locale, 'minShort')}` : '';
 ---
 
-<section id="tp-blog" data-screen-label="Blog" class="flex items-center" style="min-height:70vh; padding:110px 28px;">
+<section id="tp-blog" data-screen-label="Blog" class="flex items-center" style="min-height:70vh; padding:64px 28px 110px;">
   <div class="flex flex-wrap items-end w-full" style="gap:44px 56px; max-width:1400px;">
     <div class="flex flex-col" style="flex:1 1 360px; min-width:0; gap:22px;">
       <div class="tp-label" style="opacity:.8;" data-split="1">{t(locale, 'blogLabel')}</div>
@@ -70,5 +70,15 @@ const postMeta = post ? `${formatDate(post.date, locale)} · ${post.readingMinut
 </section>
 
 <style>
+  /* Sized by its content on small screens: a viewport-sized box banks a
+     screenful of slack on a tall phone or portrait tablet. */
+  @media (max-width: 1024px) {
+    #tp-blog {
+      min-height: 0 !important;
+      padding-top: 48px !important;
+      padding-bottom: 64px !important;
+    }
+  }
+
   #tp-featured:hover { opacity: 1; border-color: #a8cf3e !important; }
 </style>
