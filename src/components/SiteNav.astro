@@ -199,6 +199,24 @@ const links = [
     border-color: var(--color-accent);
   }
 
+  /* A small hop as each section takes the screen. Transform only, and driven
+     by an observer rather than by the scroll handler, so it stays off the
+     scroll path entirely. */
+  @keyframes tpLogoHop {
+    0% { transform: translateY(0) rotate(0deg); }
+    32% { transform: translateY(-7px) rotate(-16deg); }
+    62% { transform: translateY(1px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+
+  #tp-logo-face.is-hopping {
+    animation: tpLogoHop 0.62s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tp-logo-face.is-hopping { animation: none; }
+  }
+
   /* Below the nav's own breakpoints the wordmark would meet the links. */
   @media (max-width: 1120px) {
     .tp-logo-role { display: none; }
@@ -271,6 +289,39 @@ const links = [
   toggle?.addEventListener('click', () => setOpen(!menu?.classList.contains('is-open')));
   menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  /**
+   * The mark hops as each section takes the screen. An observer watching a
+   * band across the middle of the viewport decides whose turn it is, so the
+   * scroll handler never learns about this at all. The section in view at
+   * load is not a change, and does not hop.
+   */
+  const face = document.getElementById('tp-logo-face');
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('#tp-main section[id]'));
+
+  if (face && sections.length) {
+    let current = '';
+    let settled = false;
+    const hop = (): void => {
+      face.classList.remove('is-hopping');
+      // Reading the layout commits the removal, so the animation can restart.
+      void face.offsetWidth;
+      face.classList.add('is-hopping');
+    };
+    face.addEventListener('animationend', () => face.classList.remove('is-hopping'));
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entered = entries.filter((e) => e.isIntersecting).pop();
+        if (!entered || entered.target.id === current) return;
+        current = entered.target.id;
+        if (settled) hop();
+        settled = true;
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+    sections.forEach((el) => sectionObserver.observe(el));
+  }
 
   /**
    * Collapse the wordmark once the top of the page has scrolled away. An
