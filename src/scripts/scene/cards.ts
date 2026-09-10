@@ -86,6 +86,20 @@ export function readProjects(): ProjectData[] {
 }
 
 /**
+ * Choose the plates to draw: the whole pool when it fits, otherwise `max`
+ * entries picked at random, kept in featured order so the column rhythm holds.
+ */
+export function pickPlates(pool: ProjectData[], max: number): ProjectData[] {
+  if (max >= pool.length) return pool;
+  const indices = pool.map((_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return indices.slice(0, max).sort((a, b) => a - b).map((i) => pool[i]);
+}
+
+/**
  * Draw one plate: motif, caption band, index box, frame. `mipmaps` enables the
  * mip chain the light path's LOD-bias blur samples from.
  */

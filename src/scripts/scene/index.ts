@@ -6,8 +6,8 @@ import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
-import { createCards, readProjects, type Card } from './cards';
-import { CAMERA_START_Z, CAMERA_TRAVEL_Z, SCENE } from './config';
+import { createCards, pickPlates, readProjects, type Card } from './cards';
+import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
 
@@ -68,8 +68,9 @@ export function startScene(caps: Capabilities): void {
   const hd = canvas.dataset.videoHd ?? '';
   const sd = canvas.dataset.videoSd ?? '';
   const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel);
-  const data = readProjects();
+  const data = pickPlates(readProjects(), MAX_PLATES);
   const cards: Card[] = createCards(scene, data, caps.mobile);
+  const travelZ = cameraTravelZ(cards.length);
   const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain) : null;
 
   const onResize = (): void => {
@@ -205,7 +206,7 @@ export function startScene(caps: Capabilities): void {
   const updateCamera = (t: number): void => {
     const drift = SCENE.drift;
     const p = cursor.pointer;
-    const baseZ = CAMERA_START_Z - state.workP * CAMERA_TRAVEL_Z;
+    const baseZ = CAMERA_START_Z - state.workP * travelZ;
     camera.position.x = p.sx * 1.15 + fbm(t * 0.07) * 0.55 * drift;
     camera.position.y = p.sy * 0.75 + fbm(t * 0.06 + 31.7) * 0.42 * drift;
     camera.position.z = baseZ + fbm(t * 0.05 + 77.3) * 0.30 * drift;

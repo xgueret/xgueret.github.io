@@ -1,6 +1,7 @@
 ---
 import { type Locale, t } from '../../i18n';
 import type { FeaturedProject } from '../../lib/featured-projects';
+import { MAX_PLATES, workHeightVh } from '../../lib/plates';
 
 interface Props {
   locale: Locale;
@@ -8,12 +9,14 @@ interface Props {
 }
 
 const { locale, projects } = Astro.props;
+const count = Math.min(MAX_PLATES, projects.length);
 const first = projects[0];
-const total = String(projects.length).padStart(2, '0');
+const total = String(count).padStart(2, '0');
 const firstTag = first ? `${first.plateTag} — ${first.year}` : '';
+const height = `${workHeightVh(count)}vh`;
 ---
 
-<section id="tp-work" data-screen-label="Work" class="relative" style="height:340vh;">
+<section id="tp-work" data-screen-label="Work" class="relative" style={`height:${height};`}>
   <div
     id="tp-work-hud"
     class="sticky top-0 flex flex-col justify-between pointer-events-none"
