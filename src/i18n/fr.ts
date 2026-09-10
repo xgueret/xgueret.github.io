@@ -20,10 +20,17 @@ export default {
 
   // Hero
   author: 'Xavier GUERET',
-  heroEyebrow: 'Xavier Gueret · Ingénieur DevOps en Guadeloupe',
+  brand: 'Tipunchlabs',
+  heroEyebrow: 'Xavier Gueret — Ingénieur DevOps',
   heroHeadline1: 'Construire,',
   heroHeadline2: 'déployer,',
   heroHeadline3: 'automatiser.',
+  heroQuoteLabel: 'Un jour, quelqu\'un a dit',
+  heroQuote: '« Automatiser, c\'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code ! »',
+  heroP1: 'Alors depuis, je suis la voie de l\'apprentissage de Kubernetes, Python, Ansible, Terraform… en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l\'esprit zen.',
+  heroP2: 'De retour en Guadeloupe, mon île natale, où le code se déploie au rythme des Alizés.',
+
+  // Hero (legacy — kept for Hero.astro, removed in Task 11)
   heroDescription: 'Un jour, quelqu\'un a dit\nAutomatiser, c\'est la clé pour un développement chill : moins de stress, plus de flow, et des déploiements qui se font les doigts dans le code !\nAlors depuis, je suis la voie de l\'apprentissage de Kubernetes, Python, Ansible, Terraform…. en quête de la maîtrise ultime pour automatiser tout ce qui bouge et garder l\'esprit zen !\nDe retour en Guadeloupe, mon île natale, où le code se déploie au rythme des Alizés.',
   heroCtaPrimary: 'Me contacter',
   heroCtaSecondary: 'Voir mon CV',
@@ -125,4 +132,64 @@ export default {
   tocClose: 'Fermer le sommaire',
   tocHide: 'Masquer le sommaire',
   tocShow: 'Afficher le sommaire',
+
+  // Shell
+  about: 'À propos',
+  blog: 'Blog',
+  loaderTagline: 'Tipunchlabs — atelier d\'infrastructure',
+  scrollCue: 'Défiler pour explorer',
+  footerFootage: 'Footage: Pexels',
+  menuOpen: 'Ouvrir le menu',
+  menuClose: 'Fermer le menu',
+
+  // Work (projects HUD + overlay)
+  workLabel: 'Projets & expériences',
+  workScroll: 'Défiler ↓',
+  projectOpenSource: 'Open source',
+  projectWebsite: 'Site web',
+  detailClose: 'Fermer ✕',
+  detailView: 'Voir le projet ↗',
+
+  // About
+  aboutLabel: '01 — À propos',
+  aboutTitle1: 'Comment',
+  aboutTitle2: 'je travaille',
+  aboutP1: 'Je viens du développement Java. Ce sont les environnements Linux, OpenShift et Kubernetes qui m\'ont poussé vers le DevOps : moins écrire l\'application, plus construire le terrain sur lequel elle tourne.',
+  aboutP2: 'Mon homelab me sert de terrain d\'essai : tout ce que je déploie chez un client, je l\'ai d\'abord cassé et reconstruit chez moi.',
+  aboutRow1Label: 'Reproductible',
+  aboutRow1Text: 'Terraform et Ansible plutôt qu\'une configuration faite à la main une seule fois.',
+  aboutRow2Label: 'Documenté',
+  aboutRow2Text: 'Un dépôt qu\'on peut reprendre six mois plus tard sans venir me demander.',
+  aboutRow3Label: 'Automatisé',
+  aboutRow3Text: 'Ce qui se répète part en CI/CD : le déploiement manuel est un incident en attente.',
+
+  // Blog section + listing
+  blogLabel: '02 — Le Blog',
+  blogEyebrow: 'Le Blog',
+  blogTitle1: 'Notes',
+  blogTitle2: 'd\'atelier',
+  blogIntro: 'Ce que j\'apprends en construisant : Kubernetes, Terraform, Ansible, homelab et automatisation — écrit au fil des chantiers, erreurs comprises.',
+  blogReadAll: 'Lire les articles',
+  blogFeatured: 'Article du moment',
+  blogReadArticle: 'Lire l\'article',
+  minShort: 'min',
+
+  // CV section
+  cvLabel: '03 — CV',
+  cvTagline: 'Ingénieur DevOps basé en Guadeloupe, issu du développement Java.',
+  cvDownload: 'Télécharger le CV (PDF) ↓',
+  cvProfileLabel: 'Profil',
+  cvProfileP1: 'Évolution vers le DevOps par la gestion d\'environnements Linux, le déploiement d\'applications sur OpenShift et Kubernetes, et la mise en place d\'infrastructures reproductibles avec Ansible et Terraform.',
+  cvProfileP2: 'Concevoir des environnements stables, documentés et faciles à maintenir — et continuer à approfondir la conteneurisation, le CI/CD, les pratiques Cloud-Native et l\'IA appliquée (LLM, agents, MCP).',
+  cvStackLabel: 'Stack',
+  cvStackAutomation: 'Automatisation',
+  cvStackCi: 'CI / CD',
+  cvStackContainers: 'Conteneurisation',
+  cvStackScripting: 'Scriptage',
+  cvStackAi: 'IA & LLM',
+  cvCertsLabel: 'Certifications',
+
+  // Contact section
+  contactLabel: '04 — Contact',
+  contactHeadline: 'Disponible',
 } as const;
