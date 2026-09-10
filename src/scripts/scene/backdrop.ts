@@ -1,11 +1,14 @@
 import {
-  LinearFilter, Mesh, OrthographicCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2, VideoTexture,
+  Color, LinearFilter, Mesh, OrthographicCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2,
+  VideoTexture,
 } from 'three';
+import type { SceneTheme } from './config';
 
 export interface Backdrop {
   scene: Scene;
   camera: OrthographicCamera;
   update(t: number, progress: number, sx: number, sy: number, textCover: number): void;
+  setTheme(theme: SceneTheme): void;
   dispose(): void;
 }
 
@@ -14,6 +17,7 @@ const VERT = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(positi
 const FRAG = `
 uniform sampler2D uTex; uniform vec2 uFit; uniform vec2 uMouse;
 uniform float uTime; uniform float uZoom; uniform float uLevel; uniform float uPastel;
+uniform float uFilm; uniform vec3 uGround;
 varying vec2 vUv;
 void main(){
   vec2 uv = (vUv - 0.5) * uFit / uZoom;
@@ -23,13 +27,20 @@ void main(){
   vec3 rgb = texture2D(uTex, clamp(uv + 0.5, 0.001, 0.999)).rgb;
   float l = dot(rgb, vec3(0.2126, 0.7152, 0.0722));
   l = clamp((l - 0.5) * 1.26 + 0.44, 0.0, 1.0);           // monochrome, punchy
-  l = pow(l, 1.5) * 0.72;                                 // hold it down under the type
+  // Dark: hold the film down so type stays readable over it. Light: the same
+  // grade read the other way up, ink settling on paper instead of light
+  // rising out of black. The pastel wash rides on top either way.
+  float dark = pow(l, 1.5) * 0.72;
+  float light = 1.0 - pow(1.0 - l, 1.5) * 0.34;
+  l = mix(dark, light, uFilm);
   float h = 0.5 + 0.5 * sin(uTime * 0.07 + vUv.x * 2.1 + vUv.y * 1.4);
   vec3 hi = mix(vec3(0.70,0.99,0.84), vec3(1.00,0.82,0.70), h);
   vec3 lo = mix(vec3(0.60,0.64,1.00), vec3(0.72,0.90,1.00), h);
   vec3 col = vec3(l) * mix(lo, hi, smoothstep(0.12, 0.88, l));
   col = mix(vec3(l), col, clamp(uPastel, 0.0, 1.0));
-  gl_FragColor = vec4(col * uLevel, 1.0);
+  // uLevel fades the film out under copy-heavy sections: it has to fade
+  // towards the page's own ground, not towards black.
+  gl_FragColor = vec4(mix(uGround, col, uLevel), 1.0);
 }`;
 
 /**
@@ -37,7 +48,7 @@ void main(){
  * drawn before the 3D scene, graded to luminance with a slow pastel wash.
  * Sources are tried in order until one plays.
  */
-export function createBackdrop(sources: string[], pastel: number, level: number): Backdrop {
+export function createBackdrop(sources: string[], pastel: number, level: number, theme: SceneTheme): Backdrop {
   const video = document.createElement('video');
   video.crossOrigin = 'anonymous';
   video.muted = true;
@@ -75,6 +86,8 @@ export function createBackdrop(sources: string[], pastel: number, level: number)
       uMouse: { value: new Vector2(0, 0) },
       uLevel: { value: 0 },
       uPastel: { value: pastel },
+      uFilm: { value: theme.film },
+      uGround: { value: new Color(theme.clear) },
     },
     vertexShader: VERT,
     fragmentShader: FRAG,
@@ -99,6 +112,10 @@ export function createBackdrop(sources: string[], pastel: number, level: number)
       u.uMouse.value.set(-sx, -sy);
       const target = ready && !failed ? level * (1 - textCover * 0.45) : 0;
       u.uLevel.value += (target - u.uLevel.value) * 0.09;
+    },
+    setTheme(next) {
+      material.uniforms.uFilm.value = next.film;
+      (material.uniforms.uGround.value as Color).set(next.clear);
     },
     dispose() {
       video.pause();

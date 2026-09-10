@@ -6,6 +6,7 @@ import {
 export interface Post {
   render(drawLayers: () => void, t: number): void;
   resize(width: number, height: number, dpr: number): void;
+  setVignette(strength: number): void;
   dispose(): void;
 }
 
@@ -25,13 +26,13 @@ void main(){
 }`;
 
 /** Render-target pass adding animated grain, static dither and a vignette. */
-export function createPost(renderer: WebGLRenderer, grain: number): Post {
+export function createPost(renderer: WebGLRenderer, grain: number, vignette: number): Post {
   const dpr = renderer.getPixelRatio();
   const rt = new WebGLRenderTarget(window.innerWidth * dpr, window.innerHeight * dpr, {
     minFilter: LinearFilter, magFilter: LinearFilter, format: RGBAFormat,
   });
   const material = new ShaderMaterial({
-    uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uGrain: { value: grain }, uVig: { value: 0.55 } },
+    uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uGrain: { value: grain }, uVig: { value: vignette } },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
     fragmentShader: FRAG,
   });
@@ -49,6 +50,7 @@ export function createPost(renderer: WebGLRenderer, grain: number): Post {
       renderer.render(scene, camera);
     },
     resize(width, height, ratio) { rt.setSize(width * ratio, height * ratio); },
+    setVignette(strength) { material.uniforms.uVig.value = strength; },
     dispose() { rt.dispose(); material.dispose(); },
   };
 }

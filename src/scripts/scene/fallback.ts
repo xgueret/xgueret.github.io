@@ -1,6 +1,8 @@
 import { ALL_PROJECTS_PLATE, MAX_PLATES, pickInOrder } from '../../lib/plates';
 import { MOTIFS, type Motif } from '../../lib/motif';
+import { SCENE_THEME } from './config';
 import { drawMotif } from './motifs';
+import { getTheme, onThemeChange } from '../ui/theme';
 
 const hide = (id: string): void => {
   const el = document.getElementById(id);
@@ -16,6 +18,15 @@ const hide = (id: string): void => {
  * Each cell gets its plate's drawing, cropped to the band the motif occupies
  * so it reads as a banner rather than a square with empty margins.
  */
+function paintCell(x: CanvasRenderingContext2D, motif: Motif, w: number, h: number): void {
+  const theme = SCENE_THEME[getTheme()];
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  x.fillStyle = theme.ground;
+  x.fillRect(0, 0, w, h);
+  x.translate(0, -130);
+  drawMotif(x, motif, { ink: theme.ink, ground: theme.ground, soft: `rgba(${theme.inkRgb},.34)` });
+}
+
 function addArtwork(cell: HTMLElement): void {
   const name = cell.dataset.motif as Motif | undefined;
   const motif: Motif = name && (MOTIFS as readonly string[]).includes(name) ? name : 'rings';
@@ -26,10 +37,9 @@ function addArtwork(cell: HTMLElement): void {
   canvas.setAttribute('aria-hidden', 'true');
   const x = canvas.getContext('2d');
   if (!x) return;
-  x.fillStyle = '#000';
-  x.fillRect(0, 0, canvas.width, canvas.height);
-  x.translate(0, -130);
-  drawMotif(x, motif, '#fff', false);
+  paintCell(x, motif, canvas.width, canvas.height);
+  // A theme change has to repaint it: the drawing is baked into the canvas.
+  onThemeChange(() => paintCell(x, motif, canvas.width, canvas.height));
   const index = cell.querySelector('[data-cell-index]');
   if (index) index.after(canvas);
   else cell.prepend(canvas);

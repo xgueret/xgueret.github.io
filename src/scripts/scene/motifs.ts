@@ -5,13 +5,20 @@ export type { Motif } from '../../lib/motif';
 
 /**
  * One drawn identity per project, same typographic system so the six read as
- * a family. A single lime accent marks the subject of each drawing. The canvas
- * is 1024×640; `ink` is the plate's foreground, `inverted` means ink on white.
+ * a family. A single lime accent marks the subject of each drawing — it is the
+ * one colour both themes share, since a fill owes no text contrast. The canvas
+ * is 1024×640; the palette says what ink and ground are for this plate, which
+ * is how a plate inverts and how a theme changes.
  */
-export function drawMotif(x: CanvasRenderingContext2D, motif: Motif, ink: string, inverted: boolean): void {
+export interface MotifPalette {
+  ink: string;
+  ground: string;
+  soft: string;
+}
+
+export function drawMotif(x: CanvasRenderingContext2D, motif: Motif, palette: MotifPalette): void {
   const A = LIME;
-  const soft = inverted ? 'rgba(0,0,0,.34)' : 'rgba(255,255,255,.34)';
-  const ground = inverted ? '#fff' : '#000';
+  const { ink, ground, soft } = palette;
   x.lineJoin = 'round';
 
   if (motif === 'rings') {                       // target / rings

@@ -2,7 +2,7 @@ import {
   CanvasTexture, Group, LinearFilter, LinearMipmapLinearFilter, Mesh, PlaneGeometry, Scene, ShaderMaterial, Vector3,
 } from 'three';
 import { MOTIFS } from '../../lib/motif';
-import { ALL_PROJECTS_PLATE, CARD_FIRST_Z, CARD_GAP_Z } from './config';
+import { ALL_PROJECTS_PLATE, CARD_FIRST_Z, CARD_GAP_Z, type SceneTheme } from './config';
 import { pickInOrder } from '../../lib/plates';
 import { drawMotif, type Motif } from './motifs';
 
@@ -109,14 +109,19 @@ export function selectPlates(entries: ProjectData[], max: number): ProjectData[]
 }
 
 /**
- * Draw one plate: motif, caption band, index box, frame. `mipmaps` enables the
- * mip chain the light path's LOD-bias blur samples from.
+ * Draw one plate: motif, caption band, index box, frame. `inverted` swaps the
+ * theme's own ink and ground, which is what gives the column its rhythm — the
+ * rule holds whichever theme is painting. `mipmaps` enables the mip chain the
+ * light path's LOD-bias blur samples from.
  */
 export function makeCardTexture(
-  index: number, title: string, tag: string, motif: Motif, inverted: boolean, mipmaps = false,
+  index: number, title: string, tag: string, motif: Motif, inverted: boolean,
+  theme: SceneTheme, mipmaps = false,
 ): CanvasTexture {
-  const ground = inverted ? '#fff' : '#000';
-  const ink = inverted ? '#000' : '#fff';
+  const ground = inverted ? theme.ink : theme.ground;
+  const ink = inverted ? theme.ground : theme.ink;
+  const inkRgb = inverted ? theme.groundRgb : theme.inkRgb;
+  const soft = `rgba(${inkRgb},.34)`;
   const c = document.createElement('canvas');
   c.width = 1024;
   c.height = 640;
@@ -124,12 +129,12 @@ export function makeCardTexture(
   if (!x) throw new Error('2D canvas context unavailable');
 
   x.fillStyle = ground; x.fillRect(0, 0, c.width, c.height);
-  drawMotif(x, motif, ink, inverted);
+  drawMotif(x, motif, { ink, ground, soft });
   // caption band + index box, always on the plate's own ground
   x.fillStyle = ground; x.fillRect(0, c.height - 196, c.width, 196);
   x.fillRect(0, 0, 300, 150);
   x.strokeStyle = ink; x.lineWidth = 6; x.strokeRect(3, 3, c.width - 6, c.height - 6);
-  x.strokeStyle = inverted ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.5)'; x.lineWidth = 2;
+  x.strokeStyle = `rgba(${inkRgb},.5)`; x.lineWidth = 2;
   x.beginPath(); x.moveTo(0, c.height - 196); x.lineTo(c.width, c.height - 196); x.stroke();
   x.fillStyle = ink;
   let fs = 84;
@@ -140,7 +145,7 @@ export function makeCardTexture(
   }
   x.fillText(title, 40, c.height - 100);
   x.font = '400 26px "JetBrains Mono", monospace';
-  x.fillStyle = inverted ? 'rgba(0,0,0,.62)' : 'rgba(255,255,255,.65)';
+  x.fillStyle = `rgba(${inkRgb},.65)`;
   x.fillText(tag.toUpperCase(), 42, c.height - 48);
   x.font = '300 104px "JetBrains Mono", monospace';
   x.fillStyle = ink;
@@ -152,22 +157,25 @@ export function makeCardTexture(
   return tex;
 }
 
+/** Two plates out of the column are drawn the other way up, for rhythm. */
+const plateInverted = (i: number): boolean => i === 1 || i === 4;
+
 /**
  * Textured planes in a slightly offset column receding in depth. `cheapBlur`
  * (light path) swaps the Gaussian depth-of-field for a mipmap LOD-bias blur.
  */
-export function createCards(scene: Scene, data: ProjectData[], cheapBlur = false): Card[] {
+export function createCards(scene: Scene, data: ProjectData[], theme: SceneTheme, cheapBlur = false): Card[] {
   const geo = new PlaneGeometry(3.4, 2.12, 24, 16);
   const group = new Group();
   scene.add(group);
 
   return data.map((d, i) => {
-    const inverted = i === 1 || i === 4;     // two ink-on-white plates for column rhythm
+    const inverted = plateInverted(i);
     const material = new ShaderMaterial({
       transparent: true,
       defines: cheapBlur ? { CHEAP_BLUR: '' } : {},
       uniforms: {
-        uTex: { value: makeCardTexture(i + 1, d.title, `${d.tag} / ${d.year}`, d.motif, inverted, cheapBlur) },
+        uTex: { value: makeCardTexture(i + 1, d.title, `${d.tag} / ${d.year}`, d.motif, inverted, theme, cheapBlur) },
         uTime: { value: 0 },
         uHover: { value: 0 },
         uVel: { value: 0 },
@@ -184,5 +192,23 @@ export function createCards(scene: Scene, data: ProjectData[], cheapBlur = false
     mesh.userData = { i, base, rotY: mesh.rotation.y, hover: 0, focus: 0, f0: 0, f1: 0, data: d };
     group.add(mesh);
     return mesh;
+  });
+}
+
+/**
+ * Repaint every plate for a new theme. The textures are baked into canvases at
+ * creation, so a toggle has to redraw them — and dispose the old ones, or each
+ * switch would leak a texture on the GPU.
+ */
+export function rethemeCards(cards: Card[], data: ProjectData[], theme: SceneTheme, cheapBlur = false): void {
+  cards.forEach((card, i) => {
+    const d = data[i];
+    if (!d) return;
+    const uniform = card.material.uniforms.uTex;
+    const previous = uniform.value as CanvasTexture | null;
+    uniform.value = makeCardTexture(
+      i + 1, d.title, `${d.tag} / ${d.year}`, d.motif, plateInverted(i), theme, cheapBlur,
+    );
+    previous?.dispose();
   });
 }

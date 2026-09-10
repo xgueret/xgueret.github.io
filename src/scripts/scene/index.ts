@@ -4,11 +4,12 @@ import {
 } from 'three';
 import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
+import { getTheme, onThemeChange } from '../ui/theme';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
-import { createCards, readProjects, selectPlates, type Card } from './cards';
+import { createCards, readProjects, rethemeCards, selectPlates, type Card } from './cards';
 import { revealProjectList } from './fallback';
-import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE } from './config';
+import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE, SCENE_THEME } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
 
@@ -56,7 +57,6 @@ export function startScene(caps: Capabilities): void {
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, caps.mobile ? 1.5 : 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000, 1);
   renderer.autoClear = false;
 
   const scene = new Scene();
@@ -68,13 +68,28 @@ export function startScene(caps: Capabilities): void {
   // --- layers -------------------------------------------------------------
   const hd = canvas.dataset.videoHd ?? '';
   const sd = canvas.dataset.videoSd ?? '';
-  const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel);
+  let theme = SCENE_THEME[getTheme()];
+  renderer.setClearColor(theme.clear, 1);
+  const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel, theme);
   const data = caps.plates ? selectPlates(readProjects(), MAX_PLATES) : [];
-  const cards: Card[] = caps.plates ? createCards(scene, data, caps.mobile) : [];
+  const cards: Card[] = caps.plates ? createCards(scene, data, theme, caps.mobile) : [];
   // Without plates the camera has nothing to fly through, so it holds still.
   const travelZ = cards.length ? cameraTravelZ(cards.length) : 0;
   if (!caps.plates) revealProjectList();
-  const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain) : null;
+  const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain, theme.vignette) : null;
+
+  /* Every drawn surface is baked at startup — clear colour, film curve, plate
+     canvases, vignette — so the toggle has to walk them all. Skipping the very
+     first call keeps it from repainting what was just painted. */
+  let themed = true;
+  onThemeChange((next) => {
+    if (themed) { themed = false; return; }
+    theme = SCENE_THEME[next];
+    renderer.setClearColor(theme.clear, 1);
+    backdrop.setTheme(theme);
+    post?.setVignette(theme.vignette);
+    rethemeCards(cards, data, theme, caps.mobile);
+  });
 
   const onResize = (): void => {
     const w = window.innerWidth, h = window.innerHeight;
