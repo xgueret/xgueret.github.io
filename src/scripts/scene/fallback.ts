@@ -1,4 +1,6 @@
 import { ALL_PROJECTS_PLATE, MAX_PLATES, pickInOrder } from '../../lib/plates';
+import { MOTIFS, type Motif } from '../../lib/motif';
+import { drawMotif } from './motifs';
 
 const hide = (id: string): void => {
   const el = document.getElementById(id);
@@ -10,6 +12,29 @@ const hide = (id: string): void => {
  * section, in place of the 3D column. The padding belongs to the visible grid
  * alone: on the sr-only box it would add dead scroll under the footer.
  */
+/**
+ * Each cell gets its plate's drawing, cropped to the band the motif occupies
+ * so it reads as a banner rather than a square with empty margins.
+ */
+function addArtwork(cell: HTMLElement): void {
+  const name = cell.dataset.motif as Motif | undefined;
+  const motif: Motif = name && (MOTIFS as readonly string[]).includes(name) ? name : 'rings';
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 330;
+  canvas.className = 'tp-cell-art';
+  canvas.setAttribute('aria-hidden', 'true');
+  const x = canvas.getContext('2d');
+  if (!x) return;
+  x.fillStyle = '#000';
+  x.fillRect(0, 0, canvas.width, canvas.height);
+  x.translate(0, -130);
+  drawMotif(x, motif, '#fff', false);
+  const index = cell.querySelector('[data-cell-index]');
+  if (index) index.after(canvas);
+  else cell.prepend(canvas);
+}
+
 function trimToCap(grid: HTMLElement): void {
   const all = Array.from(grid.querySelectorAll<HTMLElement>('[data-project]'));
   const catalogue = all.find((el) => el.dataset.project === ALL_PROJECTS_PLATE);
@@ -21,6 +46,7 @@ function trimToCap(grid: HTMLElement): void {
   kept.forEach((el, i) => {
     const index = el.querySelector<HTMLElement>('[data-cell-index]');
     if (index) index.textContent = String(i + 1).padStart(2, '0');
+    addArtwork(el);
   });
 }
 
