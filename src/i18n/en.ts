@@ -130,8 +130,9 @@ export default {
   contactOrSocial: 'Or find me on',
 
   // Projects page
-  projectsTitle1: 'Projects',
-  projectsTitle2: 'and experiments',
+  projectsTitle1: 'All my projects',
+  projectsTitle2: 'and',
+  projectsTitle3: 'experiments',
   projectsIntro: 'Open-source repositories and shipped websites: what I build when I am not deploying for a client.',
   projectsViewAll: 'View all projects',
   projectsAllTitle: 'All projects',
