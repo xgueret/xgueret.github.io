@@ -21,6 +21,15 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      // three and lenis are reachable only through the home page's dynamic
+      // import, so Vite's startup scan cannot see them. It discovers them on
+      // the first visit instead, re-optimizes, and bumps the `?v=` hash the
+      // open tab is still asking for — the dep 504s, the dynamic import
+      // rejects, and the page silently degrades to the static one. Naming
+      // them here pre-bundles them at boot, before any tab exists.
+      include: ['three', 'lenis'],
+    },
   },
   integrations: [
     mdx(),
