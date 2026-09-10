@@ -3,9 +3,9 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../../components/CategoriesCloud.astro';
 import ArticlesGrid from '../../../components/ArticlesGrid.astro';
 import Pagination from '../../../components/Pagination.astro';
-import SectionEyebrow from '../../../components/SectionEyebrow.astro';
 import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../../utils/readingTime';
 import type { GetStaticPaths } from 'astro';
 
 const locale = 'en';
@@ -61,25 +61,24 @@ const articles = posts.map((post) => {
     image: post.data.image,
     seriesName: post.data.series,
     seriesOrder: post.data.seriesOrder,
+    date: post.data.date,
+    readingMinutes: getReadingTime(post.body ?? ''),
   };
 });
 ---
 
 <BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <header class="mb-10">
-      <SectionEyebrow text={t(locale, 'posts')} />
+  <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
+    <header class="mb-12 flex flex-col" style="gap:22px;">
+      <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'blogLabel')}</p>
+      <h1 class="tp-h2" data-split="1">{t(locale, 'blogTitle1')}<br />{t(locale, 'blogTitle2')}</h1>
+      <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.9; max-width:52ch; text-wrap:pretty;" data-split="1">{t(locale, 'blogIntro')}</p>
     </header>
 
     <CategoriesCloud categories={categories} locale={locale} />
 
     <ArticlesGrid articles={articles} locale={locale} showViewAll={false} />
 
-    <Pagination
-      currentPage={currentPage}
-      totalPages={totalPages}
-      baseUrl={`${localePrefix(locale)}/blog/`}
-      locale={locale}
-    />
+    <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl={`${localePrefix(locale)}/blog/`} locale={locale} />
   </div>
 </BaseLayout>

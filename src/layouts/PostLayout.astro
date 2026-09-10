@@ -119,41 +119,24 @@ const jsonLd = {
   tags={tags}
   jsonLd={jsonLd}
 >
-  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    {image && (
-      <div class="mb-8 overflow-hidden rounded-xl">
-        <img src={image} alt={heroAlt} class="w-full h-auto object-cover aspect-[3/1]" />
-      </div>
-    )}
-    <header class="mb-10">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--color-text)] mb-4 leading-tight text-balance">
+  <article class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
+    <header class="mb-12">
+      <p class="tp-label" style="opacity:.8; margin:0 0 22px;" data-split="1">{t(locale, 'blogEyebrow')}</p>
+      <h1 class="uppercase" style="margin:0; font-size:clamp(1.9rem,4.5vw,3.6rem); font-weight:500; line-height:.95; letter-spacing:.01em; text-wrap:balance; max-width:22ch;" data-split="1">
         {title}
       </h1>
-      <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-light)]">
-        <time datetime={date.toISOString()}>
-          {t(locale, 'publishedOn')} {formatDate(date, locale)}
-        </time>
+      <div class="tp-label-sm flex flex-wrap items-baseline" style="gap:8px 18px; margin-top:22px; letter-spacing:.26em; opacity:.62;">
+        <time datetime={date.toISOString()}>{t(locale, 'publishedOn')} {formatDate(date, locale)}</time>
         {author && <span>{t(locale, 'by')} {author}</span>}
-        {readingTime && <span>· {readingTime} {t(locale, 'minRead')}</span>}
+        {readingTime && <span>{readingTime} {t(locale, 'minRead')}</span>}
       </div>
-      {tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-4">
-          {tags.map((tag) => (
-            <span class="px-3 py-1 text-xs font-medium bg-[var(--color-bg-section)] text-[var(--color-text-muted)] rounded-full">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {categories.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-3">
+      {(tags.length > 0 || categories.length > 0) && (
+        <div class="flex flex-wrap" style="gap:8px; margin-top:22px;">
           {categories.map((cat) => (
-            <a
-              href={`${localePrefix(locale)}/categories/${cat.toLowerCase()}`}
-              class="px-3 py-1 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full hover:bg-[var(--color-accent)]/20 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
-            >
-              {cat}
-            </a>
+            <a href={`${localePrefix(locale)}/categories/${cat.toLowerCase()}/`} data-cursor="link" class="tp-label tp-tag" style="padding:8px 14px; border:1px solid rgba(255,255,255,.35); letter-spacing:.22em; color:#a8cf3e;">{cat}</a>
+          ))}
+          {tags.map((tag) => (
+            <span class="tp-label" style="padding:8px 14px; border:1px solid rgba(255,255,255,.18); letter-spacing:.22em; opacity:.74;">{tag}</span>
           ))}
         </div>
       )}
@@ -162,43 +145,32 @@ const jsonLd = {
       )}
     </header>
 
+    {image && (
+      <div class="tp-mono-hover mb-12" style="border:1px solid rgba(255,255,255,.2);">
+        <img src={image} alt={heroAlt} class="tp-mono-img block w-full object-cover" style="aspect-ratio:3/1;" />
+      </div>
+    )}
+
     <div data-toc-grid class:list={["gap-x-10", showToc && "lg:grid lg:grid-cols-[15rem_minmax(0,1fr)]"]}>
       {showToc && <TableOfContents headings={headings} locale={locale} />}
-      <div class="prose prose-lg max-w-none
-        prose-headings:text-[var(--color-text)] prose-headings:font-bold
-        prose-headings:scroll-mt-[calc(var(--navbar-height)+1.5rem)]
-        prose-p:text-[var(--color-text-muted)] prose-p:leading-relaxed
-        prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline
-        prose-strong:text-[var(--color-text)]
-        prose-code:text-[var(--color-text)] prose-code:bg-[var(--color-bg-section)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-        prose-pre:bg-[var(--color-primary-dark)] prose-pre:rounded-lg
-        prose-pre:code:bg-transparent prose-pre:code:text-gray-100
-        prose-blockquote:border-l-4 prose-blockquote:border-[var(--color-accent)]
-        prose-img:rounded-lg
-        prose-li:text-[var(--color-text-muted)]
-        dark:prose-invert">
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:scroll-mt-[calc(var(--navbar-height)+1.5rem)]">
         <slot />
       </div>
     </div>
 
     {seriesName && seriesEpisodes.length > 0 && (
-      <SeriesNav
-        seriesName={seriesName}
-        episodes={seriesEpisodes}
-        prev={seriesPrev}
-        next={seriesNext}
-        locale={locale}
-      />
+      <SeriesNav seriesName={seriesName} episodes={seriesEpisodes} prev={seriesPrev} next={seriesNext} locale={locale} />
     )}
 
-    <footer class="mt-12 pt-8 border-t border-[var(--color-border)]">
-      <a
-        href={`${localePrefix(locale)}/blog/`}
-        class="group/back inline-flex items-center gap-2 text-[var(--color-accent)] font-medium focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md"
-      >
-        <span class="transition-transform duration-200 group-hover/back:-translate-x-1">&larr;</span>
-        {t(locale, 'backToBlog')}
+    <footer class="mt-16 pt-8" style="border-top:1px solid rgba(255,255,255,.18);">
+      <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class="tp-link">
+        <span style="color:#a8cf3e;">←</span>
+        <span>{t(locale, 'backToBlog')}</span>
       </a>
     </footer>
   </article>
+
+<style>
+  .tp-tag:hover { opacity: 1; border-color: #a8cf3e; }
+</style>
 </BaseLayout>

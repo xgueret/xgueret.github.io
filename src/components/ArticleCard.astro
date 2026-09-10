@@ -1,60 +1,55 @@
 ---
-import { type Locale, t } from '../i18n';
+import { type Locale, t, formatDate } from '../i18n';
 
 interface Props {
   title: string;
   href: string;
   summary?: string;
   image?: string;
-  index?: number;
   locale: Locale;
   seriesName?: string;
   seriesOrder?: number;
+  date?: Date;
+  readingMinutes?: number;
 }
 
-const { title, href, summary, image, index = 0, locale, seriesName, seriesOrder } = Astro.props;
+const { title, href, summary, image, locale, seriesName, seriesOrder, date, readingMinutes } = Astro.props;
 
 const episodeLabel =
   seriesOrder !== undefined
     ? `${seriesName ? `${seriesName} · ` : ''}${t(locale, 'episode')} ${seriesOrder}`
     : undefined;
-
-const covers = [
-  'var(--color-bg-alt, #f8f3ea)',
-  'var(--color-bg-section, #f1ede1)',
-  'var(--color-bg-alt, #f8f3ea)',
-  'var(--color-bg-section, #f1ede1)',
-];
+const meta = [date && formatDate(date, locale), readingMinutes && `${readingMinutes} ${t(locale, 'minShort')}`]
+  .filter(Boolean)
+  .join(' · ');
 ---
 
-<li class="group bg-[var(--color-bg)] border border-[var(--color-border)] rounded-xl overflow-hidden transition-colors duration-200 hover:border-[var(--color-accent)] list-none">
-  <a href={href} class="block aspect-[3/1] overflow-hidden rounded-t-xl no-underline focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none">
+<li class="list-none">
+  <a
+    href={href}
+    data-cursor="link"
+    class="tp-card tp-mono-hover flex flex-col h-full"
+    style="border:1px solid rgba(255,255,255,.2); transition:border-color .3s ease;"
+  >
     {image ? (
-      <img src={image} alt={title} class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+      <img src={image} alt={title} loading="lazy" class="tp-mono-img block w-full object-cover" style="aspect-ratio:3/1;" />
     ) : (
-      <div class="w-full h-full transition-transform duration-300 group-hover:scale-105" style={`background: ${covers[index % 4]}`}></div>
+      <div class="w-full" style="aspect-ratio:3/1; background:#0a0a0a; border-bottom:1px solid rgba(255,255,255,.18);"></div>
     )}
+    <div class="flex flex-col" style="gap:14px; padding:clamp(20px,2.4vw,28px);">
+      <div class="tp-label-sm flex flex-wrap" style="gap:8px 18px; letter-spacing:.26em;">
+        {episodeLabel && <span style="color:#a8cf3e;">{episodeLabel}</span>}
+        {meta && <span style="opacity:.6;">{meta}</span>}
+      </div>
+      <h3 style="margin:0; font-size:clamp(1.1rem,1.6vw,1.4rem); font-weight:500; line-height:1.2; letter-spacing:.005em; text-wrap:pretty;">{title}</h3>
+      {summary && (
+        <p style="margin:0; font-size:.95rem; line-height:1.55; font-weight:300; opacity:.82; text-wrap:pretty;" class="line-clamp-3">{summary}</p>
+      )}
+      <span class="tp-label flex items-baseline" style="gap:12px; margin-top:auto; letter-spacing:.28em;">{t(locale, 'readMore')} <span style="color:#a8cf3e;">↗</span></span>
+    </div>
   </a>
-
-  <div class="p-6">
-    {episodeLabel && (
-      <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-2 truncate">
-        {episodeLabel}
-      </p>
-    )}
-    <h3 class="text-lg font-semibold text-[var(--color-text)] mb-2 leading-snug text-balance">
-      <a href={href} class="text-inherit no-underline hover:text-[var(--color-accent)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md">
-        {title}
-      </a>
-    </h3>
-    {summary && (
-      <p class="text-sm text-[var(--color-text-muted)] leading-relaxed mb-4 line-clamp-3 text-pretty">
-        {summary}
-      </p>
-    )}
-    <a href={href} class="group/link inline-flex items-center gap-1 text-sm font-medium text-[var(--color-accent)] no-underline focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none focus-visible:rounded-md">
-      {t(locale, 'readMore')}
-      <svg class="size-3 transition-transform duration-200 group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-    </a>
-  </div>
 </li>
+
+<style>
+  .tp-card:hover { opacity: 1; border-color: #a8cf3e !important; }
+</style>
