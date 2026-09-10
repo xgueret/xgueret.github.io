@@ -105,7 +105,7 @@ export default {
 
   // CV section
   cvLabel: '03 — Resume',
-  cvTagline: 'DevOps engineer based in Guadeloupe, with a Java development background.',
+  cvTagline: 'DevOps engineer based in Guadeloupe.',
   cvDownload: 'Download the resume (PDF)',
   cvProfileLabel: 'Profile',
   cvProfileP1: 'Designing stable, documented, maintainable environments with a DevOps approach: containers, CI/CD, cloud-native practices.',

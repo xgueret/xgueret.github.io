@@ -105,7 +105,7 @@ export default {
 
   // CV section
   cvLabel: '03 — CV',
-  cvTagline: 'Ingénieur DevOps basé en Guadeloupe, issu du développement Java.',
+  cvTagline: 'Ingénieur DevOps basé en Guadeloupe.',
   cvDownload: 'Télécharger le CV (PDF)',
   cvProfileLabel: 'Profil',
   cvProfileP1: 'Concevoir des environnements stables, documentés et faciles à maintenir, avec une approche DevOps : conteneurisation, CI/CD, pratiques Cloud-Native.',
