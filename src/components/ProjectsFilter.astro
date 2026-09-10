@@ -1,0 +1,84 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Group {
+  key: string;
+  name: string;
+  count: number;
+}
+
+interface Props {
+  groups: Group[];
+  locale: Locale;
+}
+
+const { groups, locale } = Astro.props;
+const total = groups.reduce((sum, g) => sum + g.count, 0);
+const chip = 'tp-label tp-chip inline-flex items-baseline transition-colors';
+const chipStyle = 'gap:10px; padding:10px 16px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.22em; background:transparent; color:inherit;';
+---
+
+{/* The blog's chip row, as buttons: with two categories over ten rows, a page
+    per category would be four more routes and four more translated slugs to
+    keep the language switcher honest, for a list that fits on one screen. */}
+{groups.length > 1 && (
+  <div class="mb-12" data-projects-filter role="group" aria-label={t(locale, 'categoriesCloud')}>
+    <p class="tp-label-sm" style="opacity:.62; margin:0 0 14px;">{t(locale, 'categoriesCloud')}</p>
+    <div class="flex flex-wrap" style="gap:8px;">
+      <button type="button" data-filter="all" aria-pressed="true" data-cursor="link" class={chip} style={chipStyle}>
+        <span>{t(locale, 'categoriesAll')}</span>
+        <span style="opacity:.5;">{total}</span>
+      </button>
+      {groups.map((g) => (
+        <button type="button" data-filter={g.key} aria-pressed="false" data-cursor="link" class={chip} style={chipStyle}>
+          <span>{g.name}</span>
+          <span style="opacity:.5;">{g.count}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+)}
+
+{/* A control that cannot respond is worse than no control: without JS the
+    full list is already the right answer. */}
+<noscript>
+  <style>
+    [data-projects-filter] { display: none !important; }
+  </style>
+</noscript>
+
+<style>
+  .tp-chip:hover { opacity: 1; border-color: var(--color-accent) !important; }
+
+  /* The pressed chip carries a full-strength edge, as the blog's "all" does. */
+  .tp-chip[aria-pressed='true'] { border-color: rgb(var(--ink)) !important; }
+</style>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-project-group]'));
+
+  if (buttons.length && groups.length) {
+    /* The index runs across the whole list, so hiding a group would leave the
+       visible rows starting at 07. Renumber what is on screen instead. */
+    const renumber = (): void => {
+      let n = 0;
+      groups.forEach((group) => {
+        if (group.hidden) return;
+        group.querySelectorAll<HTMLElement>('[data-project-index]').forEach((el) => {
+          n += 1;
+          el.textContent = String(n).padStart(2, '0');
+        });
+      });
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filter ?? 'all';
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        groups.forEach((g) => { g.hidden = key !== 'all' && g.dataset.projectGroup !== key; });
+        renumber();
+      });
+    });
+  }
+</script>

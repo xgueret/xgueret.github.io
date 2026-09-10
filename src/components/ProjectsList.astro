@@ -1,5 +1,6 @@
 ---
 import { type Locale, t } from '../i18n';
+import ProjectsFilter from './ProjectsFilter.astro';
 
 export interface ProjectRow {
   title: string;
@@ -16,21 +17,23 @@ interface Props {
 
 const { locale, projects } = Astro.props;
 const groups = [
-  { label: t(locale, 'projectOpenSource'), rows: projects.filter((p) => p.category === 'github') },
-  { label: t(locale, 'projectWebsite'), rows: projects.filter((p) => p.category === 'websites') },
+  { key: 'github', label: t(locale, 'projectOpenSource'), rows: projects.filter((p) => p.category === 'github') },
+  { key: 'websites', label: t(locale, 'projectWebsite'), rows: projects.filter((p) => p.category === 'websites') },
 ].filter((g) => g.rows.length > 0);
 let n = 0;
 ---
 
+<ProjectsFilter locale={locale} groups={groups.map((g) => ({ key: g.key, name: g.label, count: g.rows.length }))} />
+
 {groups.map((g) => (
-  <section class="mb-16">
+  <section class="mb-16" data-project-group={g.key}>
     <h2 class="tp-label" style="opacity:.8; margin:0 0 8px;">{g.label}</h2>
     <div class="flex flex-col" style="gap:2px;">
       {g.rows.map((p) => {
         n += 1;
         return (
           <article class="tp-row" style="grid-template-columns:minmax(60px,80px) 1fr; padding:26px 0;">
-            <span class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(n).padStart(2, '0')}</span>
+            <span class="font-mono" data-project-index style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(n).padStart(2, '0')}</span>
             <div class="flex flex-col" style="gap:14px;">
               <h3 class="uppercase" style="margin:0; font-size:clamp(1.15rem,1.9vw,1.6rem); font-weight:500; letter-spacing:.02em; line-height:1.1; overflow-wrap:anywhere;">
                 <a href={p.href} target="_blank" rel="noopener" data-cursor="link">{p.title}</a>
