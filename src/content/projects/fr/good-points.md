@@ -4,5 +4,8 @@ description: "Application PWA de gestion de bons points pour enfants. Suivi des 
 category: "websites"
 tags: ["React", "TypeScript", "Tailwind CSS", "Firebase", "PWA", "Vite"]
 url: "https://goodpoints.kemax.ovh/"
-order: 2
+order: 4
+featured: true
+motif: "columns"
+plateTag: "React / Firebase"
 ---

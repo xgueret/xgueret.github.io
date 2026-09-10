@@ -53,6 +53,10 @@ const projects = defineCollection({
     github: z.string().url().optional(),
     url: z.string().url().optional(),
     order: z.number().default(0),
+    // Home-page 3D plates: only featured entries are rendered anywhere.
+    featured: z.boolean().default(false),
+    motif: z.enum(['rings', 'rack', 'graph', 'columns', 'terminal', 'wireframe']).optional(),
+    plateTag: z.string().optional(),
   }),
 });
 

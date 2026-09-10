@@ -4,5 +4,8 @@ description: "Infrastructure as Code monorepo to manage a full homelab — Proxm
 category: "github"
 tags: ["Proxmox", "Ansible", "Terraform", "Docker", "Kubernetes", "IaC"]
 github: "https://github.com/TiPunchLabs/homelab"
-order: 4
+order: 2
+featured: true
+motif: "rack"
+plateTag: "Terraform / Ansible"
 ---

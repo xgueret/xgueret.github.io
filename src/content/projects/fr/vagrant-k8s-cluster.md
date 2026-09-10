@@ -4,5 +4,8 @@ description: "Cluster Kubernetes local provisionné avec Vagrant pour le dévelo
 category: "github"
 tags: ["Kubernetes", "Vagrant", "DevOps"]
 github: "https://github.com/TiPunchLabs/vagrant-k8s-cluster"
-order: 5
+order: 3
+featured: true
+motif: "graph"
+plateTag: "Kubernetes / Vagrant"
 ---

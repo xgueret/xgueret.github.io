@@ -4,5 +4,8 @@ description: "Showcase website for a specialist teacher. Design, development and
 category: "websites"
 tags: ["HTML", "CSS", "JavaScript", "Netlify"]
 url: "https://adelineguillotgueret.fr/"
-order: 1
+order: 6
+featured: true
+motif: "wireframe"
+plateTag: "HTML / CSS / JS"
 ---

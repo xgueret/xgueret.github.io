@@ -4,5 +4,8 @@ description: "Site vitrine pour une enseignante spécialisée. Conception, déve
 category: "websites"
 tags: ["HTML", "CSS", "JavaScript", "Netlify"]
 url: "https://adelineguillotgueret.fr/"
-order: 1
+order: 6
+featured: true
+motif: "wireframe"
+plateTag: "HTML / CSS / JS"
 ---
