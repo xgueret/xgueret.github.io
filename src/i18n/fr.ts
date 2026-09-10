@@ -89,9 +89,10 @@ export default {
   // Blog section + listing
   blogLabel: '01 — Le Blog',
   blogEyebrow: 'Le Blog',
-  blogTitle1: 'Notes',
-  blogTitle2: 'd\'atelier',
-  blogIntro: 'Ce que j\'apprends en construisant : Kubernetes, Terraform, Ansible, homelab et automatisation — écrit au fil des chantiers, erreurs comprises.',
+  blogTitle1: 'Casser,',
+  blogTitle2: 'reconstruire,',
+  blogTitle3: 'apprendre.',
+  blogIntro: 'Kubernetes, Terraform, Ansible, homelab, IA appliquée. Ce que je démonte chez moi avant de le déployer ailleurs, et ce que j\'en ai appris — impasses comprises.',
   blogHomeTitle1: 'Ce que j\'écris',
   blogHomeTitle2: 'en ce moment',
   blogReadAll: 'Lire les articles',
