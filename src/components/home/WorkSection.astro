@@ -1,7 +1,7 @@
 ---
-import { type Locale, t, localePrefix } from '../../i18n';
+import { type Locale, t } from '../../i18n';
 import type { FeaturedProject } from '../../lib/featured-projects';
-import { MAX_PLATES, workHeightVh } from '../../lib/plates';
+import { plateCount, workHeightVh } from '../../lib/plates';
 
 interface Props {
   locale: Locale;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { locale, projects } = Astro.props;
-const count = Math.min(MAX_PLATES, projects.length);
+const count = plateCount(projects.length);
 const first = projects[0];
 const total = String(count).padStart(2, '0');
 const firstTag = first ? `${first.plateTag} — ${first.year}` : '';
@@ -24,13 +24,7 @@ const height = `${workHeightVh(count)}vh`;
   >
     <div class="tp-label flex justify-between items-start">
       <span data-split="1">{t(locale, 'workLabel')}</span>
-      <div class="flex flex-col items-end" style="gap:14px;">
-        <span style="opacity:.8;">{t(locale, 'workScroll')}</span>
-        <a href={`${localePrefix(locale)}/projects/`} data-cursor="link" class="tp-link" style="pointer-events:auto; padding-bottom:6px;">
-          <span>{t(locale, 'projectsViewAll')}</span>
-          <span style="color:#a8cf3e;">↗</span>
-        </a>
-      </div>
+      <span style="opacity:.8;">{t(locale, 'workScroll')}</span>
     </div>
     <div class="flex items-end justify-between" style="gap:24px;">
       <div>

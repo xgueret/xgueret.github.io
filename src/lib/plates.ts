@@ -5,6 +5,14 @@
  */
 export const MAX_PLATES = 4;
 
+/** `data-project` value of the catalogue plate that links to the projects page. */
+export const ALL_PROJECTS_PLATE = 'all';
+
+/** Plates actually drawn: the catalogue plate counts against MAX_PLATES. */
+export function plateCount(poolSize: number): number {
+  return Math.min(MAX_PLATES, poolSize + 1);
+}
+
 /** Depth of the first plate and spacing between plates (mockup values). */
 export const CARD_FIRST_Z = -11;
 export const CARD_GAP_Z = 7.5;

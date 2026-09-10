@@ -6,7 +6,7 @@ import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
-import { createCards, pickPlates, readProjects, type Card } from './cards';
+import { createCards, readProjects, selectPlates, type Card } from './cards';
 import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
@@ -68,7 +68,7 @@ export function startScene(caps: Capabilities): void {
   const hd = canvas.dataset.videoHd ?? '';
   const sd = canvas.dataset.videoSd ?? '';
   const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel);
-  const data = pickPlates(readProjects(), MAX_PLATES);
+  const data = selectPlates(readProjects(), MAX_PLATES);
   const cards: Card[] = createCards(scene, data, caps.mobile);
   const travelZ = cameraTravelZ(cards.length);
   const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain) : null;
@@ -116,9 +116,13 @@ export function startScene(caps: Capabilities): void {
   let lastFocus: HTMLElement | null = null;
 
   const openCard = (card: Card): void => {
+    const d = card.userData.data;
+    if (d.kind === 'all') {
+      window.location.assign(d.url);
+      return;
+    }
     state.focused = card;
     lastFocus = document.activeElement as HTMLElement | null;
-    const d = card.userData.data;
     const title = byId('tp-detail-title');
     const desc = byId('tp-detail-desc');
     const meta = byId('tp-detail-meta');

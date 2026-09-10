@@ -2,10 +2,12 @@ import {
   CanvasTexture, Group, LinearFilter, LinearMipmapLinearFilter, Mesh, PlaneGeometry, Scene, ShaderMaterial, Vector3,
 } from 'three';
 import { MOTIFS } from '../../lib/motif';
-import { CARD_FIRST_Z, CARD_GAP_Z } from './config';
+import { ALL_PROJECTS_PLATE, CARD_FIRST_Z, CARD_GAP_Z } from './config';
 import { drawMotif, type Motif } from './motifs';
 
 export interface ProjectData {
+  /** `all` is the catalogue plate: clicking it navigates to /projects/. */
+  kind: 'project' | 'all';
   title: string;
   tag: string;
   year: string;
@@ -75,6 +77,7 @@ export function readProjects(): ProjectData[] {
   return Array.from(document.querySelectorAll<HTMLElement>('#tp-projects [data-project]')).map((el) => {
     const motif = el.dataset.motif as Motif | undefined;
     return {
+      kind: el.dataset.project === ALL_PROJECTS_PLATE ? 'all' : 'project',
       title: el.dataset.title ?? '',
       tag: el.dataset.tag ?? '',
       year: el.dataset.year ?? '',
@@ -90,6 +93,7 @@ export function readProjects(): ProjectData[] {
  * entries picked at random, kept in featured order so the column rhythm holds.
  */
 export function pickPlates(pool: ProjectData[], max: number): ProjectData[] {
+  if (max <= 0) return [];
   if (max >= pool.length) return pool;
   const indices = pool.map((_, i) => i);
   for (let i = indices.length - 1; i > 0; i--) {
@@ -97,6 +101,17 @@ export function pickPlates(pool: ProjectData[], max: number): ProjectData[] {
     [indices[i], indices[j]] = [indices[j], indices[i]];
   }
   return indices.slice(0, max).sort((a, b) => a - b).map((i) => pool[i]);
+}
+
+/**
+ * The plates to draw: up to `max` entries where the catalogue plate, when the
+ * grid carries one, always takes the last slot and counts against the cap.
+ */
+export function selectPlates(entries: ProjectData[], max: number): ProjectData[] {
+  const catalogue = entries.find((e) => e.kind === 'all');
+  const projects = entries.filter((e) => e.kind === 'project');
+  const picked = pickPlates(projects, catalogue ? max - 1 : max);
+  return catalogue ? [...picked, catalogue] : picked;
 }
 
 /**

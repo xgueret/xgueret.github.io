@@ -10,4 +10,6 @@ export const SCENE = {
 
 export const LIME = '#a8cf3e';
 
-export { CARD_FIRST_Z, CARD_GAP_Z, CAMERA_START_Z, cameraTravelZ, MAX_PLATES } from '../../lib/plates';
+export {
+  ALL_PROJECTS_PLATE, CARD_FIRST_Z, CARD_GAP_Z, CAMERA_START_Z, cameraTravelZ, MAX_PLATES,
+} from '../../lib/plates';

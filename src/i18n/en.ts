@@ -128,5 +128,6 @@ export default {
   projectsTitle2: 'and experiments',
   projectsIntro: 'Open-source repositories and shipped websites: what I build when I am not deploying for a client.',
   projectsViewAll: 'View all projects',
+  projectsAllTitle: 'All projects',
   projectsDescription: 'Open-source projects and websites by Xavier Gueret: Kubernetes, Terraform, Ansible, Python, static sites.',
 } as const;

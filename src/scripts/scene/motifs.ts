@@ -74,6 +74,14 @@ export function drawMotif(x: CanvasRenderingContext2D, motif: Motif, ink: string
       x.fillRect(124, py + 6, w, 20);
     });
     x.fillStyle = ink; x.fillRect(124 + 430 + 12, 178 + 4 * 54 + 6, 22, 20);   // caret
+  } else if (motif === 'all') {                  // catalogue — grid of small plates
+    for (let k = 0; k < 6; k++) {
+      const px = 120 + (k % 3) * 260, py = 150 + Math.floor(k / 3) * 150;
+      if (k === 4) { x.fillStyle = A; x.fillRect(px, py, 220, 120); }
+      else { x.strokeStyle = k % 2 ? soft : ink; x.lineWidth = k % 2 ? 2 : 3; x.strokeRect(px + 1.5, py + 1.5, 217, 117); }
+      x.fillStyle = k === 4 ? ground : soft;
+      x.fillRect(px + 18, py + 84, 90, 10);
+    }
   } else {                                       // page wireframe
     x.strokeStyle = ink; x.lineWidth = 3;
     x.strokeRect(80, 170, 420, 250);

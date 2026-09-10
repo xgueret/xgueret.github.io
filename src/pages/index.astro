@@ -26,6 +26,7 @@ const jsonLd = {
 };
 
 const projects = await getFeaturedProjects(locale);
+const allCount = (await getCollection('projects', ({ id }) => id.startsWith(`${locale}/`))).length;
 
 const posts = await getCollection('posts', ({ id, data }) => id.startsWith(`${locale}/`) && !data.draft && !data.archived);
 const latest = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
@@ -51,6 +52,6 @@ const featuredPost = latest && {
     <CvSection locale={locale} />
     <ContactSection locale={locale} />
   </div>
-  <ProjectsFallbackGrid locale={locale} projects={projects} />
+  <ProjectsFallbackGrid locale={locale} projects={projects} allCount={allCount} />
   <script>import '../scripts/home';</script>
 </BaseLayout>
