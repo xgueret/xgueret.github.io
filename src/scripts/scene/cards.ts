@@ -1,5 +1,5 @@
 import {
-  CanvasTexture, Group, LinearFilter, Mesh, PlaneGeometry, Scene, ShaderMaterial, Vector3,
+  CanvasTexture, Group, LinearFilter, LinearMipmapLinearFilter, Mesh, PlaneGeometry, Scene, ShaderMaterial, Vector3,
 } from 'three';
 import { MOTIFS } from '../../lib/motif';
 import { CARD_FIRST_Z, CARD_GAP_Z } from './config';
@@ -40,6 +40,13 @@ void main(){
 const FRAG = `
 uniform sampler2D uTex; uniform float uTime; uniform float uHover; uniform float uVel; uniform float uBlur; uniform float uOpacity;
 varying vec2 vUv;
+#ifdef CHEAP_BLUR
+// Light path: one trilinear sample with a mipmap LOD bias instead of the
+// 35-tap Gaussian — the same depth-of-field read at a fraction of the fill cost.
+vec4 blurTex(vec2 uv, float r){
+  return texture2D(uTex, uv, r * 350.0);
+}
+#else
 vec4 blurTex(vec2 uv, float r){
   if(r < 0.001) return texture2D(uTex, uv);
   vec4 s = vec4(0.0); float w = 0.0;
@@ -49,6 +56,7 @@ vec4 blurTex(vec2 uv, float r){
     s += texture2D(uTex, uv+o) * g; w += g; } }
   return s / max(w, 0.0001);
 }
+#endif
 void main(){
   vec2 uv = vUv;
   float amp = uHover * (0.010 + uVel * 0.075);          // liquid distortion while hovered
@@ -77,8 +85,13 @@ export function readProjects(): ProjectData[] {
   });
 }
 
-/** Draw one plate: motif, caption band, index box, frame. */
-export function makeCardTexture(index: number, title: string, tag: string, motif: Motif, inverted: boolean): CanvasTexture {
+/**
+ * Draw one plate: motif, caption band, index box, frame. `mipmaps` enables the
+ * mip chain the light path's LOD-bias blur samples from.
+ */
+export function makeCardTexture(
+  index: number, title: string, tag: string, motif: Motif, inverted: boolean, mipmaps = false,
+): CanvasTexture {
   const ground = inverted ? '#fff' : '#000';
   const ink = inverted ? '#000' : '#fff';
   const c = document.createElement('canvas');
@@ -111,12 +124,16 @@ export function makeCardTexture(index: number, title: string, tag: string, motif
   x.fillText(String(index).padStart(2, '0'), 34, 108);
 
   const tex = new CanvasTexture(c);
-  tex.minFilter = LinearFilter;
+  tex.generateMipmaps = mipmaps;
+  tex.minFilter = mipmaps ? LinearMipmapLinearFilter : LinearFilter;
   return tex;
 }
 
-/** Textured planes in a slightly offset column receding in depth. */
-export function createCards(scene: Scene, data: ProjectData[]): Card[] {
+/**
+ * Textured planes in a slightly offset column receding in depth. `cheapBlur`
+ * (light path) swaps the Gaussian depth-of-field for a mipmap LOD-bias blur.
+ */
+export function createCards(scene: Scene, data: ProjectData[], cheapBlur = false): Card[] {
   const geo = new PlaneGeometry(3.4, 2.12, 24, 16);
   const group = new Group();
   scene.add(group);
@@ -125,8 +142,9 @@ export function createCards(scene: Scene, data: ProjectData[]): Card[] {
     const inverted = i === 1 || i === 4;     // two ink-on-white plates for column rhythm
     const material = new ShaderMaterial({
       transparent: true,
+      defines: cheapBlur ? { CHEAP_BLUR: '' } : {},
       uniforms: {
-        uTex: { value: makeCardTexture(i + 1, d.title, `${d.tag} / ${d.year}`, d.motif, inverted) },
+        uTex: { value: makeCardTexture(i + 1, d.title, `${d.tag} / ${d.year}`, d.motif, inverted, cheapBlur) },
         uTime: { value: 0 },
         uHover: { value: 0 },
         uVel: { value: 0 },

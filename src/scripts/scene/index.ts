@@ -69,7 +69,7 @@ export function startScene(caps: Capabilities): void {
   const sd = canvas.dataset.videoSd ?? '';
   const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel);
   const data = readProjects();
-  const cards: Card[] = createCards(scene, data);
+  const cards: Card[] = createCards(scene, data, caps.mobile);
   const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain) : null;
 
   const onResize = (): void => {
