@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import { t, type Locale } from '../i18n';
 import type { Motif } from './motif';
+import { projectHref } from './project-link';
 export type { Motif } from './motif';
 
 export interface FeaturedProject {
@@ -31,7 +32,7 @@ export async function getFeaturedProjects(locale: Locale): Promise<FeaturedProje
       plateTag: entry.data.plateTag ?? entry.data.tags.slice(0, 2).join(' / '),
       year: t(locale, entry.data.category === 'github' ? 'projectOpenSource' : 'projectWebsite'),
       description: entry.data.description,
-      url: entry.data.github ?? entry.data.url ?? '',
+      url: projectHref(entry.data) ?? '',
       motif: entry.data.motif ?? 'rings',
     }));
 }
