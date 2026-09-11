@@ -216,6 +216,13 @@ const CATEGORIES = [
       height: 44px;
       margin: -6px;
     }
+
+    /* The 44px hit areas grow 6px past each button's own edge, so an 8px gap
+       would let Reset and Close overlap. One of these two is destructive —
+       do not shrink this back to 8px. */
+    .tp-a11y-head-actions {
+      gap: 16px;
+    }
   }
 
   .tp-a11y-head-actions svg {
