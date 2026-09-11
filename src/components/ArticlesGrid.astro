@@ -9,6 +9,8 @@ interface Article {
   image?: string;
   seriesName?: string;
   seriesOrder?: number;
+  date?: Date;
+  readingMinutes?: number;
 }
 
 interface Props {
@@ -21,30 +23,28 @@ const { articles, locale, showViewAll = true } = Astro.props;
 ---
 
 {articles.length > 0 && (
-  <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 list-none m-0 p-0">
-    {articles.map((article, index) => (
+  <ul class="grid grid-cols-1 md:grid-cols-2 list-none m-0 p-0" style="gap:2px;">
+    {articles.map((article) => (
       <ArticleCard
         title={article.title}
         href={article.href}
         summary={article.summary}
         image={article.image}
-        index={index}
         locale={locale}
         seriesName={article.seriesName}
         seriesOrder={article.seriesOrder}
+        date={article.date}
+        readingMinutes={article.readingMinutes}
       />
     ))}
   </ul>
 )}
 
 {showViewAll && (
-  <div class="text-center mt-10">
-    <a
-      href={`${localePrefix(locale)}/posts/`}
-      class="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent)] no-underline px-6 py-3 border-2 border-[var(--color-accent)] rounded-md transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
-    >
-      {t(locale, 'viewAllArticles')}
-      <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+  <div class="mt-10">
+    <a href={`${localePrefix(locale)}/blog/`} data-cursor="link" class="tp-link">
+      <span>{t(locale, 'blogReadAll')}</span>
+      <span class="tp-arrow">↗</span>
     </a>
   </div>
 )}

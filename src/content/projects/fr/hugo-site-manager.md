@@ -4,5 +4,8 @@ description: "Outil CLI pour gérer et déployer des sites Hugo."
 category: "github"
 tags: ["Hugo", "CLI", "Go"]
 github: "https://github.com/xgueret/hugo-site-manager"
-order: 6
+order: 5
+featured: true
+motif: "terminal"
+plateTag: "Go / CLI"
 ---

@@ -9,20 +9,24 @@ interface Props {
 const { locale, currentPath } = Astro.props;
 const altLocale = getAlternateLocale(locale);
 const altPath = localizedPath(altLocale, currentPath);
+const altLabel = t(locale, altLocale === 'en' ? 'switchToEn' : 'switchToFr');
+const order: Locale[] = ['fr', 'en'];
 ---
 
-<div class="flex items-center gap-2 text-base">
-  {locale === 'fr' ? (
+<div class="tp-label flex items-center gap-3" style="letter-spacing:.24em;">
+  {order.map((l, i) => (
     <>
-      <span class="text-[var(--color-bg)] font-semibold bg-[var(--color-accent)] rounded px-3 py-1.5" aria-current="true">FR</span>
-      <span class="text-[var(--color-text-light)]" aria-hidden="true">|</span>
-      <a href={altPath} aria-label={t(locale, 'switchToEn')} class="text-[var(--color-text-muted)] font-semibold no-underline px-3 py-1.5 rounded hover:text-[var(--color-text)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/40 focus-visible:outline-none">EN</a>
+      {i > 0 && <span aria-hidden="true" style="opacity:.35;">|</span>}
+      {l === locale ? (
+        <span aria-current="true">{l.toUpperCase()}</span>
+      ) : (
+        <a href={altPath} aria-label={altLabel} data-cursor="link" class="tp-alt transition-opacity">{l.toUpperCase()}</a>
+      )}
     </>
-  ) : (
-    <>
-      <a href={altPath} aria-label={t(locale, 'switchToFr')} class="text-[var(--color-text-muted)] font-semibold no-underline px-3 py-1.5 rounded hover:text-[var(--color-text)] transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/40 focus-visible:outline-none">FR</a>
-      <span class="text-[var(--color-text-light)]" aria-hidden="true">|</span>
-      <span class="text-[var(--color-bg)] font-semibold bg-[var(--color-accent)] rounded px-3 py-1.5" aria-current="true">EN</span>
-    </>
-  )}
+  ))}
 </div>
+
+<style>
+  .tp-alt { opacity: 0.6; }
+  .tp-alt:hover { opacity: 1; }
+</style>

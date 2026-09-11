@@ -1,0 +1,68 @@
+---
+import { type Locale, t, localePrefix } from '../../i18n';
+import type { FeaturedProject } from '../../lib/featured-projects';
+import { ALL_PROJECTS_PLATE, plateCount } from '../../lib/plates';
+
+interface Props {
+  locale: Locale;
+  projects: FeaturedProject[];
+  /** Size of the whole projects collection, shown on the catalogue plate. */
+  allCount: number;
+}
+
+const { locale, projects, allCount } = Astro.props;
+const allHref = `${localePrefix(locale)}/projects/`;
+const allTag = `${allCount} ${t(locale, 'projects').toLowerCase()}`;
+const allIndex = String(plateCount(projects.length)).padStart(2, '0');
+---
+
+{/* Read by the scene script for the 3D plates; shown as-is when WebGL is missing. */}
+<div id="tp-projects" class="tp-sr-grid relative z-10">
+  <div class="tp-label" style="opacity:.8; margin-bottom:40px;">{t(locale, 'workLabel')}</div>
+  <div class="tp-projects-grid grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2px;">
+    {projects.map((p) => (
+      <article
+        data-project={p.index}
+        data-title={p.title}
+        data-tag={p.plateTag}
+        data-year={p.year}
+        data-desc={p.description}
+        data-url={p.url}
+        data-motif={p.motif}
+        class="flex flex-col justify-between"
+        style="border:1px solid rgb(var(--ink) / .18); padding:28px; min-height:220px;"
+      >
+        <span data-cell-index class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(p.index).padStart(2, '0')}</span>
+        <div>
+          <h3 class="uppercase" style="margin:0 0 8px; font-size:1.5rem; font-weight:500; letter-spacing:.02em;">
+            <a href={p.url} target="_blank" rel="noopener" data-cursor="link">{p.title}</a>
+          </h3>
+          <p class="tp-label" style="margin:0; letter-spacing:.2em; opacity:.74;">{`${p.plateTag} — ${p.year}`}</p>
+        </div>
+      </article>
+    ))}
+    <article
+      data-project={ALL_PROJECTS_PLATE}
+      data-title={t(locale, 'projectsAllTitle')}
+      data-tag={allTag}
+      data-year={t(locale, 'workLabel')}
+      data-desc={t(locale, 'projectsIntro')}
+      data-url={allHref}
+      data-motif="all"
+      class="flex flex-col justify-between"
+      style="border:1px solid rgb(var(--ink) / .35); padding:28px; min-height:220px;"
+    >
+      <span data-cell-index class="font-mono" style="font-size:11px; letter-spacing:.24em; opacity:.74;">{allIndex}</span>
+      <div>
+        <h3 class="uppercase" style="margin:0 0 8px; font-size:1.5rem; font-weight:500; letter-spacing:.02em;">
+          <a href={allHref} data-cursor="link">{t(locale, 'projectsAllTitle')}</a>
+        </h3>
+        <p class="tp-label" style="margin:0; letter-spacing:.2em; opacity:.74;">{allTag}</p>
+        <a href={allHref} data-cursor="link" class="tp-link" style="margin-top:18px; padding-bottom:6px;">
+          <span>{t(locale, 'projectsViewAll')}</span>
+          <span class="tp-arrow">↗</span>
+        </a>
+      </div>
+    </article>
+  </div>
+</div>

@@ -141,7 +141,7 @@ Le déploiement cible une VM **dockhost** sur mon homelab Proxmox. Le processus 
 Développeur → GitLab CI → Bastion (runner) → Ansible → Dockhost (container)
 ```
 
-Pas de déploiement cloud. Tout tourne sur mon infrastructure locale, gérée comme un vrai environnement de production. Si vous voulez en savoir plus sur cette infrastructure, j'en parle en détail dans [mon article sur le homelab](/posts/homelab/).
+Pas de déploiement cloud. Tout tourne sur mon infrastructure locale, gérée comme un vrai environnement de production. Si vous voulez en savoir plus sur cette infrastructure, j'en parle en détail dans [mon article sur le homelab](/blog/homelab/).
 
 ### Infrastructure as Code
 

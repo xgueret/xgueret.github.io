@@ -1,0 +1,54 @@
+---
+import { type Locale, t } from '../i18n';
+import ProjectsFilter from './ProjectsFilter.astro';
+
+export interface ProjectRow {
+  title: string;
+  description: string;
+  category: 'github' | 'websites';
+  tags: string[];
+  href: string;
+}
+
+interface Props {
+  locale: Locale;
+  projects: ProjectRow[];
+}
+
+const { locale, projects } = Astro.props;
+const groups = [
+  { key: 'github', label: t(locale, 'projectOpenSource'), rows: projects.filter((p) => p.category === 'github') },
+  { key: 'websites', label: t(locale, 'projectWebsite'), rows: projects.filter((p) => p.category === 'websites') },
+].filter((g) => g.rows.length > 0);
+let n = 0;
+---
+
+<ProjectsFilter locale={locale} groups={groups.map((g) => ({ key: g.key, name: g.label, count: g.rows.length }))} />
+
+{groups.map((g) => (
+  <section class="mb-16" data-project-group={g.key}>
+    <h2 class="tp-label" style="opacity:.8; margin:0 0 8px;">{g.label}</h2>
+    <div class="flex flex-col" style="gap:2px;">
+      {g.rows.map((p) => {
+        n += 1;
+        return (
+          <article class="tp-row" style="grid-template-columns:minmax(60px,80px) 1fr; padding:26px 0;">
+            <span class="font-mono" data-project-index style="font-size:11px; letter-spacing:.24em; opacity:.74;">{String(n).padStart(2, '0')}</span>
+            <div class="flex flex-col" style="gap:14px;">
+              <h3 class="uppercase" style="margin:0; font-size:clamp(1.15rem,1.9vw,1.6rem); font-weight:500; letter-spacing:.02em; line-height:1.1; overflow-wrap:anywhere;">
+                <a href={p.href} target="_blank" rel="noopener" data-cursor="link">{p.title}</a>
+              </h3>
+              <p style="margin:0; font-size:.95rem; line-height:1.55; font-weight:300; opacity:.82; max-width:62ch; text-wrap:pretty;">{p.description}</p>
+              <div class="flex flex-wrap" style="gap:8px;">
+                {p.tags.map((tag) => (
+                  <span class="tp-label-sm" style="padding:6px 10px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.22em; opacity:.74;">{tag}</span>
+                ))}
+              </div>
+              <a href={p.href} target="_blank" rel="noopener" data-cursor="link" class="tp-link self-start" style="padding-bottom:6px;"><span>{t(locale, 'detailView')}</span><span class="tp-arrow">↗</span></a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+))}

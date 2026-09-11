@@ -41,7 +41,7 @@ export async function getSeriesNav(
     .map((p) => ({
       title: p.data.title,
       order: p.data.seriesOrder ?? 0,
-      href: `${localePrefix(locale)}/posts/${p.id
+      href: `${localePrefix(locale)}/blog/${p.id
         .replace(prefixId, '')
         .replace(/\.md$/, '')}/`,
       current: p.id === post.id,

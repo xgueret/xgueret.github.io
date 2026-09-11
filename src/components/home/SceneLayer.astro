@@ -1,0 +1,96 @@
+---
+import { type Locale, t } from '../../i18n';
+import { BACKDROP } from '../../lib/backdrop';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<canvas
+  id="tp-gl"
+  data-video-hd={BACKDROP.hd}
+  data-video-sd={BACKDROP.sd}
+  aria-hidden="true"
+  class="fixed inset-0 block w-full h-full z-0"
+></canvas>
+
+<noscript>
+  <style>
+    #tp-loader, #tp-work-hud, #tp-scrollcue, #tp-cursor, #tp-scrim, #tp-veil { display: none !important; }
+    #tp-projects { position: static !important; width: auto !important; height: auto !important; padding: 120px 28px !important; margin: 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important; }
+    #tp-work { height: auto !important; }
+  </style>
+</noscript>
+
+<div
+  id="tp-scrim"
+  aria-hidden="true"
+  class="fixed inset-0 z-[5] pointer-events-none"
+  style="background:linear-gradient(100deg, rgb(var(--ground) / .9) 0%, rgb(var(--ground) / .7) 40%, rgb(var(--ground) / .34) 70%, rgb(var(--ground) / .06) 100%);"
+></div>
+
+<div
+  id="tp-veil"
+  aria-hidden="true"
+  class="fixed inset-0 z-[6] pointer-events-none bg-tp-black"
+  style="opacity:0; transition:opacity .45s linear;"
+></div>
+
+<div
+  id="tp-loader"
+  aria-hidden="true"
+  class="fixed inset-0 z-[100] bg-tp-black flex items-end justify-between"
+  style="padding:32px 28px;"
+>
+  <div class="tp-label" style="letter-spacing:.28em; opacity:.8;">{t(locale, 'loaderTagline')}</div>
+  <div id="tp-count" class="font-mono" style="font-size:clamp(3rem,12vw,9rem); line-height:.8; font-weight:300; letter-spacing:-.02em;">000</div>
+</div>
+
+<div
+  id="tp-detail"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  inert
+  aria-labelledby="tp-detail-title"
+  class="fixed inset-0 z-[70] flex flex-col justify-end"
+  style="padding:28px; opacity:0; transform:translateY(24px); pointer-events:none; background:linear-gradient(180deg, rgb(var(--ground) / .88) 0%, rgb(var(--ground) / .35) 22%, rgb(var(--ground) / .6) 62%, rgb(var(--ground) / .96) 100%);"
+>
+  <div class="tp-label absolute flex justify-between items-start" style="top:24px; left:28px; right:28px; letter-spacing:.28em;">
+    <span id="tp-detail-meta">01</span>
+    <button
+      id="tp-detail-close"
+      type="button"
+      data-cursor="link"
+      class="tp-label bg-transparent text-tp-white"
+      style="border:1px solid rgb(var(--ink) / .4); letter-spacing:.28em; padding:8px 16px;"
+    >{t(locale, 'detailClose')}</button>
+  </div>
+  <div style="max-width:820px;">
+    <h2 id="tp-detail-title" class="tp-h2" style="margin:0 0 18px; font-size:clamp(2rem,6vw,4.6rem); line-height:.95;">—</h2>
+    <p id="tp-detail-desc" style="margin:0; font-size:clamp(1rem,1.6vw,1.35rem); line-height:1.5; font-weight:300; max-width:60ch; opacity:.8; text-wrap:pretty;">—</p>
+    <a id="tp-detail-link" href="#" target="_blank" rel="noopener" data-cursor="link" class="tp-link" style="margin-top:26px; padding-bottom:6px;"><span>{t(locale, 'detailView')}</span><span class="tp-arrow">↗</span></a>
+  </div>
+</div>
+
+<div
+  id="tp-scrollcue"
+  aria-hidden="true"
+  class="tp-label-sm fixed z-[60] flex items-center"
+  style="left:28px; bottom:28px; gap:14px; mix-blend-mode:difference; transition:opacity .5s ease; letter-spacing:.3em;"
+>
+  <span class="block bg-tp-white" style="width:1px; height:48px; animation:tpLine 2.4s cubic-bezier(.7,0,.3,1) infinite;"></span>
+  <span style="opacity:.82;">{t(locale, 'scrollCue')}</span>
+</div>
+
+<style>
+  /* The cue was drawn for a full-bleed hero. On small screens the next
+     section now reaches the first fold and a fixed cue lands on its heading;
+     touch readers scroll by reflex anyway. */
+  @media (max-width: 1024px) {
+    #tp-scrollcue { display: none; }
+  }
+</style>

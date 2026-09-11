@@ -4,5 +4,8 @@ description: "PWA for managing children's reward points. Track positive behavior
 category: "websites"
 tags: ["React", "TypeScript", "Tailwind CSS", "Firebase", "PWA", "Vite"]
 url: "https://goodpoints.kemax.ovh/"
-order: 2
+order: 4
+featured: true
+motif: "columns"
+plateTag: "React / Firebase"
 ---

@@ -9,45 +9,30 @@ interface Props {
 }
 
 const { currentPage, totalPages, baseUrl, locale } = Astro.props;
-
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+const hrefFor = (page: number): string => (page === 1 ? baseUrl : `${baseUrl}${page}/`);
+const cell = 'tp-label inline-flex items-center justify-center';
+const cellStyle = 'min-width:44px; height:44px; padding:0 12px; border:1px solid rgb(var(--ink) / .18); letter-spacing:.2em;';
 ---
 
 {totalPages > 1 && (
-  <nav class="flex justify-center gap-2 mt-10" aria-label="Pagination">
+  <nav class="flex justify-center flex-wrap mt-16" style="gap:2px;" aria-label="Pagination">
     {currentPage > 1 && (
-      <a
-        href={currentPage === 2 ? baseUrl : `${baseUrl}${currentPage - 1}/`}
-        class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
-        aria-label={t(locale, 'previousPage')}
-      >
-        &laquo;
-      </a>
+      <a href={hrefFor(currentPage - 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'previousPage')}><span class="tp-arrow">←</span></a>
     )}
-
-    {pages.map((page) => (
+    {pages.map((page) =>
       page === currentPage ? (
-        <span class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium bg-navy text-white" aria-current="page">
-          {page}
-        </span>
+        <span class={cell} style={`${cellStyle} background:rgb(var(--ink)); color:rgb(var(--ground)); border-color:rgb(var(--ink));`} aria-current="page">{page}</span>
       ) : (
-        <a
-          href={page === 1 ? baseUrl : `${baseUrl}${page}/`}
-          class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
-        >
-          {page}
-        </a>
+        <a href={hrefFor(page)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle}>{page}</a>
       )
-    ))}
-
+    )}
     {currentPage < totalPages && (
-      <a
-        href={`${baseUrl}${currentPage + 1}/`}
-        class="inline-flex items-center justify-center min-w-[40px] h-10 px-3 rounded-md text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-section)] no-underline transition-colors hover:bg-[var(--color-accent)] hover:text-white cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
-        aria-label={t(locale, 'nextPage')}
-      >
-        &raquo;
-      </a>
+      <a href={hrefFor(currentPage + 1)} data-cursor="link" class={`${cell} tp-page`} style={cellStyle} aria-label={t(locale, 'nextPage')}><span class="tp-arrow">→</span></a>
     )}
   </nav>
 )}
+
+<style>
+  .tp-page:hover { opacity: 1; border-color: var(--color-accent) !important; }
+</style>

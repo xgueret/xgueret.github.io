@@ -4,5 +4,8 @@ description: "Monorepo Infrastructure as Code pour piloter un homelab complet â€
 category: "github"
 tags: ["Proxmox", "Ansible", "Terraform", "Docker", "Kubernetes", "IaC"]
 github: "https://github.com/TiPunchLabs/homelab"
-order: 4
+order: 2
+featured: true
+motif: "rack"
+plateTag: "Terraform / Ansible"
 ---

@@ -9,7 +9,7 @@
 - author: Xavier GUERET
 - location: Guadeloupe (France)
 - job_title: DevOps Engineer
-- contact: https://xgueret.github.io/contact/
+- contact: https://xgueret.github.io/#tp-contact
 - language: fr, en
 - description: Portfolio and DevOps technical blog by Xavier GUERET, based in Guadeloupe. Articles about Kubernetes, Docker, Ansible, Terraform, Python, CI/CD, Infrastructure as Code, and applied AI (LLM, agents, MCP).
 
@@ -22,71 +22,59 @@
 
 ## Important Pages
 
-### Homepage
+### Homepage (one page: projects, about, blog, resume, contact)
 - https://xgueret.github.io/
 - https://xgueret.github.io/en/
 
-### About
-- https://xgueret.github.io/about/
-- https://xgueret.github.io/en/about/
-
-### CV / Resume
-- https://xgueret.github.io/cv/
-- https://xgueret.github.io/en/cv/
-
 ### Blog (Articles)
-- https://xgueret.github.io/posts/
-- https://xgueret.github.io/en/posts/
-
-### Projects
-- https://xgueret.github.io/projects/
-- https://xgueret.github.io/en/projects/
-
-### Training
-- https://xgueret.github.io/training/
-- https://xgueret.github.io/en/training/
-
-### Contact
-- https://xgueret.github.io/contact/
-- https://xgueret.github.io/en/contact/
+- https://xgueret.github.io/blog/
+- https://xgueret.github.io/en/blog/
 
 ### Categories
 - https://xgueret.github.io/categories/
 - https://xgueret.github.io/en/categories/
 
+### Projects
+- https://xgueret.github.io/projects/
+- https://xgueret.github.io/en/projects/
+
+### Resume (PDF)
+- https://xgueret.github.io/assets/cv.fr.pdf
+- https://xgueret.github.io/assets/cv.en.pdf
+
 ## Blog Articles (French)
 
-- https://xgueret.github.io/posts/homelab/ : Mon homelab : de Proxmox a Kubernetes, entierement automatise
-- https://xgueret.github.io/posts/email_analysis_assistant/ : Creer un assistant IA d'analyse d'emails avec Claude Code
-- https://xgueret.github.io/posts/excalidraw_mcp/ : Generer des diagrammes Excalidraw depuis Claude Code avec MCP
-- https://xgueret.github.io/posts/good-points/ : Good Points - Application de suivi de comportement
-- https://xgueret.github.io/posts/ckad-dojo/ : CKAD Dojo - Plateforme d'entrainement Kubernetes
-- https://xgueret.github.io/posts/cv_converter/ : CV Converter - Generateur de CV multi-format
-- https://xgueret.github.io/posts/portainer/ : Deployer Portainer pour gerer Docker
-- https://xgueret.github.io/posts/vscode_continue_ollama/ : VS Code + Continue + Ollama pour le dev local IA
-- https://xgueret.github.io/posts/openwebui_llama3/ : Open WebUI avec Llama 3
-- https://xgueret.github.io/posts/pre_commit_hook/ : Pre-commit hooks pour un code propre
-- https://xgueret.github.io/posts/ansible_bash_autocompletion/ : Autocompletion Bash pour Ansible
-- https://xgueret.github.io/posts/managerepo/ : ManageRepo - Gestionnaire de depots Git
-- https://xgueret.github.io/posts/localcompute/ : LocalCompute - Calcul local distribue
-- https://xgueret.github.io/posts/pdfseparate/ : PDFSeparate - Outil de decoupe PDF
+- https://xgueret.github.io/blog/homelab/ : Mon homelab : de Proxmox a Kubernetes, entierement automatise
+- https://xgueret.github.io/blog/email_analysis_assistant/ : Creer un assistant IA d'analyse d'emails avec Claude Code
+- https://xgueret.github.io/blog/excalidraw_mcp/ : Generer des diagrammes Excalidraw depuis Claude Code avec MCP
+- https://xgueret.github.io/blog/good-points/ : Good Points - Application de suivi de comportement
+- https://xgueret.github.io/blog/ckad-dojo/ : CKAD Dojo - Plateforme d'entrainement Kubernetes
+- https://xgueret.github.io/blog/cv_converter/ : CV Converter - Generateur de CV multi-format
+- https://xgueret.github.io/blog/portainer/ : Deployer Portainer pour gerer Docker
+- https://xgueret.github.io/blog/vscode_continue_ollama/ : VS Code + Continue + Ollama pour le dev local IA
+- https://xgueret.github.io/blog/openwebui_llama3/ : Open WebUI avec Llama 3
+- https://xgueret.github.io/blog/pre_commit_hook/ : Pre-commit hooks pour un code propre
+- https://xgueret.github.io/blog/ansible_bash_autocompletion/ : Autocompletion Bash pour Ansible
+- https://xgueret.github.io/blog/managerepo/ : ManageRepo - Gestionnaire de depots Git
+- https://xgueret.github.io/blog/localcompute/ : LocalCompute - Calcul local distribue
+- https://xgueret.github.io/blog/pdfseparate/ : PDFSeparate - Outil de decoupe PDF
 
 ## Blog Articles (English)
 
-- https://xgueret.github.io/en/posts/homelab/ : My homelab: from Proxmox to Kubernetes, fully automated
-- https://xgueret.github.io/en/posts/email_analysis_assistant/ : Build an AI email analysis assistant with Claude Code
-- https://xgueret.github.io/en/posts/excalidraw_mcp/ : Generate Excalidraw diagrams from Claude Code with MCP
-- https://xgueret.github.io/en/posts/good-points/ : Good Points - Behavior tracking application
-- https://xgueret.github.io/en/posts/ckad-dojo/ : CKAD Dojo - Kubernetes training platform
-- https://xgueret.github.io/en/posts/cv_converter/ : CV Converter - Multi-format resume generator
-- https://xgueret.github.io/en/posts/portainer/ : Deploy Portainer to manage Docker
-- https://xgueret.github.io/en/posts/vscode_continue_ollama/ : VS Code + Continue + Ollama for local AI dev
-- https://xgueret.github.io/en/posts/openwebui_llama3/ : Open WebUI with Llama 3
-- https://xgueret.github.io/en/posts/pre_commit_hook/ : Pre-commit hooks for clean code
-- https://xgueret.github.io/en/posts/ansible_bash_autocompletion/ : Bash autocompletion for Ansible
-- https://xgueret.github.io/en/posts/managerepo/ : ManageRepo - Git repository manager
-- https://xgueret.github.io/en/posts/localcompute/ : LocalCompute - Distributed local compute
-- https://xgueret.github.io/en/posts/pdfseparate/ : PDFSeparate - PDF splitting tool
+- https://xgueret.github.io/en/blog/homelab/ : My homelab: from Proxmox to Kubernetes, fully automated
+- https://xgueret.github.io/en/blog/email_analysis_assistant/ : Build an AI email analysis assistant with Claude Code
+- https://xgueret.github.io/en/blog/excalidraw_mcp/ : Generate Excalidraw diagrams from Claude Code with MCP
+- https://xgueret.github.io/en/blog/good-points/ : Good Points - Behavior tracking application
+- https://xgueret.github.io/en/blog/ckad-dojo/ : CKAD Dojo - Kubernetes training platform
+- https://xgueret.github.io/en/blog/cv_converter/ : CV Converter - Multi-format resume generator
+- https://xgueret.github.io/en/blog/portainer/ : Deploy Portainer to manage Docker
+- https://xgueret.github.io/en/blog/vscode_continue_ollama/ : VS Code + Continue + Ollama for local AI dev
+- https://xgueret.github.io/en/blog/openwebui_llama3/ : Open WebUI with Llama 3
+- https://xgueret.github.io/en/blog/pre_commit_hook/ : Pre-commit hooks for clean code
+- https://xgueret.github.io/en/blog/ansible_bash_autocompletion/ : Bash autocompletion for Ansible
+- https://xgueret.github.io/en/blog/managerepo/ : ManageRepo - Git repository manager
+- https://xgueret.github.io/en/blog/localcompute/ : LocalCompute - Distributed local compute
+- https://xgueret.github.io/en/blog/pdfseparate/ : PDFSeparate - PDF splitting tool
 
 ## Projects
 

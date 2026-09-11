@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../components/CategoriesCloud.astro';
-import SectionEyebrow from '../../components/SectionEyebrow.astro';
 import { t } from '../../i18n';
 import { getCollection } from 'astro:content';
 
@@ -25,11 +24,11 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({
 ---
 
 <BaseLayout title={t(locale, 'categoriesCloud')} description={t(locale, 'categoriesDescription')} locale={locale}>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <header class="mb-10">
-      <SectionEyebrow text={t(locale, 'categoriesCloud')} />
+  <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
+    <header class="mb-12 flex flex-col" style="gap:22px;">
+      <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'blogEyebrow')}</p>
+      <h1 class="tp-h2" data-split="1">{t(locale, 'categoriesCloud')}</h1>
     </header>
-
     <CategoriesCloud categories={categories} locale={locale} />
   </div>
 </BaseLayout>

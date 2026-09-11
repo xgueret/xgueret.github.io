@@ -20,29 +20,6 @@ const posts = defineCollection({
   }),
 });
 
-const pages = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date().optional(),
-    description: z.string().optional(),
-  }),
-});
-
-const training = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date().optional(),
-    draft: z.boolean().default(false),
-    archived: z.boolean().default(false),
-    description: z.string().optional(),
-    externalLink: z.string().url().optional(),
-    tags: z.array(z.string()).default([]),
-    image: z.string().optional(),
-  }),
-});
-
 const projects = defineCollection({
   type: 'content',
   schema: z.object({
@@ -53,7 +30,11 @@ const projects = defineCollection({
     github: z.string().url().optional(),
     url: z.string().url().optional(),
     order: z.number().default(0),
+    // Home-page 3D plates: only featured entries are rendered anywhere.
+    featured: z.boolean().default(false),
+    motif: z.enum(['rings', 'rack', 'graph', 'columns', 'terminal', 'wireframe']).optional(),
+    plateTag: z.string().optional(),
   }),
 });
 
-export const collections = { posts, pages, training, projects };
+export const collections = { posts, projects };

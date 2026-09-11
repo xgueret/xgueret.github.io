@@ -1,0 +1,141 @@
+---
+import { type Locale, t } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const rows = [
+  { label: t(locale, 'aboutRow1Label'), text: t(locale, 'aboutRow1Text') },
+  { label: t(locale, 'aboutRow2Label'), text: t(locale, 'aboutRow2Text') },
+  { label: t(locale, 'aboutRow3Label'), text: t(locale, 'aboutRow3Text') },
+];
+---
+
+<section id="tp-about" data-screen-label="About" class="flex items-center" style="min-height:80vh; padding:110px 28px;">
+  <div class="tp-about w-full" style="max-width:1400px;">
+    <div class="tp-about-head">
+      <div class="tp-label" style="opacity:.8;" data-split="1">{t(locale, 'aboutLabel')}</div>
+      <h2 class="tp-h2" data-split="1">{t(locale, 'aboutTitle1')}<br />{t(locale, 'aboutTitle2')}</h2>
+    </div>
+    <div class="tp-about-body">
+      <div class="tp-about-copy">
+        {/* Set into the copy at every width — the text reads on past it. */}
+        <img
+          id="tp-portrait"
+          src="/images/moi.png"
+          alt="Xavier Gueret"
+          width="300"
+          height="400"
+          loading="lazy"
+          class="block object-cover"
+        />
+        <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; text-wrap:pretty;" data-split="1">{t(locale, 'aboutP1')}</p>
+        <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.86; text-wrap:pretty;" data-split="1">{t(locale, 'aboutP2')}</p>
+        <p style="margin:0; font-size:clamp(.95rem,1.3vw,1.1rem); line-height:1.55; font-weight:300; opacity:.86; text-wrap:pretty;" data-split="1">{t(locale, 'aboutP3')}</p>
+      </div>
+      <div class="tp-about-rows">
+        {rows.map((r) => (
+          <div class="tp-row">
+            <span class="tp-row-label">{r.label}</span>
+            <span style="font-size:.95rem; line-height:1.5; font-weight:300;">{r.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tp-about {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+    gap: 44px 56px;
+  }
+
+  .tp-about-head {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+  }
+
+  /* Between 1025 and 1440 the title column narrows faster than the shared
+     heading scale does, so the longest line ran past it — "FROM CODE" by 16px
+     at 1280. Tying this heading to a gentler slope keeps both locales inside
+     their column at every width. */
+  .tp-about-head .tp-h2 {
+    font-size: clamp(2rem, 4.6vw, 4.2rem);
+  }
+
+  .tp-about-body {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    min-width: 0;
+  }
+
+  /* A flow root, so the copy box grows to hold the portrait and the rows
+     below can never be pushed into it. */
+  .tp-about-copy {
+    display: flow-root;
+    max-width: 62ch;
+  }
+
+  .tp-about-copy p + p {
+    margin-top: 16px !important;
+  }
+
+  #tp-portrait {
+    float: left;
+    width: 38%;
+    max-width: 240px;
+    aspect-ratio: 3 / 4;
+    object-position: 50% 22%;
+    margin: 6px 28px 14px 0;
+  }
+
+  .tp-about-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Sized by its content on small screens: a viewport-sized box banks a
+     screenful of slack on a tall phone or portrait tablet. */
+  @media (max-width: 1024px) {
+    #tp-about {
+      min-height: 0 !important;
+      padding-top: 48px !important;
+      padding-bottom: 64px !important;
+    }
+
+    .tp-about {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 22px;
+    }
+
+    #tp-portrait {
+      width: 40%;
+      max-width: 190px;
+      margin-right: 22px;
+    }
+  }
+
+  /* On a phone the column beside the portrait is only a couple of dozen
+     characters wide, so the photo gives up a little more room and the copy
+     is allowed to hyphenate rather than tear. */
+  @media (max-width: 560px) {
+    #tp-portrait {
+      width: 36%;
+      max-width: 128px;
+      margin-right: 16px;
+    }
+
+    .tp-about-copy {
+      hyphens: auto;
+    }
+  }
+</style>

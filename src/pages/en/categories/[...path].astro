@@ -3,9 +3,9 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CategoriesCloud from '../../../components/CategoriesCloud.astro';
 import ArticlesGrid from '../../../components/ArticlesGrid.astro';
 import Pagination from '../../../components/Pagination.astro';
-import SectionEyebrow from '../../../components/SectionEyebrow.astro';
 import { t, localePrefix } from '../../../i18n';
 import { getCollection } from 'astro:content';
+import { getReadingTime } from '../../../utils/readingTime';
 import { sortCategoryPosts } from '../../../utils/series';
 import { assertCategoriesMapped } from '../../../i18n/categories';
 
@@ -82,33 +82,29 @@ const articles = posts.map((post) => {
   }
   return {
     title: post.data.title,
-    href: `${localePrefix(locale)}/posts/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
+    href: `${localePrefix(locale)}/blog/${post.id.replace('en/', '').replace(/\.md$/, '')}`,
     summary,
     image: post.data.image,
     seriesName: post.data.series,
     seriesOrder: post.data.seriesOrder,
+    date: post.data.date,
+    readingMinutes: getReadingTime(post.body ?? ''),
   };
 });
 ---
 
 <BaseLayout title={categoryName} description={`${t(locale, 'articles')} ${categoryName} — ${totalPosts} ${totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}`} locale={locale}>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <CategoriesCloud categories={categories} locale={locale} />
-
-    <header class="mb-10">
-      <SectionEyebrow text={categoryName} />
-      <p class="text-sm text-[var(--color-text-muted)] mt-2 italic">
-        {totalPosts} {totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}
-      </p>
+  <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
+    <header class="mb-12 flex flex-col" style="gap:22px;">
+      <p class="tp-label" style="opacity:.8; margin:0;" data-split="1">{t(locale, 'categoriesCloud')}</p>
+      <h1 class="tp-h2" data-split="1">{categoryName}</h1>
+      <p class="tp-label-sm" style="opacity:.62; margin:0;">{totalPosts} {totalPosts === 1 ? t(locale, 'article') : t(locale, 'articles')}</p>
     </header>
+
+    <CategoriesCloud categories={categories} locale={locale} />
 
     <ArticlesGrid articles={articles} locale={locale} showViewAll={false} />
 
-    <Pagination
-      currentPage={currentPage}
-      totalPages={totalPages}
-      baseUrl={`${localePrefix(locale)}/categories/${categoryName}/`}
-      locale={locale}
-    />
+    <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl={`${localePrefix(locale)}/categories/${categoryName}/`} locale={locale} />
   </div>
 </BaseLayout>

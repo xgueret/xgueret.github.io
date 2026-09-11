@@ -1,189 +1,540 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-/* Display + headline + accent italic */
-@import '@fontsource/source-serif-4/400.css';
-@import '@fontsource/source-serif-4/500.css';
-@import '@fontsource/source-serif-4/600.css';
-@import '@fontsource/source-serif-4/400-italic.css';
-@import '@fontsource/source-serif-4/600-italic.css';
+/* Display + body */
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/700.css';
 
-/* Body, label, title, navigation */
-@import '@fontsource/geist-sans/400.css';
-@import '@fontsource/geist-sans/500.css';
-@import '@fontsource/geist-sans/600.css';
-
-/* Reserved for code blocks in articles */
+/* Labels, HUD, nav, buttons, code */
+@import '@fontsource/jetbrains-mono/300.css';
 @import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
 
 @theme {
-  /* The Dawn Palette — source of truth, see DESIGN.md */
-  --color-ocean: oklch(38% 0.10 220);
-  --color-ocean-deep: oklch(28% 0.09 220);
-  --color-ocean-light: oklch(65% 0.13 220);
-  --color-coral: oklch(66% 0.17 35);
-  --color-coral-deep: oklch(55% 0.16 35);
-  --color-sand: oklch(97% 0.012 65);
-  --color-sand-alt: oklch(94% 0.010 65);
-  --color-sand-section: oklch(91% 0.012 65);
-  --color-sand-border: oklch(89% 0.012 65);
-  --color-ink: oklch(22% 0.025 220);
-  --color-ink-muted: oklch(45% 0.030 220);
-  --color-ink-light: oklch(53% 0.028 220);
-  --color-night: oklch(15% 0.02 220);
-  --color-night-surface: oklch(20% 0.025 220);
-  --color-night-border: oklch(28% 0.03 220);
-  --color-available: oklch(72% 0.18 145);
+  /* Monochrome system — see DESIGN.md. Every value resolves through the two
+     triplets in `:root`, so a Tailwind utility follows the theme like the rest. */
+  --color-tp-black: rgb(var(--ground));
+  --color-tp-white: rgb(var(--ink));
+  --color-tp-lime: var(--color-accent);
+  --color-tp-line-18: rgb(var(--ink) / 0.18);
+  --color-tp-line-22: rgb(var(--ink) / 0.22);
+  --color-tp-line-30: rgb(var(--ink) / 0.3);
+  --color-tp-line-35: rgb(var(--ink) / 0.35);
+  --color-tp-line-50: rgb(var(--ink) / 0.5);
 
-  /* Deprecated legacy aliases — kept so non-homepage files (Pagination, CategoriesCloud, etc.) keep rendering coherently until they are colorized too. Remove once those passes are done. */
-  --color-navy: var(--color-ocean);
-  --color-navy-dark: var(--color-ocean-deep);
-  --color-navy-light: var(--color-ocean-light);
-  --color-accent: var(--color-ocean);
-  --color-accent-hover: var(--color-ocean-deep);
-
-  /* Typography — see DESIGN.md */
-  --font-sans: 'Geist Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Space Grotesk', Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --z-skip-link: 60;
+  --z-skip-link: 110;
 }
 
 @layer base {
+  /* Two triplets carry the whole system: `--ink` is everything drawn, `--ground`
+     is what it is drawn on. Every rule below names a role, never a colour, so a
+     theme is these few lines. Dark is the default and needs no script. */
   :root {
-    /* Semantic aliases consumed by components via [var(--color-X)] */
-    --color-primary: var(--color-ocean);
-    --color-primary-dark: var(--color-ocean-deep);
-    --color-accent: var(--color-ocean);
-    --color-accent-hover: var(--color-ocean-deep);
-    --color-bg: var(--color-sand);
-    --color-bg-alt: var(--color-sand-alt);
-    --color-bg-section: var(--color-sand-section);
-    --color-text: var(--color-ink);
-    --color-text-muted: var(--color-ink-muted);
-    --color-text-light: var(--color-ink-light);
-    --color-border: var(--color-sand-border);
-    --navbar-height: 72px;
+    --ink: 255 255 255;
+    --ground: 0 0 0;
+    --color-bg-alt: #0a0a0a;
+    --color-accent: #a8cf3e;
+    --color-accent-hover: #c4e26a;
+    /* The lime as a fill — plate accents, motif dots — where text contrast
+       does not apply. It is the one colour both themes share. */
+    --color-accent-solid: #a8cf3e;
   }
 
-  .dark {
-    /* "Nuit Océan" — designed as a distinct scene, not a hue-inverted derivative. */
-    --color-primary: var(--color-ocean-light);
-    --color-primary-dark: var(--color-ocean);
-    --color-accent: var(--color-ocean-light);
-    --color-accent-hover: oklch(75% 0.13 220);
-    --color-bg: var(--color-night);
-    --color-bg-alt: var(--color-night-surface);
-    --color-bg-section: var(--color-night-surface);
-    --color-text: var(--color-sand);
-    --color-text-muted: oklch(75% 0.020 65);
-    --color-text-light: oklch(60% 0.025 65);
-    --color-border: var(--color-night-border);
+  /* Paper, not white: a pure white would drop the printed character the design
+     is built on. The accent has to darken — #a8cf3e on this ground measures
+     1.77:1, far under the 4.5:1 a text colour owes the reader. #4f6f0a gives
+     5.1:1 against this exact ground, measured, not against a white that is
+     not there. */
+  :root[data-theme='light'] {
+    --ink: 17 17 17;
+    --ground: 244 242 237;
+    --color-bg-alt: #e9e6df;
+    --color-accent: #4f6f0a;
+    --color-accent-hover: #3b520a;
+  }
+
+  :root {
+    /* Semantic aliases: the article components (TOC, series, pagination)
+       resolve these names, so they are remapped rather than renamed. */
+    --color-bg: rgb(var(--ground));
+    --color-bg-section: var(--color-bg-alt);
+    --color-text: rgb(var(--ink));
+    --color-text-muted: rgb(var(--ink) / 0.82);
+    --color-text-light: rgb(var(--ink) / 0.62);
+    --color-border: rgb(var(--ink) / 0.18);
+    --color-primary: rgb(var(--ink));
+    --color-primary-dark: rgb(var(--ground));
+    --navbar-height: 90px;
+  }
+
+  html {
+    background: rgb(var(--ground));
+    color: rgb(var(--ink));
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    line-height: 1.6;
+    background: rgb(var(--ground));
+    color: rgb(var(--ink));
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
   }
 
-  /* The Mono Restraint Rule: monospace is reserved for actual code. */
+  ::selection {
+    background: rgb(var(--ink));
+    color: rgb(var(--ground));
+  }
+
+  a {
+    color: rgb(var(--ink));
+    text-decoration: none;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
   code, pre, kbd, samp {
     font-family: var(--font-mono);
   }
+
+  /* The custom cursor replaces the system one only on fine pointers. */
+  html.tp-cursor,
+  html.tp-cursor a,
+  html.tp-cursor button,
+  html.tp-cursor input,
+  html.tp-cursor textarea,
+  html.tp-cursor label {
+    cursor: none;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 }
 
-/* Button components */
-.btn {
+/* ---- Typographic primitives (mockup values) ---------------------------- */
+.tp-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.tp-label-sm {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.tp-h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5.6vw, 4.6rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+}
+
+.tp-link {
   display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgb(var(--ink) / 0.5);
+  padding-bottom: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.tp-link:hover {
+  opacity: 1;
+  border-bottom-color: var(--color-accent);
+}
+
+/* Every arrow that marks a link or an action, in one place. */
+.tp-arrow {
+  color: var(--color-accent);
+}
+
+/* A finger needs 44px; the mono links are 24, the chips 39, the tags 35. On a
+   coarse pointer each grows an invisible hit area to that height, centred on
+   the visible box, so the drawing does not change and the layout does not
+   move. Adjacent chip rows sit 8px apart, which the 2.5px growth clears. */
+@media (pointer: coarse) {
+  .tp-link,
+  .tp-chip,
+  .tp-tag,
+  .tp-alt,
+  #tp-menu a,
+  .tp-projects-open article h3 a,
+  .tp-row h3 a {
+    position: relative;
+  }
+
+  .tp-link::after,
+  .tp-chip::after,
+  .tp-tag::after,
+  .tp-alt::after,
+  #tp-menu a::after,
+  .tp-projects-open article h3 a::after,
+  .tp-row h3 a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+
+  /* The mark stays 42px square; its anchor grows to the finger's 44. The
+     height is set inline on the anchor and it clips its overflow, so neither
+     padding nor a pseudo-element can do this — only the height itself. The
+     nav row already stands at 44 for the burger, so nothing around it moves. */
+  #tp-logo {
+    height: 44px !important;
+  }
+
+  /* The overlay's close button is text in a hairline box: give the box height. */
+  #tp-detail-close {
+    min-height: 44px;
+  }
+}
+
+/* ---- Projects as a list ------------------------------------------------ */
+/* The grid is sr-only while the 3D plates are drawn; these rules apply once
+   the script hands it back its box. */
+.tp-projects-open {
+  padding: 120px 28px;
+}
+
+.tp-projects-open article {
+  transition: border-color 0.3s ease;
+  justify-content: flex-start;
+  gap: 20px;
+  /* A grid item's default `min-width: auto` lets its longest unbreakable word
+     set its width: a domain-name title in caps pushed a cell to 403px on any
+     phone, and the page scrolled sideways whenever the random draw picked it.
+     The track decides the width; the title wraps inside it. */
+  min-width: 0;
+}
+
+.tp-projects-open article h3 {
+  overflow-wrap: anywhere;
+}
+
+.tp-projects-open .tp-cell-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The cells carry an inline border, so the hover has to outrank it. */
+.tp-projects-open article:hover {
+  border-color: var(--color-accent) !important;
+}
+
+/* Phones and tablets read the projects rather than fly through them: one
+   column, and the section is sized by its content. */
+@media (max-width: 1024px) {
+  .tp-projects-open {
+    padding: 48px 28px 64px;
+  }
+
+  .tp-projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #tp-work {
+    height: auto !important;
+  }
+}
+
+.tp-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 160px) 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid rgb(var(--ink) / 0.18);
+}
+
+.tp-row:last-child {
+  border-bottom: 1px solid rgb(var(--ink) / 0.18);
+}
+
+.tp-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.74;
+}
+
+/* A phone reads these rows as one column: a label column would leave the copy
+   a third of the width. The label rises above its row at full strength — mono
+   caps against the sans body is what tells them apart once they stack — and
+   the rules between rows stay where they are. The markup sets its own column
+   template inline, which outranks a plain declaration. */
+@media (max-width: 640px) {
+  .tp-row:has(.tp-row-label) {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .tp-row .tp-row-label {
+    opacity: 1;
+  }
+}
+
+.tp-field {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(var(--ink) / 0.3);
+  color: rgb(var(--ink));
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  padding: 10px 2px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.tp-field:focus {
+  border-bottom-color: rgb(var(--ink));
+}
+
+.tp-button {
+  background: rgb(var(--ink));
+  color: rgb(var(--ground));
+  border: 1px solid rgb(var(--ink));
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 15px 34px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.tp-button:hover {
+  background: rgb(var(--ground));
+  color: rgb(var(--ink));
+}
+
+.tp-social {
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s, outline-color 0.2s;
-  border: 2px solid transparent;
-  text-decoration: none;
+  gap: 12px;
+  padding: 12px 18px;
+  border: 1px solid rgb(var(--ink) / 0.22);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: border-color 0.3s ease;
 }
 
-.btn:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+.tp-social:hover {
+  opacity: 1;
+  border-color: rgb(var(--ink));
 }
 
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
+/* Grayscale artwork that holds its colour on hover (featured post, portrait). */
+.tp-mono-img {
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
+.tp-mono-hover:hover .tp-mono-img {
+  filter: grayscale(0) contrast(1) brightness(1);
 }
 
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+/* ---- Motion ------------------------------------------------------------ */
+/* Copy enters from a short step to the right and eases home. The hiding
+   classes are added by the script, so a page without JS keeps its text. */
+.tp-reveal,
+.tp-word {
+  opacity: 0;
+  transform: translate3d(var(--tp-shift, 24px), 0, 0);
+  transition:
+    opacity 0.62s cubic-bezier(0.22, 1, 0.28, 1),
+    transform 0.88s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-outline:hover {
-  background-color: var(--color-bg-alt);
-  border-color: var(--color-accent-hover);
+/* A title travels line by line, each one a beat behind the one above. */
+.tp-word {
+  display: inline-block;
+  transition-delay: calc(var(--tp-line, 0) * 0.09s);
 }
 
-.dark .btn-outline {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+.tp-lines {
+  --tp-shift: 34px;
 }
 
-.dark .btn-outline:hover {
-  background-color: var(--color-bg-alt);
+.tp-reveal.tp-in,
+.tp-in .tp-word {
+  opacity: var(--tp-opacity, 1);
+  transform: translate3d(0, 0, 0);
 }
 
-.dark .btn-primary {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-night);
+/* Narrow viewports have less room to the right of the copy. */
+@media (max-width: 1024px) {
+  .tp-reveal {
+    --tp-shift: 16px;
+  }
+
+  /* Words inherit the shift from the title they belong to. */
+  .tp-lines {
+    --tp-shift: 22px;
+  }
 }
 
-.dark .btn-primary:hover {
-  background-color: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  color: var(--color-night);
+@media (prefers-reduced-motion: reduce) {
+  .tp-reveal,
+  .tp-word {
+    opacity: var(--tp-opacity, 1);
+    transform: none;
+    transition: none;
+  }
 }
 
-/* Category pills with dark mode support */
-.category-pill {
-  background: hsl(var(--pill-hue), 40%, 92%);
-  color: hsl(var(--pill-hue), 50%, 30%);
-  border: 1px solid hsl(var(--pill-hue), 35%, 85%);
+#tp-loader {
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dark .category-pill {
-  background: hsl(var(--pill-hue), 30%, 25%);
-  color: hsl(var(--pill-hue), 50%, 80%);
-  border: 1px solid hsl(var(--pill-hue), 25%, 35%);
+#tp-detail {
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Prose overrides for dark mode */
-.dark .prose {
-  --tw-prose-body: var(--color-text-muted);
-  --tw-prose-headings: var(--color-text);
+#tp-logo:hover #tp-logo-face {
+  transform: rotate(-22deg) translateY(-2px);
+}
+
+@keyframes tpLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes tpBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@media (hover: none) {
+  #tp-cursor { display: none !important; }
+}
+
+/* ---- Home ------------------------------------------------------------- */
+/* Project grid stays in the accessibility tree while the 3D plates are drawn. */
+.tp-sr-grid {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Blog pages: CSS grain stands in for the WebGL pass ---------------- */
+.tp-grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Prose (articles) -------------------------------------------------- */
+.prose {
+  --tw-prose-body: rgb(var(--ink) / 0.82);
+  --tw-prose-headings: rgb(var(--ink));
+  --tw-prose-lead: rgb(var(--ink) / 0.82);
   --tw-prose-links: var(--color-accent);
-  --tw-prose-bold: var(--color-text);
-  --tw-prose-code: var(--color-text);
-  --tw-prose-pre-bg: var(--color-night-surface);
+  --tw-prose-bold: rgb(var(--ink));
+  --tw-prose-counters: rgb(var(--ink) / 0.5);
+  --tw-prose-bullets: rgb(var(--ink) / 0.5);
+  --tw-prose-hr: rgb(var(--ink) / 0.18);
+  --tw-prose-quotes: rgb(var(--ink));
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: rgb(var(--ink) / 0.62);
+  --tw-prose-code: rgb(var(--ink));
+  --tw-prose-pre-code: #e6e6e6;
+  --tw-prose-pre-bg: var(--color-bg-alt);
+  --tw-prose-th-borders: rgb(var(--ink) / 0.18);
+  --tw-prose-td-borders: rgb(var(--ink) / 0.18);
+  font-weight: 300;
+}
+
+.prose h2 {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.prose pre,
+.prose pre.astro-code {
+  background-color: var(--color-bg-alt) !important;
+  border: 1px solid rgb(var(--ink) / 0.18);
+  border-radius: 0;
+}
+
+/* Shiki ships both palettes as variables on every token (`defaultColor: false`
+   in astro.config); the theme decides which one is painted. */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+:root[data-theme='light'] .astro-code,
+:root[data-theme='light'] .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+.prose :not(pre) > code {
+  background: rgb(var(--ink) / 0.08);
+  padding: 0.15em 0.4em;
+  border-radius: 0;
+  font-weight: 400;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+.prose img {
+  border-radius: 0;
 }
 
 /* Wide Markdown tables scroll within their own box instead of stretching the
-   page past the viewport (source of horizontal overflow on mobile). Tables that
-   already fit keep their natural width and show no scrollbar. */
+   page past the viewport (source of horizontal overflow on mobile). */
 .prose :where(table) {
   display: block;
   width: max-content;
@@ -192,9 +543,8 @@
   overscroll-behavior-x: contain;
 }
 
-/* Inline code (a filename, a command, a long path) must wrap rather than push
-   the page wider than the viewport. Code blocks (pre code) are excluded — they
-   stay on one line and scroll horizontally. */
+/* Inline code must wrap rather than push the page wider than the viewport.
+   Code blocks (pre code) are excluded — they keep one line and scroll. */
 .prose :not(pre) > code {
   overflow-wrap: break-word;
   word-break: break-word;
@@ -207,5 +557,18 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Back to the main flow, at the head of the listing pages. It keeps to its
+   own width and sits a little clear of the section label above the title. */
+.tp-back {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 1024px) {
+  .tp-back {
+    margin-bottom: 4px;
   }
 }

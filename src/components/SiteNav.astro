@@ -1,0 +1,343 @@
+---
+import { type Locale, t, localePrefix } from '../i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  locale: Locale;
+  home: boolean;
+}
+
+const { locale, home } = Astro.props;
+const prefix = localePrefix(locale);
+const currentPath = Astro.url.pathname;
+// On the home page anchors are local; elsewhere they point back to the home.
+const base = home ? '' : `${prefix}/`;
+
+// Blog and projects have pages of their own; the rest are home sections.
+const links = [
+  { href: `${prefix}/blog/`, label: t(locale, 'blog') },
+  { href: `${prefix}/projects/`, label: t(locale, 'projects') },
+  { href: `${base}#tp-about`, label: t(locale, 'about') },
+  { href: `${base}#tp-cv`, label: t(locale, 'cv') },
+  { href: `${base}#tp-contact`, label: t(locale, 'contact') },
+];
+---
+
+{/* Leaving the viewport is what collapses the wordmark — see the script below. */}
+<div
+  id="tp-top-sentinel"
+  aria-hidden="true"
+  style="position:absolute; top:0; left:0; width:1px; height:56px; pointer-events:none;"
+></div>
+
+<nav
+  id="tp-nav"
+  aria-label={t(locale, 'mainNavigation')}
+  class="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between"
+  style="padding:24px 28px; transition:opacity .5s cubic-bezier(.16,1,.3,1);"
+>
+  <a
+    id="tp-logo"
+    href={home ? '#tp-hero' : `${prefix}/`}
+    data-cursor="link"
+    class="flex items-center flex-none overflow-hidden"
+    style="height:42px;"
+  >
+    <img
+      id="tp-logo-face"
+      src="/images/logo-lime.png"
+      alt=""
+      width="42"
+      height="42"
+      class="block flex-none object-contain"
+      style="width:42px; height:42px; transition:transform .6s cubic-bezier(.34,1.56,.64,1);"
+    />
+    <span id="tp-logo-word">
+      <span class="tp-logo-word-inner tp-label" style="letter-spacing:.24em;">
+        <span class="tp-logo-brand">{t(locale, 'brand')}</span>
+        <span class="tp-logo-role">{t(locale, 'heroEyebrow')}</span>
+      </span>
+    </span>
+  </a>
+
+  <div id="tp-nav-links" class="tp-label items-center" style="display:flex; gap:28px; letter-spacing:.24em;">
+    {links.map((l) => (
+      <a href={l.href} data-cursor="link">{l.label}</a>
+    ))}
+    <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    <ThemeToggle locale={locale} />
+  </div>
+
+  <button
+    id="tp-menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="tp-menu"
+    aria-label={t(locale, 'menuOpen')}
+    data-label-open={t(locale, 'menuOpen')}
+    data-label-close={t(locale, 'menuClose')}
+    data-cursor="link"
+    class="bg-transparent border border-[rgb(var(--ink) / .4)]"
+    style="display:none; align-items:center; justify-content:center; width:44px; height:44px; padding:0;"
+  >
+    <span class="tp-burger" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+</nav>
+
+<div
+  id="tp-menu"
+  class="fixed inset-0 z-[59] bg-tp-black flex flex-col justify-center"
+  style="padding:96px 28px 48px; gap:28px;"
+>
+  {links.map((l, i) => (
+    <a
+      href={l.href}
+      data-cursor="link"
+      class="tp-menu-item uppercase"
+      style={`font-size:clamp(1.6rem,8vw,3rem); font-weight:500; line-height:1; --tp-menu-i:${i};`}
+    >{l.label}</a>
+  ))}
+  <div class="tp-menu-item flex items-center" style={`margin-top:12px; gap:28px; --tp-menu-i:${links.length};`}>
+    <LanguageSwitcher locale={locale} currentPath={currentPath} />
+    <ThemeToggle locale={locale} />
+  </div>
+</div>
+
+<style>
+  /* The wordmark rides in a grid column that collapses to nothing, so it
+     animates to its own width without a hardcoded value. */
+  #tp-logo-word {
+    display: grid;
+    grid-template-columns: 1fr;
+    transition:
+      grid-template-columns 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tp-logo-word-inner {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* The gap to the mark lives inside the clipped box, so it collapses with
+     the wordmark instead of leaving a notch. */
+  .tp-logo-brand {
+    color: var(--color-accent);
+    padding-left: 16px;
+  }
+
+  .tp-logo-role {
+    opacity: 0.82;
+  }
+
+  /* Scrolled away from the top: the mark stands alone until pointer or focus
+     asks for the wordmark back. */
+  #tp-logo.is-compact #tp-logo-word {
+    grid-template-columns: 0fr;
+    opacity: 0;
+  }
+
+  #tp-logo.is-compact:hover #tp-logo-word,
+  #tp-logo.is-compact:focus-visible #tp-logo-word {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+
+  /* The global link hover dims the whole anchor; the wordmark must not fade
+     in half-lit. */
+  #tp-logo:hover {
+    opacity: 1;
+  }
+
+  /* Three hairlines on the design's own scale; aria-expanded is the state,
+     so the script sets no class of its own. */
+  .tp-burger {
+    position: relative;
+    display: block;
+    width: 22px;
+    height: 13px;
+  }
+
+  .tp-burger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgb(var(--ink));
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.25s linear;
+  }
+
+  .tp-burger span:nth-child(1) { top: 0; }
+  .tp-burger span:nth-child(2) { top: 6px; }
+  .tp-burger span:nth-child(3) { top: 12px; }
+
+  #tp-menu-toggle[aria-expanded='true'] .tp-burger span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  #tp-menu-toggle[aria-expanded='true'] .tp-burger span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  #tp-menu-toggle[aria-expanded='true'] .tp-burger span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  #tp-menu-toggle:hover {
+    border-color: var(--color-accent);
+  }
+
+  /* A small hop as each section takes the screen. Transform only, and driven
+     by an observer rather than by the scroll handler, so it stays off the
+     scroll path entirely. */
+  @keyframes tpLogoHop {
+    0% { transform: translateY(0) rotate(0deg); }
+    32% { transform: translateY(-7px) rotate(-16deg); }
+    62% { transform: translateY(1px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+
+  #tp-logo-face.is-hopping {
+    animation: tpLogoHop 0.62s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tp-logo-face.is-hopping { animation: none; }
+  }
+
+  /* Below the nav's own breakpoints the wordmark would meet the links. */
+  @media (max-width: 1120px) {
+    .tp-logo-role { display: none; }
+  }
+
+  @media (max-width: 820px) {
+    #tp-nav-links { display: none !important; }
+    #tp-menu-toggle { display: inline-flex !important; }
+  }
+
+  /* The panel rises from the bottom edge and drops back the same way. It stays
+     in the DOM and `visibility` takes it out of the tab order and the
+     accessibility tree, held until the drop has finished playing. */
+  #tp-menu {
+    visibility: hidden;
+    transform: translateY(100%);
+    transition:
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0.55s;
+  }
+
+  #tp-menu.is-open {
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s;
+  }
+
+  /* The items settle a beat behind the panel, in the order they are read. */
+  .tp-menu-item {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #tp-menu.is-open .tp-menu-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(0.16s + var(--tp-menu-i, 0) * 0.05s);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tp-menu { transition-delay: 0s; }
+
+    .tp-menu-item {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('tp-menu-toggle');
+  const menu = document.getElementById('tp-menu');
+  const openLabel = toggle?.dataset.labelOpen ?? '';
+  const closeLabel = toggle?.dataset.labelClose ?? '';
+
+  function setOpen(open: boolean): void {
+    if (!toggle || !menu) return;
+    menu.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? closeLabel : openLabel);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle?.addEventListener('click', () => setOpen(!menu?.classList.contains('is-open')));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  /**
+   * The mark hops as each section takes the screen. An observer watching a
+   * band across the middle of the viewport decides whose turn it is, so the
+   * scroll handler never learns about this at all. The section in view at
+   * load is not a change, and does not hop.
+   */
+  const face = document.getElementById('tp-logo-face');
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('#tp-main section[id]'));
+
+  if (face && sections.length) {
+    let current = '';
+    let settled = false;
+    const hop = (): void => {
+      face.classList.remove('is-hopping');
+      // Reading the layout commits the removal, so the animation can restart.
+      void face.offsetWidth;
+      face.classList.add('is-hopping');
+    };
+    face.addEventListener('animationend', () => face.classList.remove('is-hopping'));
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const entered = entries.filter((e) => e.isIntersecting).pop();
+        if (!entered || entered.target.id === current) return;
+        current = entered.target.id;
+        if (settled) hop();
+        settled = true;
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+    sections.forEach((el) => sectionObserver.observe(el));
+  }
+
+  /**
+   * Collapse the wordmark once the top of the page has scrolled away. An
+   * observer on a sentinel keeps this off the scroll path entirely, and its
+   * first callback sets the state for a page restored mid-scroll.
+   */
+  const logo = document.getElementById('tp-logo');
+  const sentinel = document.getElementById('tp-top-sentinel');
+
+  if (logo && sentinel) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) logo.classList.toggle('is-compact', !entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+  }
+</script>
