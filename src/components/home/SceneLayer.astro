@@ -1,5 +1,6 @@
 ---
 import { type Locale, t } from '../../i18n';
+import { BACKDROP } from '../../lib/backdrop';
 
 interface Props {
   locale: Locale;
@@ -10,8 +11,8 @@ const { locale } = Astro.props;
 
 <canvas
   id="tp-gl"
-  data-video-hd="/videos/backdrop-1080.mp4"
-  data-video-sd="/videos/backdrop-540.mp4"
+  data-video-hd={BACKDROP.hd}
+  data-video-sd={BACKDROP.sd}
   aria-hidden="true"
   class="fixed inset-0 block w-full h-full z-0"
 ></canvas>

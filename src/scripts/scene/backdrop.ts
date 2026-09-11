@@ -3,6 +3,7 @@ import {
   VideoTexture,
 } from 'three';
 import type { SceneTheme } from './config';
+import type { Footage } from '../../lib/backdrop';
 
 export interface Backdrop {
   scene: Scene;
@@ -44,23 +45,13 @@ void main(){
 }`;
 
 /**
- * The footage opens on five seconds of empty tank before the ink enters, and
- * closes on two more once it has cleared — measured off the file, a mean
- * luminance of exactly 0. Played from the top it left the page black for
- * seconds after the loader lifted, and blacked out again on every loop. So
- * playback lives inside the window that actually holds ink, entering a beat
- * after the ink does so the wrap lands on a full frame rather than an empty
- * tank.
- */
-const CLIP_IN = 7.5;
-const CLIP_OUT = 27.5;
-
-/**
  * One piece of footage running behind the whole page: a fullscreen ortho quad
  * drawn before the 3D scene, graded to luminance with a slow pastel wash.
  * Sources are tried in order until one plays.
  */
-export function createBackdrop(sources: string[], pastel: number, level: number, theme: SceneTheme): Backdrop {
+export function createBackdrop(
+  sources: string[], pastel: number, level: number, theme: SceneTheme, clip: Footage['clip'],
+): Backdrop {
   const video = document.createElement('video');
   video.crossOrigin = 'anonymous';
   video.muted = true;
@@ -74,14 +65,18 @@ export function createBackdrop(sources: string[], pastel: number, level: number,
   let si = 0;
   const load = (): void => { video.src = sources[si]; video.load(); };
   video.addEventListener('error', () => { if (++si < sources.length) load(); else failed = true; });
-  // Metadata lands before the first frame, so the seek costs nothing visible.
-  video.addEventListener('loadedmetadata', () => {
-    if (video.duration > CLIP_OUT) video.currentTime = CLIP_IN;
-  });
-  // `loop` would rewind to the empty opening; wrap inside the window instead.
-  video.addEventListener('timeupdate', () => {
-    if (video.duration > CLIP_OUT && video.currentTime >= CLIP_OUT) video.currentTime = CLIP_IN;
-  });
+  /* A clip whose ends do not meet plays a window cut out of its middle: the
+     native `loop` would rewind past the start of that window. A clip that
+     loops cleanly declares none and keeps the browser's own loop. */
+  if (clip) {
+    // Metadata lands before the first frame, so the seek costs nothing visible.
+    video.addEventListener('loadedmetadata', () => {
+      if (video.duration > clip.out) video.currentTime = clip.in;
+    });
+    video.addEventListener('timeupdate', () => {
+      if (video.duration > clip.out && video.currentTime >= clip.out) video.currentTime = clip.in;
+    });
+  }
   video.addEventListener('loadeddata', () => { ready = true; video.play().catch(() => {}); });
   load();
 

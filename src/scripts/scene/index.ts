@@ -5,6 +5,7 @@ import {
 import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
 import { getTheme, onThemeChange } from '../ui/theme';
+import { BACKDROP } from '../../lib/backdrop';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
 import { createCards, readProjects, rethemeCards, selectPlates, type Card } from './cards';
@@ -70,7 +71,7 @@ export function startScene(caps: Capabilities): void {
   const sd = canvas.dataset.videoSd ?? '';
   let theme = SCENE_THEME[getTheme()];
   renderer.setClearColor(theme.clear, 1);
-  const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel, theme);
+  const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel, theme, BACKDROP.clip);
   const data = caps.plates ? selectPlates(readProjects(), MAX_PLATES) : [];
   const cards: Card[] = caps.plates ? createCards(scene, data, theme, caps.mobile) : [];
   // Without plates the camera has nothing to fly through, so it holds still.
