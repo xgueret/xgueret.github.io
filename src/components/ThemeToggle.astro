@@ -62,6 +62,16 @@ const { locale } = Astro.props;
     color: var(--color-accent);
   }
 
+  /* A finger needs 44px around a 20px mark; the margin gives back what the
+     padding takes, so the row does not move. */
+  @media (pointer: coarse) {
+    .tp-theme-toggle {
+      width: 44px;
+      height: 44px;
+      margin: -12px;
+    }
+  }
+
   .tp-theme-mark {
     display: block;
     width: 20px;

@@ -167,6 +167,51 @@
   color: var(--color-accent);
 }
 
+/* A finger needs 44px; the mono links are 24, the chips 39, the tags 35. On a
+   coarse pointer each grows an invisible hit area to that height, centred on
+   the visible box, so the drawing does not change and the layout does not
+   move. Adjacent chip rows sit 8px apart, which the 2.5px growth clears. */
+@media (pointer: coarse) {
+  .tp-link,
+  .tp-chip,
+  .tp-tag,
+  .tp-alt,
+  #tp-menu a,
+  .tp-projects-open article h3 a,
+  .tp-row h3 a {
+    position: relative;
+  }
+
+  .tp-link::after,
+  .tp-chip::after,
+  .tp-tag::after,
+  .tp-alt::after,
+  #tp-menu a::after,
+  .tp-projects-open article h3 a::after,
+  .tp-row h3 a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+
+  /* The mark stays 42px square; its anchor grows to the finger's 44. The
+     height is set inline on the anchor and it clips its overflow, so neither
+     padding nor a pseudo-element can do this — only the height itself. The
+     nav row already stands at 44 for the burger, so nothing around it moves. */
+  #tp-logo {
+    height: 44px !important;
+  }
+
+  /* The overlay's close button is text in a hairline box: give the box height. */
+  #tp-detail-close {
+    min-height: 44px;
+  }
+}
+
 /* ---- Projects as a list ------------------------------------------------ */
 /* The grid is sr-only while the 3D plates are drawn; these rules apply once
    the script hands it back its box. */
@@ -178,6 +223,15 @@
   transition: border-color 0.3s ease;
   justify-content: flex-start;
   gap: 20px;
+  /* A grid item's default `min-width: auto` lets its longest unbreakable word
+     set its width: a domain-name title in caps pushed a cell to 403px on any
+     phone, and the page scrolled sideways whenever the random draw picked it.
+     The track decides the width; the title wraps inside it. */
+  min-width: 0;
+}
+
+.tp-projects-open article h3 {
+  overflow-wrap: anywhere;
 }
 
 .tp-projects-open .tp-cell-art {
