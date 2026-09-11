@@ -140,4 +140,23 @@ export default {
   projectsViewAll: 'Voir tous les projets',
   projectsAllTitle: 'Tous les projets',
   projectsDescription: 'Projets open source et sites web de Xavier Gueret : Kubernetes, Terraform, Ansible, Python, sites statiques.',
+
+  // Accessibility widget
+  a11yOpen: 'Ouvrir les paramètres d\'accessibilité',
+  a11yTitle: 'Accessibilité',
+  a11yReset: 'Réinitialiser',
+  a11yClose: 'Fermer',
+  a11yCatText: 'Texte',
+  a11yCatVisual: 'Visuel',
+  a11yCatOrientation: 'Orientation',
+  a11yFontSize: 'Taille de texte',
+  a11yLineHeight: 'Hauteur de ligne',
+  a11yAlignLeft: 'Alignement du texte',
+  a11yReadableFont: 'Police lisible',
+  a11yContrast: 'Contraste',
+  a11yHideImages: 'Masquer les images',
+  a11yPauseAnimations: 'Pause animations',
+  a11yHighlightLinks: 'Mettre en évidence les liens',
+  a11yReadingMask: 'Masque de lecture',
+  a11yFocusOutline: 'Contour du focus',
 } as const;
