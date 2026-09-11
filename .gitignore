@@ -41,3 +41,5 @@ dist/
 !public/images/**/*.png
 
 tmp/
+# Subagent-driven-development scratch workspace
+.superpowers/
