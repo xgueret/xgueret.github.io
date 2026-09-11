@@ -6,8 +6,6 @@
  * module owns every change after that.
  */
 
-const PREFIX = 'tp-a11y-';
-
 interface Feature {
   /** localStorage key, minus nothing — stored verbatim. */
   key: string;
@@ -39,15 +37,6 @@ export const A11Y_EVENT = 'tp-a11ychange';
 
 const root = document.documentElement;
 
-function read(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    // Private browsing refuses the read; the session simply starts unset.
-    return null;
-  }
-}
-
 function write(key: string, value: string | null): void {
   try {
     if (value === null) localStorage.removeItem(key);
@@ -74,10 +63,14 @@ function stepsOf(btn: HTMLButtonElement): string[] {
   return raw ? raw.split(',') : [];
 }
 
-/** Index 0 is the unscaled state and carries no class. */
+/**
+ * Index 0 is the unscaled state and carries no class. The DOM is the read
+ * model here, same as the boolean toggles below — a failed localStorage
+ * write must not desync the control from the class it just applied.
+ */
 function currentStep(id: string, steps: string[]): number {
-  const stored = read(FEATURES[id].key);
-  const i = stored ? steps.indexOf(stored) : -1;
+  const { cssClass } = FEATURES[id];
+  const i = steps.findIndex((s) => root.classList.contains(cssClass + s));
   return i === -1 ? 0 : i + 1;
 }
 
@@ -206,6 +199,3 @@ export function onA11yChange(fn: (s: A11yState) => void): void {
   document.addEventListener(A11Y_EVENT, (e) => fn((e as CustomEvent<A11yState>).detail));
   fn(currentState());
 }
-
-/** Exported for the pre-paint script's benefit — keeps the prefix in one place. */
-export { PREFIX };
