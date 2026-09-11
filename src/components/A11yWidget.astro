@@ -111,7 +111,8 @@ const CATEGORIES = [
 
 <style>
   /* Z-index sits in the gap the site leaves free: above the nav (60) and the
-     home veil (70), below the custom cursor (90) and the loader (100). */
+     home project-detail overlay (70), below the custom cursor (90) and the
+     loader (100). */
   .tp-a11y-open {
     position: fixed;
     right: 0;
@@ -205,6 +206,16 @@ const CATEGORIES = [
   .tp-a11y-head-actions button:focus-visible {
     color: var(--color-accent);
     border-color: var(--color-accent);
+  }
+
+  /* A finger needs 44px around a 32px button; the margin gives back what the
+     padding takes, so the header row does not move. */
+  @media (pointer: coarse) {
+    .tp-a11y-head-actions button {
+      width: 44px;
+      height: 44px;
+      margin: -6px;
+    }
   }
 
   .tp-a11y-head-actions svg {
