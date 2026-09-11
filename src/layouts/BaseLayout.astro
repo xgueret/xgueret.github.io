@@ -39,13 +39,33 @@ const desc = description || t(locale, 'siteDescription');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {/* Blocking on purpose: the stored theme has to be on the element before
-        the first paint, or the page flashes the default on every load. */}
+    {/* Blocking on purpose: the stored theme and accessibility preferences have
+        to be on the element before the first paint, or the page flashes the
+        default on every load. */}
     <script is:inline>
       try {
         if (localStorage.getItem('tp-theme') === 'light') document.documentElement.dataset.theme = 'light';
+
+        var flags = {
+          'tp-a11y-align': 'tp-a11y-align-left',
+          'tp-a11y-readable': 'tp-a11y-readable-font',
+          'tp-a11y-contrast': 'tp-a11y-contrast',
+          'tp-a11y-hide-images': 'tp-a11y-hide-images',
+          'tp-a11y-pause': 'tp-a11y-pause',
+          'tp-a11y-links': 'tp-a11y-links',
+          'tp-a11y-mask': 'tp-a11y-mask',
+          'tp-a11y-focus': 'tp-a11y-focus',
+        };
+        for (var k in flags) {
+          if (localStorage.getItem(k) === '1') document.documentElement.classList.add(flags[k]);
+        }
+        // Validated, never interpolated raw: a tampered value must not become a class.
+        var font = localStorage.getItem('tp-a11y-font');
+        if (/^(115|130|150)$/.test(font)) document.documentElement.classList.add('tp-a11y-font-' + font);
+        var lh = localStorage.getItem('tp-a11y-lh');
+        if (/^(130|160)$/.test(lh)) document.documentElement.classList.add('tp-a11y-lh-' + lh);
       } catch (e) {
-        /* Private browsing refuses the read; dark is the default anyway. */
+        /* Private browsing refuses the read; the defaults are correct anyway. */
       }
     </script>
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
