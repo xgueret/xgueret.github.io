@@ -4,6 +4,7 @@ import SiteNav from '../components/SiteNav.astro';
 import FooterLine from '../components/FooterLine.astro';
 import BlogScripts from '../components/BlogScripts.astro';
 import SEO from '../components/SEO.astro';
+import A11yWidget from '../components/A11yWidget.astro';
 import { type Locale, t } from '../i18n';
 
 interface Props {
@@ -98,5 +99,7 @@ const desc = description || t(locale, 'siteDescription');
     )}
 
     {!home && <BlogScripts />}
+
+    <A11yWidget locale={locale} />
   </body>
 </html>
