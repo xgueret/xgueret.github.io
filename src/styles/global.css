@@ -12,6 +12,9 @@
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
 
+/* Last on purpose: its self-exemption block has to outrank everything above. */
+@import './a11y.css';
+
 @theme {
   /* Monochrome system — see DESIGN.md. Every value resolves through the two
      triplets in `:root`, so a Tailwind utility follows the theme like the rest. */
