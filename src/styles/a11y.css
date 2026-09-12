@@ -251,3 +251,57 @@ html.tp-a11y-focus .toc-sheet-list {
 .tp-a11y-mask-band.is-top {
   top: 0;
 }
+
+/* ============================================================================
+   Self-exemption — MUST STAY LAST IN THIS FILE.
+
+   The overrides above are written plainly, without a `:not(.tp-a11y *)` on
+   every selector; this block wins them back instead. A toolbar that shrinks its
+   own text when you enlarge the page's, or hides its own icons when you hide
+   the page's images, is not usable by the reader who needs it.
+
+   TWO THINGS HERE ARE LOAD-BEARING AND EASY TO "TIDY" INTO BREAKAGE:
+
+   1. The doubled class (`.tp-a11y.tp-a11y`) is deliberate. Several overrides
+      above are `html[class*='tp-a11y-…'] <element>`, specificity (0,1,2). The
+      plain `.tp-a11y *` is (0,1,0) and LOSES to them — specificity is compared
+      before source order, so being last in the file does not save it. Doubling
+      the class makes it (0,2,0) and wins. Do not "simplify" it back.
+
+   2. Sizes here are px, NOT rem. `Taille de texte` scales the ROOT font-size,
+      and a rem inside this block would resolve against that scaled root — i.e.
+      it would fail to exempt the one thing this block exists to exempt.
+   ========================================================================= */
+.tp-a11y.tp-a11y,
+.tp-a11y.tp-a11y * {
+  font-family: var(--font-mono) !important;
+  font-style: normal !important;
+  text-align: left !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.35 !important;
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+.tp-a11y.tp-a11y .tp-a11y-feature-label,
+.tp-a11y.tp-a11y .tp-label,
+.tp-a11y.tp-a11y .tp-label-sm {
+  font-size: 11px !important;
+}
+
+.tp-a11y.tp-a11y .tp-label,
+.tp-a11y.tp-a11y .tp-label-sm {
+  letter-spacing: 0.3em !important;
+}
+
+.tp-a11y.tp-a11y svg {
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* The panel's own buttons must not pick up the highlight or the thickened
+   underline meant for page content. */
+.tp-a11y.tp-a11y button {
+  text-decoration: none !important;
+  font-weight: 400 !important;
+}
