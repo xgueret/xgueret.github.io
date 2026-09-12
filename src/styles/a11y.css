@@ -218,3 +218,20 @@ html.tp-a11y-focus :focus-visible {
   outline: 3px solid var(--color-accent) !important;
   outline-offset: 4px !important;
 }
+
+/* A 3px outline with a 4px offset extends 7px past a link's own box — more
+   room than either scroll container on the site normally leaves at its
+   edges. `.toc-desktop` (the sticky sidebar) and `.toc-sheet-list` (the
+   mobile bottom sheet's list) are the only scroll containers with focusable
+   links inside them, and both were measured clipping the ring: constantly on
+   the left, where neither container leaves any padding at all, and on the
+   top/bottom for a link scrolled flush against that edge. Padding the
+   container admits the ring without touching `overflow` — the containers
+   still scroll exactly as before. */
+html.tp-a11y-focus .toc-desktop {
+  padding: 8px !important;
+}
+
+html.tp-a11y-focus .toc-sheet-list {
+  padding: 8px !important;
+}
