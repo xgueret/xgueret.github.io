@@ -62,9 +62,19 @@ function trimToCap(grid: HTMLElement): void {
    cells and appends a canvas to each survivor. It therefore runs once, and
    everything else toggles. `origin` remembers where the grid sat in the
    document: `#tp-projects` is a sibling AFTER `#tp-main`, so putting it back is
-   what keeps the list from reappearing below the contact section. */
+   what keeps the list from reappearing below the contact section.
+
+   `workHeight` is the same idea for `#tp-work`'s inline height, and it is NOT
+   scene state to be cleared: `WorkSection.astro` renders it server-side from
+   `workHeightVh(count)` (`height:190vh`), and that range is the whole scroll
+   budget the plate fly-through sweeps. Clearing it instead of restoring it left
+   the section at `auto` — about 100vh, the sticky HUD alone — so `index.ts`'s
+   `span = r.height - innerHeight` collapsed to nothing and `workP` snapped
+   between 0 and 1 for the rest of the session. Whatever was there is saved
+   verbatim, empty string included, so the round trip is symmetric. */
 let trimmed = false;
 let origin: { parent: ParentNode; next: Node | null } | null = null;
+let workHeight: string | null = null;
 
 /**
  * Bring the project grid out of the accessibility tree and into the work
@@ -86,6 +96,7 @@ export function revealProjectList(): void {
   grid.classList.remove('tp-sr-grid');
   grid.classList.add('tp-projects-open');
   if (work) {
+    if (workHeight === null) workHeight = work.style.height;
     work.style.height = 'auto';
     work.appendChild(grid);
   }
@@ -93,9 +104,9 @@ export function revealProjectList(): void {
 
 /**
  * Undo `revealProjectList`: the grid goes back to being sr-only where it came
- * from, and the work section gets its scroll height back so the 3D column can
- * be flown through again. Only the accessibility toggle calls this — the
- * no-WebGL path has nothing to go back to.
+ * from, and `#tp-work` gets back the exact inline height it was rendered with,
+ * so the 3D column can be flown through again. Only the accessibility toggle
+ * calls this — the no-WebGL path has nothing to go back to.
  */
 export function hideProjectList(): void {
   const grid = document.getElementById('tp-projects');
@@ -105,7 +116,7 @@ export function hideProjectList(): void {
   grid.classList.remove('tp-projects-open');
   grid.classList.add('tp-sr-grid');
   if (origin) origin.parent.insertBefore(grid, origin.next);
-  if (work) work.style.height = '';
+  if (work && workHeight !== null) work.style.height = workHeight;
 }
 
 /** No WebGL: hide every canvas layer and restore the system cursor. */
