@@ -1,0 +1,330 @@
+/* ============================================================================
+   Accessibility overrides — driven by the `tp-a11y-*` classes that
+   `scripts/ui/a11y.ts` writes onto <html>.
+
+   Wherever the site's token system can express an override, it is expressed as
+   a variable redefinition rather than as an `!important` selector. That is why
+   this file is a fraction of the size of the one it was ported from: the
+   original had no tokens and had to enumerate selectors per feature.
+
+   The self-exemption block at the END of this file protects the widget from
+   its own rules. What makes it win is `!important` plus the doubled class
+   `.tp-a11y.tp-a11y` — NOT its position in the file, and not this file's
+   position in `global.css`'s import list, which inlines it near the top.
+   Keeping the block last is a readability convention; the `!important` and the
+   doubled class are the load-bearing part. See the block's own comment.
+   ========================================================================= */
+
+/* ---- Text size -----------------------------------------------------------
+   The root font-size, not per-tag overrides: moving it moves every heading's
+   `clamp()` rem bounds, so type grows along its own fluid curve instead of a
+   fixed ladder. Tailwind's rem-based utilities follow for free, and Task 1
+   converted the six px primitives that would not have.
+
+   A `vw`/`vh` term inside a clamp is viewport-relative, though, and cannot
+   move with the root — so a heading whose clamp is currently resolving to
+   that term stops growing while body text, nav and labels keep scaling.
+   `.tp-h2`, for instance, measures 73.6px at 100% and 80.64px at every step
+   from 115% up, at 1440px wide; other headings use their own clamps — the
+   hero's mixes a `vh` term inside `min()`, so its exact ceiling differs.
+   Accepted: the alternative is per-tag overrides, the fixed ladder this file
+   exists to avoid. */
+html.tp-a11y-font-115 { font-size: 115%; }
+html.tp-a11y-font-130 { font-size: 130%; }
+html.tp-a11y-font-150 { font-size: 150%; }
+
+/* ---- Line height ---------------------------------------------------------
+   1.55 and 1.7 are the site's own body and prose values; the class multiplies
+   them rather than replacing them. Headings carry inline `line-height` from the
+   mockup, so they need the override to win. */
+html.tp-a11y-lh-130 { --tp-a11y-lh: 1.3; }
+html.tp-a11y-lh-160 { --tp-a11y-lh: 1.6; }
+
+html[class*='tp-a11y-lh-'] body {
+  line-height: calc(1.55 * var(--tp-a11y-lh));
+}
+
+html[class*='tp-a11y-lh-'] .prose p,
+html[class*='tp-a11y-lh-'] .prose li {
+  line-height: calc(1.7 * var(--tp-a11y-lh)) !important;
+}
+
+html[class*='tp-a11y-lh-'] h1,
+html[class*='tp-a11y-lh-'] h2,
+html[class*='tp-a11y-lh-'] h3,
+html[class*='tp-a11y-lh-'] h4 {
+  line-height: calc(1.15 * var(--tp-a11y-lh)) !important;
+}
+
+/* ---- Text alignment ------------------------------------------------------ */
+html.tp-a11y-align-left body * {
+  text-align: left !important;
+}
+
+/* ---- Readable font -------------------------------------------------------
+   One rule, because the fonts are variables. The tracking goes too: 0.3em on
+   the mono labels is a legibility cost this feature exists to remove. */
+html.tp-a11y-readable-font {
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: Consolas, 'Courier New', monospace;
+}
+
+html.tp-a11y-readable-font body * {
+  letter-spacing: normal !important;
+  font-style: normal !important;
+}
+
+/* Italics are removed deliberately for legibility, so emphasis has to be
+   carried by weight instead, or it would vanish. */
+html.tp-a11y-readable-font em,
+html.tp-a11y-readable-font i {
+  font-weight: 600 !important;
+}
+
+/* ---- Contrast ------------------------------------------------------------
+   A modifier on the current theme, not a forced black-on-white: dark stays
+   dark and paper stays paper, both pushed to their pure extremes. This is the
+   clearest payoff of the two-triplet token system — the ported original needed
+   eight `!important` selector blocks for the same result.
+
+   `--color-accent` becomes ink because no green clears 4.5:1 against both pure
+   grounds; `--color-accent-solid` keeps the lime for fills, where text contrast
+   does not apply. That is the split the light theme already makes. */
+html.tp-a11y-contrast {
+  --ink: 255 255 255;
+  --ground: 0 0 0;
+  --color-bg-alt: #000000;
+  --color-text-muted: rgb(var(--ink));
+  --color-text-light: rgb(var(--ink));
+  --color-border: rgb(var(--ink) / 0.6);
+  --color-accent: rgb(var(--ink));
+  --color-accent-hover: rgb(var(--ink));
+}
+
+html[data-theme='light'].tp-a11y-contrast {
+  --ink: 0 0 0;
+  --ground: 255 255 255;
+  --color-bg-alt: #ffffff;
+}
+
+/* The mockup dims secondary copy with inline `opacity`, which no token reaches.
+   Contrast is exactly the setting where that dimming must not survive — the nav
+   wordmark role and the footer line use it too, and both are siblings of
+   `<main>` in `BaseLayout`, not descendants, so the root has to name all three.
+
+   The home page drives several full-viewport elements through `opacity` as
+   animation state (`#tp-veil`, `#tp-loader`, `#tp-scrim`, `#tp-scrollcue`) —
+   these DO live inside `<main>` (`SceneLayer` is slotted into it), so it is the
+   tag list below, not the `:is(main, nav, footer)` root, that keeps this rule
+   from reaching them: each is a `div` (or has `div` children), and `div` is
+   deliberately absent from the list. Adding `div` or a bare universal here
+   would force `#tp-veil` to `opacity: 1` and paint it over the whole page
+   permanently. */
+html.tp-a11y-contrast :is(main, nav, footer) :is(p, li, span, a, h1, h2, h3, h4, time) {
+  opacity: 1 !important;
+}
+
+/* ---- Hide images ---------------------------------------------------------
+   The home's projects are a WebGL canvas, not <img>, so hiding media alone
+   would leave the reader with an empty page. The canvas goes, and the existing
+   `.tp-sr-grid` fallback is revealed — but NOT from here. Revealing it is
+   `revealProjectList()` in `scripts/scene/fallback.ts`, which `scene/index.ts`
+   calls off `tp-a11ychange`: only that path trims the list to `MAX_PLATES`,
+   paints the cells, moves the grid back inside `#tp-work` (it is a sibling
+   AFTER `#tp-main`, so left in place it renders below the contact section) and
+   adds `.tp-projects-open`, whose `global.css` rules carry the padding, the
+   cell styling and the `min-width: 0` that stops a domain-name title scrolling
+   phones sideways. An earlier version un-clipped `#tp-projects` from here with
+   CSS alone and lost every one of those. Do not put those resets back.
+
+   What is left below is only what CSS can own: taking the canvas layers out.
+   It mirrors the intent of the <noscript> block in
+   `components/home/SceneLayer.astro`, but the two lists differ: <noscript>
+   also hides `#tp-loader` and `#tp-cursor`, whose scripts never run on that
+   path, while this one additionally hides `#tp-gl` and generic media, which a
+   no-JS page has no need to touch. If that block changes, this one has to
+   change with it. */
+html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
+  visibility: hidden !important;
+}
+
+html.tp-a11y-hide-images :is(#tp-gl, #tp-scrim, #tp-veil, #tp-work-hud, #tp-scrollcue) {
+  display: none !important;
+}
+
+/* ---- Pause animations ----------------------------------------------------
+   The CSS half. `scripts/scene/index.ts` listens for `tp-a11ychange` — CSS
+   cannot reach a requestAnimationFrame loop — and keeps the render loop and
+   Lenis running rather than stopping either: the loop skips its animation
+   and draw work each frame, and Lenis drops out of smooth mode so wheel/
+   touch scroll natively instead of being locked out. */
+html.tp-a11y-pause *,
+html.tp-a11y-pause *::before,
+html.tp-a11y-pause *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html.tp-a11y-pause {
+  scroll-behavior: auto !important;
+}
+
+/* The custom cursor (`#tp-cursor`) trails the pointer with inertia — an
+   animated element in its own right, and one the frozen render loop stops
+   driving once paused. Rather than leave a dot stranded where it last moved,
+   hand the reader back the plain system pointer: revert exactly the
+   selectors `global.css` sets under `html.tp-cursor` to their user-agent
+   default (`revert`, not `auto`, so links/buttons/inputs keep whatever
+   cursor the browser would normally show them, not a flat arrow everywhere),
+   and hide the dot itself. */
+html.tp-a11y-pause.tp-cursor,
+html.tp-a11y-pause.tp-cursor a,
+html.tp-a11y-pause.tp-cursor button,
+html.tp-a11y-pause.tp-cursor input,
+html.tp-a11y-pause.tp-cursor textarea,
+html.tp-a11y-pause.tp-cursor label {
+  cursor: revert;
+}
+
+html.tp-a11y-pause #tp-cursor {
+  display: none !important;
+}
+
+/* ---- Highlight links -------------------------------------------------------
+   The ported original used `#0000EE`, the standard link blue. On this site's
+   black ground that measures ~2.3:1 — it would be LESS legible than what it
+   replaces. The accent is already contrast-checked per theme, so
+   recognisability is carried by a 2px underline and a weight bump instead.
+
+   Under `tp-a11y-contrast` the accent resolves to ink, so highlighted links
+   match body colour and the underline does the whole job. That is correct for
+   a high-contrast mode and not a bug. */
+html.tp-a11y-links :is(main, footer, nav) a {
+  color: var(--color-accent) !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  font-weight: 500 !important;
+  opacity: 1 !important;
+}
+
+/* ---- Focus outline ---------------------------------------------------------
+   `global.css` already ships `:focus-visible { outline: 1px solid accent }`.
+   This thickens what exists rather than introducing a competing rule. */
+html.tp-a11y-focus :focus-visible {
+  outline: 3px solid var(--color-accent) !important;
+  outline-offset: 4px !important;
+}
+
+/* A 3px outline with a 4px offset extends 7px past a link's own box — more
+   room than either scroll container on the site normally leaves at its
+   edges. `.toc-desktop` (the sticky sidebar) and `.toc-sheet-list` (the
+   mobile bottom sheet's list) are the only scroll containers with focusable
+   links inside them, and both were measured clipping the ring: constantly on
+   the left, where neither container leaves any padding at all, and on the
+   top/bottom for a link scrolled flush against that edge. Padding the
+   container admits the ring without touching `overflow` — the containers
+   still scroll exactly as before. */
+html.tp-a11y-focus .toc-desktop {
+  padding: 8px !important;
+}
+
+html.tp-a11y-focus .toc-sheet-list {
+  padding: 8px !important;
+}
+
+/* ---- Reading mask --------------------------------------------------------
+   z-index 79: over the page and the nav (60), under the floating button (80),
+   the panel overlay (84) and the panel (85) — so every control that can turn
+   the mask off stays clear of the wash.
+
+   The bands were at 82, which cleared the panel but not the BUTTON, and the
+   button is the only control visible while the mask is on. It sits at
+   `top: 50%` while the 120px strip follows the pointer, so any pointer away
+   from mid-height put a 0.78 `--ground` wash over it. 79 is the fix: it is the
+   only value under 80 that is still above everything the page itself paints. */
+.tp-a11y-mask-band {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 79;
+  background: rgb(var(--ground) / 0.78);
+  pointer-events: none;
+}
+
+.tp-a11y-mask-band.is-top {
+  top: 0;
+}
+
+/* ============================================================================
+   Self-exemption — MUST STAY LAST IN THIS FILE.
+
+   The overrides above are written plainly, without a `:not(.tp-a11y *)` on
+   every selector; this block wins them back instead. A toolbar that shrinks its
+   own text when you enlarge the page's, or hides its own icons when you hide
+   the page's images, is not usable by the reader who needs it.
+
+   TWO THINGS HERE ARE LOAD-BEARING AND EASY TO "TIDY" INTO BREAKAGE:
+
+   1. The doubled class (`.tp-a11y.tp-a11y`) is deliberate. Several overrides
+      above are `html[class*='tp-a11y-…'] <element>`, specificity (0,1,2). The
+      plain `.tp-a11y *` is (0,1,0) and LOSES to them — specificity is compared
+      before source order, so being last in the file does not save it. Doubling
+      the class makes it (0,2,0) and wins. Do not "simplify" it back.
+
+   2. Sizes here are px, NOT rem. `Taille de texte` scales the ROOT font-size,
+      and a rem inside this block would resolve against that scaled root — i.e.
+      it would fail to exempt the one thing this block exists to exempt.
+   ========================================================================= */
+.tp-a11y.tp-a11y,
+.tp-a11y.tp-a11y * {
+  font-family: var(--font-mono) !important;
+  font-style: normal !important;
+  text-align: left !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.35 !important;
+  animation: none !important;
+}
+
+/* No blanket `opacity: 1` here: the only override in this file that touches
+   opacity (`html.tp-a11y-contrast :is(main, nav, footer) ...`) is scoped to
+   those three tags, and the widget is a SIBLING of all three in `BaseLayout`,
+   not a descendant — that rule can never reach the panel. Forcing opacity
+   back to 1 unconditionally would instead flatten the panel's OWN designed
+   hierarchy, e.g. `.tp-a11y-section-title { opacity: 0.62 }` in
+   `A11yWidget.astro`, which deliberately de-emphasises the category headers
+   against the feature labels. */
+
+.tp-a11y.tp-a11y .tp-a11y-feature-label,
+.tp-a11y.tp-a11y .tp-label {
+  font-size: 11px !important;
+}
+
+/* `.tp-label-sm` is a distinct 10px primitive in `global.css` — pinning it to
+   11px alongside `.tp-label` would erase that intentional size difference. */
+.tp-a11y.tp-a11y .tp-label-sm {
+  font-size: 10px !important;
+}
+
+.tp-a11y.tp-a11y .tp-label,
+.tp-a11y.tp-a11y .tp-label-sm {
+  letter-spacing: 0.3em !important;
+}
+
+/* Currently unreachable in practice — `Masquer les images` targets
+   `img, picture, video, [role='img']`, never `svg` directly — but kept as
+   cheap defensive insurance: the ported original did hide standalone svgs,
+   and this guards the panel's icons if that selector list ever grows to
+   include them. Not evidence that svgs are hidden today; do not delete as
+   dead code. */
+.tp-a11y.tp-a11y svg {
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* The panel's own buttons must not pick up the highlight or the thickened
+   underline meant for page content. */
+.tp-a11y.tp-a11y button {
+  text-decoration: none !important;
+  font-weight: 400 !important;
+}

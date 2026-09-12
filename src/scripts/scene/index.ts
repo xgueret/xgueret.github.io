@@ -4,12 +4,13 @@ import {
 } from 'three';
 import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
+import { onA11yChange } from '../ui/a11y';
 import { getTheme, onThemeChange } from '../ui/theme';
 import { BACKDROP } from '../../lib/backdrop';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
 import { createCards, readProjects, rethemeCards, selectPlates, type Card } from './cards';
-import { revealProjectList } from './fallback';
+import { hideProjectList, revealProjectList } from './fallback';
 import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE, SCENE_THEME } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
@@ -28,12 +29,18 @@ interface State {
   last: number;
 }
 
-/** Eased 0→1 focus tween (expo.inOut, 0.8 s) driven by the frame loop. */
-function setFocus(card: Card, to: number): void {
+/**
+ * Eased 0→1 focus tween (expo.inOut, 0.8 s) driven by the frame loop. `t` must
+ * be the scene's own offset clock (`state.last`), not raw `performance.now()`
+ * — `updateCards` compares `u.ft` against that same clock, and the two drift
+ * apart by however long the scene has spent paused otherwise, pinning the
+ * tween at `f0` (or, on the other transition, skipping it to `f1` instantly).
+ */
+function setFocus(card: Card, to: number, t: number): void {
   const u = card.userData;
   u.f0 = u.focus;
   u.f1 = to;
-  u.ft = performance.now() * 0.001;
+  u.ft = t;
 }
 
 /**
@@ -115,6 +122,62 @@ export function startScene(caps: Capabilities): void {
   }
   setProgress();
 
+  // Captured before pausing ever touches them, so releasing the toggle
+  // restores exactly what Lenis was constructed with.
+  const lenisSmoothWheel = lenis?.options.smoothWheel ?? true;
+  const lenisSyncTouch = lenis?.options.syncTouch ?? false;
+
+  /* The reader can freeze the scene from the accessibility panel. It is frozen,
+     not torn down: the RAF loop and Lenis both keep running so releasing the
+     toggle resumes without a reload.
+
+     `lenis.stop()` is NOT used for this — it is a hard scroll lock (wheel and
+     touch listeners stay bound and call `preventDefault` unconditionally,
+     the same mechanism `openCard` uses to trap scroll behind the modal),
+     which would leave the reader unable to scroll the page at all. Instead,
+     pausing drops Lenis out of smooth mode: with `smoothWheel`/`syncTouch`
+     false, Lenis' own `onVirtualScroll` takes its native-scroll branch and
+     gets out of the way, so wheel/touch scroll the page exactly as an
+     unstyled page would. `lenis.raf` and its 'scroll' → `setProgress` feed
+     keep running throughout (see `tick`), paused or not.
+
+     `pausedOffset` accumulates how long the scene has spent paused, and is
+     subtracted from `now` when deriving `tick`'s clock: the noise-driven
+     camera drift and backdrop film resume from where they stopped instead of
+     jumping ahead by the paused duration the instant the toggle is released. */
+  let paused = false;
+  let pausedAt = 0;
+  let pausedOffset = 0;
+  onA11yChange((s) => {
+    if (paused === s.pause) return;
+    paused = s.pause;
+    if (lenis) {
+      lenis.options.smoothWheel = paused ? false : lenisSmoothWheel;
+      lenis.options.syncTouch = paused ? false : lenisSyncTouch;
+    }
+    backdrop.setPaused(paused);
+    cursor.setPaused(paused);
+    if (paused) pausedAt = performance.now();
+    else pausedOffset += performance.now() - pausedAt;
+  });
+
+  /* `Masquer les images` takes the canvas away in CSS, which on its own would
+     leave the work section empty: the projects on this page are plates, not
+     <img>. Reuse the no-WebGL path rather than restyling the grid from
+     `a11y.css` — it is what trims the list to `MAX_PLATES`, paints the cells
+     and puts the grid back inside `#tp-work`, and `.tp-projects-open` carries
+     the layout rules the CSS-only version was missing. Without `caps.plates`
+     the list is already revealed for good, so there is nothing to toggle. */
+  if (caps.plates) {
+    let listed = false;
+    onA11yChange((s) => {
+      if (listed === s.hideImages) return;
+      listed = s.hideImages;
+      if (listed) revealProjectList();
+      else hideProjectList();
+    });
+  }
+
   document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"], #tp-menu a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       const el = document.querySelector<HTMLElement>(a.getAttribute('href') ?? '');
@@ -132,6 +195,8 @@ export function startScene(caps: Capabilities): void {
   const projects = byId('tp-projects');
   const cue = byId('tp-scrollcue');
   const closeBtn = byId('tp-detail-close');
+  const a11yPanel = byId('tp-a11y-panel');
+  const a11yWidget = document.querySelector<HTMLElement>('.tp-a11y');
   let lastFocus: HTMLElement | null = null;
 
   const openCard = (card: Card): void => {
@@ -160,11 +225,14 @@ export function startScene(caps: Capabilities): void {
       detail.removeAttribute('inert');
     }
     lenis?.stop();
-    setFocus(card, 1);
+    setFocus(card, 1, state.last);
     // The dialog is aria-modal: take the page behind it out of the tab order.
     if (main) { main.style.opacity = '0'; main.setAttribute('inert', ''); }
     if (nav) { nav.style.opacity = '0'; nav.setAttribute('inert', ''); }
     projects?.setAttribute('inert', '');
+    // The toolbar is a sibling of all three, so it needs naming separately —
+    // otherwise the reader can open it over the dialog and tab straight out.
+    a11yWidget?.setAttribute('inert', '');
     if (cue) cue.style.opacity = '0';
     closeBtn?.focus();
   };
@@ -181,10 +249,11 @@ export function startScene(caps: Capabilities): void {
       detail.setAttribute('inert', '');
     }
     lenis?.start();
-    setFocus(card, 0);
+    setFocus(card, 0, state.last);
     if (main) { main.style.opacity = '1'; main.removeAttribute('inert'); }
     if (nav) { nav.style.opacity = '1'; nav.removeAttribute('inert'); }
     projects?.removeAttribute('inert');
+    a11yWidget?.removeAttribute('inert');
     lastFocus?.focus();
   };
 
@@ -195,10 +264,25 @@ export function startScene(caps: Capabilities): void {
 
   closeBtn?.addEventListener('click', closeCard);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
+  /* The accessibility panel and its full-viewport overlay are bare divs, as are
+     the panel's own head, body and section titles — all of which this handler
+     would otherwise read as page background and answer by opening whatever
+     plate happens to be hovered underneath. Two `aria-modal` dialogs would be
+     live at once and `closeBtn.focus()` would pull focus out of the panel.
+
+     Both checks earn their place. `closest` catches the click that DISMISSES
+     the panel: the overlay's own listener has already hidden it by the time
+     the event bubbles to `window`, so the hidden check alone would be false
+     exactly when it matters. The hidden check covers a click that reaches the
+     window from outside the widget while the panel is open. */
+  const a11yBusy = (target: Element | null): boolean =>
+    !!target?.closest?.('.tp-a11y') || !(a11yPanel?.hidden ?? true);
+
   window.addEventListener('click', (e) => {
     if (state.focused) return;
     const target = e.target as Element | null;
     if (target?.closest && target.closest('a,button,form,input,textarea,label')) return;
+    if (a11yBusy(target)) return;
     if (state.hovered?.visible) openCard(state.hovered);
   });
 
@@ -319,10 +403,9 @@ export function startScene(caps: Capabilities): void {
 
   const tick = (now: number): void => {
     requestAnimationFrame(tick);
-    const t = now * 0.001;
-    state.last = t;
+    // Lenis keeps ticking whether or not the scene is paused — see the pause
+    // subscription above.
     lenis?.raf(now);
-    cursor.update();
     state.progress += (state.progressTarget - state.progress) * 0.08;
 
     // work-section-local progress: the card sweep is driven by #tp-work's own
@@ -336,6 +419,9 @@ export function startScene(caps: Capabilities): void {
     state.workP += (state.workTarget - state.workP) * 0.09;
 
     // Text-section veil: copy-heavy sections get a black veil over the canvas.
+    // Driven by scroll position, which the reader controls, not by autonomous
+    // motion — it has to keep responding while paused or copy sitting over a
+    // frozen frame loses its scrim.
     let cover = 0;
     ['tp-about', 'tp-blog', 'tp-cv', 'tp-contact'].forEach((id) => {
       const el = byId(id);
@@ -347,6 +433,17 @@ export function startScene(caps: Capabilities): void {
     state.textCover = Math.min(1, cover);
     if (veil) veil.style.opacity = (state.textCover * 0.8).toFixed(2);
 
+    // Everything below is either autonomous motion (camera drift, cursor
+    // trailing, card focus tweens, the backdrop film) or the draw call
+    // itself — this is the "animation" Pause animations means to stop, so
+    // it stops here. The custom cursor is hidden by CSS while paused (see
+    // `a11y.css`), which is what makes freezing it here correct instead of a
+    // regression: there is nothing left on screen for it to drive.
+    if (paused) return;
+
+    const t = (now - pausedOffset) * 0.001;
+    state.last = t;
+    cursor.update();
     updateCamera(t);
     updateCards(t);
     backdrop.update(t, state.progress, cursor.pointer.sx, cursor.pointer.sy, state.textCover);

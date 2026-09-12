@@ -10,6 +10,8 @@ export interface Backdrop {
   camera: OrthographicCamera;
   update(t: number, progress: number, sx: number, sy: number, textCover: number): void;
   setTheme(theme: SceneTheme): void;
+  /** Stops/resumes decoding the footage — it keeps looping otherwise even once nothing samples it. */
+  setPaused(paused: boolean): void;
   dispose(): void;
 }
 
@@ -63,6 +65,14 @@ export function createBackdrop(
   let ready = false;
   let failed = false;
   let si = 0;
+  /* Two other paths also call `video.play()` (below) and both race the
+     reader's own pause preference: `loadeddata` fires once decoding is ready,
+     which for a returning reader (preference already stored, `onA11yChange`
+     firing synchronously at subscribe) lands AFTER `setPaused(true)` already
+     ran; the autoplay-retry kick fires on the reader's first interaction,
+     which can happen at any time. Both have to check this flag instead of
+     playing unconditionally, or a paused backdrop restarts itself. */
+  let paused = false;
   const load = (): void => { video.src = sources[si]; video.load(); };
   video.addEventListener('error', () => { if (++si < sources.length) load(); else failed = true; });
   /* A clip whose ends do not meet plays a window cut out of its middle: the
@@ -77,11 +87,14 @@ export function createBackdrop(
       if (video.duration > clip.out && video.currentTime >= clip.out) video.currentTime = clip.in;
     });
   }
-  video.addEventListener('loadeddata', () => { ready = true; video.play().catch(() => {}); });
+  video.addEventListener('loadeddata', () => {
+    ready = true;
+    if (!paused) video.play().catch(() => {});
+  });
   load();
 
   // Autoplay is often refused until the first gesture — retry once on input.
-  const kick = (): void => { video.play().catch(() => {}); };
+  const kick = (): void => { if (!paused) video.play().catch(() => {}); };
   (['pointerdown', 'wheel', 'keydown', 'touchstart'] as const).forEach((ev) =>
     window.addEventListener(ev, kick, { once: true, passive: true })
   );
@@ -131,6 +144,11 @@ export function createBackdrop(
     setTheme(next) {
       material.uniforms.uFilm.value = next.film;
       (material.uniforms.uGround.value as Color).set(next.clear);
+    },
+    setPaused(next) {
+      paused = next;
+      if (paused) video.pause();
+      else if (ready && !failed) video.play().catch(() => {});
     },
     dispose() {
       video.pause();

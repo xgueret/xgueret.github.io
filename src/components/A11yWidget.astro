@@ -1,0 +1,328 @@
+---
+import { type Locale, t } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+/* The registry is rendered, not scripted: every label goes through `t()`, and
+   the behaviour module in `scripts/ui/a11y.ts` reads ids back off the markup.
+   `steps` holds the class suffixes; the unscaled first step has no class.
+
+   A stepped control also carries `data-a11y-level`, the localized template the
+   script folds into its accessible name ("Taille de texte, niveau 2 sur 4") —
+   the script cannot call `t()`, so the string has to reach it this way. */
+const FEATURES = [
+  { cat: 'text', id: 'fontScale', key: 'a11yFontSize', steps: ['115', '130', '150'] },
+  { cat: 'text', id: 'lineHeight', key: 'a11yLineHeight', steps: ['130', '160'] },
+  { cat: 'text', id: 'alignLeft', key: 'a11yAlignLeft' },
+  { cat: 'text', id: 'readableFont', key: 'a11yReadableFont' },
+  { cat: 'visual', id: 'contrast', key: 'a11yContrast' },
+  { cat: 'visual', id: 'hideImages', key: 'a11yHideImages' },
+  { cat: 'visual', id: 'pause', key: 'a11yPauseAnimations' },
+  { cat: 'orientation', id: 'links', key: 'a11yHighlightLinks' },
+  { cat: 'orientation', id: 'mask', key: 'a11yReadingMask' },
+  { cat: 'orientation', id: 'focus', key: 'a11yFocusOutline' },
+] as const;
+
+const CATEGORIES = [
+  { id: 'text', key: 'a11yCatText' },
+  { id: 'visual', key: 'a11yCatVisual' },
+  { id: 'orientation', key: 'a11yCatOrientation' },
+] as const;
+---
+
+<div class="tp-a11y">
+  <button
+    id="tp-a11y-open"
+    type="button"
+    data-cursor="link"
+    class="tp-a11y-open"
+    aria-label={t(locale, 'a11yOpen')}
+    aria-expanded="false"
+    aria-controls="tp-a11y-panel"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm3.5 5h-7a1.5 1.5 0 0 0 0 3H10v4.5l-2.5 5a1 1 0 0 0 1.79.89L12 15l2.71 5.39a1 1 0 0 0 1.79-.89l-2.5-5V10h1.5a1.5 1.5 0 0 0 0-3Z"
+      />
+    </svg>
+  </button>
+
+  <div id="tp-a11y-overlay" class="tp-a11y-overlay" hidden></div>
+
+  <div
+    id="tp-a11y-panel"
+    class="tp-a11y-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-label={t(locale, 'a11yTitle')}
+    hidden
+  >
+    <div class="tp-a11y-head">
+      <span class="tp-label">{t(locale, 'a11yTitle')}</span>
+      <div class="tp-a11y-head-actions">
+        <button id="tp-a11y-reset" type="button" data-cursor="link" aria-label={t(locale, 'a11yReset')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"
+            />
+          </svg>
+        </button>
+        <button id="tp-a11y-close" type="button" data-cursor="link" aria-label={t(locale, 'a11yClose')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="tp-a11y-body">
+      {CATEGORIES.map((cat) => (
+        <section class="tp-a11y-section">
+          <h2 class="tp-label-sm tp-a11y-section-title">{t(locale, cat.key)}</h2>
+          <div class="tp-a11y-grid">
+            {FEATURES.filter((f) => f.cat === cat.id).map((f) => (
+              <button
+                type="button"
+                data-cursor="link"
+                class="tp-a11y-feature"
+                data-a11y-feature={f.id}
+                data-a11y-steps={'steps' in f ? f.steps.join(',') : undefined}
+                data-a11y-level={'steps' in f ? t(locale, 'a11yLevel') : undefined}
+                aria-pressed="false"
+              >
+                <span class="tp-a11y-feature-label">{t(locale, f.key)}</span>
+                {'steps' in f && (
+                  <span class="tp-a11y-dots" aria-hidden="true">
+                    {f.steps.map(() => <span class="tp-a11y-dot"></span>)}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Z-index sits in the gap the site leaves free: above the nav (60), the home
+     project-detail overlay (70) and the reading-mask bands (79), below the
+     custom cursor (90) and the loader (100). The button must outrank the mask
+     it switches off, or the reader cannot find it under the wash. */
+  .tp-a11y-open {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 80;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(var(--ground));
+    color: rgb(var(--ink));
+    border: 1px solid rgb(var(--ink) / 0.35);
+    border-right: 0;
+    padding: 0;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tp-a11y-open:hover,
+  .tp-a11y-open:focus-visible {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .tp-a11y-open svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  .tp-a11y-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 84;
+    background: rgb(var(--ground) / 0.72);
+  }
+
+  /* Required, not redundant. The UA's `[hidden] { display: none }` is weaker
+     than the author `display: block/flex` on these same elements, so without
+     this the panel renders OPEN on first paint despite carrying the attribute. */
+  .tp-a11y-overlay[hidden],
+  .tp-a11y-panel[hidden] {
+    display: none;
+  }
+
+  .tp-a11y-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 85;
+    width: 340px;
+    max-width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: rgb(var(--ground));
+    border-left: 1px solid rgb(var(--ink) / 0.22);
+    overflow-y: auto;
+  }
+
+  .tp-a11y-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px 20px;
+    border-bottom: 1px solid rgb(var(--ink) / 0.22);
+    flex-shrink: 0;
+  }
+
+  .tp-a11y-head-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .tp-a11y-head-actions button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: rgb(var(--ink));
+    border: 1px solid rgb(var(--ink) / 0.22);
+    padding: 0;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tp-a11y-head-actions button:hover,
+  .tp-a11y-head-actions button:focus-visible {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  /* A finger needs 44px around a 32px button; the margin gives back what the
+     padding takes, so the header row does not move. */
+  @media (pointer: coarse) {
+    .tp-a11y-head-actions button {
+      width: 44px;
+      height: 44px;
+      margin: -6px;
+    }
+
+    /* The 44px hit areas grow 6px past each button's own edge, so an 8px gap
+       would let Reset and Close overlap. One of these two is destructive —
+       do not shrink this back to 8px. */
+    .tp-a11y-head-actions {
+      gap: 16px;
+    }
+  }
+
+  .tp-a11y-head-actions svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  .tp-a11y-body {
+    padding: 8px 20px 28px;
+  }
+
+  .tp-a11y-section {
+    margin-top: 24px;
+  }
+
+  .tp-a11y-section-title {
+    margin: 0 0 12px;
+    opacity: 0.62;
+    font-weight: 400;
+  }
+
+  .tp-a11y-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .tp-a11y-feature {
+    min-height: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 14px 12px;
+    background: transparent;
+    color: rgb(var(--ink));
+    border: 1px solid rgb(var(--ink) / 0.22);
+    text-align: left;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tp-a11y-feature:hover,
+  .tp-a11y-feature:focus-visible {
+    border-color: rgb(var(--ink) / 0.5);
+  }
+
+  .tp-a11y-feature[aria-pressed='true'] {
+    border-color: var(--color-accent-solid);
+    color: var(--color-accent);
+  }
+
+  .tp-a11y-feature-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .tp-a11y-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .tp-a11y-dot {
+    width: 6px;
+    height: 6px;
+    border: 1px solid rgb(var(--ink) / 0.4);
+  }
+
+  .tp-a11y-dot.is-on {
+    background: var(--color-accent-solid);
+    border-color: var(--color-accent-solid);
+  }
+
+  /* A finger needs 44px. The panel goes full width rather than squeezing the
+     two-up grid into something nobody can hit. */
+  @media (max-width: 768px) {
+    .tp-a11y-panel {
+      width: 100%;
+      border-left: 0;
+    }
+
+    .tp-a11y-open {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>
+
+<script>
+  import { initA11y } from '../scripts/ui/a11y';
+
+  initA11y();
+</script>

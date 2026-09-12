@@ -12,6 +12,12 @@
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
 
+/* `@import` inlines this HERE, before the rest of the file — the position is
+   not what makes the toolbar's self-exemption win. `!important` and the
+   doubled `.tp-a11y.tp-a11y` class are. Drop either one and the widget
+   silently starts applying its own overrides to itself. */
+@import './a11y.css';
+
 @theme {
   /* Monochrome system — see DESIGN.md. Every value resolves through the two
      triplets in `:root`, so a Tailwind utility follows the theme like the rest. */
@@ -121,16 +127,19 @@
 }
 
 /* ---- Typographic primitives (mockup values) ---------------------------- */
+
+/* rem, not px: the accessibility text-scaling feature moves the root font-size,
+   and a px value here would be the one label that refuses to grow with it. */
 .tp-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 
 .tp-label-sm {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
@@ -149,7 +158,7 @@
   align-items: baseline;
   gap: 14px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   border-bottom: 1px solid rgb(var(--ink) / 0.5);
@@ -275,7 +284,7 @@
 
 .tp-row-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   opacity: 0.74;
@@ -319,7 +328,7 @@
   color: rgb(var(--ground));
   border: 1px solid rgb(var(--ink));
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   padding: 15px 34px;
@@ -338,7 +347,7 @@
   padding: 12px 18px;
   border: 1px solid rgb(var(--ink) / 0.22);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   transition: border-color 0.3s ease;
