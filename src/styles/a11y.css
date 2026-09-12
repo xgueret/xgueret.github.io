@@ -104,8 +104,16 @@ html[data-theme='light'].tp-a11y-contrast {
 }
 
 /* The mockup dims secondary copy with inline `opacity`, which no token reaches.
-   Contrast is exactly the setting where that dimming must not survive. */
-html.tp-a11y-contrast main :is(p, li, span, a, h1, h2, h3, h4, time) {
+   Contrast is exactly the setting where that dimming must not survive — the nav
+   wordmark role and the footer line use it too, and both are siblings of
+   `<main>` in `BaseLayout`, not descendants, so the root has to name all three.
+
+   It stops at `:is(main, nav, footer)` on purpose: the home page drives several
+   full-viewport elements through `opacity` as animation state (`#tp-veil`,
+   `#tp-loader`, `#tp-scrim`, `#tp-scrollcue`), and none of them sit inside this
+   scope or match the tag list below — widening the root to `body` would force
+   `#tp-veil` to `opacity: 1` and paint it over the whole page permanently. */
+html.tp-a11y-contrast :is(main, nav, footer) :is(p, li, span, a, h1, h2, h3, h4, time) {
   opacity: 1 !important;
 }
 
@@ -114,8 +122,13 @@ html.tp-a11y-contrast main :is(p, li, span, a, h1, h2, h3, h4, time) {
    would leave the reader with an empty page. The canvas goes and the existing
    `.tp-sr-grid` fallback is revealed — it is already built, already in the
    accessibility tree, and already the no-WebGL path. These rules mirror the
-   <noscript> block in `components/home/SceneLayer.astro`; if that block
-   changes, this one has to change with it. */
+   intent of the <noscript> block in `components/home/SceneLayer.astro` and
+   share its `#tp-projects`/`#tp-work` layout resets, but the two lists differ:
+   <noscript> also hides `#tp-loader` and `#tp-cursor`, whose scripts never run
+   on that path, while this one additionally hides `#tp-gl` and generic media,
+   which a no-JS page has no need to touch — one path has no JavaScript at all,
+   the other switches a class with it. If that block changes, this one has to
+   change with it. */
 html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
   visibility: hidden !important;
 }
