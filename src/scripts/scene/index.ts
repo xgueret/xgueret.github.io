@@ -116,15 +116,42 @@ export function startScene(caps: Capabilities): void {
   }
   setProgress();
 
-  // The reader can freeze the scene from the accessibility panel. It is frozen,
-  // not torn down: the RAF stays scheduled so releasing the toggle resumes
-  // without a reload, and Lenis is stopped so smooth scroll stops interpolating.
+  // Captured before pausing ever touches them, so releasing the toggle
+  // restores exactly what Lenis was constructed with.
+  const lenisSmoothWheel = lenis?.options.smoothWheel ?? true;
+  const lenisSyncTouch = lenis?.options.syncTouch ?? false;
+
+  /* The reader can freeze the scene from the accessibility panel. It is frozen,
+     not torn down: the RAF loop and Lenis both keep running so releasing the
+     toggle resumes without a reload.
+
+     `lenis.stop()` is NOT used for this — it is a hard scroll lock (wheel and
+     touch listeners stay bound and call `preventDefault` unconditionally,
+     the same mechanism `openCard` uses to trap scroll behind the modal),
+     which would leave the reader unable to scroll the page at all. Instead,
+     pausing drops Lenis out of smooth mode: with `smoothWheel`/`syncTouch`
+     false, Lenis' own `onVirtualScroll` takes its native-scroll branch and
+     gets out of the way, so wheel/touch scroll the page exactly as an
+     unstyled page would. `lenis.raf` and its 'scroll' → `setProgress` feed
+     keep running throughout (see `tick`), paused or not.
+
+     `pausedOffset` accumulates how long the scene has spent paused, and is
+     subtracted from `now` when deriving `tick`'s clock: the noise-driven
+     camera drift and backdrop film resume from where they stopped instead of
+     jumping ahead by the paused duration the instant the toggle is released. */
   let paused = false;
+  let pausedAt = 0;
+  let pausedOffset = 0;
   onA11yChange((s) => {
     if (paused === s.pause) return;
     paused = s.pause;
-    if (paused) lenis?.stop();
-    else lenis?.start();
+    if (lenis) {
+      lenis.options.smoothWheel = paused ? false : lenisSmoothWheel;
+      lenis.options.syncTouch = paused ? false : lenisSyncTouch;
+    }
+    backdrop.setPaused(paused);
+    if (paused) pausedAt = performance.now();
+    else pausedOffset += performance.now() - pausedAt;
   });
 
   document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"], #tp-menu a[href^="#"]').forEach((a) => {
@@ -331,11 +358,9 @@ export function startScene(caps: Capabilities): void {
 
   const tick = (now: number): void => {
     requestAnimationFrame(tick);
-    if (paused) return;
-    const t = now * 0.001;
-    state.last = t;
+    // Lenis keeps ticking whether or not the scene is paused — see the pause
+    // subscription above.
     lenis?.raf(now);
-    cursor.update();
     state.progress += (state.progressTarget - state.progress) * 0.08;
 
     // work-section-local progress: the card sweep is driven by #tp-work's own
@@ -349,6 +374,9 @@ export function startScene(caps: Capabilities): void {
     state.workP += (state.workTarget - state.workP) * 0.09;
 
     // Text-section veil: copy-heavy sections get a black veil over the canvas.
+    // Driven by scroll position, which the reader controls, not by autonomous
+    // motion — it has to keep responding while paused or copy sitting over a
+    // frozen frame loses its scrim.
     let cover = 0;
     ['tp-about', 'tp-blog', 'tp-cv', 'tp-contact'].forEach((id) => {
       const el = byId(id);
@@ -360,6 +388,17 @@ export function startScene(caps: Capabilities): void {
     state.textCover = Math.min(1, cover);
     if (veil) veil.style.opacity = (state.textCover * 0.8).toFixed(2);
 
+    // Everything below is either autonomous motion (camera drift, cursor
+    // trailing, card focus tweens, the backdrop film) or the draw call
+    // itself — this is the "animation" Pause animations means to stop, so
+    // it stops here. The custom cursor is hidden by CSS while paused (see
+    // `a11y.css`), which is what makes freezing it here correct instead of a
+    // regression: there is nothing left on screen for it to drive.
+    if (paused) return;
+
+    const t = (now - pausedOffset) * 0.001;
+    state.last = t;
+    cursor.update();
     updateCamera(t);
     updateCards(t);
     backdrop.update(t, state.progress, cursor.pointer.sx, cursor.pointer.sy, state.textCover);

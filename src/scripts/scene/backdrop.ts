@@ -10,6 +10,8 @@ export interface Backdrop {
   camera: OrthographicCamera;
   update(t: number, progress: number, sx: number, sy: number, textCover: number): void;
   setTheme(theme: SceneTheme): void;
+  /** Stops/resumes decoding the footage — it keeps looping otherwise even once nothing samples it. */
+  setPaused(paused: boolean): void;
   dispose(): void;
 }
 
@@ -131,6 +133,10 @@ export function createBackdrop(
     setTheme(next) {
       material.uniforms.uFilm.value = next.film;
       (material.uniforms.uGround.value as Color).set(next.clear);
+    },
+    setPaused(paused) {
+      if (paused) video.pause();
+      else if (ready && !failed) video.play().catch(() => {});
     },
     dispose() {
       video.pause();

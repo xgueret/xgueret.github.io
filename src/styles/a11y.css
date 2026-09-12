@@ -169,3 +169,24 @@ html.tp-a11y-pause *::after {
 html.tp-a11y-pause {
   scroll-behavior: auto !important;
 }
+
+/* The custom cursor (`#tp-cursor`) trails the pointer with inertia — an
+   animated element in its own right, and one the frozen render loop stops
+   driving once paused. Rather than leave a dot stranded where it last moved,
+   hand the reader back the plain system pointer: revert exactly the
+   selectors `global.css` sets under `html.tp-cursor` to their user-agent
+   default (`revert`, not `auto`, so links/buttons/inputs keep whatever
+   cursor the browser would normally show them, not a flat arrow everywhere),
+   and hide the dot itself. */
+html.tp-a11y-pause.tp-cursor,
+html.tp-a11y-pause.tp-cursor a,
+html.tp-a11y-pause.tp-cursor button,
+html.tp-a11y-pause.tp-cursor input,
+html.tp-a11y-pause.tp-cursor textarea,
+html.tp-a11y-pause.tp-cursor label {
+  cursor: revert;
+}
+
+html.tp-a11y-pause #tp-cursor {
+  display: none !important;
+}
