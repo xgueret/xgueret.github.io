@@ -96,6 +96,13 @@ const desc = description || t(locale, 'siteDescription');
       {t(locale, 'skipToContent')}
     </a>
 
+    {/* Right after the skip link, so the accessibility controls are among the
+        first things a keyboard user reaches — mounted at the end of <body> they
+        cost a full page of tabbing. Both the button and the panel are
+        `position: fixed` with an explicit z-index, so the move does not touch
+        where they paint. */}
+    <A11yWidget locale={locale} />
+
     {/* Literally white, in both themes: `difference` blending is what makes the
         dot read, and only white inverts what is under it. The ink token would
         leave it invisible on the light ground. */}
@@ -120,6 +127,5 @@ const desc = description || t(locale, 'siteDescription');
 
     {!home && <BlogScripts />}
 
-    <A11yWidget locale={locale} />
   </body>
 </html>
