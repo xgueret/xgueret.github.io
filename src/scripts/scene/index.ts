@@ -4,6 +4,7 @@ import {
 } from 'three';
 import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
+import { onA11yChange } from '../ui/a11y';
 import { getTheme, onThemeChange } from '../ui/theme';
 import { BACKDROP } from '../../lib/backdrop';
 import { createBackdrop, type Backdrop } from './backdrop';
@@ -114,6 +115,17 @@ export function startScene(caps: Capabilities): void {
     window.addEventListener('scroll', setProgress, { passive: true });
   }
   setProgress();
+
+  // The reader can freeze the scene from the accessibility panel. It is frozen,
+  // not torn down: the RAF stays scheduled so releasing the toggle resumes
+  // without a reload, and Lenis is stopped so smooth scroll stops interpolating.
+  let paused = false;
+  onA11yChange((s) => {
+    if (paused === s.pause) return;
+    paused = s.pause;
+    if (paused) lenis?.stop();
+    else lenis?.start();
+  });
 
   document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"], #tp-menu a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
@@ -319,6 +331,7 @@ export function startScene(caps: Capabilities): void {
 
   const tick = (now: number): void => {
     requestAnimationFrame(tick);
+    if (paused) return;
     const t = now * 0.001;
     state.last = t;
     lenis?.raf(now);

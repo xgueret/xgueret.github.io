@@ -154,3 +154,18 @@ html.tp-a11y-hide-images #tp-projects {
 html.tp-a11y-hide-images #tp-work {
   height: auto !important;
 }
+
+/* ---- Pause animations ----------------------------------------------------
+   The CSS half. The scene's render loop and Lenis are stopped in
+   `scripts/scene/index.ts`, which listens for `tp-a11ychange` — CSS cannot
+   reach a requestAnimationFrame loop. */
+html.tp-a11y-pause *,
+html.tp-a11y-pause *::before,
+html.tp-a11y-pause *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html.tp-a11y-pause {
+  scroll-behavior: auto !important;
+}
