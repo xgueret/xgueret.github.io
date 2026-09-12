@@ -238,6 +238,10 @@ export function initA11y(): void {
 
   const onKeydown = (e: KeyboardEvent): void => {
     if (e.key === 'Escape') {
+      // The home scene closes its project overlay on a window-level Escape.
+      // This listener is on `document`, so stopping propagation here keeps one
+      // Escape from dismissing both the panel and a dialog behind it.
+      e.stopPropagation();
       close();
       return;
     }

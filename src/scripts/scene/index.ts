@@ -178,6 +178,8 @@ export function startScene(caps: Capabilities): void {
   const projects = byId('tp-projects');
   const cue = byId('tp-scrollcue');
   const closeBtn = byId('tp-detail-close');
+  const a11yPanel = byId('tp-a11y-panel');
+  const a11yWidget = document.querySelector<HTMLElement>('.tp-a11y');
   let lastFocus: HTMLElement | null = null;
 
   const openCard = (card: Card): void => {
@@ -211,6 +213,9 @@ export function startScene(caps: Capabilities): void {
     if (main) { main.style.opacity = '0'; main.setAttribute('inert', ''); }
     if (nav) { nav.style.opacity = '0'; nav.setAttribute('inert', ''); }
     projects?.setAttribute('inert', '');
+    // The toolbar is a sibling of all three, so it needs naming separately —
+    // otherwise the reader can open it over the dialog and tab straight out.
+    a11yWidget?.setAttribute('inert', '');
     if (cue) cue.style.opacity = '0';
     closeBtn?.focus();
   };
@@ -231,6 +236,7 @@ export function startScene(caps: Capabilities): void {
     if (main) { main.style.opacity = '1'; main.removeAttribute('inert'); }
     if (nav) { nav.style.opacity = '1'; nav.removeAttribute('inert'); }
     projects?.removeAttribute('inert');
+    a11yWidget?.removeAttribute('inert');
     lastFocus?.focus();
   };
 
@@ -241,10 +247,25 @@ export function startScene(caps: Capabilities): void {
 
   closeBtn?.addEventListener('click', closeCard);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
+  /* The accessibility panel and its full-viewport overlay are bare divs, as are
+     the panel's own head, body and section titles — all of which this handler
+     would otherwise read as page background and answer by opening whatever
+     plate happens to be hovered underneath. Two `aria-modal` dialogs would be
+     live at once and `closeBtn.focus()` would pull focus out of the panel.
+
+     Both checks earn their place. `closest` catches the click that DISMISSES
+     the panel: the overlay's own listener has already hidden it by the time
+     the event bubbles to `window`, so the hidden check alone would be false
+     exactly when it matters. The hidden check covers a click that reaches the
+     window from outside the widget while the panel is open. */
+  const a11yBusy = (target: Element | null): boolean =>
+    !!target?.closest?.('.tp-a11y') || !(a11yPanel?.hidden ?? true);
+
   window.addEventListener('click', (e) => {
     if (state.focused) return;
     const target = e.target as Element | null;
     if (target?.closest && target.closest('a,button,form,input,textarea,label')) return;
+    if (a11yBusy(target)) return;
     if (state.hovered?.visible) openCard(state.hovered);
   });
 
