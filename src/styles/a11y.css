@@ -279,14 +279,27 @@ html.tp-a11y-focus .toc-sheet-list {
   text-align: left !important;
   letter-spacing: 0.08em !important;
   line-height: 1.35 !important;
-  opacity: 1 !important;
   animation: none !important;
 }
 
+/* No blanket `opacity: 1` here: the only override in this file that touches
+   opacity (`html.tp-a11y-contrast :is(main, nav, footer) ...`) is scoped to
+   those three tags, and the widget is a SIBLING of all three in `BaseLayout`,
+   not a descendant — that rule can never reach the panel. Forcing opacity
+   back to 1 unconditionally would instead flatten the panel's OWN designed
+   hierarchy, e.g. `.tp-a11y-section-title { opacity: 0.62 }` in
+   `A11yWidget.astro`, which deliberately de-emphasises the category headers
+   against the feature labels. */
+
 .tp-a11y.tp-a11y .tp-a11y-feature-label,
-.tp-a11y.tp-a11y .tp-label,
-.tp-a11y.tp-a11y .tp-label-sm {
+.tp-a11y.tp-a11y .tp-label {
   font-size: 11px !important;
+}
+
+/* `.tp-label-sm` is a distinct 10px primitive in `global.css` — pinning it to
+   11px alongside `.tp-label` would erase that intentional size difference. */
+.tp-a11y.tp-a11y .tp-label-sm {
+  font-size: 10px !important;
 }
 
 .tp-a11y.tp-a11y .tp-label,
@@ -294,6 +307,12 @@ html.tp-a11y-focus .toc-sheet-list {
   letter-spacing: 0.3em !important;
 }
 
+/* Currently unreachable in practice — `Masquer les images` targets
+   `img, picture, video, [role='img']`, never `svg` directly — but kept as
+   cheap defensive insurance: the ported original did hide standalone svgs,
+   and this guards the panel's icons if that selector list ever grows to
+   include them. Not evidence that svgs are hidden today; do not delete as
+   dead code. */
 .tp-a11y.tp-a11y svg {
   visibility: visible !important;
   display: block !important;
