@@ -56,7 +56,7 @@ the token system can express it.
 | `src/styles/global.css` | imports `a11y.css`; 6 px font-sizes → rem |
 | `src/layouts/BaseLayout.astro` | mounts the widget; head script extended |
 | `src/i18n/fr.ts`, `src/i18n/en.ts` | +17 keys each |
-| `src/scripts/scene/index.ts` | pause flag on the RAF and on Lenis |
+| `src/scripts/scene/index.ts` | selective pause guard, frozen clock, non-smooth Lenis |
 
 `a11y.ts` sits beside `theme.ts`, `cursor.ts` and `split-text.ts` — the
 convention already in place for UI behaviour modules.
@@ -80,6 +80,23 @@ Scaling the root instead moves both rem bounds of every `clamp()` and leaves the
 `vw` term alone, so headings grow *through* their existing curve. Tailwind v4
 utilities are rem-based and follow for free.
 
+**That curve has a ceiling, and it is accepted.** A `vw` or `vh` term is
+viewport-relative and cannot scale with the root, so any heading whose `clamp()`
+is currently resolving to its viewport term stops growing, while everything
+sized in rem keeps going. Measured on `.tp-h2` at 1440px: 73.6px at 100%, then
+80.64px at 115%, 130% *and* 150% — identical at the top three steps. Other
+headings carry their own clamps and so have their own ceilings; the home hero is
+`clamp(1.9rem, min(7.6vw, 9vh), 6.4rem)`, whose `min()` can bind on either term
+depending on the viewport's shape. Body text, prose, nav, labels and links keep
+scaling the full 50% throughout; it is only display headings that plateau.
+
+This is a deliberate trade, not an oversight. Making the `vw` term scale would
+require exactly the per-tag overrides the paragraph above rejects, spending the
+site's fluid type to buy growth on an 80px headline — where legibility is not
+the constraint. Body copy is the constraint, and body copy is unaffected. The
+ceiling is restated in a comment in `a11y.css` so it is not rediscovered as a
+bug.
+
 The six hardcoded `font-size: 11px` / `10px` in `global.css` (`.tp-label`,
 `.tp-label-sm` and four HUD rules) are the exception that does not follow, so
 they convert to rem. That is a targeted fix in code this feature touches, not
@@ -95,7 +112,14 @@ html.tp-a11y-readable-font {
 ```
 
 It also zeroes the `letter-spacing` on `.tp-label*`, whose `0.3em` tracking is a
-legibility cost the feature exists to remove.
+legibility cost the feature exists to remove, and sets `font-style: normal`.
+
+**Removing italics is deliberate** — the British Dyslexia Association's style
+guidance advises against them, and this mode exists for exactly that reader. But
+removing them silently erases emphasis: `<em>`, `<i>` and the hero's italic
+accent lose their only visual distinction. So emphasis is re-expressed rather
+than dropped — `em` and `i` take a heavier weight under this mode, which carries
+the same meaning in a form the mode's users can actually perceive.
 
 ### Visuel
 
@@ -103,7 +127,7 @@ legibility cost the feature exists to remove.
 |---|---|
 | Contraste | pushes `--ink` / `--ground` to pure extremes in the current theme |
 | Masquer les images | hides media **and** the canvas, revealing `.tp-sr-grid` |
-| Pause animations | CSS kill + `tp-a11ychange` event stopping Lenis and the RAF |
+| Pause animations | CSS kill + `tp-a11ychange` event freezing the scene's motion |
 
 **Contraste** is the clearest case for decision 3. Two triplets drive the whole
 site, so maximum contrast is:
@@ -130,11 +154,38 @@ The feature reuses it rather than inventing a second fallback.
 **Pause animations** cannot be CSS-only. `transition: none` does nothing to a
 `requestAnimationFrame` loop rendering three.js, or to Lenis interpolating
 scroll. So `a11y.ts` dispatches `tp-a11ychange` on `document` — the same pattern
-as `THEME_EVENT` in `theme.ts` — and `scene/index.ts` listens: `lenis.stop()`,
-and a `paused` flag at the top of `tick` that keeps the RAF scheduled but skips
-every update and the draw. Releasing it calls `lenis.start()` and clears the
-flag. The scene is frozen, not torn down, so the toggle is reversible without a
-reload.
+as `THEME_EVENT` in `theme.ts` — and `scene/index.ts` listens. The scene is
+frozen, not torn down, so the toggle is reversible without a reload.
+
+**What it freezes is motion, not the page.** The first design stopped Lenis and
+returned early from the top of `tick`. Both were wrong, and implementation found
+out why:
+
+- **`lenis.stop()` does not pause smooth scroll, it blocks scrolling.** While
+  stopped, Lenis `preventDefault`s wheel and touch — it is the modal scroll-lock
+  this same file uses when a plate opens. Pausing would have trapped the reader
+  at the hero. Lenis is instead switched out of smooth mode (`smoothWheel` and
+  `syncTouch` false) and left running, so native scrolling takes over.
+- **A blanket early return froze things the reader controls.** It killed the
+  custom cursor — and since `global.css` hides the system cursor on fine
+  pointers, that left no visible pointer at all — and it froze the readability
+  veil, leaving copy over a still frame with no scrim.
+
+So the guard is selective. Skipped: camera, cards, backdrop, the cursor and every
+draw call. Still running: Lenis's tick, scroll-progress bookkeeping, and the
+veil — all of it reader-driven, none of it autonomous motion. The custom cursor
+is *hidden* rather than animated, and CSS restores the native pointer, which is
+both simpler and immune to a render-loop bug.
+
+**The clock freezes with it.** `t` is wall-clock, so a scene resumed after a
+pause would evaluate its noise functions at an unrelated point and pop. Paused
+duration accumulates into an offset subtracted from `now` — which means every
+consumer of that clock must read the same offset one, not raw `performance.now()`.
+
+**Known limitation:** clicking a project plate does nothing while paused, because
+hit-testing lives in the skipped `updateCards`. The projects stay reachable via
+the HUD control and `/projects/`. Restoring it would mean hit-testing a frozen
+scene with frozen pointer smoothing, to serve a mouse-only affordance.
 
 ### Orientation
 
@@ -237,5 +288,8 @@ There is no JS test runner in this repo and this feature does not add one.
   Tab cycle; mobile width.
 - Contrast measured, not eyeballed, in all four states — dark, light, and each
   with `Contraste` active.
-- With `Pause animations` on, the scene must actually stop: no RAF work, Lenis
-  halted.
+- With `Pause animations` on, the draw must actually stop — evidenced by
+  `renderer.info.render.frame` deltas or draw-call counts, not by a screenshot:
+  a paused scene and a running-but-idle scene look identical. Scrolling must
+  still work when driven by a **real wheel event**; `window.scrollBy()` bypasses
+  Lenis entirely and will pass even when scrolling is trapped.

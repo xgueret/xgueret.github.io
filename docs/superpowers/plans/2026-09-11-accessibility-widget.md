@@ -292,7 +292,8 @@ Append to `src/components/A11yWidget.astro`. These are Astro-scoped, so they can
 ```astro
 <style>
   /* Z-index sits in the gap the site leaves free: above the nav (60) and the
-     home veil (70), below the custom cursor (90) and the loader (100). */
+     home's project-detail overlay (70), below the custom cursor (90) and the
+     home loader (100). */
   .tp-a11y-open {
     position: fixed;
     right: 0;
