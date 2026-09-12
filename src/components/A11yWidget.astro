@@ -9,7 +9,11 @@ const { locale } = Astro.props;
 
 /* The registry is rendered, not scripted: every label goes through `t()`, and
    the behaviour module in `scripts/ui/a11y.ts` reads ids back off the markup.
-   `steps` holds the class suffixes; the unscaled first step has no class. */
+   `steps` holds the class suffixes; the unscaled first step has no class.
+
+   A stepped control also carries `data-a11y-level`, the localized template the
+   script folds into its accessible name ("Taille de texte, niveau 2 sur 4") —
+   the script cannot call `t()`, so the string has to reach it this way. */
 const FEATURES = [
   { cat: 'text', id: 'fontScale', key: 'a11yFontSize', steps: ['115', '130', '150'] },
   { cat: 'text', id: 'lineHeight', key: 'a11yLineHeight', steps: ['130', '160'] },
@@ -92,6 +96,7 @@ const CATEGORIES = [
                 class="tp-a11y-feature"
                 data-a11y-feature={f.id}
                 data-a11y-steps={'steps' in f ? f.steps.join(',') : undefined}
+                data-a11y-level={'steps' in f ? t(locale, 'a11yLevel') : undefined}
                 aria-pressed="false"
               >
                 <span class="tp-a11y-feature-label">{t(locale, f.key)}</span>

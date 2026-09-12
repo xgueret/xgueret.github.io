@@ -152,14 +152,36 @@ function currentStep(id: string, steps: string[]): number {
   return i === -1 ? 0 : i + 1;
 }
 
+/**
+ * Fold the current level into the control's accessible NAME.
+ *
+ * `aria-valuenow`/`aria-valuetext` were used here and announced nothing: the
+ * stepped controls are `<button>`s, and ARIA does not support those attributes
+ * on an implicit `role=button`. The dots are `aria-hidden`, so a screen-reader
+ * user pressing `Taille de texte` four times heard only "pressed, pressed,
+ * pressed, not pressed" and never learned which level they had landed on. The
+ * name is re-read on every activation, which is exactly the moment it matters.
+ *
+ * The template comes off the element: this module runs in the browser and
+ * cannot call `t()`, so `A11yWidget.astro` renders the localized string into
+ * `data-a11y-level`. Level 1 is the unscaled state, so the displayed number is
+ * one-based over `steps.length + 1` positions.
+ */
+function nameWithLevel(btn: HTMLButtonElement, step: number, total: number): void {
+  const template = btn.dataset.a11yLevel;
+  const label = btn.querySelector<HTMLElement>('.tp-a11y-feature-label')?.textContent?.trim();
+  if (!template || !label) return;
+  const level = template.replace('{current}', String(step + 1)).replace('{total}', String(total));
+  btn.setAttribute('aria-label', `${label}, ${level}`);
+}
+
 function paintButton(btn: HTMLButtonElement, id: string): void {
   const steps = stepsOf(btn);
 
   if (steps.length > 0) {
     const step = currentStep(id, steps);
     btn.setAttribute('aria-pressed', String(step > 0));
-    btn.setAttribute('aria-valuenow', String(step));
-    btn.setAttribute('aria-valuetext', `${step + 1} / ${steps.length + 1}`);
+    nameWithLevel(btn, step, steps.length + 1);
     btn.querySelectorAll<HTMLElement>('.tp-a11y-dot').forEach((dot, i) => {
       dot.classList.toggle('is-on', i < step);
     });

@@ -159,4 +159,5 @@ export default {
   a11yHighlightLinks: 'Mettre en évidence les liens',
   a11yReadingMask: 'Masque de lecture',
   a11yFocusOutline: 'Contour du focus',
+  a11yLevel: 'niveau {current} sur {total}',
 } as const;

@@ -159,4 +159,5 @@ export default {
   a11yHighlightLinks: 'Highlight links',
   a11yReadingMask: 'Reading mask',
   a11yFocusOutline: 'Focus outline',
+  a11yLevel: 'level {current} of {total}',
 } as const;
