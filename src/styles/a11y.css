@@ -122,15 +122,23 @@ html.tp-a11y-contrast :is(main, nav, footer) :is(p, li, span, a, h1, h2, h3, h4,
 
 /* ---- Hide images ---------------------------------------------------------
    The home's projects are a WebGL canvas, not <img>, so hiding media alone
-   would leave the reader with an empty page. The canvas goes and the existing
-   `.tp-sr-grid` fallback is revealed — it is already built, already in the
-   accessibility tree, and already the no-WebGL path. These rules mirror the
-   intent of the <noscript> block in `components/home/SceneLayer.astro` and
-   share its `#tp-projects`/`#tp-work` layout resets, but the two lists differ:
-   <noscript> also hides `#tp-loader` and `#tp-cursor`, whose scripts never run
-   on that path, while this one additionally hides `#tp-gl` and generic media,
-   which a no-JS page has no need to touch — one path has no JavaScript at all,
-   the other switches a class with it. If that block changes, this one has to
+   would leave the reader with an empty page. The canvas goes, and the existing
+   `.tp-sr-grid` fallback is revealed — but NOT from here. Revealing it is
+   `revealProjectList()` in `scripts/scene/fallback.ts`, which `scene/index.ts`
+   calls off `tp-a11ychange`: only that path trims the list to `MAX_PLATES`,
+   paints the cells, moves the grid back inside `#tp-work` (it is a sibling
+   AFTER `#tp-main`, so left in place it renders below the contact section) and
+   adds `.tp-projects-open`, whose `global.css` rules carry the padding, the
+   cell styling and the `min-width: 0` that stops a domain-name title scrolling
+   phones sideways. An earlier version un-clipped `#tp-projects` from here with
+   CSS alone and lost every one of those. Do not put those resets back.
+
+   What is left below is only what CSS can own: taking the canvas layers out.
+   It mirrors the intent of the <noscript> block in
+   `components/home/SceneLayer.astro`, but the two lists differ: <noscript>
+   also hides `#tp-loader` and `#tp-cursor`, whose scripts never run on that
+   path, while this one additionally hides `#tp-gl` and generic media, which a
+   no-JS page has no need to touch. If that block changes, this one has to
    change with it. */
 html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
   visibility: hidden !important;
@@ -138,21 +146,6 @@ html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
 
 html.tp-a11y-hide-images :is(#tp-gl, #tp-scrim, #tp-veil, #tp-work-hud, #tp-scrollcue) {
   display: none !important;
-}
-
-html.tp-a11y-hide-images #tp-projects {
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 120px 28px !important;
-  margin: 0 !important;
-  overflow: visible !important;
-  clip: auto !important;
-  white-space: normal !important;
-}
-
-html.tp-a11y-hide-images #tp-work {
-  height: auto !important;
 }
 
 /* ---- Pause animations ----------------------------------------------------

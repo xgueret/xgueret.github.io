@@ -10,7 +10,7 @@ import { BACKDROP } from '../../lib/backdrop';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
 import { createCards, readProjects, rethemeCards, selectPlates, type Card } from './cards';
-import { revealProjectList } from './fallback';
+import { hideProjectList, revealProjectList } from './fallback';
 import { CAMERA_START_Z, cameraTravelZ, MAX_PLATES, SCENE, SCENE_THEME } from './config';
 import { fbm } from './noise';
 import { createPost, type Post } from './post';
@@ -160,6 +160,23 @@ export function startScene(caps: Capabilities): void {
     if (paused) pausedAt = performance.now();
     else pausedOffset += performance.now() - pausedAt;
   });
+
+  /* `Masquer les images` takes the canvas away in CSS, which on its own would
+     leave the work section empty: the projects on this page are plates, not
+     <img>. Reuse the no-WebGL path rather than restyling the grid from
+     `a11y.css` — it is what trims the list to `MAX_PLATES`, paints the cells
+     and puts the grid back inside `#tp-work`, and `.tp-projects-open` carries
+     the layout rules the CSS-only version was missing. Without `caps.plates`
+     the list is already revealed for good, so there is nothing to toggle. */
+  if (caps.plates) {
+    let listed = false;
+    onA11yChange((s) => {
+      if (listed === s.hideImages) return;
+      listed = s.hideImages;
+      if (listed) revealProjectList();
+      else hideProjectList();
+    });
+  }
 
   document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"], #tp-menu a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {

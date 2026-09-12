@@ -4,16 +4,13 @@ import { SCENE_THEME } from './config';
 import { drawMotif } from './motifs';
 import { getTheme, onThemeChange } from '../ui/theme';
 
-const hide = (id: string): void => {
+const setDisplay = (id: string, value: string): void => {
   const el = document.getElementById(id);
-  if (el) el.style.display = 'none';
+  if (el) el.style.display = value;
 };
 
-/**
- * Bring the project grid out of the accessibility tree and into the work
- * section, in place of the 3D column. The padding belongs to the visible grid
- * alone: on the sr-only box it would add dead scroll under the footer.
- */
+const hide = (id: string): void => setDisplay(id, 'none');
+
 /**
  * Each cell gets its plate's drawing, cropped to the band the motif occupies
  * so it reads as a banner rather than a square with empty margins.
@@ -60,19 +57,55 @@ function trimToCap(grid: HTMLElement): void {
   });
 }
 
+/* `Masquer les images` reveals and hides this same list while the page stays
+   loaded, so the move has to be reversible — and `trimToCap` is not: it removes
+   cells and appends a canvas to each survivor. It therefore runs once, and
+   everything else toggles. `origin` remembers where the grid sat in the
+   document: `#tp-projects` is a sibling AFTER `#tp-main`, so putting it back is
+   what keeps the list from reappearing below the contact section. */
+let trimmed = false;
+let origin: { parent: ParentNode; next: Node | null } | null = null;
+
+/**
+ * Bring the project grid out of the accessibility tree and into the work
+ * section, in place of the 3D column. The padding and the cell styling belong
+ * to `.tp-projects-open` in `global.css` — including the `min-width: 0` that
+ * stops a domain-name title scrolling phones sideways — so this is the only
+ * supported way to show the list. Idempotent.
+ */
 export function revealProjectList(): void {
-  hide('tp-work-hud');
   const grid = document.getElementById('tp-projects');
   const work = document.getElementById('tp-work');
-  if (grid) {
+  if (!grid) return;
+  if (!trimmed) {
     trimToCap(grid);
-    grid.classList.remove('tp-sr-grid');
-    grid.classList.add('tp-projects-open');
+    trimmed = true;
   }
-  if (work && grid) {
+  if (!origin && grid.parentNode) origin = { parent: grid.parentNode, next: grid.nextSibling };
+  hide('tp-work-hud');
+  grid.classList.remove('tp-sr-grid');
+  grid.classList.add('tp-projects-open');
+  if (work) {
     work.style.height = 'auto';
     work.appendChild(grid);
   }
+}
+
+/**
+ * Undo `revealProjectList`: the grid goes back to being sr-only where it came
+ * from, and the work section gets its scroll height back so the 3D column can
+ * be flown through again. Only the accessibility toggle calls this — the
+ * no-WebGL path has nothing to go back to.
+ */
+export function hideProjectList(): void {
+  const grid = document.getElementById('tp-projects');
+  const work = document.getElementById('tp-work');
+  if (!grid) return;
+  setDisplay('tp-work-hud', '');
+  grid.classList.remove('tp-projects-open');
+  grid.classList.add('tp-sr-grid');
+  if (origin) origin.parent.insertBefore(grid, origin.next);
+  if (work) work.style.height = '';
 }
 
 /** No WebGL: hide every canvas layer and restore the system cursor. */
