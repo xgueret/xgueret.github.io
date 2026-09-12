@@ -192,3 +192,29 @@ html.tp-a11y-pause.tp-cursor label {
 html.tp-a11y-pause #tp-cursor {
   display: none !important;
 }
+
+/* ---- Highlight links -------------------------------------------------------
+   The ported original used `#0000EE`, the standard link blue. On this site's
+   black ground that measures ~2.3:1 — it would be LESS legible than what it
+   replaces. The accent is already contrast-checked per theme, so
+   recognisability is carried by a 2px underline and a weight bump instead.
+
+   Under `tp-a11y-contrast` the accent resolves to ink, so highlighted links
+   match body colour and the underline does the whole job. That is correct for
+   a high-contrast mode and not a bug. */
+html.tp-a11y-links :is(main, footer, nav) a {
+  color: var(--color-accent) !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  font-weight: 500 !important;
+  opacity: 1 !important;
+}
+
+/* ---- Focus outline ---------------------------------------------------------
+   `global.css` already ships `:focus-visible { outline: 1px solid accent }`.
+   This thickens what exists rather than introducing a competing rule. */
+html.tp-a11y-focus :focus-visible {
+  outline: 3px solid var(--color-accent) !important;
+  outline-offset: 4px !important;
+}
