@@ -230,13 +230,20 @@ html.tp-a11y-focus .toc-sheet-list {
 }
 
 /* ---- Reading mask --------------------------------------------------------
-   z-index 82: over the page and the nav, under the panel (85) and its overlay
-   (84), so the control that turns the mask off is never dimmed by it. */
+   z-index 79: over the page and the nav (60), under the floating button (80),
+   the panel overlay (84) and the panel (85) — so every control that can turn
+   the mask off stays clear of the wash.
+
+   The bands were at 82, which cleared the panel but not the BUTTON, and the
+   button is the only control visible while the mask is on. It sits at
+   `top: 50%` while the 120px strip follows the pointer, so any pointer away
+   from mid-height put a 0.78 `--ground` wash over it. 79 is the fix: it is the
+   only value under 80 that is still above everything the page itself paints. */
 .tp-a11y-mask-band {
   position: fixed;
   left: 0;
   width: 100%;
-  z-index: 82;
+  z-index: 79;
   background: rgb(var(--ground) / 0.78);
   pointer-events: none;
 }
