@@ -156,9 +156,11 @@ html.tp-a11y-hide-images #tp-work {
 }
 
 /* ---- Pause animations ----------------------------------------------------
-   The CSS half. The scene's render loop and Lenis are stopped in
-   `scripts/scene/index.ts`, which listens for `tp-a11ychange` — CSS cannot
-   reach a requestAnimationFrame loop. */
+   The CSS half. `scripts/scene/index.ts` listens for `tp-a11ychange` — CSS
+   cannot reach a requestAnimationFrame loop — and keeps the render loop and
+   Lenis running rather than stopping either: the loop skips its animation
+   and draw work each frame, and Lenis drops out of smooth mode so wheel/
+   touch scroll natively instead of being locked out. */
 html.tp-a11y-pause *,
 html.tp-a11y-pause *::before,
 html.tp-a11y-pause *::after {

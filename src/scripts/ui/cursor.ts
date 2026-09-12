@@ -10,6 +10,8 @@ export interface PointerState {
 export interface Cursor {
   pointer: PointerState;
   setBoost(on: boolean): void;
+  /** Freezes velocity accumulation — see the comment on `pointer.vel` below. */
+  setPaused(paused: boolean): void;
   update(): void;
   destroy(): void;
 }
@@ -28,6 +30,7 @@ export function initCursor(options: { autoLoop?: boolean } = {}): Cursor {
   let scale = 1;
   let boost = false;
   let raf = 0;
+  let paused = false;
 
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     document.documentElement.classList.add('tp-cursor');
@@ -38,7 +41,13 @@ export function initCursor(options: { autoLoop?: boolean } = {}): Cursor {
     ty = e.clientY;
     const nx = (e.clientX / window.innerWidth) * 2 - 1;
     const ny = -((e.clientY / window.innerHeight) * 2 - 1);
-    pointer.vel = Math.min(1, pointer.vel + Math.hypot(nx - pointer.nx, ny - pointer.ny) * 3.2);
+    /* `vel` only decays inside `update()`, which the home scene stops calling
+       while paused (see `scene/index.ts`) — but this listener stays bound
+       regardless, so left unguarded it would keep climbing toward its cap
+       with nothing decaying it, and land as a one-off velocity spike in the
+       plate shader the instant `update()` resumes. Freezing accumulation
+       here keeps it consistent with everything else the pause holds still. */
+    if (!paused) pointer.vel = Math.min(1, pointer.vel + Math.hypot(nx - pointer.nx, ny - pointer.ny) * 3.2);
     pointer.nx = nx;
     pointer.ny = ny;
     if (el) el.style.opacity = '1';
@@ -72,6 +81,7 @@ export function initCursor(options: { autoLoop?: boolean } = {}): Cursor {
   return {
     pointer,
     setBoost: (on) => { boost = on; },
+    setPaused: (p) => { paused = p; },
     update,
     destroy: () => {
       cancelAnimationFrame(raf);

@@ -29,12 +29,18 @@ interface State {
   last: number;
 }
 
-/** Eased 0→1 focus tween (expo.inOut, 0.8 s) driven by the frame loop. */
-function setFocus(card: Card, to: number): void {
+/**
+ * Eased 0→1 focus tween (expo.inOut, 0.8 s) driven by the frame loop. `t` must
+ * be the scene's own offset clock (`state.last`), not raw `performance.now()`
+ * — `updateCards` compares `u.ft` against that same clock, and the two drift
+ * apart by however long the scene has spent paused otherwise, pinning the
+ * tween at `f0` (or, on the other transition, skipping it to `f1` instantly).
+ */
+function setFocus(card: Card, to: number, t: number): void {
   const u = card.userData;
   u.f0 = u.focus;
   u.f1 = to;
-  u.ft = performance.now() * 0.001;
+  u.ft = t;
 }
 
 /**
@@ -150,6 +156,7 @@ export function startScene(caps: Capabilities): void {
       lenis.options.syncTouch = paused ? false : lenisSyncTouch;
     }
     backdrop.setPaused(paused);
+    cursor.setPaused(paused);
     if (paused) pausedAt = performance.now();
     else pausedOffset += performance.now() - pausedAt;
   });
@@ -199,7 +206,7 @@ export function startScene(caps: Capabilities): void {
       detail.removeAttribute('inert');
     }
     lenis?.stop();
-    setFocus(card, 1);
+    setFocus(card, 1, state.last);
     // The dialog is aria-modal: take the page behind it out of the tab order.
     if (main) { main.style.opacity = '0'; main.setAttribute('inert', ''); }
     if (nav) { nav.style.opacity = '0'; nav.setAttribute('inert', ''); }
@@ -220,7 +227,7 @@ export function startScene(caps: Capabilities): void {
       detail.setAttribute('inert', '');
     }
     lenis?.start();
-    setFocus(card, 0);
+    setFocus(card, 0, state.last);
     if (main) { main.style.opacity = '1'; main.removeAttribute('inert'); }
     if (nav) { nav.style.opacity = '1'; nav.removeAttribute('inert'); }
     projects?.removeAttribute('inert');
