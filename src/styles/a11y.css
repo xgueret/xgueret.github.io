@@ -8,7 +8,11 @@
    original had no tokens and had to enumerate selectors per feature.
 
    The self-exemption block at the END of this file protects the widget from
-   its own rules. Source order matters — keep it last.
+   its own rules. What makes it win is `!important` plus the doubled class
+   `.tp-a11y.tp-a11y` — NOT its position in the file, and not this file's
+   position in `global.css`'s import list, which inlines it near the top.
+   Keeping the block last is a readability convention; the `!important` and the
+   doubled class are the load-bearing part. See the block's own comment.
    ========================================================================= */
 
 /* ---- Text size -----------------------------------------------------------

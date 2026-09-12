@@ -12,7 +12,10 @@
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
 
-/* Last on purpose: its self-exemption block has to outrank everything above. */
+/* `@import` inlines this HERE, before the rest of the file — the position is
+   not what makes the toolbar's self-exemption win. `!important` and the
+   doubled `.tp-a11y.tp-a11y` class are. Drop either one and the widget
+   silently starts applying its own overrides to itself. */
 @import './a11y.css';
 
 @theme {

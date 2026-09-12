@@ -248,8 +248,12 @@ The panel must read as part of the site, not as a bolted-on toolbar.
 
 Mobile (≤768px): the panel goes full width; the button shrinks to 40px.
 
-**Z-index:** button 80, overlay 84, panel 85. Above the nav (60) and the home
-veil (70), below the custom cursor (90) and the loader (100).
+**Z-index:** button 80, overlay 84, panel 85, reading-mask bands 79. Above the
+nav (60) and `#tp-detail`, the home project-detail overlay (70) — the veil is
+z-index 6 and was never what this had to clear — below the custom cursor (90)
+and the loader (100). The bands sit under the button, not over it: the button
+is the only control on screen while the mask is on, and it is what turns it
+off.
 
 **Self-exemption** (decision 8): the widget's own subtree resets font-family,
 font-size, letter-spacing, text-align and visibility, so no feature can
@@ -259,7 +263,10 @@ disfigure the control that toggles it.
 
 - Button: `aria-label`, `aria-expanded`.
 - Panel: `role="dialog"`, `aria-modal="true"`, `aria-label`.
-- Toggles carry `aria-pressed`; steps carry `aria-valuenow` and `aria-valuetext`.
+- Toggles carry `aria-pressed`. Stepped controls carry `aria-pressed` too, and
+  fold the level into their accessible name ("Taille de texte, niveau 2 sur
+  4") — `aria-valuenow`/`aria-valuetext` are not supported on a button and
+  announced nothing.
 - Focus moves into the panel on open and returns to the button on close.
 - Tab and Shift+Tab cycle inside the panel; Escape closes it.
 - Every control is reachable and operable by keyboard alone.
