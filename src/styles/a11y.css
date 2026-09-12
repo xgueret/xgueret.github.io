@@ -235,3 +235,19 @@ html.tp-a11y-focus .toc-desktop {
 html.tp-a11y-focus .toc-sheet-list {
   padding: 8px !important;
 }
+
+/* ---- Reading mask --------------------------------------------------------
+   z-index 82: over the page and the nav, under the panel (85) and its overlay
+   (84), so the control that turns the mask off is never dimmed by it. */
+.tp-a11y-mask-band {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 82;
+  background: rgb(var(--ground) / 0.78);
+  pointer-events: none;
+}
+
+.tp-a11y-mask-band.is-top {
+  top: 0;
+}

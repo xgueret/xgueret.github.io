@@ -57,6 +57,66 @@ function announce(): void {
   document.dispatchEvent(new CustomEvent<A11yState>(A11Y_EVENT, { detail: currentState() }));
 }
 
+/* ---- Reading mask --------------------------------------------------------
+   Two bands sized around a strip that follows the pointer. Height is written
+   on a rAF tick so a fast pointer cannot queue a layout per mousemove. */
+
+const MASK_STRIP = 120;
+let bandTop: HTMLElement | null = null;
+let bandBottom: HTMLElement | null = null;
+let maskFrame = 0;
+
+function placeMask(y: number): void {
+  if (!bandTop || !bandBottom) return;
+  const half = MASK_STRIP / 2;
+  const topHeight = Math.max(0, y - half);
+  const bottomStart = Math.min(window.innerHeight, y + half);
+  bandTop.style.height = `${topHeight}px`;
+  bandBottom.style.top = `${bottomStart}px`;
+  bandBottom.style.height = `${window.innerHeight - bottomStart}px`;
+}
+
+function scheduleMask(y: number): void {
+  if (maskFrame) return;
+  maskFrame = requestAnimationFrame(() => {
+    maskFrame = 0;
+    placeMask(y);
+  });
+}
+
+function onMaskPointer(e: PointerEvent): void {
+  scheduleMask(e.clientY);
+}
+
+function showMask(): void {
+  if (bandTop) return;
+  bandTop = document.createElement('div');
+  bandTop.className = 'tp-a11y-mask-band is-top';
+  bandBottom = document.createElement('div');
+  bandBottom.className = 'tp-a11y-mask-band is-bottom';
+  document.body.append(bandTop, bandBottom);
+  placeMask(window.innerHeight / 2);
+  document.addEventListener('pointermove', onMaskPointer, { passive: true });
+}
+
+function hideMask(): void {
+  if (maskFrame) {
+    cancelAnimationFrame(maskFrame);
+    maskFrame = 0;
+  }
+  document.removeEventListener('pointermove', onMaskPointer);
+  bandTop?.remove();
+  bandBottom?.remove();
+  bandTop = null;
+  bandBottom = null;
+}
+
+/** Bring the mask DOM in line with the class on <html>. */
+function syncMask(): void {
+  if (root.classList.contains(FEATURES.mask.cssClass)) showMask();
+  else hideMask();
+}
+
 /** Steps come off the markup so the panel stays the single source of truth. */
 function stepsOf(btn: HTMLButtonElement): string[] {
   const raw = btn.dataset.a11ySteps;
@@ -114,6 +174,7 @@ function toggle(btn: HTMLButtonElement, id: string): void {
   }
 
   paintButton(btn, id);
+  syncMask();
   announce();
 }
 
@@ -129,6 +190,7 @@ function resetAll(buttons: NodeListOf<HTMLButtonElement>): void {
     }
     paintButton(btn, id);
   });
+  syncMask();
   announce();
 }
 
@@ -148,6 +210,8 @@ export function initA11y(): void {
     paintButton(btn, id);
     btn.addEventListener('click', () => toggle(btn, id));
   });
+
+  syncMask();
 
   resetBtn.addEventListener('click', () => resetAll(buttons));
 
