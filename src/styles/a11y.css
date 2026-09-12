@@ -12,21 +12,19 @@
    ========================================================================= */
 
 /* ---- Text size -----------------------------------------------------------
-   The root font-size, not per-tag overrides. The site's headings are
-   `clamp(2rem, 5.6vw, 4.6rem)`: moving the root moves both rem bounds and
-   leaves the vw term alone, so type grows along its own fluid curve instead of
-   being replaced by a fixed ladder. Tailwind's rem-based utilities follow for
-   free, and Task 1 converted the six px primitives that would not have.
+   The root font-size, not per-tag overrides: moving it moves every heading's
+   `clamp()` rem bounds, so type grows along its own fluid curve instead of a
+   fixed ladder. Tailwind's rem-based utilities follow for free, and Task 1
+   converted the six px primitives that would not have.
 
-   Honest limit: the `vw` term is viewport-relative, so it cannot scale with
-   the root. On a 1440px viewport the clamp sits at its `vw` value already at
-   100% (73.6px) and stays there through 115%, 130% and 150% (80.64px, a ~9.6%
-   gain from the rem bounds nudging the clamp's floor up, then flat) — display
-   headings hit a ceiling on wide screens while body text, nav and labels keep
-   scaling the full range. Accepted: fixing it would mean per-tag overrides,
-   the fixed ladder this file exists to avoid, to grow a headline nobody
-   struggles to read. Body copy is the legibility problem, and body copy
-   scales fully. */
+   A `vw`/`vh` term inside a clamp is viewport-relative, though, and cannot
+   move with the root — so a heading whose clamp is currently resolving to
+   that term stops growing while body text, nav and labels keep scaling.
+   `.tp-h2`, for instance, measures 73.6px at 100% and 80.64px at every step
+   from 115% up, at 1440px wide; other headings use their own clamps — the
+   hero's mixes a `vh` term inside `min()`, so its exact ceiling differs.
+   Accepted: the alternative is per-tag overrides, the fixed ladder this file
+   exists to avoid. */
 html.tp-a11y-font-115 { font-size: 115%; }
 html.tp-a11y-font-130 { font-size: 130%; }
 html.tp-a11y-font-150 { font-size: 150%; }
