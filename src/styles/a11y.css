@@ -108,11 +108,14 @@ html[data-theme='light'].tp-a11y-contrast {
    wordmark role and the footer line use it too, and both are siblings of
    `<main>` in `BaseLayout`, not descendants, so the root has to name all three.
 
-   It stops at `:is(main, nav, footer)` on purpose: the home page drives several
-   full-viewport elements through `opacity` as animation state (`#tp-veil`,
-   `#tp-loader`, `#tp-scrim`, `#tp-scrollcue`), and none of them sit inside this
-   scope or match the tag list below — widening the root to `body` would force
-   `#tp-veil` to `opacity: 1` and paint it over the whole page permanently. */
+   The home page drives several full-viewport elements through `opacity` as
+   animation state (`#tp-veil`, `#tp-loader`, `#tp-scrim`, `#tp-scrollcue`) —
+   these DO live inside `<main>` (`SceneLayer` is slotted into it), so it is the
+   tag list below, not the `:is(main, nav, footer)` root, that keeps this rule
+   from reaching them: each is a `div` (or has `div` children), and `div` is
+   deliberately absent from the list. Adding `div` or a bare universal here
+   would force `#tp-veil` to `opacity: 1` and paint it over the whole page
+   permanently. */
 html.tp-a11y-contrast :is(main, nav, footer) :is(p, li, span, a, h1, h2, h3, h4, time) {
   opacity: 1 !important;
 }
