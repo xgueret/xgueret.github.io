@@ -76,3 +76,65 @@ html.tp-a11y-readable-font em,
 html.tp-a11y-readable-font i {
   font-weight: 600 !important;
 }
+
+/* ---- Contrast ------------------------------------------------------------
+   A modifier on the current theme, not a forced black-on-white: dark stays
+   dark and paper stays paper, both pushed to their pure extremes. This is the
+   clearest payoff of the two-triplet token system — the ported original needed
+   eight `!important` selector blocks for the same result.
+
+   `--color-accent` becomes ink because no green clears 4.5:1 against both pure
+   grounds; `--color-accent-solid` keeps the lime for fills, where text contrast
+   does not apply. That is the split the light theme already makes. */
+html.tp-a11y-contrast {
+  --ink: 255 255 255;
+  --ground: 0 0 0;
+  --color-bg-alt: #000000;
+  --color-text-muted: rgb(var(--ink));
+  --color-text-light: rgb(var(--ink));
+  --color-border: rgb(var(--ink) / 0.6);
+  --color-accent: rgb(var(--ink));
+  --color-accent-hover: rgb(var(--ink));
+}
+
+html[data-theme='light'].tp-a11y-contrast {
+  --ink: 0 0 0;
+  --ground: 255 255 255;
+  --color-bg-alt: #ffffff;
+}
+
+/* The mockup dims secondary copy with inline `opacity`, which no token reaches.
+   Contrast is exactly the setting where that dimming must not survive. */
+html.tp-a11y-contrast main :is(p, li, span, a, h1, h2, h3, h4, time) {
+  opacity: 1 !important;
+}
+
+/* ---- Hide images ---------------------------------------------------------
+   The home's projects are a WebGL canvas, not <img>, so hiding media alone
+   would leave the reader with an empty page. The canvas goes and the existing
+   `.tp-sr-grid` fallback is revealed — it is already built, already in the
+   accessibility tree, and already the no-WebGL path. These rules mirror the
+   <noscript> block in `components/home/SceneLayer.astro`; if that block
+   changes, this one has to change with it. */
+html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
+  visibility: hidden !important;
+}
+
+html.tp-a11y-hide-images :is(#tp-gl, #tp-scrim, #tp-veil, #tp-work-hud, #tp-scrollcue) {
+  display: none !important;
+}
+
+html.tp-a11y-hide-images #tp-projects {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 120px 28px !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+html.tp-a11y-hide-images #tp-work {
+  height: auto !important;
+}
