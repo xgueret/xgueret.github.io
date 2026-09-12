@@ -59,15 +59,24 @@ function announce(): void {
 
 /* ---- Reading mask --------------------------------------------------------
    Two bands sized around a strip that follows the pointer. Height is written
-   on a rAF tick so a fast pointer cannot queue a layout per mousemove. */
+   on a rAF tick so a fast pointer cannot queue a layout per mousemove.
+
+   `resize`/`orientationchange` re-place the same strip at the last known
+   pointer Y — otherwise a viewport-height change with no pointer event
+   (rotating a tablet and holding still, Mobile Safari/Chrome collapsing the
+   URL bar on scroll) leaves the bottom band short of the new edge. Both
+   route through the same `scheduleMask` coalescing as pointer moves, not a
+   second throttling path. */
 
 const MASK_STRIP = 120;
 let bandTop: HTMLElement | null = null;
 let bandBottom: HTMLElement | null = null;
 let maskFrame = 0;
+let lastMaskY = 0;
 
 function placeMask(y: number): void {
   if (!bandTop || !bandBottom) return;
+  lastMaskY = y;
   const half = MASK_STRIP / 2;
   const topHeight = Math.max(0, y - half);
   const bottomStart = Math.min(window.innerHeight, y + half);
@@ -88,6 +97,11 @@ function onMaskPointer(e: PointerEvent): void {
   scheduleMask(e.clientY);
 }
 
+/** Viewport height changed with no pointer event; re-place at the same Y. */
+function onMaskViewportChange(): void {
+  scheduleMask(lastMaskY);
+}
+
 function showMask(): void {
   if (bandTop) return;
   bandTop = document.createElement('div');
@@ -97,6 +111,8 @@ function showMask(): void {
   document.body.append(bandTop, bandBottom);
   placeMask(window.innerHeight / 2);
   document.addEventListener('pointermove', onMaskPointer, { passive: true });
+  window.addEventListener('resize', onMaskViewportChange);
+  window.addEventListener('orientationchange', onMaskViewportChange);
 }
 
 function hideMask(): void {
@@ -105,6 +121,8 @@ function hideMask(): void {
     maskFrame = 0;
   }
   document.removeEventListener('pointermove', onMaskPointer);
+  window.removeEventListener('resize', onMaskViewportChange);
+  window.removeEventListener('orientationchange', onMaskViewportChange);
   bandTop?.remove();
   bandBottom?.remove();
   bandTop = null;
