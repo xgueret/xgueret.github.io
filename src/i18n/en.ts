@@ -63,7 +63,6 @@ export default {
   // Shell
   about: 'About',
   blog: 'Blog',
-  loaderTagline: 'Tipunchlabs — infrastructure workshop',
   scrollCue: 'Scroll to explore',
   menuOpen: 'Open menu',
   menuClose: 'Close menu',

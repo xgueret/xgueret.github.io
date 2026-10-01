@@ -121,7 +121,7 @@ export function hideProjectList(): void {
 
 /** No WebGL: hide every canvas layer and restore the system cursor. */
 export function fallbackDOM(): void {
-  ['tp-gl', 'tp-scrollcue', 'tp-cursor', 'tp-loader', 'tp-scrim', 'tp-scrim-r', 'tp-veil'].forEach(hide);
+  ['tp-gl', 'tp-scrollcue', 'tp-cursor', 'tp-scrim', 'tp-scrim-r', 'tp-veil'].forEach(hide);
   revealProjectList();
   document.documentElement.classList.remove('tp-cursor');
 }

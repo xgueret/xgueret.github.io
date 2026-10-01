@@ -4,6 +4,10 @@ import { initSplitText } from './ui/split-text';
 
 const caps = detectCapabilities();
 
+// The copy reveal owes nothing to WebGL: it starts with the page, before the
+// three.js chunk is even requested.
+initSplitText();
+
 /**
  * Put the canvas away and read the projects as a list. Always says why in the
  * console: a scene that fails to start looks exactly like a scene that was
@@ -12,7 +16,6 @@ const caps = detectCapabilities();
 function degrade(reason: string, error?: unknown): void {
   console.warn(`[home] static page — ${reason}`, error ?? '');
   fallbackDOM();
-  initSplitText();
 }
 
 if (caps.webgl) {

@@ -3,7 +3,6 @@ import {
   PerspectiveCamera, Raycaster, Scene, Vector2, Vector3, WebGLRenderer,
 } from 'three';
 import { initCursor, type Cursor } from '../ui/cursor';
-import { initSplitText } from '../ui/split-text';
 import { onA11yChange } from '../ui/a11y';
 import { getTheme, onThemeChange } from '../ui/theme';
 import { createBackdrop, type Backdrop } from './backdrop';
@@ -46,9 +45,9 @@ function setFocus(card: Card, to: number, t: number): void {
 
 /**
  * Boot the whole home-page experience: renderer, token backdrop, project
- * plates, post-processing, smooth scroll, loader, overlay and the frame loop.
- * Everything not dependent on WebGL (cursor, split text) is initialized here
- * too so the page has exactly one owner of the pointer state.
+ * plates, post-processing, smooth scroll, overlay and the frame loop. The
+ * cursor is initialized here too so the page has exactly one owner of the
+ * pointer state.
  */
 export function startScene(caps: Capabilities): void {
   const canvas = byId('tp-gl') as HTMLCanvasElement | null;
@@ -286,25 +285,6 @@ export function startScene(caps: Capabilities): void {
     if (state.hovered?.visible) openCard(state.hovered);
   });
 
-  // --- loader -------------------------------------------------------------
-  const runLoader = (): void => {
-    const count = byId('tp-count');
-    const loader = byId('tp-loader');
-    const start = performance.now();
-    const dur = caps.reduced ? 300 : 1700;
-    const step = (): void => {
-      const k = Math.min(1, (performance.now() - start) / dur);
-      if (count) count.textContent = String(Math.round(k * 100)).padStart(3, '0');
-      if (k < 1) { requestAnimationFrame(step); return; }
-      if (loader) {
-        loader.style.opacity = '0';
-        window.setTimeout(() => { loader.style.display = 'none'; }, 760);
-      }
-      initSplitText();
-    };
-    step();
-  };
-
   // --- per-frame updates --------------------------------------------------
   const veil = byId('tp-veil');
   const scrim = byId('tp-scrim');
@@ -478,6 +458,5 @@ export function startScene(caps: Capabilities): void {
     if (post) post.render(drawLayers, t); else drawLayers();
   };
 
-  runLoader();
   requestAnimationFrame(tick);
 }
