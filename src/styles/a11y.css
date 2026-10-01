@@ -148,7 +148,7 @@ html.tp-a11y-hide-images :is(img, picture, video, [role='img']) {
   visibility: hidden !important;
 }
 
-html.tp-a11y-hide-images :is(#tp-gl, #tp-scrim, #tp-veil, #tp-work-hud, #tp-scrollcue) {
+html.tp-a11y-hide-images :is(#tp-gl, #tp-scrim, #tp-scrim-r, #tp-veil, #tp-work-hud, #tp-scrollcue) {
   display: none !important;
 }
 
