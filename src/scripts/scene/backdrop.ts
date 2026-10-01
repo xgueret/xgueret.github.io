@@ -98,7 +98,10 @@ function drawAtlas(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-type Shape = (i: number) => [number, number, number, number];
+/* Each shape's resolution is the mockup's, tuned for 12 000 particles. A
+   smaller field coarsens the grid rather than filling it part way — at 6 000
+   the shells came out as half spheres and the stream stopped mid-screen. */
+type Shape = (i: number, count: number) => [number, number, number, number];
 
 const CENTERS = [[0, 0, 0]].concat(Array.from({ length: 8 }, (_, k) => {
   const a = k / 8 * 6.2832;
@@ -106,25 +109,26 @@ const CENTERS = [[0, 0, 0]].concat(Array.from({ length: 8 }, (_, k) => {
 }));
 
 /** Stage 0: a stream of tokens flowing along x in 70 lanes. */
-const shapeStream: Shape = (i) => {
-  const L = 70, S = 160, lane = i % L, j = Math.floor(i / L);
+const shapeStream: Shape = (i, count) => {
+  const L = 70, S = Math.min(160, Math.ceil(count / L)), lane = i % L, j = Math.floor(i / L);
   const ly = lane % 14, lz = Math.floor(lane / 14);
   return [j / S * 12 - 6, (ly / 13 - 0.5) * 2.8, (lz / 4 - 0.5) * 1.6, j < S ? 1 : 0];
 };
 /** Stage 1: nine embedding clusters, each three nested Fibonacci shells. */
-const shapeEmbed: Shape = (i) => {
-  const c = CENTERS[i % 9], loc = Math.floor(i / 9), sh = loc % 3, k = Math.floor(loc / 3), n = 466;
+const shapeEmbed: Shape = (i, count) => {
+  const c = CENTERS[i % 9], loc = Math.floor(i / 9), sh = loc % 3, k = Math.floor(loc / 3);
+  const n = Math.min(466, Math.ceil(count / 27));
   const r = [0.18, 0.3, 0.42][sh], y = 1 - 2 * ((k % n) + 0.5) / n, q = Math.sqrt(1 - y * y), ph = k * 2.39996 + sh;
   return [c[0] + Math.cos(ph) * q * r, c[1] + y * r, c[2] + Math.sin(ph) * q * r, k < n ? 1 : 0];
 };
-/** Stage 2: seven stacked layers, each a 42×42 grid. */
-const shapeLayers: Shape = (i) => {
-  const L = 7, G = 42, l = i % L, cell = Math.floor(i / L), gy = cell % G, gz = Math.floor(cell / G) % G;
+/** Stage 2: seven stacked layers, each a square grid (42×42 at full size). */
+const shapeLayers: Shape = (i, count) => {
+  const L = 7, G = Math.min(42, Math.floor(Math.sqrt(count / L))), l = i % L, cell = Math.floor(i / L), gy = cell % G, gz = Math.floor(cell / G) % G;
   return [(l / (L - 1) - 0.5) * 4.4, (gy / (G - 1) - 0.5) * 3.7, (gz / (G - 1) - 0.5) * 3.7, cell < G * G ? 1 : 0];
 };
 /** Stage 3: the output, a double helix. */
-const shapeOutput: Shape = (i) => {
-  const R = 8, M = 600, st = i % 2, rest = Math.floor(i / 2), row = rest % R, j = Math.floor(rest / R);
+const shapeOutput: Shape = (i, count) => {
+  const R = 8, M = Math.min(600, Math.ceil(count / (2 * R))), st = i % 2, rest = Math.floor(i / 2), row = rest % R, j = Math.floor(rest / R);
   const t = (j % M) / M, a = t * 6.2832 * 3 + st * Math.PI, r = 1.5 + (row / (R - 1) - 0.5) * 0.5;
   return [Math.cos(a) * r, (t - 0.5) * 6.4, Math.sin(a) * r, j < M ? 1 : 0];
 };
@@ -141,11 +145,13 @@ const FADE_IN_MS = 1200;
  * stream into embedding clusters, layers and an output helix as the reader
  * scrolls through the home sections. Drawn before the 3D plates.
  */
-export function createBackdrop(count: number, dpr: number, mouse: boolean, theme: SceneTheme): Backdrop {
+export function createBackdrop(
+  count: number, dpr: number, mouse: boolean, theme: SceneTheme, intensity = 1,
+): Backdrop {
   const geometry = new BufferGeometry();
   SHAPES.forEach((fn, k) => {
     const a = new Float32Array(count * 4);
-    for (let i = 0; i < count; i++) a.set(fn(i), i * 4);
+    for (let i = 0; i < count; i++) a.set(fn(i, count), i * 4);
     const attr = new BufferAttribute(a, 4);
     geometry.setAttribute(`aP${k}`, attr);
     // three sizes the draw call from `position`; sharing the attribute object
@@ -211,7 +217,7 @@ export function createBackdrop(count: number, dpr: number, mouse: boolean, theme
     material.needsUpdate = true;
   };
   applyTheme(theme);
-  let baseAlpha = theme.paper ? LIGHT_ALPHA : DARK_ALPHA;
+  let baseAlpha = (theme.paper ? LIGHT_ALPHA : DARK_ALPHA) * intensity;
 
   const points = new Points(geometry, material);
   points.frustumCulled = false;
@@ -257,7 +263,7 @@ export function createBackdrop(count: number, dpr: number, mouse: boolean, theme
       (u.uOff.value as Vector2).set(ox * 0.55, 0);
     },
     setTheme(next) {
-      baseAlpha = next.paper ? LIGHT_ALPHA : DARK_ALPHA;
+      baseAlpha = (next.paper ? LIGHT_ALPHA : DARK_ALPHA) * intensity;
       applyTheme(next);
     },
     dispose() {
