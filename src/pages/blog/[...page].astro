@@ -67,7 +67,7 @@ const articles = posts.map((post) => {
 });
 ---
 
-<BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale}>
+<BaseLayout title={t(locale, 'posts')} description={t(locale, 'postsDescription')} locale={locale} backdrop="stream">
   <div class="mx-auto" style="max-width:1400px; padding:48px 28px 96px;">
     <header class="mb-12 flex flex-col" style="gap:22px;">
       <a href={`${localePrefix(locale)}/#tp-blog`} data-cursor="link" class="tp-back tp-link">
