@@ -16,7 +16,7 @@ const { locale } = Astro.props;
 
 <noscript>
   <style>
-    #tp-loader, #tp-work-hud, #tp-scrollcue, #tp-cursor, #tp-scrim, #tp-scrim-r, #tp-veil { display: none !important; }
+    #tp-work-hud, #tp-scrollcue, #tp-cursor, #tp-scrim, #tp-scrim-r, #tp-veil { display: none !important; }
     #tp-projects { position: static !important; width: auto !important; height: auto !important; padding: 120px 28px !important; margin: 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important; }
     #tp-work { height: auto !important; }
   </style>
@@ -43,16 +43,6 @@ const { locale } = Astro.props;
   class="fixed inset-0 z-[6] pointer-events-none bg-tp-black"
   style="opacity:0; transition:opacity .45s linear;"
 ></div>
-
-<div
-  id="tp-loader"
-  aria-hidden="true"
-  class="fixed inset-0 z-[100] bg-tp-black flex items-end justify-between"
-  style="padding:32px 28px;"
->
-  <div class="tp-label" style="letter-spacing:.28em; opacity:.8;">{t(locale, 'loaderTagline')}</div>
-  <div id="tp-count" class="font-mono" style="font-size:clamp(3rem,12vw,9rem); line-height:.8; font-weight:300; letter-spacing:-.02em;">000</div>
-</div>
 
 <div
   id="tp-detail"

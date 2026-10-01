@@ -134,6 +134,7 @@ const SHAPES = [shapeStream, shapeEmbed, shapeLayers, shapeOutput];
 const OFFSETS = [0.6, 1.7, -1.7, 1.8];
 const DARK_ALPHA = 1.6;
 const LIGHT_ALPHA = 0.9;
+const FADE_IN_MS = 1200;
 
 /**
  * Token particles running behind the whole page: glyphs that morph from a
@@ -220,6 +221,9 @@ export function createBackdrop(count: number, dpr: number, mouse: boolean, theme
 
   let hover = 0;
   let pointerIn = false;
+  // The page is on screen before three.js arrives: the field fades in over it
+  // rather than popping on. Wall clock, so it runs even when `t` is pinned.
+  let born = -1;
   const onMove = (): void => { pointerIn = true; };
   const onLeave = (): void => { pointerIn = false; };
   if (mouse) {
@@ -244,7 +248,10 @@ export function createBackdrop(count: number, dpr: number, mouse: boolean, theme
       u.uT.value = t;
       u.uAspect.value = aspect;
       u.uHover.value = hover;
-      u.uAlpha.value = baseAlpha;
+      const now = performance.now();
+      if (born < 0) born = now;
+      const fade = Math.min(1, (now - born) / FADE_IN_MS);
+      u.uAlpha.value = baseAlpha * fade * fade * (3 - 2 * fade);
       (u.uRot.value as Vector2).set(0.18 - sy * 0.15 + m * 0.3, t * 0.035 + m * 1.1 + sx * 0.25);
       (u.uMouse.value as Vector2).set(nx, ny);
       (u.uOff.value as Vector2).set(ox * 0.55, 0);
