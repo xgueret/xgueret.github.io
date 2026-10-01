@@ -16,6 +16,7 @@ export default {
 
   // Hero
   brand: 'Tipunchlabs',
+  tokensLabel: 'Tokens',
   heroEyebrow: 'Xavier Gueret — DevOps Engineer',
   heroHeadline1: 'Build,',
   heroHeadline2: 'deploy,',
@@ -64,7 +65,6 @@ export default {
   blog: 'Blog',
   loaderTagline: 'Tipunchlabs — infrastructure workshop',
   scrollCue: 'Scroll to explore',
-  footerFootage: 'Footage: Pexels',
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
 

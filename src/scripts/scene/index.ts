@@ -6,7 +6,6 @@ import { initCursor, type Cursor } from '../ui/cursor';
 import { initSplitText } from '../ui/split-text';
 import { onA11yChange } from '../ui/a11y';
 import { getTheme, onThemeChange } from '../ui/theme';
-import { BACKDROP } from '../../lib/backdrop';
 import { createBackdrop, type Backdrop } from './backdrop';
 import type { Capabilities } from './capabilities';
 import { createCards, readProjects, rethemeCards, selectPlates, type Card } from './cards';
@@ -23,6 +22,8 @@ interface State {
   workP: number;
   workTarget: number;
   textCover: number;
+  /** 0→3 through the backdrop's four shapes, eased behind the scroll. */
+  stage: number;
   focused: Card | null;
   hovered: Card | null;
   lastIdx: number;
@@ -44,7 +45,7 @@ function setFocus(card: Card, to: number, t: number): void {
 }
 
 /**
- * Boot the whole home-page experience: renderer, footage backdrop, project
+ * Boot the whole home-page experience: renderer, token backdrop, project
  * plates, post-processing, smooth scroll, loader, overlay and the frame loop.
  * Everything not dependent on WebGL (cursor, split text) is initialized here
  * too so the page has exactly one owner of the pointer state.
@@ -55,7 +56,7 @@ export function startScene(caps: Capabilities): void {
 
   const cursor: Cursor = initCursor();
   const state: State = {
-    progress: 0, progressTarget: 0, workP: 0, workTarget: 0, textCover: 0,
+    progress: 0, progressTarget: 0, workP: 0, workTarget: 0, textCover: 0, stage: 0,
     focused: null, hovered: null, lastIdx: -1, last: 0,
   };
 
@@ -74,11 +75,11 @@ export function startScene(caps: Capabilities): void {
   const pointer = new Vector2();
 
   // --- layers -------------------------------------------------------------
-  const hd = canvas.dataset.videoHd ?? '';
-  const sd = canvas.dataset.videoSd ?? '';
   let theme = SCENE_THEME[getTheme()];
   renderer.setClearColor(theme.clear, 1);
-  const backdrop: Backdrop = createBackdrop(caps.mobile ? [sd, hd] : [hd, sd], SCENE.pastel, SCENE.bgLevel, theme, BACKDROP.clip);
+  const backdrop: Backdrop = createBackdrop(
+    caps.mobile ? SCENE.tokensLight : SCENE.tokens, renderer.getPixelRatio(), !caps.mobile, theme,
+  );
   const data = caps.plates ? selectPlates(readProjects(), MAX_PLATES) : [];
   const cards: Card[] = caps.plates ? createCards(scene, data, theme, caps.mobile) : [];
   // Without plates the camera has nothing to fly through, so it holds still.
@@ -86,7 +87,7 @@ export function startScene(caps: Capabilities): void {
   if (!caps.plates) revealProjectList();
   const post: Post | null = SCENE.postFx && !caps.mobile ? createPost(renderer, SCENE.grain, theme.vignette) : null;
 
-  /* Every drawn surface is baked at startup — clear colour, film curve, plate
+  /* Every drawn surface is baked at startup — clear colour, backdrop blending, plate
      canvases, vignette — so the toggle has to walk them all. Skipping the very
      first call keeps it from repainting what was just painted. */
   let themed = true;
@@ -143,7 +144,7 @@ export function startScene(caps: Capabilities): void {
 
      `pausedOffset` accumulates how long the scene has spent paused, and is
      subtracted from `now` when deriving `tick`'s clock: the noise-driven
-     camera drift and backdrop film resume from where they stopped instead of
+     camera drift and token stream resume from where they stopped instead of
      jumping ahead by the paused duration the instant the toggle is released. */
   let paused = false;
   let pausedAt = 0;
@@ -155,7 +156,6 @@ export function startScene(caps: Capabilities): void {
       lenis.options.smoothWheel = paused ? false : lenisSmoothWheel;
       lenis.options.syncTouch = paused ? false : lenisSyncTouch;
     }
-    backdrop.setPaused(paused);
     cursor.setPaused(paused);
     if (paused) pausedAt = performance.now();
     else pausedOffset += performance.now() - pausedAt;
@@ -307,6 +307,13 @@ export function startScene(caps: Capabilities): void {
 
   // --- per-frame updates --------------------------------------------------
   const veil = byId('tp-veil');
+  const scrim = byId('tp-scrim');
+  const scrimR = byId('tp-scrim-r');
+  const tokens = byId('tp-tokens');
+  const numberLocale = document.documentElement.lang || 'fr';
+  let tokensAt = -1;
+  // Each one opens the next backdrop shape as its top comes into view.
+  const stageStarts = ['tp-work', 'tp-about', 'tp-cv'];
   const work = byId('tp-work');
   const idxNum = byId('tp-idx-num');
   const idxTitle = byId('tp-idx-title');
@@ -431,10 +438,25 @@ export function startScene(caps: Capabilities): void {
       cover += Math.max(0, vis) / window.innerHeight;
     });
     state.textCover = Math.min(1, cover);
-    if (veil) veil.style.opacity = (state.textCover * 0.8).toFixed(2);
+    // Light enough that the backdrop's shape still reads behind the copy; the
+    // side scrims carry the rest of the contrast.
+    if (veil) veil.style.opacity = (state.textCover * 0.4).toFixed(2);
+
+    // Backdrop stage and the scrim that follows it: scroll-driven as well.
+    let stage = 0;
+    stageStarts.forEach((id) => {
+      const el = byId(id);
+      if (!el) return;
+      stage += Math.min(1, Math.max(0, (window.innerHeight - el.getBoundingClientRect().top) / window.innerHeight));
+    });
+    state.stage = caps.reduced ? stage : state.stage + (stage - state.stage) * 0.06;
+    // The layers stage parks the field on the left: the scrim swaps sides.
+    const wR = Math.max(0, 1 - Math.abs(state.stage - 2) * 1.6);
+    if (scrim) scrim.style.opacity = (1 - wR).toFixed(3);
+    if (scrimR) scrimR.style.opacity = wR.toFixed(3);
 
     // Everything below is either autonomous motion (camera drift, cursor
-    // trailing, card focus tweens, the backdrop film) or the draw call
+    // trailing, card focus tweens, the token stream) or the draw call
     // itself — this is the "animation" Pause animations means to stop, so
     // it stops here. The custom cursor is hidden by CSS while paused (see
     // `a11y.css`), which is what makes freezing it here correct instead of a
@@ -446,7 +468,13 @@ export function startScene(caps: Capabilities): void {
     cursor.update();
     updateCamera(t);
     updateCards(t);
-    backdrop.update(t, state.progress, cursor.pointer.sx, cursor.pointer.sy, state.textCover);
+    const p = cursor.pointer;
+    // Reduced motion keeps the shapes but stops the stream drifting on its own.
+    backdrop.update(caps.reduced ? 0 : t, state.stage, p.nx, p.ny, p.sx, p.sy);
+    if (tokens && t - tokensAt > 0.08) {
+      tokensAt = t;
+      tokens.textContent = Math.floor(1834217 + t * 1240000 + state.stage * 9e5).toLocaleString(numberLocale);
+    }
     if (post) post.render(drawLayers, t); else drawLayers();
   };
 
