@@ -7,6 +7,7 @@ import SEO from '../components/SEO.astro';
 import A11yWidget from '../components/A11yWidget.astro';
 import ListingBackdrop, { type ListingShape } from '../components/ListingBackdrop.astro';
 import { type Locale, t } from '../i18n';
+import { htmlToText, pageTokens } from '../lib/page-tokens';
 
 interface Props {
   title: string;
@@ -35,6 +36,13 @@ const homeTitle = t(locale, 'homeTitle');
 // Homepage keeps its own full name-bearing title; sub-pages get the brand suffix.
 const fullTitle = title === siteTitle || title === homeTitle ? title : `${title} · ${siteTitle}`;
 const desc = description || t(locale, 'siteDescription');
+
+/* Pages with a token backdrop draw their own text: the content is rendered
+   here, read as plain text and cut by a real BPE tokenizer at build time.
+   Every other page keeps a plain slot. */
+const tokenized = home || !!backdrop;
+const content = tokenized ? await Astro.slots.render('default') : '';
+const tokens = tokenized ? pageTokens(htmlToText(content)) : [];
 ---
 
 <!doctype html>
@@ -121,8 +129,10 @@ const desc = description || t(locale, 'siteDescription');
     <SiteNav locale={locale} home={home} />
 
     <main id="main-content" class:list={['flex-1 relative z-10', !home && 'pt-[var(--navbar-height)]']}>
-      <slot />
+      {tokenized ? <Fragment set:html={content} /> : <slot />}
     </main>
+
+    {tokenized && <script id="tp-tokens-data" type="application/json" set:html={JSON.stringify(tokens)} />}
 
     {!home && (
       <footer class="relative z-10" style="padding:48px 28px 32px;">

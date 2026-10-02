@@ -9,11 +9,12 @@ export interface Backdrop {
   scene: Scene;
   camera: OrthographicCamera;
   /**
-   * `stage` runs 0→3 across the page (stream, embeddings, layers, output),
+   * `stage` runs 0→3 across the page (stream, globe, layers, output),
    * already smoothed by the caller;
    * `nx`/`ny` is the raw pointer in NDC, `sx`/`sy` its trailing copy.
+   * `dissolve` 0→1 breaks the shape apart until nothing is left.
    */
-  update(t: number, stage: number, nx: number, ny: number, sx: number, sy: number): void;
+  update(t: number, stage: number, nx: number, ny: number, sx: number, sy: number, dissolve?: number): void;
   setTheme(theme: SceneTheme): void;
   dispose(): void;
 }
@@ -24,7 +25,7 @@ export interface Backdrop {
    matrices — so the field keeps the mockup's exact framing. */
 const VERT = `
 attribute vec4 aP0, aP1, aP2, aP3; attribute vec4 aR; attribute float aI;
-uniform float uM, uT, uAspect, uSize, uDpr, uHover; uniform vec2 uRot, uMouse, uOff;
+uniform float uM, uT, uAspect, uSize, uDpr, uHover, uDissolve; uniform vec2 uRot, uMouse, uOff;
 uniform vec3 uC1, uC2;
 varying vec3 vC; varying float vA; varying float vG; varying float vH;
 float seg(float k){ float t = clamp((uM - k) * 1.6 - aI * .6, 0., 1.); return t * t * (3. - 2. * t); }
@@ -39,6 +40,9 @@ void main(){
   float tb = (t1 * (1. - t1) + t2 * (1. - t2) + t3 * (1. - t3)) * 4.;
   vec3 ph = aR.yzw * 6.2831;
   p += vec3(sin(p.y * 1.3 + uT * .6 + ph.x), sin(p.z * 1.3 + uT * .5 + ph.y), sin(p.x * 1.3 + uT * .4 + ph.z)) * (.004 + .16 * tb);
+  // dissolve: each particle breaks off at its own threshold and drifts away
+  float dk = clamp((uDissolve - aR.y * .7) / .3, 0., 1.);
+  p += normalize(vec3(sin(ph.x), cos(ph.y), sin(ph.z)) + 1e-3) * dk * dk * 2.5;
   // the "hot" front: a lime band sweeping along x
   float fr = mod(uT * 1.1, 10.) - 5.;
   float hot = (1. - smoothstep(.0, .16, abs(p.x - fr))) * step(aR.y, .45);
@@ -57,7 +61,7 @@ void main(){
   vH = hot;
   vC = mix(uC1, uC2 * 2., hot);
   vA = (.55 + .45 * aR.x) * mix(edge, 1., max(t1, max(t2, t3))) * vis;
-  vA = mix(vA, max(vA, .95 * vis), hot);
+  vA = mix(vA, max(vA, .95 * vis), hot) * (1. - dk);
 }`;
 
 /* Dark adds light onto black, as in the mockup. Paper cannot be lit, so the
@@ -71,16 +75,34 @@ void main(){
   if (uInk > .5) {
     gl_FragColor = vec4(mix(uInkColor, uC2, vH), min(a * vA * uAlpha, .6));
   } else {
-    gl_FragColor = vec4(min(vC * a * vA * uAlpha, vec3(.6)), 1.);
+    // Scale the colour down as a whole: clamping channel by channel bleached the lime.
+    vec3 col = vC * a * vA * uAlpha;
+    gl_FragColor = vec4(col * min(1., .6 / max(max(col.r, col.g), max(col.b, 1e-4))), 1.);
   }
 }`;
 
-const TOKENS = ('the ▁de ing ▁le tion ▁et er ▁la ▁is ▁à ed es ▁un ▁in ▁to ▁des ▁of ent ▁que ly ▁and ▁pour {" ": }, ]) => === () </ /> ▁def ▁return ▁if ▁for self ▁import ▁const ▁let ▁fn ▁class kube ctl ▁pod ▁node ▁yaml ▁apiVersion ▁kind ▁spec ▁name ▁image ▁port ▁true ▁false ▁null ▁0 ▁1 ▁2 ▁42 ▁1024 ▁token ▁model ▁layer ▁attention ▁embed ▁vector ▁query ▁key ▁value ▁soft max ▁logit ▁prompt ▁context ▁window ▁infra ▁deploy ▁build ▁test ▁cluster ▁terraform ▁ansible ▁git ▁push ▁merge ▁main ▁dev ▁ops ▁cloud ▁ssh ▁root ▁sudo ▁apt ▁cat ▁grep ▁awk ▁sed ▁echo $ # @ % & * + - = ~ ^ < > ? ! . , : ; ... ’ « » é è à ç ù ô ▁très ▁mais ▁avec ▁dans ▁sur ▁plus ▁tout ▁fait ▁être ▁avoir ▁bien ▁comme ▁nous ▁vous ▁il ▁elle ▁on ▁ce ▁qui ▁pas ▁ne ▁se ▁par ▁au ▁du ▁en ▁y ▁sa ▁son ▁ses ▁mon ▁ma ▁mes un able ize ment ness ité eur euse ique isme ir re ée ées ait aient ons ez ▁we ▁you ▁it ▁this ▁that ▁with ▁from ▁have ▁not ▁are ▁was ▁be ▁by ▁or ▁at ▁as ▁an ▁my ▁all ▁can ▁will ▁just ▁so ▁do ▁what ▁when ▁how ▁why ▁who ▁new ▁data ▁user ▁log ▁error ▁warn ▁info ▁debug ▁http ▁json ▁api ▁GET ▁POST 200 404 500 ▁v1 ▁v2 ▁β ▁λ ▁∑ ▁∂ ▁∞ ▁≈ ▁→ ▁← <s> </s> <pad> <unk> [CLS] [SEP] ▁Guadeloupe ▁alizés ▁homelab ▁Proxmox').split(' ');
+/** Drawn when a page ships no token list of its own. */
+const FALLBACK_TOKENS = ('the ▁de ing ▁le tion ▁et er ▁la ▁is ▁à ed es ▁un ▁in ▁to ▁des ▁of ent ▁que ly ▁and ▁pour {" ": }, ]) => === () </ /> ▁def ▁return ▁if ▁for self ▁import ▁const ▁let ▁fn ▁class kube ctl ▁pod ▁node ▁yaml ▁apiVersion ▁kind ▁spec ▁name ▁image ▁port ▁true ▁false ▁null ▁0 ▁1 ▁2 ▁42 ▁1024 ▁token ▁model ▁layer ▁attention ▁embed ▁vector ▁query ▁key ▁value ▁soft max ▁logit ▁prompt ▁context ▁window ▁infra ▁deploy ▁build ▁test ▁cluster ▁terraform ▁ansible ▁git ▁push ▁merge ▁main ▁dev ▁ops ▁cloud ▁ssh ▁root ▁sudo ▁apt ▁cat ▁grep ▁awk ▁sed ▁echo $ # @ % & * + - = ~ ^ < > ? ! . , : ; ... ’ « » é è à ç ù ô ▁très ▁mais ▁avec ▁dans ▁sur ▁plus ▁tout ▁fait ▁être ▁avoir ▁bien ▁comme ▁nous ▁vous ▁il ▁elle ▁on ▁ce ▁qui ▁pas ▁ne ▁se ▁par ▁au ▁du ▁en ▁y ▁sa ▁son ▁ses ▁mon ▁ma ▁mes un able ize ment ness ité eur euse ique isme ir re ée ées ait aient ons ez ▁we ▁you ▁it ▁this ▁that ▁with ▁from ▁have ▁not ▁are ▁was ▁be ▁by ▁or ▁at ▁as ▁an ▁my ▁all ▁can ▁will ▁just ▁so ▁do ▁what ▁when ▁how ▁why ▁who ▁new ▁data ▁user ▁log ▁error ▁warn ▁info ▁debug ▁http ▁json ▁api ▁GET ▁POST 200 404 500 ▁v1 ▁v2 ▁β ▁λ ▁∑ ▁∂ ▁∞ ▁≈ ▁→ ▁← <s> </s> <pad> <unk> [CLS] [SEP] ▁Guadeloupe ▁alizés ▁homelab ▁Proxmox').split(' ');
 
 const ATLAS_FONT = '"JetBrains Mono", monospace';
 
+/**
+ * The page's own text cut by a BPE tokenizer at build time (`BaseLayout`
+ * emits it as JSON), or the fallback list when it is missing or unreadable.
+ */
+function readPageTokens(): string[] {
+  try {
+    const raw = document.getElementById('tp-tokens-data')?.textContent;
+    const list: unknown = raw ? JSON.parse(raw) : null;
+    if (Array.isArray(list) && list.length && list.every((t) => typeof t === 'string')) return list;
+  } catch {
+    // Malformed JSON falls through to the fallback.
+  }
+  return FALLBACK_TOKENS;
+}
+
 /** 16×16 grid of glyphs; only the alpha channel is sampled. */
-function drawAtlas(c: HTMLCanvasElement): HTMLCanvasElement {
+function drawAtlas(c: HTMLCanvasElement, tokens: string[]): HTMLCanvasElement {
   const S = 1024, C = 64;
   c.width = S; c.height = S;
   const x = c.getContext('2d');
@@ -88,7 +110,7 @@ function drawAtlas(c: HTMLCanvasElement): HTMLCanvasElement {
   x.clearRect(0, 0, S, S);
   x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
   for (let i = 0; i < 256; i++) {
-    const t = TOKENS[i % TOKENS.length];
+    const t = tokens[i % tokens.length];
     let fs = 30;
     x.font = `400 ${fs}px ${ATLAS_FONT}`;
     const w = x.measureText(t).width;
@@ -103,10 +125,18 @@ function drawAtlas(c: HTMLCanvasElement): HTMLCanvasElement {
    the shells came out as half spheres and the stream stopped mid-screen. */
 type Shape = (i: number, count: number) => [number, number, number, number];
 
-const CENTERS = [[0, 0, 0]].concat(Array.from({ length: 8 }, (_, k) => {
-  const a = k / 8 * 6.2832;
-  return [Math.cos(a) * 1.85, k % 2 ? 0.45 : -0.45, Math.sin(a) * 1.85];
-}));
+const DEG = Math.PI / 180;
+const GLOBE_R = 1.9;
+const onGlobe = (lat: number, lon: number): [number, number, number] =>
+  [GLOBE_R * Math.cos(lat * DEG) * Math.cos(lon * DEG), GLOBE_R * Math.sin(lat * DEG), GLOBE_R * Math.cos(lat * DEG) * Math.sin(lon * DEG)];
+
+/** Nine parallels every 20° and twelve half meridians every 30°, with their lengths. */
+const GLOBE_LINES = [
+  ...[-80, -60, -40, -20, 0, 20, 40, 60, 80].map((lat) => ({ lat, lon: NaN, len: 2 * Math.PI * Math.cos(lat * DEG) })),
+  ...Array.from({ length: 12 }, (_, k) => ({ lat: NaN, lon: k * 30, len: Math.PI })),
+];
+const GLOBE_TOTAL = GLOBE_LINES.reduce((a, l) => a + l.len, 0);
+
 
 /** Stage 0: a stream of tokens flowing along x in 70 lanes. */
 const shapeStream: Shape = (i, count) => {
@@ -114,12 +144,18 @@ const shapeStream: Shape = (i, count) => {
   const ly = lane % 14, lz = Math.floor(lane / 14);
   return [j / S * 12 - 6, (ly / 13 - 0.5) * 2.8, (lz / 4 - 0.5) * 1.6, j < S ? 1 : 0];
 };
-/** Stage 1: nine embedding clusters, each three nested Fibonacci shells. */
-const shapeEmbed: Shape = (i, count) => {
-  const c = CENTERS[i % 9], loc = Math.floor(i / 9), sh = loc % 3, k = Math.floor(loc / 3);
-  const n = Math.min(466, Math.ceil(count / 27));
-  const r = [0.18, 0.3, 0.42][sh], y = 1 - 2 * ((k % n) + 0.5) / n, q = Math.sqrt(1 - y * y), ph = k * 2.39996 + sh;
-  return [c[0] + Math.cos(ph) * q * r, c[1] + y * r, c[2] + Math.sin(ph) * q * r, k < n ? 1 : 0];
+/**
+ * Stage 1: a globe of parallels and meridians, particles spread along the
+ * lines by length so the grid stays even.
+ */
+const shapeGlobe: Shape = (i, count) => {
+  let s = (i + 0.5) / count * GLOBE_TOTAL;
+  for (const line of GLOBE_LINES) {
+    if (s > line.len) { s -= line.len; continue; }
+    const f = s / line.len;
+    return Number.isNaN(line.lon) ? [...onGlobe(line.lat, f * 360), 1] : [...onGlobe(f * 180 - 90, line.lon), 1];
+  }
+  return [0, 0, 0, 0];
 };
 /** Stage 2: seven stacked layers, each a square grid (42×42 at full size). */
 const shapeLayers: Shape = (i, count) => {
@@ -132,7 +168,7 @@ const shapeOutput: Shape = (i, count) => {
   const t = (j % M) / M, a = t * 6.2832 * 3 + st * Math.PI, r = 1.5 + (row / (R - 1) - 0.5) * 0.5;
   return [Math.cos(a) * r, (t - 0.5) * 6.4, Math.sin(a) * r, j < M ? 1 : 0];
 };
-const SHAPES = [shapeStream, shapeEmbed, shapeLayers, shapeOutput];
+const SHAPES = [shapeStream, shapeGlobe, shapeLayers, shapeOutput];
 
 /** Horizontal offset of the field at each stage, before aspect scaling. */
 const OFFSETS = [0.6, 1.7, -1.7, 1.8];
@@ -142,7 +178,7 @@ const FADE_IN_MS = 1200;
 
 /**
  * Token particles running behind the whole page: glyphs that morph from a
- * stream into embedding clusters, layers and an output helix as the reader
+ * stream into a globe, layers and an output helix as the reader
  * scrolls through the home sections. Drawn before the 3D plates.
  */
 export function createBackdrop(
@@ -165,7 +201,8 @@ export function createBackdrop(
   for (let i = 0; i < r.length; i++) r[i] = Math.random();
   geometry.setAttribute('aR', new BufferAttribute(r, 4));
 
-  const atlasCanvas = drawAtlas(document.createElement('canvas'));
+  const tokens = readPageTokens();
+  const atlasCanvas = drawAtlas(document.createElement('canvas'), tokens);
   const atlas = new CanvasTexture(atlasCanvas);
   // gl_PointCoord runs top-down, like the canvas rows.
   atlas.flipY = false;
@@ -173,7 +210,7 @@ export function createBackdrop(
   atlas.magFilter = LinearFilter;
   // The first draw may land before the self-hosted font does.
   document.fonts?.load(`400 30px ${ATLAS_FONT}`).then(() => {
-    drawAtlas(atlasCanvas);
+    drawAtlas(atlasCanvas, tokens);
     atlas.needsUpdate = true;
   }).catch(() => {});
 
@@ -189,6 +226,7 @@ export function createBackdrop(
       uSize: { value: 1 },
       uDpr: { value: dpr },
       uHover: { value: 0 },
+      uDissolve: { value: 0 },
       uRot: { value: new Vector2() },
       uMouse: { value: new Vector2() },
       uOff: { value: new Vector2() },
@@ -240,7 +278,7 @@ export function createBackdrop(
   return {
     scene,
     camera,
-    update(t, stage, nx, ny, sx, sy) {
+    update(t, stage, nx, ny, sx, sy, dissolve = 0) {
       const u = material.uniforms;
       const m = stage;
       hover += ((pointerIn ? 1 : 0) - hover) * 0.05;
@@ -254,6 +292,7 @@ export function createBackdrop(
       u.uT.value = t;
       u.uAspect.value = aspect;
       u.uHover.value = hover;
+      u.uDissolve.value = dissolve;
       const now = performance.now();
       if (born < 0) born = now;
       const fade = Math.min(1, (now - born) / FADE_IN_MS);
