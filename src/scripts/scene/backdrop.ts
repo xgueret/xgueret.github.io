@@ -12,8 +12,9 @@ export interface Backdrop {
    * `stage` runs 0→3 across the page (stream, globe, layers, output),
    * already smoothed by the caller;
    * `nx`/`ny` is the raw pointer in NDC, `sx`/`sy` its trailing copy.
+   * `dissolve` 0→1 breaks the shape apart until nothing is left.
    */
-  update(t: number, stage: number, nx: number, ny: number, sx: number, sy: number): void;
+  update(t: number, stage: number, nx: number, ny: number, sx: number, sy: number, dissolve?: number): void;
   setTheme(theme: SceneTheme): void;
   dispose(): void;
 }
@@ -23,8 +24,8 @@ export interface Backdrop {
    `uM` crosses each integer. The projection is done by hand — no camera
    matrices — so the field keeps the mockup's exact framing. */
 const VERT = `
-attribute vec4 aP0, aP1, aP2, aP3; attribute vec4 aR; attribute float aI; attribute float aM;
-uniform float uM, uT, uAspect, uSize, uDpr, uHover; uniform vec2 uRot, uMouse, uOff;
+attribute vec4 aP0, aP1, aP2, aP3; attribute vec4 aR; attribute float aI;
+uniform float uM, uT, uAspect, uSize, uDpr, uHover, uDissolve; uniform vec2 uRot, uMouse, uOff;
 uniform vec3 uC1, uC2;
 varying vec3 vC; varying float vA; varying float vG; varying float vH;
 float seg(float k){ float t = clamp((uM - k) * 1.6 - aI * .6, 0., 1.); return t * t * (3. - 2. * t); }
@@ -39,12 +40,12 @@ void main(){
   float tb = (t1 * (1. - t1) + t2 * (1. - t2) + t3 * (1. - t3)) * 4.;
   vec3 ph = aR.yzw * 6.2831;
   p += vec3(sin(p.y * 1.3 + uT * .6 + ph.x), sin(p.z * 1.3 + uT * .5 + ph.y), sin(p.x * 1.3 + uT * .4 + ph.z)) * (.004 + .16 * tb);
+  // dissolve: each particle breaks off at its own threshold and drifts away
+  float dk = clamp((uDissolve - aR.y * .7) / .3, 0., 1.);
+  p += normalize(vec3(sin(ph.x), cos(ph.y), sin(ph.z)) + 1e-3) * dk * dk * 2.5;
   // the "hot" front: a lime band sweeping along x
   float fr = mod(uT * 1.1, 10.) - 5.;
   float hot = (1. - smoothstep(.0, .16, abs(p.x - fr))) * step(aR.y, .45);
-  // the globe's Guadeloupe marker: lime and pulsing, only while the globe holds
-  float mk = aM * t1 * (1. - t2);
-  hot = max(hot, mk * (.75 + .25 * sin(uT * 3.)));
   float cy = cos(uRot.y), sy = sin(uRot.y); p = vec3(cy * p.x + sy * p.z, p.y, -sy * p.x + cy * p.z);
   float cx = cos(uRot.x), sx = sin(uRot.x); p = vec3(p.x, cx * p.y - sx * p.z, sx * p.y + cx * p.z);
   p.xy += uOff;
@@ -55,12 +56,12 @@ void main(){
   n += normalize(dd + 1e-4) / vec2(uAspect, 1.) * k * .06;
   g.xy = n * g.w; gl_Position = g;
   float big = step(.985, aR.w);
-  gl_PointSize = uSize * uDpr * (6. + big * 12. + mk * 8.) * 7. / (-v.z);
+  gl_PointSize = uSize * uDpr * (6. + big * 12.) * 7. / (-v.z);
   vG = floor(aR.z * 255.99);
   vH = hot;
   vC = mix(uC1, uC2 * 2., hot);
   vA = (.55 + .45 * aR.x) * mix(edge, 1., max(t1, max(t2, t3))) * vis;
-  vA = mix(vA, max(vA, .95 * vis), hot);
+  vA = mix(vA, max(vA, .95 * vis), hot) * (1. - dk);
 }`;
 
 /* Dark adds light onto black, as in the mockup. Paper cannot be lit, so the
@@ -126,19 +127,8 @@ type Shape = (i: number, count: number) => [number, number, number, number];
 
 const DEG = Math.PI / 180;
 const GLOBE_R = 1.9;
-/** Guadeloupe, the hero's own coordinates. */
-const HOME_LAT = 16.25, HOME_LON = -61.55;
-
-/* The field turns about y by ~63° on reaching this stage, plus ~2°/s of drift.
-   Shifting every longitude puts Guadeloupe facing the reader around that
-   moment instead of on the limb; the 30° meridians are symmetric, so only
-   the marker visibly moves. */
-const LON_SHIFT = 190 - HOME_LON;
-
-const onGlobe = (lat: number, lon: number, r = GLOBE_R): [number, number, number] => {
-  const l = (lon + LON_SHIFT) * DEG;
-  return [r * Math.cos(lat * DEG) * Math.cos(l), r * Math.sin(lat * DEG), r * Math.cos(lat * DEG) * Math.sin(l)];
-};
+const onGlobe = (lat: number, lon: number): [number, number, number] =>
+  [GLOBE_R * Math.cos(lat * DEG) * Math.cos(lon * DEG), GLOBE_R * Math.sin(lat * DEG), GLOBE_R * Math.cos(lat * DEG) * Math.sin(lon * DEG)];
 
 /** Nine parallels every 20° and twelve half meridians every 30°, with their lengths. */
 const GLOBE_LINES = [
@@ -147,10 +137,6 @@ const GLOBE_LINES = [
 ];
 const GLOBE_TOTAL = GLOBE_LINES.reduce((a, l) => a + l.len, 0);
 
-/** Particles reserved for the marker: a cluster big enough to read as a dot. */
-const markerCount = (count: number): number => Math.max(24, Math.round(count * 0.004));
-/** Deterministic 0..1 noise, so the marker is the same cluster on every load. */
-const hash = (n: number): number => { const x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); };
 
 /** Stage 0: a stream of tokens flowing along x in 70 lanes. */
 const shapeStream: Shape = (i, count) => {
@@ -160,16 +146,10 @@ const shapeStream: Shape = (i, count) => {
 };
 /**
  * Stage 1: a globe of parallels and meridians, particles spread along the
- * lines by length so the grid stays even. The last few form a small cluster
- * standing just off the surface over Guadeloupe — see `isMarker`.
+ * lines by length so the grid stays even.
  */
 const shapeGlobe: Shape = (i, count) => {
-  const markers = markerCount(count);
-  if (isMarker(i, count)) {
-    const lat = HOME_LAT + (hash(i) - 0.5) * 7, lon = HOME_LON + (hash(i + 0.5) - 0.5) * 7;
-    return [...onGlobe(lat, lon, GLOBE_R * (1.02 + hash(i + 0.25) * 0.05)), 1];
-  }
-  let s = (i + 0.5) / (count - markers) * GLOBE_TOTAL;
+  let s = (i + 0.5) / count * GLOBE_TOTAL;
   for (const line of GLOBE_LINES) {
     if (s > line.len) { s -= line.len; continue; }
     const f = s / line.len;
@@ -177,7 +157,6 @@ const shapeGlobe: Shape = (i, count) => {
   }
   return [0, 0, 0, 0];
 };
-const isMarker = (i: number, count: number): boolean => i >= count - markerCount(count);
 /** Stage 2: seven stacked layers, each a square grid (42×42 at full size). */
 const shapeLayers: Shape = (i, count) => {
   const L = 7, G = Math.min(42, Math.floor(Math.sqrt(count / L))), l = i % L, cell = Math.floor(i / L), gy = cell % G, gz = Math.floor(cell / G) % G;
@@ -218,9 +197,6 @@ export function createBackdrop(
   const ix = new Float32Array(count);
   for (let i = 0; i < count; i++) ix[i] = i / count;
   geometry.setAttribute('aI', new BufferAttribute(ix, 1));
-  const marker = new Float32Array(count);
-  for (let i = 0; i < count; i++) marker[i] = isMarker(i, count) ? 1 : 0;
-  geometry.setAttribute('aM', new BufferAttribute(marker, 1));
   const r = new Float32Array(count * 4);
   for (let i = 0; i < r.length; i++) r[i] = Math.random();
   geometry.setAttribute('aR', new BufferAttribute(r, 4));
@@ -250,6 +226,7 @@ export function createBackdrop(
       uSize: { value: 1 },
       uDpr: { value: dpr },
       uHover: { value: 0 },
+      uDissolve: { value: 0 },
       uRot: { value: new Vector2() },
       uMouse: { value: new Vector2() },
       uOff: { value: new Vector2() },
@@ -301,7 +278,7 @@ export function createBackdrop(
   return {
     scene,
     camera,
-    update(t, stage, nx, ny, sx, sy) {
+    update(t, stage, nx, ny, sx, sy, dissolve = 0) {
       const u = material.uniforms;
       const m = stage;
       hover += ((pointerIn ? 1 : 0) - hover) * 0.05;
@@ -315,6 +292,7 @@ export function createBackdrop(
       u.uT.value = t;
       u.uAspect.value = aspect;
       u.uHover.value = hover;
+      u.uDissolve.value = dissolve;
       const now = performance.now();
       if (born < 0) born = now;
       const fade = Math.min(1, (now - born) / FADE_IN_MS);

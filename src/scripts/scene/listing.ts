@@ -7,11 +7,14 @@ import { SCENE, SCENE_THEME } from './config';
 
 /** Listings sit behind copy the reader came for: the home stays the showcase. */
 const LISTING_INTENSITY = 0.5;
+/** Scroll distance, in viewport heights, over which the shape breaks apart. */
+const DISSOLVE_SPAN = 0.7;
 
 /**
  * The home backdrop alone, held on one shape: no plates, no post-process, no
  * smooth scroll. `stage` picks the shape (0 stream … 3 helix); it still
- * flows, turns and answers the pointer, it just never morphs.
+ * flows, turns and answers the pointer, it just never morphs. Scrolling into
+ * the listing breaks it apart — the content below is what the reader came for.
  */
 export function startListingBackdrop(canvas: HTMLCanvasElement, stage: number, caps: Capabilities): void {
   const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'low-power' });
@@ -54,13 +57,25 @@ export function startListingBackdrop(canvas: HTMLCanvasElement, stage: number, c
     else pausedOffset += performance.now() - pausedAt;
   });
 
+  let dissolve = 0;
+  let gone = false;
   const tick = (now: number): void => {
     requestAnimationFrame(tick);
     if (paused || hidden || document.hidden) return;
+    const target = Math.min(1, window.scrollY / (window.innerHeight * DISSOLVE_SPAN));
+    dissolve = caps.reduced ? target : dissolve + (target - dissolve) * 0.12;
+    // Fully dissolved: one last (empty) frame, then nothing to draw until the
+    // reader scrolls back up.
+    if (dissolve > 0.999) {
+      if (gone) return;
+      gone = true;
+    } else {
+      gone = false;
+    }
     pointer.sx += (pointer.nx - pointer.sx) * 0.05;
     pointer.sy += (pointer.ny - pointer.sy) * 0.05;
     const t = caps.reduced ? 0 : (now - pausedOffset) * 0.001;
-    backdrop.update(t, stage, pointer.nx, pointer.ny, pointer.sx, pointer.sy);
+    backdrop.update(t, stage, pointer.nx, pointer.ny, pointer.sx, pointer.sy, dissolve);
     renderer.clear();
     renderer.render(backdrop.scene, backdrop.camera);
   };
