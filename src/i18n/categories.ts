@@ -18,6 +18,7 @@ const CATEGORY_PAIRS: ReadonlyArray<{ fr: string; en: string }> = [
   { fr: 'projets personnels', en: 'personal projects' },
   { fr: 'du token au chatbot', en: 'from token to chatbot' },
   { fr: 'hermes agent', en: 'hermes agent' },
+  { fr: 'culture et ia', en: 'culture and ai' },
 ];
 
 /**
