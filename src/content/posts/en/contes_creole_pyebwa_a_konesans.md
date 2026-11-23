@@ -123,7 +123,7 @@ title: Ti Kannot é Gwo Rako
 
 There is no imported 3D model. The flamboyant, the palm trees, the island, the river and the sky are **generated in code**, with a seeded pseudo-random generator owned by each universe. Same seed, same build order: the same tree on every visit. The only pictures are the Konteur, a cut-out photo facing the camera, and the cover illustrations, cropped in a 2D canvas.
 
-It is all tested with **Vitest** (54 test files), checked by GitHub Actions CI, and served as static files from **Netlify**, with no backend and no secrets.
+It is all tested with **Vitest** (55 test files as of 22 November 2026), checked by GitHub Actions CI, and served as static files from **Netlify**, with no backend and no secrets.
 
 ---
 
@@ -157,7 +157,7 @@ The starting point was a mockup made with **Claude Design**: a 2.1 MB self-conta
 
 Recent changes go through **missions**, run from **agent-workflow**, my control room for driving several AI agents across several projects at once (it will get its own article soon): a pilot Claude Code session frames the request, another one runs it on a dedicated branch, **Codex** reviews it (three reviews at most), and the mission ends with a report carrying a verdict and evidence: screenshots, frame-rate measurements, test results. For Mila's underwater atmosphere, for instance, the executor studied an open source project ([Abyssal Garden](https://github.com/Noniv/abyssal-garden), MIT license) cloned read-only, wrote down what it took from it, and measured performance before and after.
 
-What the agents don't do: decide. Merging, going live, artistic sign-off and anything touching the language are mine. Of the 297 commits on the main branch, more than 240 carry a Claude model's signature, and none was merged without me. For a project this size (two full 3D worlds, an animated tree, three reading modes) in a little under two months, I could never have done it alone in my spare time.
+What the agents don't do: decide. Merging, going live, artistic sign-off and anything touching the language are mine. As of 22 November 2026, the main branch holds 310 commits; more than 250 carry a Claude model's signature, and none was merged without me. For a project this size (two full 3D worlds, an animated tree, three reading modes) in a little under two months, I could never have done it alone in my spare time.
 
 ---
 

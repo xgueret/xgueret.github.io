@@ -121,7 +121,7 @@ Le mot-clé `gcf` est le code du créole guadeloupéen. Le kréyòl est la langu
 
 Il n'y a aucun modèle 3D importé. Le flamboyant, les palmiers, l'île, la rivière et le ciel sont **générés par le code**, avec un générateur pseudo-aléatoire à graine propre à chaque univers. Même graine, même ordre de construction : le même arbre à chaque visite. Les seules images sont le Konteur, une photo détourée affichée face à la caméra, et les illustrations des couvertures, recadrées dans un canvas 2D.
 
-Le tout est testé par **Vitest** (54 fichiers de tests), vérifié par la CI GitHub Actions et publié en statique sur **Netlify**, sans backend ni secret.
+Le tout est testé par **Vitest** (55 fichiers de tests au 22 novembre 2026), vérifié par la CI GitHub Actions et publié en statique sur **Netlify**, sans backend ni secret.
 
 ---
 
@@ -157,7 +157,7 @@ Le point de départ est une maquette faite avec **Claude Design** : un export au
 
 Les évolutions récentes passent par des **missions**, orchestrées par **agent-workflow**, mon poste de pilotage pour faire travailler plusieurs agents IA sur plusieurs projets à la fois (il aura bientôt son propre article) : une session Claude Code pilote cadre la demande, une autre l'exécute sur une branche dédiée, **Codex** la relit (trois revues au maximum), et la mission se termine sur un rapport avec un verdict et des preuves : captures, mesures de fréquence d'images, résultats de tests. Pour l'ambiance sous-marine de Mila, par exemple, l'exécutant a étudié un projet open source ([Abyssal Garden](https://github.com/Noniv/abyssal-garden), licence MIT) cloné en lecture seule, documenté ce qu'il en retenait, et mesuré l'impact sur les performances avant et après.
 
-Ce que les agents ne font pas : décider. Le merge, la mise en production, l'acceptation artistique et tout ce qui touche à la langue me reviennent. Sur les 297 commits de la branche principale, plus de 240 portent la signature d'un modèle Claude, et aucun n'a été fusionné sans moi. Pour un projet de cette taille (deux mondes 3D complets, un arbre animé, trois modes de lecture) en un peu moins de deux mois, je n'aurais jamais pu le faire seul sur mon temps libre.
+Ce que les agents ne font pas : décider. Le merge, la mise en production, l'acceptation artistique et tout ce qui touche à la langue me reviennent. Au 22 novembre 2026, la branche principale compte 310 commits ; plus de 250 portent la signature d'un modèle Claude, et aucun n'a été fusionné sans moi. Pour un projet de cette taille (deux mondes 3D complets, un arbre animé, trois modes de lecture) en un peu moins de deux mois, je n'aurais jamais pu le faire seul sur mon temps libre.
 
 ---
 
