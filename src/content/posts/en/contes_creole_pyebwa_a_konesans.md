@@ -137,7 +137,7 @@ So the repository has a language reference in `docs/kreyol/`: spelling (**GEREC*
 - **never "fix" Kréyòl without a source**: a case the sources cannot settle goes into `variants.md`, flagged *À VALIDER PAR UN LOCUTEUR / RÉVISEUR CRÉOLOPHONE* (to be checked by a Creole speaker), and the text stays as it is;
 - **never treat a regional variant as a mistake** (Grande-Terre, Basse-Terre, Marie-Galante, Les Saintes, La Désirade).
 
-Language decisions stay human. The project's own name shows it: the tree was first called *Pyébwa a Sav*, the language audit flagged the meaning of *Sav* as uncertain, and an editorial decision renamed it *Pyébwa a Konesans*. Mila's Kréyòl is my working translation, and the repository says so plainly: its linguistic validation is still pending.
+Language decisions stay human. The project's own name shows it: *Pyébwa a Konesans* was settled by an editorial decision after a language audit, not by an agent. Mila's Kréyòl is my working translation, and the repository says so plainly: its linguistic validation is still pending.
 
 ---
 

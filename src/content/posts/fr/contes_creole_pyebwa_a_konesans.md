@@ -135,7 +135,7 @@ Le dépôt a donc un référentiel linguistique, dans `docs/kreyol/` : orthograp
 - ne **jamais « corriger » le kréyòl sans source** : un cas que les sources ne tranchent pas va dans `variants.md`, marqué *À VALIDER PAR UN LOCUTEUR / RÉVISEUR CRÉOLOPHONE*, et le texte ne bouge pas ;
 - ne **jamais traiter une variante régionale comme une faute** (Grande-Terre, Basse-Terre, Marie-Galante, Les Saintes, La Désirade).
 
-Les décisions de langue restent humaines. Le nom même du projet en témoigne : l'arbre s'appelait d'abord *Pyébwa a Sav*, l'audit linguistique a signalé le sens de *Sav* comme incertain, et c'est une décision éditoriale qui l'a renommé *Pyébwa a Konesans*. Le kréyòl de Mila est ma traduction de travail, et le dépôt le dit tel quel : sa validation linguistique est en attente.
+Les décisions de langue restent humaines. Le nom même du projet en témoigne : *Pyébwa a Konesans* a été fixé par une décision éditoriale, après un audit linguistique, et non par un agent. Le kréyòl de Mila est ma traduction de travail, et le dépôt le dit tel quel : sa validation linguistique est en attente.
 
 ---
 
