@@ -1,6 +1,6 @@
 ---
 title: "Pyébwa a Konesans"
-description: "Contes guadeloupéens interactifs en 3D : on grimpe autour d'un arbre de contes, on choisit un livre et on plonge dans son monde, page par page, en kréyòl, en français ou en bilingue."
+description: "Contes guadeloupéens interactifs en 3D : on tourne autour d'un arbre de contes, on choisit un livre et on plonge dans son monde, page par page, en kréyòl, en français ou en bilingue."
 category: "websites"
 tags: ["Three.js", "TypeScript", "Vite", "Kréyòl", "Netlify"]
 github: "https://github.com/TiPunchLabs/contes-creole"
