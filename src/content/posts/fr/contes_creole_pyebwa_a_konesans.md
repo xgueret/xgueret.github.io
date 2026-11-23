@@ -39,7 +39,7 @@ On arrive au pied d'un flamboyant planté sur un morne. Le titre annonce la règ
 
 > **Chak fèy sé on kont.** — *Chaque feuille est un conte.*
 
-On grimpe autour de l'arbre en faisant défiler la page (ou en glissant du doigt sur mobile). Des cartes-livres pendent à ses branches ; un clic, et la caméra plonge dans le monde du conte. `Échap` ou le bouton retour, et on remonte vers l'arbre.
+On tourne autour de l'arbre en faisant défiler la page. Sur smartphone, on fait tourner la scène en glissant le doigt de droite à gauche ou de gauche à droite, et le même geste tourne les pages d'un conte. Des cartes-livres pendent aux branches ; un clic, et la caméra plonge dans le monde du conte. `Échap` ou le bouton retour, et on revient à l'arbre.
 
 Au pied du tronc est assis le **Konteur**, sa lanterne posée à côté de lui. Survolez-le : la lanterne s'allume et il lance « Yé krik !… ». Cliquez : il vous ouvre un conte au hasard.
 

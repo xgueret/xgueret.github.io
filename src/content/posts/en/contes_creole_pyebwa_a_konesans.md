@@ -39,7 +39,7 @@ You arrive at the foot of a flamboyant tree on a hill. The title states the rule
 
 > **Chak fèy sé on kont.** — *Every leaf is a tale.*
 
-You climb around the tree by scrolling (or swiping on a phone). Book cards hang from its branches; one click and the camera dives into the tale's world. `Esc` or the back button takes you back up to the tree.
+You go round the tree by scrolling. On a smartphone, you turn the scene by swiping right to left or left to right, and the same gesture turns a tale's pages. Book cards hang from its branches; one click and the camera dives into the tale's world. `Esc` or the back button takes you back to the tree.
 
 At the foot of the trunk sits the **Konteur**, the storyteller, his lantern beside him. Hover over him: the lantern lights up and he calls "Yé krik!…". Click: he opens a random tale for you.
 
