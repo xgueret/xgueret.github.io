@@ -27,7 +27,7 @@ seriesOrder: 1
 
 In Guadeloupe, a tale starts with a call and a response. The storyteller calls "Yé krik!", the audience answers "Yé krak!", and the story can begin. These tales travel by word of mouth first, and Guadeloupean **Kréyòl** travels with them.
 
-I wanted a place where a child could find that ritual on a screen: hear the call, pick a story, read it in the language spoken at home or the one spoken at school, or both at once. Not a page of text with three pictures, but a world you step into.
+I wanted a place where a child could find that ritual on a screen: hear the call, pick a story, read it in Creole, in French, or in both. Not a page of text with three pictures, but a world you step into.
 
 The result is [Pyébwa a Konesans](https://contes-creoles.netlify.app/) — *the tree of knowledge*. The code is open, under the MIT license: [TiPunchLabs/contes-creole](https://github.com/TiPunchLabs/contes-creole).
 

@@ -27,7 +27,7 @@ seriesOrder: 1
 
 En Guadeloupe, un conte commence par un appel et une réponse. Le conteur lance « Yé krik ! », l'assistance répond « Yé krak ! », et l'histoire peut démarrer. Ces contes se transmettent d'abord à l'oral, et le **kréyòl** guadeloupéen avec eux.
 
-Je voulais un endroit où un enfant puisse retrouver ce rituel sur un écran : entendre l'appel, choisir une histoire, la lire dans la langue de la maison ou dans celle de l'école, ou dans les deux à la fois. Pas une page de texte avec trois illustrations, mais un monde dans lequel on entre.
+Je voulais un endroit où un enfant puisse retrouver ce rituel sur un écran : entendre l'appel, choisir une histoire, la lire en créole, en français ou dans les deux. Pas une page de texte avec trois illustrations, mais un monde dans lequel on entre.
 
 Le résultat, c'est [Pyébwa a Konesans](https://contes-creoles.netlify.app/) — *l'arbre des connaissances*. Le code est ouvert, sous licence MIT : [TiPunchLabs/contes-creole](https://github.com/TiPunchLabs/contes-creole).
 
